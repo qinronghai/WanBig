@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/release/release",
+    "pages/index-store/index-store",
+    "pages/job-index/job-index",
+    "pages/my/my",
+    "pages/project-info/project-info",
+    "pages/goods-detail/goods-detail"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#e9b17a",
+    "backgroundColor": "#f6f6f6",
+    "position": "bottom",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index-store/index-store",
+        "text": "市场",
+        "iconPath": "static/tarbar/首页.png",
+        "selectedIconPath": "static/tarbar/首页(1).png"
+      },
+      {
+        "pagePath": "pages/release/release",
+        "text": "上架",
+        "iconPath": "static/tarbar/加号.png",
+        "selectedIconPath": "static/tarbar/加号(1).png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tarbar/人员(1).png",
+        "selectedIconPath": "static/tarbar/人员.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/button/index",
+    "van-search": "/wxcomponents/vant/search/index"
+  }
+}

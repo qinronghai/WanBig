@@ -1,0 +1,1 @@
+<view class="banner-container data-v-3fbdc070"><swiper class="swiper data-v-3fbdc070" autoplay="{{true}}" circular="{{true}}"><block wx:for="{{itemList}}" wx:for-item="item" wx:for-index="id" wx:key="id"><swiper-item class="swiper-item data-v-3fbdc070"><image class="image data-v-3fbdc070" src="{{item.img}}" mode="scaleToFill"></image></swiper-item></block></swiper></view>

@@ -1,0 +1,1 @@
+<view class="header data-v-48b8003d"><image class="avatar data-v-48b8003d" src="../../../static/tarbar/index-header.png"></image><view data-event-opts="{{[['tap',[['popContact',['$event']]]]]}}" class="find-me data-v-48b8003d" bindtap="__e">Find me.</view></view>

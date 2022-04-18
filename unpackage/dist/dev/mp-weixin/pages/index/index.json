@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "WanBig服务",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "usingComponents": {
+    "uni-header": "/pages/index/components/uni-header",
+    "uni-version-info": "/pages/index/components/uni-version-info",
+    "uni-main-nav": "/pages/index/components/uni-main-nav",
+    "uni-footer": "/pages/index/components/uni-footer"
+  }
+}

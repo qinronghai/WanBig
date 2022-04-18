@@ -1,0 +1,118 @@
+{
+  "pages": [
+    // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "WanBig服务",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/release/release",
+      "style": {
+        "navigationBarTitleText": "发布页面",
+        "enablePullDownRefresh": false,
+		"navigationBarBackgroundColor": "#e9e9e9",
+		"usingComponents":{
+			"van-uploader": "/wxcomponents/vant/uploader/index"
+		}
+      }
+    },
+    {
+      "path": "pages/index-store/index-store",
+      "style": {
+        "navigationBarTitleText": "杂货铺首页",
+        "enablePullDownRefresh": false
+        // "backgroundColor": "#333"
+        // 页面局部 注册组件
+        /* "usingComponents": {
+          "van-button": "/wxcomponents/vant/button/index"
+        } */
+      }
+    },
+    {
+      "path": "pages/job-index/job-index",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/my/my",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/project-info/project-info",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    }
+      ,{
+            "path" : "pages/goods-detail/goods-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品详情页",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#e9e9e9"
+            }
+            
+        }
+    ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    // "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F8F8F8",
+    // 全局组成组件 -常用
+    "usingComponents": {
+      "van-button": "/wxcomponents/vant/button/index",
+      "van-search": "/wxcomponents/vant/search/index"
+    }
+  },
+  "tabBar": {
+    // "custom": true,
+    "color": "#333",
+    "selectedColor": "#e9b17a",
+    "backgroundColor": "#f6f6f6",
+    "position": "bottom",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index-store/index-store",
+        "text": "市场",
+        "iconPath": "static/tarbar/首页.png",
+        "selectedIconPath": "static/tarbar/首页(1).png"
+      },
+      {
+        "pagePath": "pages/release/release",
+        "text": "上架",
+        "iconPath": "static/tarbar/加号.png",
+        "selectedIconPath": "static/tarbar/加号(1).png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tarbar/人员(1).png",
+        "selectedIconPath": "static/tarbar/人员.png"
+      }
+    ]
+  },
+  "easycom": {
+    //  "uni-(.*)": "@/components/uni-$1.vue" // 匹配components目录内的vue文件
+  },
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

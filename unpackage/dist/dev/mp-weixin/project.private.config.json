@@ -1,0 +1,42 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "id": 0,
+                    "name": "pages/index/index",
+                    "pathName": "pages/index/index",
+                    "query": ""
+                },
+                {
+                    "name": "pages/index-store/index-store",
+                    "pathName": "pages/index-store/index-store",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "商品详情页",
+                    "pathName": "pages/goods-detail/goods-detail",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "商品发布页",
+                    "pathName": "pages/release/release",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}
