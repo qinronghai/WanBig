@@ -15,7 +15,12 @@
         "enablePullDownRefresh": false,
 		"navigationBarBackgroundColor": "#e9e9e9",
 		"usingComponents":{
-			"van-uploader": "/wxcomponents/vant/uploader/index"
+			"van-uploader": "/wxcomponents/vant/uploader/index",
+			"van-radio": "/wxcomponents/vant/radio/index",
+			"van-radio-group": "/wxcomponents/vant/radio-group/index",
+			"van-picker": "/wxcomponents/vant/picker/index",
+			 "van-cell": "/wxcomponents/vant/cell/index",
+			  "van-cell-group": "/wxcomponents/vant/cell-group/index"
 		}
       }
     },
@@ -71,7 +76,8 @@
     // 全局组成组件 -常用
     "usingComponents": {
       "van-button": "/wxcomponents/vant/button/index",
-      "van-search": "/wxcomponents/vant/search/index"
+      "van-search": "/wxcomponents/vant/search/index",
+	  "van-popup": "/wxcomponents/vant/popup/index"
     }
   },
   "tabBar": {

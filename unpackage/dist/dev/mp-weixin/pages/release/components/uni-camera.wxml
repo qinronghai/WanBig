@@ -1,1 +1,0 @@
-<van-uploader vue-id="99ea4b88-1" file-list="{{ fileList }}" data-event-opts="{{[['^afterRead',[['afterRead']]]]}}" bind:afterRead="__e" class="data-v-164aa80a" bind:__l="__l"></van-uploader>

@@ -92,10 +92,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var render = function () {}
-var staticRenderFns = []
-var recyclableRender
 var components
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+}
+var recyclableRender = false
+var staticRenderFns = []
+render._withStripped = true
 
 
 
@@ -125,37 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 140));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 132));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 91));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 98));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 105));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniTopForm = function UniTopForm() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-top-form */ "pages/release/components/uni-top-form").then((function () {return resolve(__webpack_require__(/*! ./components/uni-top-form.vue */ 112));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -179,7 +154,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 {
-  components: { uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc },
+  components: { uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc, UniTopForm: UniTopForm, UniBottomOptions: UniBottomOptions },
   data: function data() {
     return {
       fileList: [] };
@@ -189,6 +164,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     afterRead: function afterRead(event) {
       console.log(event);var
       file = event.detail.file;
+
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
       wx.uploadFile({
         url: "https://example.weixin.qq.com/upload", // 仅为示例，非真实的接口地址

@@ -2220,6 +2220,538 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 164:
+/*!***********************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 165);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 167);
+(0, _component.VantComponent)({
+  classes: [
+  'enter-class',
+  'enter-active-class',
+  'enter-to-class',
+  'leave-class',
+  'leave-active-class',
+  'leave-to-class',
+  'close-icon-class'],
+
+  mixins: [(0, _transition.transition)(false)],
+  props: {
+    round: Boolean,
+    closeable: Boolean,
+    customStyle: String,
+    overlayStyle: String,
+    transition: {
+      type: String,
+      observer: 'observeClass' },
+
+    zIndex: {
+      type: Number,
+      value: 100 },
+
+    overlay: {
+      type: Boolean,
+      value: true },
+
+    closeIcon: {
+      type: String,
+      value: 'cross' },
+
+    closeIconPosition: {
+      type: String,
+      value: 'top-right' },
+
+    closeOnClickOverlay: {
+      type: Boolean,
+      value: true },
+
+    position: {
+      type: String,
+      value: 'center',
+      observer: 'observeClass' },
+
+    safeAreaInsetBottom: {
+      type: Boolean,
+      value: true },
+
+    safeAreaInsetTop: {
+      type: Boolean,
+      value: false },
+
+    lockScroll: {
+      type: Boolean,
+      value: true } },
+
+
+  created: function created() {
+    this.observeClass();
+  },
+  methods: {
+    onClickCloseIcon: function onClickCloseIcon() {
+      this.$emit('close');
+    },
+    onClickOverlay: function onClickOverlay() {
+      this.$emit('click-overlay');
+      if (this.data.closeOnClickOverlay) {
+        this.$emit('close');
+      }
+    },
+    observeClass: function observeClass() {var _this$data =
+      this.data,transition = _this$data.transition,position = _this$data.position,duration = _this$data.duration;
+      var updateData = {
+        name: transition || position };
+
+      if (transition === 'none') {
+        updateData.duration = 0;
+        this.originDuration = duration;
+      } else
+      if (this.originDuration != null) {
+        updateData.duration = this.originDuration;
+      }
+      this.setData(updateData);
+    } } });
+
+/***/ }),
+
+/***/ 165:
+/*!****************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 166);
+function mapKeys(source, target, map) {
+  Object.keys(map).forEach(function (key) {
+    if (source[key]) {
+      target[map[key]] = source[key];
+    }
+  });
+}
+function VantComponent(vantOptions) {
+  var options = {};
+  mapKeys(vantOptions, options, {
+    data: 'data',
+    props: 'properties',
+    mixins: 'behaviors',
+    methods: 'methods',
+    beforeCreate: 'created',
+    created: 'attached',
+    mounted: 'ready',
+    destroyed: 'detached',
+    classes: 'externalClasses' });
+
+  // add default externalClasses
+  options.externalClasses = options.externalClasses || [];
+  options.externalClasses.push('custom-class');
+  // add default behaviors
+  options.behaviors = options.behaviors || [];
+  options.behaviors.push(_basic.basic);
+  // add relations
+  var relation = vantOptions.relation;
+  if (relation) {
+    options.relations = relation.relations;
+    options.behaviors.push(relation.mixin);
+  }
+  // map field to form-field behavior
+  if (vantOptions.field) {
+    options.behaviors.push('wx://form-field');
+  }
+  // add default options
+  options.options = {
+    multipleSlots: true,
+    addGlobalClass: true };
+
+  Component(options);
+}
+
+/***/ }),
+
+/***/ 166:
+/*!************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.basic = void 0;var basic = Behavior({
+  methods: {
+    $emit: function $emit(name, detail, options) {
+      this.triggerEvent(name, detail, options);
+    },
+    set: function set(data) {
+      this.setData(data);
+      return new Promise(function (resolve) {return wx.nextTick(resolve);});
+    } } });exports.basic = basic;
+
+/***/ }),
+
+/***/ 167:
+/*!*****************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
+var _utils = __webpack_require__(/*! ../common/utils */ 168);
+var _validator = __webpack_require__(/*! ../common/validator */ 169); // @ts-nocheck
+var getClassNames = function getClassNames(name) {return {
+    enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
+    'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
+    leave: "van-".concat(name, "-leave van-").concat(name, "-leave-active leave-class leave-active-class"),
+    'leave-to': "van-".concat(name, "-leave-to van-").concat(name, "-leave-active leave-to-class leave-active-class") };};
+
+function transition(showDefaultValue) {
+  return Behavior({
+    properties: {
+      customStyle: String,
+      // @ts-ignore
+      show: {
+        type: Boolean,
+        value: showDefaultValue,
+        observer: 'observeShow' },
+
+      // @ts-ignore
+      duration: {
+        type: null,
+        value: 300,
+        observer: 'observeDuration' },
+
+      name: {
+        type: String,
+        value: 'fade' } },
+
+
+    data: {
+      type: '',
+      inited: false,
+      display: false },
+
+    ready: function ready() {
+      if (this.data.show === true) {
+        this.observeShow(true, false);
+      }
+    },
+    methods: {
+      observeShow: function observeShow(value, old) {
+        if (value === old) {
+          return;
+        }
+        value ? this.enter() : this.leave();
+      },
+      enter: function enter() {var _this = this;var _this$data =
+        this.data,duration = _this$data.duration,name = _this$data.name;
+        var classNames = getClassNames(name);
+        var currentDuration = (0, _validator.isObj)(duration) ? duration.enter : duration;
+        this.status = 'enter';
+        this.$emit('before-enter');
+        (0, _utils.requestAnimationFrame)(function () {
+          if (_this.status !== 'enter') {
+            return;
+          }
+          _this.$emit('enter');
+          _this.setData({
+            inited: true,
+            display: true,
+            classes: classNames.enter,
+            currentDuration: currentDuration });
+
+          (0, _utils.requestAnimationFrame)(function () {
+            if (_this.status !== 'enter') {
+              return;
+            }
+            _this.transitionEnded = false;
+            _this.setData({ classes: classNames['enter-to'] });
+          });
+        });
+      },
+      leave: function leave() {var _this2 = this;
+        if (!this.data.display) {
+          return;
+        }var _this$data2 =
+        this.data,duration = _this$data2.duration,name = _this$data2.name;
+        var classNames = getClassNames(name);
+        var currentDuration = (0, _validator.isObj)(duration) ? duration.leave : duration;
+        this.status = 'leave';
+        this.$emit('before-leave');
+        (0, _utils.requestAnimationFrame)(function () {
+          if (_this2.status !== 'leave') {
+            return;
+          }
+          _this2.$emit('leave');
+          _this2.setData({
+            classes: classNames.leave,
+            currentDuration: currentDuration });
+
+          (0, _utils.requestAnimationFrame)(function () {
+            if (_this2.status !== 'leave') {
+              return;
+            }
+            _this2.transitionEnded = false;
+            setTimeout(function () {return _this2.onTransitionEnd();}, currentDuration);
+            _this2.setData({ classes: classNames['leave-to'] });
+          });
+        });
+      },
+      onTransitionEnd: function onTransitionEnd() {
+        if (this.transitionEnded) {
+          return;
+        }
+        this.transitionEnded = true;
+        this.$emit("after-".concat(this.status));var _this$data3 =
+        this.data,show = _this$data3.show,display = _this$data3.display;
+        if (!show && display) {
+          this.setData({ display: false });
+        }
+      } } });
+
+
+}
+
+/***/ }),
+
+/***/ 168:
+/*!************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 169);
+var _version = __webpack_require__(/*! ./version */ 170);
+
+function range(num, min, max) {
+  return Math.min(Math.max(num, min), max);
+}
+function nextTick(cb) {
+  if ((0, _version.canIUseNextTick)()) {
+    wx.nextTick(cb);
+  } else
+  {
+    setTimeout(function () {
+      cb();
+    }, 1000 / 30);
+  }
+}
+var systemInfo;
+function getSystemInfoSync() {
+  if (systemInfo == null) {
+    systemInfo = wx.getSystemInfoSync();
+  }
+  return systemInfo;
+}
+function addUnit(value) {
+  if (!(0, _validator.isDef)(value)) {
+    return undefined;
+  }
+  value = String(value);
+  return (0, _validator.isNumber)(value) ? "".concat(value, "px") : value;
+}
+function requestAnimationFrame(cb) {
+  var systemInfo = getSystemInfoSync();
+  if (systemInfo.platform === 'devtools') {
+    return setTimeout(function () {
+      cb();
+    }, 1000 / 30);
+  }
+  return wx.
+  createSelectorQuery().
+  selectViewport().
+  boundingClientRect().
+  exec(function () {
+    cb();
+  });
+}
+function pickExclude(obj, keys) {
+  if (!(0, _validator.isPlainObject)(obj)) {
+    return {};
+  }
+  return Object.keys(obj).reduce(function (prev, key) {
+    if (!keys.includes(key)) {
+      prev[key] = obj[key];
+    }
+    return prev;
+  }, {});
+}
+function getRect(context, selector) {
+  return new Promise(function (resolve) {
+    wx.createSelectorQuery().
+    in(context).
+    select(selector).
+    boundingClientRect().
+    exec(function () {var rect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];return resolve(rect[0]);});
+  });
+}
+function getAllRect(context, selector) {
+  return new Promise(function (resolve) {
+    wx.createSelectorQuery().
+    in(context).
+    selectAll(selector).
+    boundingClientRect().
+    exec(function () {var rect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];return resolve(rect[0]);});
+  });
+}
+function groupSetData(context, cb) {
+  if ((0, _version.canIUseGroupSetData)()) {
+    context.groupSetData(cb);
+  } else
+  {
+    cb();
+  }
+}
+function toPromise(promiseLike) {
+  if ((0, _validator.isPromise)(promiseLike)) {
+    return promiseLike;
+  }
+  return Promise.resolve(promiseLike);
+}
+function getCurrentPage() {
+  var pages = getCurrentPages();
+  return pages[pages.length - 1];
+}
+
+/***/ }),
+
+/***/ 169:
+/*!****************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.isFunction = isFunction;exports.isPlainObject = isPlainObject;exports.isPromise = isPromise;exports.isDef = isDef;exports.isObj = isObj;exports.isNumber = isNumber;exports.isBoolean = isBoolean;exports.isImageUrl = isImageUrl;exports.isVideoUrl = isVideoUrl; // eslint-disable-next-line @typescript-eslint/ban-types
+function isFunction(val) {
+  return typeof val === 'function';
+}
+function isPlainObject(val) {
+  return val !== null && typeof val === 'object' && !Array.isArray(val);
+}
+function isPromise(val) {
+  return isPlainObject(val) && isFunction(val.then) && isFunction(val.catch);
+}
+function isDef(value) {
+  return value !== undefined && value !== null;
+}
+function isObj(x) {
+  var type = typeof x;
+  return x !== null && (type === 'object' || type === 'function');
+}
+function isNumber(value) {
+  return /^\d+(\.\d+)?$/.test(value);
+}
+function isBoolean(value) {
+  return typeof value === 'boolean';
+}
+var IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i;
+var VIDEO_REGEXP = /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv)/i;
+function isImageUrl(url) {
+  return IMAGE_REGEXP.test(url);
+}
+function isVideoUrl(url) {
+  return VIDEO_REGEXP.test(url);
+}
+
+/***/ }),
+
+/***/ 170:
+/*!**************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 168);
+function compareVersion(v1, v2) {
+  v1 = v1.split('.');
+  v2 = v2.split('.');
+  var len = Math.max(v1.length, v2.length);
+  while (v1.length < len) {
+    v1.push('0');
+  }
+  while (v2.length < len) {
+    v2.push('0');
+  }
+  for (var i = 0; i < len; i++) {
+    var num1 = parseInt(v1[i], 10);
+    var num2 = parseInt(v2[i], 10);
+    if (num1 > num2) {
+      return 1;
+    }
+    if (num1 < num2) {
+      return -1;
+    }
+  }
+  return 0;
+}
+function gte(version) {
+  var system = (0, _utils.getSystemInfoSync)();
+  return compareVersion(system.SDKVersion, version) >= 0;
+}
+function canIUseModel() {
+  return gte('2.9.3');
+}
+function canIUseFormFieldButton() {
+  return gte('2.10.3');
+}
+function canIUseAnimate() {
+  return gte('2.9.0');
+}
+function canIUseGroupSetData() {
+  return gte('2.4.0');
+}
+function canIUseNextTick() {
+  return wx.canIUse('nextTick');
+}
+function canIUseCanvas2d() {
+  return gte('2.9.0');
+}
+function canIUseGetUserProfile() {
+  return !!wx.getUserProfile;
+}
+
+/***/ }),
+
+/***/ 171:
+/*!**********************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 165);
+(0, _component.VantComponent)({
+  props: {
+    dot: Boolean,
+    info: null,
+    size: null,
+    color: String,
+    customStyle: String,
+    classPrefix: {
+      type: String,
+      value: 'van-icon' },
+
+    name: String },
+
+  methods: {
+    onClick: function onClick() {
+      this.$emit('click');
+    } } });
+
+/***/ }),
+
 /***/ 2:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!

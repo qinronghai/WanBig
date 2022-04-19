@@ -4,7 +4,14 @@
   "navigationBarBackgroundColor": "#e9e9e9",
   "usingComponents": {
     "van-uploader": "/wxcomponents/vant/uploader/index",
+    "van-radio": "/wxcomponents/vant/radio/index",
+    "van-radio-group": "/wxcomponents/vant/radio-group/index",
+    "van-picker": "/wxcomponents/vant/picker/index",
+    "van-cell": "/wxcomponents/vant/cell/index",
+    "van-cell-group": "/wxcomponents/vant/cell-group/index",
     "uni-header-bar": "/pages/release/components/uni-header-bar",
-    "uni-goods-desc": "/pages/release/components/uni-goods-desc"
+    "uni-goods-desc": "/pages/release/components/uni-goods-desc",
+    "uni-top-form": "/pages/release/components/uni-top-form",
+    "uni-bottom-options": "/pages/release/components/uni-bottom-options"
   }
 }
