@@ -947,7 +947,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2220,7 +2220,149 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 164:
+/***/ 147:
+/*!**********************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 148);
+(0, _component.VantComponent)({
+  props: {
+    dot: Boolean,
+    info: null,
+    size: null,
+    color: String,
+    customStyle: String,
+    classPrefix: {
+      type: String,
+      value: 'van-icon' },
+
+    name: String },
+
+  methods: {
+    onClick: function onClick() {
+      this.$emit('click');
+    } } });
+
+/***/ }),
+
+/***/ 148:
+/*!****************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 149);
+function mapKeys(source, target, map) {
+  Object.keys(map).forEach(function (key) {
+    if (source[key]) {
+      target[map[key]] = source[key];
+    }
+  });
+}
+function VantComponent(vantOptions) {
+  var options = {};
+  mapKeys(vantOptions, options, {
+    data: 'data',
+    props: 'properties',
+    mixins: 'behaviors',
+    methods: 'methods',
+    beforeCreate: 'created',
+    created: 'attached',
+    mounted: 'ready',
+    destroyed: 'detached',
+    classes: 'externalClasses' });
+
+  // add default externalClasses
+  options.externalClasses = options.externalClasses || [];
+  options.externalClasses.push('custom-class');
+  // add default behaviors
+  options.behaviors = options.behaviors || [];
+  options.behaviors.push(_basic.basic);
+  // add relations
+  var relation = vantOptions.relation;
+  if (relation) {
+    options.relations = relation.relations;
+    options.behaviors.push(relation.mixin);
+  }
+  // map field to form-field behavior
+  if (vantOptions.field) {
+    options.behaviors.push('wx://form-field');
+  }
+  // add default options
+  options.options = {
+    multipleSlots: true,
+    addGlobalClass: true };
+
+  Component(options);
+}
+
+/***/ }),
+
+/***/ 149:
+/*!************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.basic = void 0;var basic = Behavior({
+  methods: {
+    $emit: function $emit(name, detail, options) {
+      this.triggerEvent(name, detail, options);
+    },
+    set: function set(data) {
+      this.setData(data);
+      return new Promise(function (resolve) {return wx.nextTick(resolve);});
+    } } });exports.basic = basic;
+
+/***/ }),
+
+/***/ 150:
+/*!***********************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 148);
+(0, _component.VantComponent)({
+  props: {
+    show: Boolean,
+    mask: Boolean,
+    message: String,
+    forbidClick: Boolean,
+    zIndex: {
+      type: Number,
+      value: 1000 },
+
+    type: {
+      type: String,
+      value: 'text' },
+
+    loadingType: {
+      type: String,
+      value: 'circular' },
+
+    position: {
+      type: String,
+      value: 'middle' } },
+
+
+  methods: {
+    // for prevent touchmove
+    noop: function noop() {} } });
+
+/***/ }),
+
+/***/ 151:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
   \***********************************************************************/
@@ -2228,8 +2370,8 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 165);
-var _transition = __webpack_require__(/*! ../mixins/transition */ 167);
+var _component = __webpack_require__(/*! ../common/component */ 148);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 152);
 (0, _component.VantComponent)({
   classes: [
   'enter-class',
@@ -2318,82 +2460,7 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 167);
 
 /***/ }),
 
-/***/ 165:
-/*!****************************************************************************!*\
-  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 166);
-function mapKeys(source, target, map) {
-  Object.keys(map).forEach(function (key) {
-    if (source[key]) {
-      target[map[key]] = source[key];
-    }
-  });
-}
-function VantComponent(vantOptions) {
-  var options = {};
-  mapKeys(vantOptions, options, {
-    data: 'data',
-    props: 'properties',
-    mixins: 'behaviors',
-    methods: 'methods',
-    beforeCreate: 'created',
-    created: 'attached',
-    mounted: 'ready',
-    destroyed: 'detached',
-    classes: 'externalClasses' });
-
-  // add default externalClasses
-  options.externalClasses = options.externalClasses || [];
-  options.externalClasses.push('custom-class');
-  // add default behaviors
-  options.behaviors = options.behaviors || [];
-  options.behaviors.push(_basic.basic);
-  // add relations
-  var relation = vantOptions.relation;
-  if (relation) {
-    options.relations = relation.relations;
-    options.behaviors.push(relation.mixin);
-  }
-  // map field to form-field behavior
-  if (vantOptions.field) {
-    options.behaviors.push('wx://form-field');
-  }
-  // add default options
-  options.options = {
-    multipleSlots: true,
-    addGlobalClass: true };
-
-  Component(options);
-}
-
-/***/ }),
-
-/***/ 166:
-/*!************************************************************************!*\
-  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.basic = void 0;var basic = Behavior({
-  methods: {
-    $emit: function $emit(name, detail, options) {
-      this.triggerEvent(name, detail, options);
-    },
-    set: function set(data) {
-      this.setData(data);
-      return new Promise(function (resolve) {return wx.nextTick(resolve);});
-    } } });exports.basic = basic;
-
-/***/ }),
-
-/***/ 167:
+/***/ 152:
 /*!*****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
   \*****************************************************************************/
@@ -2402,8 +2469,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
-var _utils = __webpack_require__(/*! ../common/utils */ 168);
-var _validator = __webpack_require__(/*! ../common/validator */ 169); // @ts-nocheck
+var _utils = __webpack_require__(/*! ../common/utils */ 153);
+var _validator = __webpack_require__(/*! ../common/validator */ 154); // @ts-nocheck
 var getClassNames = function getClassNames(name) {return {
     enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
     'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
@@ -2519,7 +2586,7 @@ function transition(showDefaultValue) {
 
 /***/ }),
 
-/***/ 168:
+/***/ 153:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
   \************************************************************************/
@@ -2527,8 +2594,8 @@ function transition(showDefaultValue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 169);
-var _version = __webpack_require__(/*! ./version */ 170);
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 154);
+var _version = __webpack_require__(/*! ./version */ 155);
 
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
@@ -2622,7 +2689,7 @@ function getCurrentPage() {
 
 /***/ }),
 
-/***/ 169:
+/***/ 154:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
   \****************************************************************************/
@@ -2664,7 +2731,7 @@ function isVideoUrl(url) {
 
 /***/ }),
 
-/***/ 170:
+/***/ 155:
 /*!**************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
   \**************************************************************************/
@@ -2672,7 +2739,7 @@ function isVideoUrl(url) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 168);
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 153);
 function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -2723,32 +2790,178 @@ function canIUseGetUserProfile() {
 
 /***/ }),
 
-/***/ 171:
-/*!**********************************************************************!*\
-  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
-  \**********************************************************************/
+/***/ 156:
+/*!************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/index.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 165);
+var _component = __webpack_require__(/*! ../common/component */ 148);
+var _shared = __webpack_require__(/*! ./shared */ 157);
 (0, _component.VantComponent)({
-  props: {
-    dot: Boolean,
-    info: null,
-    size: null,
-    color: String,
-    customStyle: String,
-    classPrefix: {
+  classes: ['active-class', 'toolbar-class', 'column-class'],
+  props: Object.assign(Object.assign({}, _shared.pickerProps), { valueKey: {
       type: String,
-      value: 'van-icon' },
+      value: 'text' },
+    toolbarPosition: {
+      type: String,
+      value: 'top' },
+    defaultIndex: {
+      type: Number,
+      value: 0 },
+    columns: {
+      type: Array,
+      value: [],
+      observer: function observer() {var columns = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+        this.simple = columns.length && !columns[0].values;
+        if (Array.isArray(this.children) && this.children.length) {
+          this.setColumns().catch(function () {});
+        }
+      } } }),
 
-    name: String },
+  beforeCreate: function beforeCreate() {var _this = this;
+    Object.defineProperty(this, 'children', {
+      get: function get() {return _this.selectAllComponents('.van-picker__column') || [];} });
 
+  },
   methods: {
-    onClick: function onClick() {
-      this.$emit('click');
+    noop: function noop() {},
+    setColumns: function setColumns() {var _this2 = this;var
+      data = this.data;
+      var columns = this.simple ? [{ values: data.columns }] : data.columns;
+      var stack = columns.map(function (column, index) {return _this2.setColumnValues(index, column.values);});
+      return Promise.all(stack);
+    },
+    emit: function emit(event) {var
+      type = event.currentTarget.dataset.type;
+      if (this.simple) {
+        this.$emit(type, {
+          value: this.getColumnValue(0),
+          index: this.getColumnIndex(0) });
+
+      } else
+      {
+        this.$emit(type, {
+          value: this.getValues(),
+          index: this.getIndexes() });
+
+      }
+    },
+    onChange: function onChange(event) {
+      if (this.simple) {
+        this.$emit('change', {
+          picker: this,
+          value: this.getColumnValue(0),
+          index: this.getColumnIndex(0) });
+
+      } else
+      {
+        this.$emit('change', {
+          picker: this,
+          value: this.getValues(),
+          index: event.currentTarget.dataset.index });
+
+      }
+    },
+    // get column instance by index
+    getColumn: function getColumn(index) {
+      return this.children[index];
+    },
+    // get column value by index
+    getColumnValue: function getColumnValue(index) {
+      var column = this.getColumn(index);
+      return column && column.getValue();
+    },
+    // set column value by index
+    setColumnValue: function setColumnValue(index, value) {
+      var column = this.getColumn(index);
+      if (column == null) {
+        return Promise.reject(new Error('setColumnValue: 对应列不存在'));
+      }
+      return column.setValue(value);
+    },
+    // get column option index by column index
+    getColumnIndex: function getColumnIndex(columnIndex) {
+      return (this.getColumn(columnIndex) || {}).data.currentIndex;
+    },
+    // set column option index by column index
+    setColumnIndex: function setColumnIndex(columnIndex, optionIndex) {
+      var column = this.getColumn(columnIndex);
+      if (column == null) {
+        return Promise.reject(new Error('setColumnIndex: 对应列不存在'));
+      }
+      return column.setIndex(optionIndex);
+    },
+    // get options of column by index
+    getColumnValues: function getColumnValues(index) {
+      return (this.children[index] || {}).data.options;
+    },
+    // set options of column by index
+    setColumnValues: function setColumnValues(index, options) {var needReset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var column = this.children[index];
+      if (column == null) {
+        return Promise.reject(new Error('setColumnValues: 对应列不存在'));
+      }
+      var isSame = JSON.stringify(column.data.options) === JSON.stringify(options);
+      if (isSame) {
+        return Promise.resolve();
+      }
+      return column.set({ options: options }).then(function () {
+        if (needReset) {
+          column.setIndex(0);
+        }
+      });
+    },
+    // get values of all columns
+    getValues: function getValues() {
+      return this.children.map(function (child) {return child.getValue();});
+    },
+    // set values of all columns
+    setValues: function setValues(values) {var _this3 = this;
+      var stack = values.map(function (value, index) {return _this3.setColumnValue(index, value);});
+      return Promise.all(stack);
+    },
+    // get indexes of all columns
+    getIndexes: function getIndexes() {
+      return this.children.map(function (child) {return child.data.currentIndex;});
+    },
+    // set indexes of all columns
+    setIndexes: function setIndexes(indexes) {var _this4 = this;
+      var stack = indexes.map(function (optionIndex, columnIndex) {return _this4.setColumnIndex(columnIndex, optionIndex);});
+      return Promise.all(stack);
     } } });
+
+/***/ }),
+
+/***/ 157:
+/*!*************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/shared.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.pickerProps = void 0;var pickerProps = {
+  title: String,
+  loading: Boolean,
+  showToolbar: Boolean,
+  cancelButtonText: {
+    type: String,
+    value: '取消' },
+
+  confirmButtonText: {
+    type: String,
+    value: '确认' },
+
+  visibleItemCount: {
+    type: Number,
+    value: 6 },
+
+  itemHeight: {
+    type: Number,
+    value: 44 } };exports.pickerProps = pickerProps;
 
 /***/ }),
 
@@ -8310,7 +8523,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8331,14 +8544,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8424,7 +8637,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));

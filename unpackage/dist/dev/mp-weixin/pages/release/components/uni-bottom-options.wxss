@@ -56,6 +56,21 @@
   font-size: 12px;
   font-weight: bold;
 }
+.bottom-options .goods-quality.data-v-cc4aa53e {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 40px;
+}
+.bottom-options .goods-quality__item.data-v-cc4aa53e {
+  flex-grow: 1;
+}
+.bottom-options .goods-quality__item--block .active.data-v-cc4aa53e {
+  color: #2a7ffa;
+  background-color: pink;
+}
 .bottom-options__item.data-v-cc4aa53e {
   display: flex;
   justify-content: space-between;
@@ -77,5 +92,11 @@
 }
 .bottom-options__item.need.data-v-cc4aa53e {
   padding-bottom: 15px;
+}
+.bottom-options__item.need .options.data-v-cc4aa53e {
+  padding-right: 10px;
+}
+.bottom-options__item.need .options .radio-sell.data-v-cc4aa53e {
+  padding-right: 5px;
 }
 

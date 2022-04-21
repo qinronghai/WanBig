@@ -53,6 +53,10 @@
 }
 .top-form .top-form__item.address .input.data-v-3ce67c61 {
   display: flex;
+  align-items: center;
+}
+.top-form .top-form__item.address .input .radio-west.data-v-3ce67c61 {
+  padding-right: 5px;
 }
 .top-form .top-form__item.address .input .input__number.data-v-3ce67c61 {
   padding-left: 30px;

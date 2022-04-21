@@ -6,7 +6,6 @@
     "van-uploader": "/wxcomponents/vant/uploader/index",
     "van-radio": "/wxcomponents/vant/radio/index",
     "van-radio-group": "/wxcomponents/vant/radio-group/index",
-    "van-picker": "/wxcomponents/vant/picker/index",
     "van-cell": "/wxcomponents/vant/cell/index",
     "van-cell-group": "/wxcomponents/vant/cell-group/index",
     "uni-header-bar": "/pages/release/components/uni-header-bar",

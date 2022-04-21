@@ -1,11 +1,11 @@
 <template>
   <div class="bottom-options">
     <van-popup
-      :show="show"
+      :show="showGoodsCategory"
       round
       position="bottom"
       custom-style="height: 35%"
-      @close="onClose"
+      @close="onCloseGoodsCategory"
       closeable
     >
       <div class="goods-category">
@@ -30,7 +30,30 @@
         <van-icon name="arrow" size="18px" />
       </div>
     </div>
-    <div class="bottom-options__item">
+    <van-popup
+      :show="showGoodQuality"
+      round
+      position="bottom"
+      custom-style="height: 35%"
+      @close="onCloseGoodQuality"
+      closeable
+    >
+      <div class="goods-quality">
+        <div
+          class="goods-quality__item"
+          v-for="(item, index) in columns"
+          :key="index"
+          @click="rightTap(index)"
+        >
+          <div class="goods-quality__item--block">
+            <div class="txt" :class="{ active: index === rightIndex }">
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </van-popup>
+    <div @click="showGoodQualityPopup" class="bottom-options__item">
       <div class="left">
         <image
           src="../../../static/release/goods-quality.svg"
@@ -38,8 +61,11 @@
         ></image>
         <div class="txt">商品成色</div>
       </div>
-      <div class="option"></div>
+      <div class="option">
+        <van-icon name="arrow" size="18px" />
+      </div>
     </div>
+    <!-- 出/蹲 -->
     <div class="bottom-options__item need">
       <div class="left">
         <image
@@ -48,18 +74,36 @@
         ></image>
         <div class="txt">出/蹲</div>
       </div>
-      <div class="option"></div>
+      <div class="options">
+        <radio-group @change="radioChange">
+          <label class="radio-sell"
+            ><radio
+              value="sell"
+              :checked="need"
+              style="transform: scale(0.7)"
+            />出</label
+          >
+          <label class="radio"
+            ><radio value="beg" style="transform: scale(0.7)" />蹲</label
+          >
+        </radio-group>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import VanPopup from "../../../wxcomponents/vant/popup/index";
 import VanIcon from "../../../wxcomponents/vant/icon";
+import Toast from "../../../wxcomponents/vant/toast";
+import VanPopup from "../../../wxcomponents/vant/popup/index";
+import VanPicker from "../../../wxcomponents/vant/picker";
+
 export default {
   data() {
     return {
-      show: false,
+      showGoodsCategory: false,
+      showGoodQuality: false,
+      rightIndex: 0,
       navList: [
         {
           id: 1,
@@ -92,20 +136,54 @@ export default {
           txt: "其他宝贝",
         },
       ],
+      columns: [
+        {
+          id: 1,
+          title: "全新",
+        },
+        {
+          id: 2,
+          title: "几乎全新",
+        },
+        {
+          id: 3,
+          title: "轻微痕迹",
+        },
+        {
+          id: 4,
+          title: "明显痕迹",
+        },
+      ],
+      // radio
+      need: true,
     };
   },
   methods: {
     showPopup() {
-      this.show = true;
+      this.showGoodsCategory = true;
+    },
+    showGoodQualityPopup() {
+      this.showGoodQuality = true;
     },
 
-    onClose() {
-      this.show = false;
+    onCloseGoodsCategory() {
+      this.showGoodsCategory = false;
+    },
+    onCloseGoodQuality() {
+      this.showGoodQuality = false;
+    },
+    rightTap(index) {
+      this.rightIndex = index;
+    },
+    radioChange(e) {
+      console.log(e);
     },
   },
   components: {
     VanPopup,
     VanIcon,
+    VanPicker,
+    Toast,
   },
 };
 </script>
@@ -142,6 +220,23 @@ export default {
       }
     }
   }
+  .goods-quality {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 40px;
+    &__item {
+      flex-grow: 1;
+      &--block {
+        .active {
+          color: #2a7ffa;
+          background-color: pink;
+        }
+      }
+    }
+  }
   &__item {
     display: flex;
     justify-content: space-between;
@@ -167,6 +262,13 @@ export default {
   }
   &__item.need {
     padding-bottom: 15px;
+    .options {
+      padding-right: 10px;
+
+      .radio-sell {
+        padding-right: 5px;
+      }
+    }
   }
 }
 </style>

@@ -153,21 +153,34 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
 {
   components: { uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc, UniTopForm: UniTopForm, UniBottomOptions: UniBottomOptions },
   data: function data() {
     return {
-      fileList: [] };
+      fileList: [
+      {
+        url: "https://img.yzcdn.cn/vant/leaf.jpg",
+        name: "图片1" },
+
+      {
+        url: "https://img.yzcdn.cn/vant/leaf.jpg",
+        name: "图片2" }] };
+
+
 
   },
   methods: {
     afterRead: function afterRead(event) {
       console.log(event);var
       file = event.detail.file;
-
+      console.log(file);
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
       wx.uploadFile({
-        url: "https://example.weixin.qq.com/upload", // 仅为示例，非真实的接口地址
+        url: file.url, // 仅为示例，非真实的接口地址
         filePath: file.url,
         name: "file",
         formData: { user: "test" },

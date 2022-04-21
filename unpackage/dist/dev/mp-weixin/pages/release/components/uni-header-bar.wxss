@@ -27,18 +27,16 @@
 .header-bar.data-v-190bf438 {
   display: flex;
   justify-content: space-between;
-  background-color: red;
 }
 .header-bar .left-options.data-v-190bf438 {
   display: flex;
   font-size: 12px;
-  background-color: green;
 }
 .header-bar .left-options .option__goods.data-v-190bf438 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
+  width: 50px;
   height: 30px;
   background-color: #ffe21b;
   border-right: 3px solid #333;
@@ -48,7 +46,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
+  width: 50px;
   height: 30px;
   background-color: #fff;
   border-left: 3px solid #333;

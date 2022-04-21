@@ -20,12 +20,18 @@
         <div class="txt">楼号</div>
       </div>
       <div class="input">
-        <div class="radio">
-          <!-- <van-radio-group bind:change="onChange" direction="horizontal">
-            <van-radio name="1">西区</van-radio>
-            <van-radio name="2">东区</van-radio>
-          </van-radio-group> -->
-        </div>
+        <radio-group @change="radioChange">
+          <label class="radio-west"
+            ><radio
+              style="transform: scale(0.7)"
+              value="西区"
+              :checked="area"
+            />西区</label
+          >
+          <label class="radio"
+            ><radio style="transform: scale(0.7)" value="东区" />东区</label
+          >
+        </radio-group>
         <div class="input__number">请输入楼号</div>
       </div>
     </div>
@@ -33,7 +39,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      // radio
+      area: true,
+    };
+  },
+  methods: {
+    radioChange(e) {
+      console.log(e);
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .top-form {
@@ -67,6 +85,10 @@ export default {};
     padding-bottom: 15px;
     .input {
       display: flex;
+      align-items: center;
+      .radio-west {
+        padding-right: 5px;
+      }
       .input__number {
         padding-left: 30px;
       }

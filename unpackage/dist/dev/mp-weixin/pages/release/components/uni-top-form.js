@@ -148,8 +148,24 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default =
-{};exports.default = _default;
+{
+  data: function data() {
+    return {
+      // radio
+      area: true };
+
+  },
+  methods: {
+    radioChange: function radioChange(e) {
+      console.log(e);
+    } } };exports.default = _default;
 
 /***/ }),
 

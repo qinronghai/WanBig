@@ -18,16 +18,14 @@ export default {};
 .header-bar {
   display: flex;
   justify-content: space-between;
-  background-color: red;
   .left-options {
     display: flex;
     font-size: 12px;
-    background-color: green;
     .option__goods {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 60px;
+      width: 50px;
       height: 30px;
       background-color: #ffe21b;
       border-right: 3px solid #333;
@@ -38,7 +36,7 @@ export default {};
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 60px;
+      width: 50px;
       height: 30px;
       background-color: #fff;
       border-left: 3px solid #333;

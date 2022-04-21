@@ -37,8 +37,12 @@
   margin-top: 20px;
 }
 .container .center-wrap .goods-pictures.data-v-0766b1d4 {
-  width: 130px;
-  height: 125px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  padding-top: 8px;
   margin: 8px 0 0 5px;
   background-color: #fff;
   border-radius: 15px;

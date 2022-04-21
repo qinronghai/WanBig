@@ -114,7 +114,49 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/popup/index */ 164));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/icon */ 171));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/icon */ 147));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/toast */ 150));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/popup/index */ 151));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/picker */ 156));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -175,7 +217,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 {
   data: function data() {
     return {
-      show: false,
+      showGoodsCategory: false,
+      showGoodQuality: false,
+      rightIndex: 0,
       navList: [
       {
         id: 1,
@@ -205,23 +249,57 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       {
         id: 6,
         img: "../../../static/category-nav/other.svg",
-        txt: "其他宝贝" }] };
+        txt: "其他宝贝" }],
 
 
+      columns: [
+      {
+        id: 1,
+        title: "全新" },
+
+      {
+        id: 2,
+        title: "几乎全新" },
+
+      {
+        id: 3,
+        title: "轻微痕迹" },
+
+      {
+        id: 4,
+        title: "明显痕迹" }],
+
+
+      // radio
+      need: true };
 
   },
   methods: {
     showPopup: function showPopup() {
-      this.show = true;
+      this.showGoodsCategory = true;
+    },
+    showGoodQualityPopup: function showGoodQualityPopup() {
+      this.showGoodQuality = true;
     },
 
-    onClose: function onClose() {
-      this.show = false;
+    onCloseGoodsCategory: function onCloseGoodsCategory() {
+      this.showGoodsCategory = false;
+    },
+    onCloseGoodQuality: function onCloseGoodQuality() {
+      this.showGoodQuality = false;
+    },
+    rightTap: function rightTap(index) {
+      this.rightIndex = index;
+    },
+    radioChange: function radioChange(e) {
+      console.log(e);
     } },
 
   components: {
     VanPopup: VanPopup,
-    VanIcon: VanIcon } };exports.default = _default;
+    VanIcon: VanIcon,
+    VanPicker: VanPicker,
+    Toast: Toast } };exports.default = _default;
 
 /***/ }),
 
