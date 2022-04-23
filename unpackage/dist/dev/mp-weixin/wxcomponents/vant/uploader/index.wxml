@@ -18,7 +18,7 @@
         src="{{ item.thumb || item.url }}"
         alt="{{ item.name || ('图片' + index) }}"
         class="van-uploader__preview-image"
-        style="width:200rpx;height:190rpx;"
+        style="{{ computed.sizeStyle({ previewSize }) }}"
         data-index="{{ index }}"
         bindtap="onPreviewImage"
       />
@@ -72,7 +72,7 @@
       <view
         wx:if="{{ showUpload }}"
         class="van-uploader__upload {{ disabled ? 'van-uploader__upload--disabled': ''}}"
-        style="width:200rpx;height:190rpx;"
+        style="{{ computed.sizeStyle({ previewSize }) }}"
         bindtap="startUpload"
       >
         <van-icon name="{{ uploadIcon }}" class="van-uploader__upload-icon" />

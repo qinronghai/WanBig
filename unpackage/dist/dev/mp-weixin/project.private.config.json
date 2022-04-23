@@ -35,6 +35,12 @@
                     "pathName": "pages/release/release",
                     "query": "",
                     "scene": null
+                },
+                {
+                    "name": "我的",
+                    "pathName": "pages/my/my",
+                    "query": "",
+                    "scene": null
                 }
             ]
         }

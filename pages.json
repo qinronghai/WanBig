@@ -45,8 +45,9 @@
     {
       "path": "pages/my/my",
       "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "我的",
+        "enablePullDownRefresh": false,
+        "navigationBarBackgroundColor": "#e9e9e9"
       }
     },
     {

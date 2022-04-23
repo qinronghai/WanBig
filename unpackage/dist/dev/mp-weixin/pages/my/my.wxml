@@ -1,1 +1,1 @@
-<view>我的</view>
+<view class="container data-v-0be17cc6"><image class="img-bg data-v-0be17cc6" src="../../static/my/bg-img.jpg" mode="widthFix"></image><uni-top-card vue-id="704e9d00-1" class="data-v-0be17cc6" bind:__l="__l"></uni-top-card><uni-center-nav vue-id="704e9d00-2" class="data-v-0be17cc6" bind:__l="__l"></uni-center-nav><uni-bottom-exhibit vue-id="704e9d00-3" class="data-v-0be17cc6" bind:__l="__l"></uni-bottom-exhibit></view>

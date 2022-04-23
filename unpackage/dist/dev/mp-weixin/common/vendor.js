@@ -947,7 +947,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2220,7 +2220,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 147:
+/***/ 170:
 /*!**********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
   \**********************************************************************/
@@ -2228,7 +2228,7 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 148);
+var _component = __webpack_require__(/*! ../common/component */ 171);
 (0, _component.VantComponent)({
   props: {
     dot: Boolean,
@@ -2249,7 +2249,7 @@ var _component = __webpack_require__(/*! ../common/component */ 148);
 
 /***/ }),
 
-/***/ 148:
+/***/ 171:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
   \****************************************************************************/
@@ -2257,7 +2257,7 @@ var _component = __webpack_require__(/*! ../common/component */ 148);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 149);
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 172);
 function mapKeys(source, target, map) {
   Object.keys(map).forEach(function (key) {
     if (source[key]) {
@@ -2304,7 +2304,7 @@ function VantComponent(vantOptions) {
 
 /***/ }),
 
-/***/ 149:
+/***/ 172:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
   \************************************************************************/
@@ -2324,7 +2324,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 
 /***/ }),
 
-/***/ 150:
+/***/ 173:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
   \***********************************************************************/
@@ -2332,7 +2332,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 148);
+var _component = __webpack_require__(/*! ../common/component */ 171);
 (0, _component.VantComponent)({
   props: {
     show: Boolean,
@@ -2362,7 +2362,7 @@ var _component = __webpack_require__(/*! ../common/component */ 148);
 
 /***/ }),
 
-/***/ 151:
+/***/ 174:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
   \***********************************************************************/
@@ -2370,8 +2370,8 @@ var _component = __webpack_require__(/*! ../common/component */ 148);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 148);
-var _transition = __webpack_require__(/*! ../mixins/transition */ 152);
+var _component = __webpack_require__(/*! ../common/component */ 171);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 175);
 (0, _component.VantComponent)({
   classes: [
   'enter-class',
@@ -2460,7 +2460,7 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 152);
 
 /***/ }),
 
-/***/ 152:
+/***/ 175:
 /*!*****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
   \*****************************************************************************/
@@ -2469,8 +2469,8 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 152);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
-var _utils = __webpack_require__(/*! ../common/utils */ 153);
-var _validator = __webpack_require__(/*! ../common/validator */ 154); // @ts-nocheck
+var _utils = __webpack_require__(/*! ../common/utils */ 176);
+var _validator = __webpack_require__(/*! ../common/validator */ 177); // @ts-nocheck
 var getClassNames = function getClassNames(name) {return {
     enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
     'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
@@ -2586,7 +2586,7 @@ function transition(showDefaultValue) {
 
 /***/ }),
 
-/***/ 153:
+/***/ 176:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
   \************************************************************************/
@@ -2594,8 +2594,8 @@ function transition(showDefaultValue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 154);
-var _version = __webpack_require__(/*! ./version */ 155);
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 177);
+var _version = __webpack_require__(/*! ./version */ 178);
 
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
@@ -2689,7 +2689,7 @@ function getCurrentPage() {
 
 /***/ }),
 
-/***/ 154:
+/***/ 177:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
   \****************************************************************************/
@@ -2731,7 +2731,7 @@ function isVideoUrl(url) {
 
 /***/ }),
 
-/***/ 155:
+/***/ 178:
 /*!**************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
   \**************************************************************************/
@@ -2739,7 +2739,7 @@ function isVideoUrl(url) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 153);
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 176);
 function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -2790,7 +2790,7 @@ function canIUseGetUserProfile() {
 
 /***/ }),
 
-/***/ 156:
+/***/ 179:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/index.js ***!
   \************************************************************************/
@@ -2798,8 +2798,8 @@ function canIUseGetUserProfile() {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 148);
-var _shared = __webpack_require__(/*! ./shared */ 157);
+var _component = __webpack_require__(/*! ../common/component */ 171);
+var _shared = __webpack_require__(/*! ./shared */ 180);
 (0, _component.VantComponent)({
   classes: ['active-class', 'toolbar-class', 'column-class'],
   props: Object.assign(Object.assign({}, _shared.pickerProps), { valueKey: {
@@ -2935,7 +2935,7 @@ var _shared = __webpack_require__(/*! ./shared */ 157);
 
 /***/ }),
 
-/***/ 157:
+/***/ 180:
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/shared.js ***!
   \*************************************************************************/
@@ -8523,7 +8523,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8544,14 +8544,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8637,7 +8637,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9523,7 +9523,7 @@ function resolveLocaleChain(locale) {
 
 /***/ }),
 
-/***/ 67:
+/***/ 69:
 /*!**********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/node_modules/dayjs/dayjs.min.js ***!
   \**********************************************************************/
