@@ -71,11 +71,9 @@ export default {
   padding: 0 29.79rpx;
   background-color: $uni-bg-color-grey;
   .top-warp {
-    padding: 0 21.03rpx;
   }
 
   .center-wrap {
-    padding: 0 10px;
     margin-top: 20px;
 
     .goods-pictures {
@@ -85,7 +83,7 @@ export default {
       width: 100%;
       height: auto;
       padding-top: 8px;
-      margin: 8px 0 0 5px;
+      margin: 8px 0 5px 0;
       background-color: #fff;
       border-radius: 15px;
     }

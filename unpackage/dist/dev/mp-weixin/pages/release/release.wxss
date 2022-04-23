@@ -29,11 +29,7 @@
   padding: 0 29.79rpx;
   background-color: #E9E9E9;
 }
-.container .top-warp.data-v-0766b1d4 {
-  padding: 0 21.03rpx;
-}
 .container .center-wrap.data-v-0766b1d4 {
-  padding: 0 10px;
   margin-top: 20px;
 }
 .container .center-wrap .goods-pictures.data-v-0766b1d4 {
@@ -43,7 +39,7 @@
   width: 100%;
   height: auto;
   padding-top: 8px;
-  margin: 8px 0 0 5px;
+  margin: 8px 0 5px 0;
   background-color: #fff;
   border-radius: 15px;
 }
