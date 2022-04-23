@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "WanBig服务",
-  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarBackgroundColor": "#e9e9e9",
   "usingComponents": {
     "uni-header": "/pages/index/components/uni-header",
     "uni-version-info": "/pages/index/components/uni-version-info",

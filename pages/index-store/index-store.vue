@@ -1,7 +1,18 @@
 <template>
   <view class="index-store-page">
     <uni-banner></uni-banner>
-    <van-search placeholder="请输入搜索关键词" show-action bind:search="onSearch" bind:cancel="onCancel" />
+    <navigator
+      url="/pages/search-res/search-res"
+      open-type="navigate"
+      hover-class="navigator-hover"
+    >
+      <van-search
+        placeholder="请输入搜索关键词"
+        show-action
+        bind:search="onSearch"
+        bind:cancel="onCancel"
+      />
+    </navigator>
     <uni-product-catg-nav></uni-product-catg-nav>
     <test></test>
     <!-- <uni-goods-card></uni-goods-card> -->
@@ -18,7 +29,9 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    toSearchPage() {},
+  },
 };
 </script>
 

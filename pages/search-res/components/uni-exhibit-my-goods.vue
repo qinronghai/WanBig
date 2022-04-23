@@ -41,6 +41,13 @@
         </div>
       </div>
     </div>
+    <div class="right">
+      <image
+        class="arrow_left"
+        src="../../../static/my/arrow_left.svg"
+        mode=""
+      />
+    </div>
   </div>
 </template>
 
@@ -59,9 +66,7 @@ export default {
   display: flex;
   height: 110px;
   background-color: #fff;
-  box-shadow: 2px 2px 5px #888;
   border-radius: 10px;
-
   .left {
     padding: 15px 20px;
     .img-good {
@@ -76,10 +81,12 @@ export default {
       .desc {
         display: -webkit-box;
         overflow: hidden;
-        padding-right: 10px;
         font-size: 13px;
         font-weight: 500;
+        // height: 70rpx;
+        // font-size: 22.78rpx;
         text-overflow: ellipsis;
+        // background-color: red;
 
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;

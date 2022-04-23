@@ -41,6 +41,12 @@
                     "pathName": "pages/my/my",
                     "query": "",
                     "scene": null
+                },
+                {
+                    "name": "搜索结果",
+                    "pathName": "pages/search-res/search-res",
+                    "query": "",
+                    "scene": null
                 }
             ]
         }

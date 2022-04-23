@@ -145,12 +145,24 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 {
   components: { uniBanner: uniBanner, UniProductCatgNav: UniProductCatgNav, UniGoodsCard: UniGoodsCard, Test: Test },
   data: function data() {
     return {};
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    toSearchPage: function toSearchPage() {} } };exports.default = _default;
 
 /***/ }),
 
