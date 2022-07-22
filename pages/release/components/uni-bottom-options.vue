@@ -1,19 +1,9 @@
 <template>
   <div class="bottom-options">
-    <van-popup
-      :show="showGoodsCategory"
-      round
-      position="bottom"
-      custom-style="height: 35%"
-      @close="onCloseGoodsCategory"
-      closeable
-    >
+    <van-popup :show="showGoodsCategory" round position="bottom" custom-style="height: 35%"
+      @close="onCloseGoodsCategory" closeable>
       <div class="goods-category">
-        <div
-          class="goods-category__item"
-          v-for="item in navList"
-          :key="item.id"
-        >
+        <div class="goods-category__item" v-for="item in navList" :key="item.id">
           <div class="goods-category__item--block">
             <image class="icon" :src="item.img" mode="" />
             <div class="txt">{{ item.txt }}</div>
@@ -30,21 +20,10 @@
         <van-icon name="arrow" size="18px" />
       </div>
     </div>
-    <van-popup
-      :show="showGoodQuality"
-      round
-      position="bottom"
-      custom-style="height: 35%"
-      @close="onCloseGoodQuality"
-      closeable
-    >
+    <van-popup :show="showGoodQuality" round position="bottom" custom-style="height: 35%" @close="onCloseGoodQuality"
+      closeable>
       <div class="goods-quality">
-        <div
-          class="goods-quality__item"
-          v-for="(item, index) in columns"
-          :key="index"
-          @click="rightTap(index)"
-        >
+        <div class="goods-quality__item" v-for="(item, index) in columns" :key="index" @click="rightTap(index)">
           <div class="goods-quality__item--block">
             <div class="txt" :class="{ active: index === rightIndex }">
               {{ item.title }}
@@ -55,10 +34,7 @@
     </van-popup>
     <div @click="showGoodQualityPopup" class="bottom-options__item">
       <div class="left">
-        <image
-          src="../../../static/release/goods-quality.svg"
-          class="icon"
-        ></image>
+        <image src="../../../static/release/goods-quality.svg" class="icon"></image>
         <div class="txt">商品成色</div>
       </div>
       <div class="option">
@@ -68,24 +44,17 @@
     <!-- 出/蹲 -->
     <div class="bottom-options__item need">
       <div class="left">
-        <image
-          src="../../../static/release/goods-need.svg"
-          class="icon"
-        ></image>
+        <image src="../../../static/release/goods-need.svg" class="icon"></image>
         <div class="txt">出/蹲</div>
       </div>
       <div class="options">
         <radio-group @change="radioChange">
-          <label class="radio-sell"
-            ><radio
-              value="sell"
-              :checked="need"
-              style="transform: scale(0.7)"
-            />出</label
-          >
-          <label class="radio"
-            ><radio value="beg" style="transform: scale(0.7)" />蹲</label
-          >
+          <label class="radio-sell">
+            <radio value="sell" :checked="need" style="transform: scale(0.7)" />出
+          </label>
+          <label class="radio">
+            <radio value="beg" style="transform: scale(0.7)" />蹲
+          </label>
         </radio-group>
       </div>
     </div>
@@ -190,36 +159,43 @@ export default {
 
 <style lang="scss" scoped>
 .bottom-options {
-  margin-top: 15px;
+  margin-top: 10px;
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
+
   .popup {
     width: 50px;
     height: 50px;
   }
+
   .goods-category {
     display: flex;
     flex-wrap: wrap;
     margin: 30px 20px 0;
+
     &__item {
       flex-grow: 1;
+
       &--block {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 30px 25px 20px;
+
         .icon {
           width: 30px;
           height: 30px;
         }
+
         .txt {
           margin-top: 10px;
-          font-size: 12px;
+          font-size: 14px;
           font-weight: bold;
         }
       }
     }
   }
+
   .goods-quality {
     display: flex;
     flex-direction: column;
@@ -227,8 +203,10 @@ export default {
     align-items: center;
     height: 100%;
     margin-top: 40px;
+
     &__item {
       flex-grow: 1;
+
       &--block {
         .active {
           color: #2a7ffa;
@@ -237,15 +215,18 @@ export default {
       }
     }
   }
+
   &__item {
     display: flex;
     justify-content: space-between;
     padding: 20px 15px 0;
     font-size: 12px;
     font-weight: bold;
+
     .left {
       display: flex;
       align-items: center;
+
       .icon {
         width: 24px;
         height: 24px;
@@ -260,8 +241,10 @@ export default {
     .input {
     }
   }
+
   &__item.need {
     padding-bottom: 15px;
+
     .options {
       padding-right: 10px;
 

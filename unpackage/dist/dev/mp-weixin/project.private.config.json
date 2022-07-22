@@ -12,13 +12,8 @@
         },
         "miniprogram": {
             "list": [
-                {
-                    "id": 0,
-                    "name": "pages/index/index",
-                    "pathName": "pages/index/index",
-                    "query": ""
-                },
-                {
+                
+                {"id": 0,
                     "name": "pages/index-store/index-store",
                     "pathName": "pages/index-store/index-store",
                     "query": "",

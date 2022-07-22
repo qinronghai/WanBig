@@ -24,7 +24,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .bottom-options.data-v-cc4aa53e {
-  margin-top: 15px;
+  margin-top: 10px;
   background-color: white;
   border-radius: 15px;
 }
@@ -52,7 +52,7 @@
 }
 .bottom-options .goods-category__item--block .txt.data-v-cc4aa53e {
   margin-top: 10px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 }
 .bottom-options .goods-quality.data-v-cc4aa53e {

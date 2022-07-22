@@ -1,10 +1,10 @@
 {
   "navigationBarTitleText": "杂货铺首页",
+  "navigationBarBackgroundColor": "#f0f0f0",
   "enablePullDownRefresh": false,
   "usingComponents": {
     "uni-banner": "/pages/index-store/components/uni-banner",
     "uni-product-catg-nav": "/pages/index-store/components/uni-product-catg-nav",
-    "uni-goods-card": "/pages/index-store/components/uni-goods-card",
-    "test": "/pages/index-store/components/test"
+    "uni-goods-card": "/pages/index-store/components/uni-goods-card"
   }
 }

@@ -27,9 +27,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 123.39rpx;
+  height: 130.39rpx;
   margin-top: 20.52rpx;
-  background-color: #fff;
+  background-color: white;
   border-radius: 22.78rpx;
 }
 .container .wrap.data-v-68c47cee {
@@ -46,21 +46,21 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  width: 56.07rpx;
-  height: 73.6rpx;
+  width: 90rpx;
+  height: 90rpx;
 }
 .container .wrap .item .image.data-v-68c47cee {
-  width: 26px;
-  height: 26px;
+  width: 80rpx;
+  height: 80rpx;
 }
 .container .wrap .item .text.data-v-68c47cee {
-  margin-top: 5.5rpx;
-  font-size: 9px;
-  font-weight: normal;
+  margin-top: 7rpx;
+  font-size: 20rpx;
+  font-weight: bold;
 }
 .container .wrap .item .active.data-v-68c47cee {
   position: absolute;
-  bottom: -15rpx;
+  bottom: -18rpx;
   width: 55rpx;
   height: 8rpx;
   background-color: #fc9b42;

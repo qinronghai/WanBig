@@ -1,1 +1,0 @@
-<view class="version-info data-v-b49b5d9a"><view class="new-text data-v-b49b5d9a">{{newText}}</view><view class="version-num data-v-b49b5d9a">{{"version "+versionNum}}</view></view>

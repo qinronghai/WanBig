@@ -21,16 +21,12 @@
       </div>
       <div class="input">
         <radio-group @change="radioChange">
-          <label class="radio-west"
-            ><radio
-              style="transform: scale(0.7)"
-              value="西区"
-              :checked="area"
-            />西区</label
-          >
-          <label class="radio"
-            ><radio style="transform: scale(0.7)" value="东区" />东区</label
-          >
+          <label class="radio-west">
+            <radio style="transform: scale(0.7)" value="西区" :checked="area" />西区
+          </label>
+          <label class="radio">
+            <radio style="transform: scale(0.7)" value="东区" />东区
+          </label>
         </radio-group>
         <div class="input__number">请输入楼号</div>
       </div>
@@ -55,18 +51,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .top-form {
-  margin-top: 20px;
+  margin-top: 10px;
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
+
   &__item {
     display: flex;
     justify-content: space-between;
     padding: 25px 15px 0;
     font-size: 12px;
     font-weight: bold;
+
     .left {
       display: flex;
       align-items: center;
+
       .icon {
         width: 24px;
         height: 24px;
@@ -74,6 +73,7 @@ export default {
       }
 
       .txt {
+        font-size: 12px;
         text-align: center;
       }
     }
@@ -81,14 +81,25 @@ export default {
     .input {
     }
   }
+
   .top-form__item.address {
     padding-bottom: 15px;
+
+    .left {
+      .icon {
+        width: 26px;
+        height: 26px;
+      }
+    }
+
     .input {
       display: flex;
       align-items: center;
+
       .radio-west {
         padding-right: 5px;
       }
+
       .input__number {
         padding-left: 30px;
       }

@@ -24,12 +24,9 @@
 /* 透明度 */
 /* 文章场景相关 */
 .container.data-v-0766b1d4 {
-  height: 100vh;
+  min-height: 100%;
   padding: 0 29.79rpx;
   background-color: #e9e9e9;
-}
-.container .center-wrap.data-v-0766b1d4 {
-  margin-top: 20px;
 }
 .container .center-wrap .goods-pictures.data-v-0766b1d4 {
   display: flex;
@@ -41,5 +38,8 @@
   margin: 8px 0 5px 0;
   background-color: #fff;
   border-radius: 15px;
+}
+.container .submit_btn.data-v-0766b1d4 {
+  padding: 20px 0;
 }
 

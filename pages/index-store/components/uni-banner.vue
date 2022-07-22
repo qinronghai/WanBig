@@ -41,7 +41,7 @@ export default {
 
   .swiper {
     overflow: hidden;
-    height: 310.16rpx;
+    height: 380.16rpx;
     background-color: green;
     border-radius: 26.29rpx;
 

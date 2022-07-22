@@ -24,7 +24,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .top-form.data-v-3ce67c61 {
-  margin-top: 20px;
+  margin-top: 10px;
   background-color: white;
   border-radius: 15px;
 }
@@ -45,10 +45,15 @@
   margin-right: 15px;
 }
 .top-form__item .left .txt.data-v-3ce67c61 {
+  font-size: 12px;
   text-align: center;
 }
 .top-form .top-form__item.address.data-v-3ce67c61 {
   padding-bottom: 15px;
+}
+.top-form .top-form__item.address .left .icon.data-v-3ce67c61 {
+  width: 26px;
+  height: 26px;
 }
 .top-form .top-form__item.address .input.data-v-3ce67c61 {
   display: flex;

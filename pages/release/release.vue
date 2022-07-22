@@ -1,22 +1,20 @@
 <template>
   <view class="container">
-    <div class="top-warp">
-      <uni-header-bar></uni-header-bar>
-    </div>
+
     <div class="center-wrap">
       <uni-goods-desc></uni-goods-desc>
       <div class="goods-pictures">
-        <van-uploader
-          class="uploader"
-          :file-list="fileList"
-          @after-read="afterRead"
-        />
+        <van-uploader class="uploader" :file-list="fileList" @after-read="afterRead" />
       </div>
     </div>
     <div class="bottom-wrap">
       <uni-top-form></uni-top-form>
       <uni-bottom-options></uni-bottom-options>
     </div>
+    <view class="submit_btn">
+
+      <button class="btn" type="primary">提交审核</button>
+    </view>
   </view>
 </template>
 
@@ -67,14 +65,14 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  height: 100vh;
+  min-height: 100%;
   padding: 0 29.79rpx;
   background-color: $uni-bg-color-grey;
-  .top-warp {
-  }
+
+
 
   .center-wrap {
-    margin-top: 20px;
+    // margin-top: 20px;
 
     .goods-pictures {
       display: flex;
@@ -90,6 +88,14 @@ export default {
   }
 
   .bottom-wrap {
+  }
+
+  .submit_btn {
+    // width: 80%;
+    padding: 20px 0;
+
+    .btn {
+    }
   }
 }
 </style>

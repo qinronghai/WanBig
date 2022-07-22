@@ -1,27 +1,59 @@
 <template>
-  <view class="main">
-    <view v-for="(item, index) in columns" :key="index" class="column">
-      <view v-for="(pics, index) in item" :key="index" class="column_item">
+  <view class="main" v-if="isShow">
+    <div class="column_item_0">
+      <div class="test-style">
+
+        <image class="book-icon" src="../../../static/category-nav/books.svg" mode="" />
+        书籍市场
+
+      </div>
+      <view class="item" v-for="(pics, index) in columns[0]" :key="index">
         <image :src="pics" class="column_pic" mode="aspectFill" />
         <div class="column-bottom">
-          <view class="bottom-text">完美，手抖，下班時間忙，重要的不是禮物的貴重</view>
-          <div class="bottom-price">
-            <span class="price"><span class="symbol">￥</span>10</span>
-            <div class="want">5人想要</div>
+
+
+          <div class="bottom-text">
+            <span class="label"> <span class="text">自取</span> </span>完美，手抖，下班時間忙，重要的不是禮物的貴重
           </div>
-          <div class="property-label">
-            <div class="address">
-              <image class="icon-address" src="../../../static/label/address.svg" mode="" />
-              <span class="text-address">西8</span>
+          <div class="box">
+
+
+            <div class="bottom-price">
+              <span class="price"><span class="symbol">￥</span>10</span>
             </div>
-            <div class="quality">
-              <image class="icon-quality" src="../../../static/label/quality.svg" mode="" />
-              <span class="text-quality">几乎全新</span>
+            <div class="property-label">
+              <div class="quality">
+                <span class="text-quality">几乎全新</span>
+              </div>
             </div>
           </div>
         </div>
       </view>
-    </view>
+    </div>
+    <div class="column_item_1">
+      <view class="item" v-for="(pics, index) in columns[0]" :key="index">
+        <image :src="pics" class="column_pic" mode="aspectFill" />
+        <div class="column-bottom">
+
+
+          <div class="bottom-text">
+            <span class="label"> <span class="text">自取</span> </span>完美，手抖，下班時間忙，重要的不是禮物的貴重
+          </div>
+          <div class="box">
+
+
+            <div class="bottom-price">
+              <span class="price"><span class="symbol">￥</span>10</span>
+            </div>
+            <div class="property-label">
+              <div class="quality">
+                <span class="text-quality">几乎全新</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </view>
+    </div>
   </view>
 </template>
 
@@ -34,9 +66,9 @@ export default {
         "https://www.thoughtco.com/thmb/jtUUbpSwsJTs7Kr4HEdvTagqxZ4=/1732x1272/filters:fill(auto,1)/GettyImages-1036106366-5c58ee26c9e77c00016b4152.jpg",
         "https://res.wx.qq.com/wxdoc/dist/assets/img/5106.d1c51378.png",
         "https://s1.ax1x.com/2022/04/14/LQalVJ.jpg",
-        "https://s1.ax1x.com/2022/04/14/LQaGP1.jpg",
         "https://res.wx.qq.com/wxdoc/dist/assets/img/5102.332bb21d.png",
         "https://img.lookvin.com/editor/202006/19/112020624.png",
+        "https://s1.ax1x.com/2022/04/14/LQaGP1.jpg",
         "https://res.wx.qq.com/wxdoc/dist/assets/img/5109.c1a972f0.png",
         "https://res.wx.qq.com/wxdoc/dist/assets/img/5103.47e64f38.png",
         "https://res.wx.qq.com/wxdoc/dist/assets/img/5104.401091c6.png",
@@ -50,6 +82,7 @@ export default {
       columns: [[], []],
       tempPics: [],
       Mode: "Loop",
+      isShow: false,
     };
   },
   methods: {
@@ -59,9 +92,7 @@ export default {
         uni.getImageInfo({
           src,
           success(res) {
-            console.log("getImageInfo", res);
             const height = (res.height * 750) / res.width;
-            res.width *= 0.1;
             // 374*668
             resolve({ ...res, height, src });
           },
@@ -77,35 +108,32 @@ export default {
       });
     },
     //获取所有图片信息以后一次加载，加载慢，渲染效果稍好
-    batchPics: function (picList, columns, tempPics, length, columnsHeight, index) {
+    batchPics: function (picList, columns) {
       let loadPicPs = [];
-      console.log("@@@batchPics");
-      console.log(this.getImageInfo(picList[0]));
 
       for (let i = 0; i < picList.length; i++) {
         loadPicPs.push(this.getImageInfo(picList[i]));
       }
-      console.log("@@@loadPicPs", loadPicPs);
 
       Promise.all(loadPicPs).then((results) => {
-        console.log("!!!!", results);
         for (let i = 0; i < results.length; i++) {
           let res = results[i];
-          index = columnsHeight[1] < columnsHeight[0] ? 1 : 0;
-          columns[index].push(res.path);
-          columnsHeight[index] += res.height;
+          if (i < results.length / 2) {
+            columns[0].push(res.path);
+          } else {
+            columns[1].push(res.path);
+          }
         }
-        console.log("columns", columns);
-        that.setData({
-          columns: columns,
-        });
-        this.jsData.columnsHeight = columnsHeight;
+
+        this.columns = columns;
+        // this.jsData.columnsHeight = columnsHeight;
         wx.hideLoading();
+        this.isShow = true;
       });
     },
     //递归图片加载，这种是获取一个信息往collumn里面放一个
     //加载图片有点像挤牙膏
-    loopPics: function (picList, columns, tempPics, length, columnsHeight, index) {
+    loopPics: function (picList, columns, columnsHeight, index) {
       console.log(picList);
       let pic = picList.shift();
       if (!pic) return;
@@ -120,23 +148,26 @@ export default {
         loopPics();
       });
     },
+    // 渲染页面
     renderPage: function (picList) {
       var that = this,
         data = this,
         columns = data.columns,
         tempPics = data.tempPics,
         length = tempPics.length,
-        columnsHeight = that.jsData.columnsHeight,
+        // columnsHeight = that.jsData.columnsHeight,
         index = 0;
 
-      console.log("@@@renderPage");
-      console.log(this);
-
       this.Mode == "Batch"
-        ? this.loopPics(picList, columns, tempPics, length, columnsHeight, index)
-        : this.batchPics(picList, columns, tempPics, length, columnsHeight, index);
-
-      wx.hideLoading();
+        ? this.loopPics(
+          picList,
+          columns,
+          tempPics,
+          length,
+          columnsHeight,
+          index
+        )
+        : this.batchPics(picList, columns);
     },
     //加载数据
     loadData: function () {
@@ -147,13 +178,10 @@ export default {
         that.jsData.isLoading = true;
 
         that.renderPage(that.pics);
-        console.log(that);
       }
     },
   },
   mounted() {
-    console.log("@@@");
-    console.log(this.pics);
     this.loadData();
   },
 };
@@ -163,29 +191,56 @@ export default {
 .main {
   display: flex;
   justify-content: space-between;
-  // 交叉轴的起点对齐
+
+// 交叉轴的起点对齐
   align-items: flex-start;
   margin-top: 20rpx;
-  .column {
+
+  .column_item_0 {
     width: 48%;
-    .column_item {
+
+// width: 100%;
+    margin: 0 0 15rpx 0;
+    margin-bottom: 18rpx;
+    border-radius: 8.76rpx;
+
+    .test-style {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
-      margin: 0 0 15rpx 0;
-      margin-bottom: 18rpx;
-      box-shadow: 5rpx 5rpx 10rpx 0 rgba(0, 0, 0, .3);
-      border-radius: 8.76rpx;
+      height: 120rpx;
+      margin-bottom: 10rpx;
+      font-weight: bold;
+      text-align: center;
+      background-color: #ffc300;
+      border-radius: 17.52rpx;
+
+      .book-icon {
+        width: 50rpx;
+        height: 50rpx;
+        padding-right: 5px;
+      }
+    }
+
+    .item {
+      margin-bottom: 15rpx;
+
+      // box-shadow: 5rpx 5rpx 10rpx 0 rgba(0, 0, 0, .3);
       .column_pic {
         display: block;
         width: 100%;
-        // width: 280.37rpx;
+
+// width: 280.37rpx;
         height: 336.45rpx;
-        border-radius: 10rpx 10rpx 0 0;
+        border-radius: 12rpx;
       }
+
       .column-bottom {
         box-sizing: border-box;
         width: 100%;
-        height: 160rpx;
-        padding: 10.51rpx 15.77rpx;
+        height: 140rpx;
+        padding: 10.51rpx 15rpx;
         background: #fff;
         border-radius: 0 0 10rpx 10rpx;
 
@@ -193,76 +248,207 @@ export default {
           display: -webkit-box;
           overflow: hidden;
           height: 70rpx;
-          font-size: 22.78rpx;
+          font-size: 12px;
+          font-weight: bold;
           text-overflow: ellipsis;
-          // background-color: red;
+
+// background-color: red;
 
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 2;
+
+          .label {
+            width: auto;
+            margin-right: 5px;
+            font-size: 10px;
+            font-weight: normal;
+
+// font-size: 8px;
+            background-color: #0095ff;
+            border-radius: 2px;
+
+            .text {
+              padding: 2px 4px;
+              color: #fff;
+              font-size: 10px;
+            }
+          }
         }
+      }
+
+      .box {
+        display: flex;
+        padding-top: 5px;
+
         .bottom-price {
           // background-color: rgb(27, 37, 183);
           display: flex;
           align-items: center;
           height: 40rpx;
+
           .price {
-            color: rgb(255, 89, 0);
+            color: rgb(255, 0, 0);
             font-size: 35rpx;
             font-weight: bold;
+
             .symbol {
-              font-size: 17.52rpx;
+              font-size: 22.52rpx;
             }
           }
-          .want {
-            margin-left: 10rpx;
-            color: #acacac;
-            font-size: 17.52rpx;
-            font-weight: 500;
-          }
         }
+
         .property-label {
           position: relative;
           display: flex;
           align-items: center;
           height: 40rpx;
-          // margin-top: 10rpx;
+          margin-left: 10px;
+
+// margin-top: 10rpx;
           font-size: 16.02rpx;
-          font-weight: bolder;
-          .address {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 30rpx;
-            margin-top: 4rpx;
-            margin-right: 15rpx;
-            background-color: #ffc300;
-            border-radius: 10rpx;
-            .text-address {
-              margin: 10rpx;
-            }
-            .icon-address {
-              width: 19.28rpx;
-              height: 19.28rpx;
-              margin-left: 10rpx;
-            }
-          }
+          font-weight: normal;
+
           .quality {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 30rpx;
+            width: auto;
+            height: 23rpx;
             margin-top: 4rpx;
             margin-right: 15rpx;
-            background-color: #ffc300;
-            border-radius: 10rpx;
+            color: #ed555c;
+
+// background-color: #ffc300;
+            border: .5px solid rgb(255, 101, 101);
+            border-radius: 5rpx;
+
             .text-quality {
               margin: 10rpx;
             }
-            .icon-quality {
-              width: 17.52rpx;
-              height: 17.52rpx;
-              margin-left: 10rpx;
-            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.column_item_1 {
+  width: 48%;
+
+// width: 100%;
+  margin: 0 0 15rpx 0;
+  margin-bottom: 18rpx;
+  border-radius: 8.76rpx;
+
+  .test-style {
+    width: 100%;
+    height: 150rpx;
+    margin-bottom: 10rpx;
+    background-color: green;
+    border-radius: 17.52rpx;
+  }
+
+  .item {
+    margin-bottom: 15rpx;
+
+    // box-shadow: 5rpx 5rpx 10rpx 0 rgba(0, 0, 0, .3);
+    .column_pic {
+      display: block;
+      width: 100%;
+
+// width: 280.37rpx;
+      height: 336.45rpx;
+      border-radius: 12rpx;
+    }
+
+    .column-bottom {
+      box-sizing: border-box;
+      width: 100%;
+      height: 140rpx;
+      padding: 10.51rpx 15rpx;
+      background: #fff;
+      border-radius: 0 0 10rpx 10rpx;
+
+      .bottom-text {
+        display: -webkit-box;
+        overflow: hidden;
+        height: 70rpx;
+        font-size: 12px;
+        font-weight: bold;
+        text-overflow: ellipsis;
+
+// background-color: red;
+
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+
+        .label {
+          width: auto;
+          margin-right: 5px;
+          font-size: 10px;
+          font-weight: normal;
+
+// font-size: 8px;
+          background-color: #0095ff;
+          border-radius: 2px;
+
+          .text {
+            padding: 2px 4px;
+            color: #fff;
+            font-size: 10px;
+          }
+        }
+      }
+    }
+
+    .box {
+      display: flex;
+      padding-top: 5px;
+
+      .bottom-price {
+        // background-color: rgb(27, 37, 183);
+        display: flex;
+        align-items: center;
+        height: 40rpx;
+
+        .price {
+          color: rgb(255, 0, 0);
+          font-size: 35rpx;
+          font-weight: bold;
+
+          .symbol {
+            font-size: 22.52rpx;
+          }
+        }
+      }
+
+      .property-label {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 40rpx;
+        margin-left: 10px;
+
+// margin-top: 10rpx;
+        font-size: 16.02rpx;
+        font-weight: normal;
+
+        .quality {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: auto;
+          height: 23rpx;
+          margin-top: 4rpx;
+          margin-right: 15rpx;
+          color: #ed555c;
+
+// background-color: #ffc300;
+          border: .5px solid rgb(255, 101, 101);
+          border-radius: 5rpx;
+
+          .text-quality {
+            margin: 10rpx;
           }
         }
       }

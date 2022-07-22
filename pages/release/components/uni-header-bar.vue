@@ -1,12 +1,8 @@
 <template>
   <div class="header-bar">
-    <div class="left-options">
-      <div class="option__goods">商品</div>
-      <div class="option__job">兼职</div>
-    </div>
-    <div class="right-release">
-      <div class="right-release__btn">上架审核</div>
-    </div>
+
+    <div class="right-release__btn">上架审核</div>
+
   </div>
 </template>
 
@@ -18,9 +14,11 @@ export default {};
 .header-bar {
   display: flex;
   justify-content: space-between;
+
   .left-options {
     display: flex;
     font-size: 12px;
+
     .option__goods {
       display: flex;
       justify-content: center;
@@ -28,7 +26,6 @@ export default {};
       width: 50px;
       height: 30px;
       background-color: #ffe21b;
-      border-right: 3px solid #333;
       border-radius: 6px 0 0 6px;
     }
 
@@ -54,6 +51,7 @@ export default {};
     font-weight: bold;
     background-color: #fff;
     border-radius: 5px;
+
     .right-release__btn {
     }
   }
