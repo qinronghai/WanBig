@@ -24,7 +24,7 @@ export default {};
     height: 175.23rpx;
     font-size: 24.78rpx;
     font-weight: 700;
-    background-color: $uni-zt-color-store;
+    // background-color: $uni-zt-color-store;
     border-radius: 26.29rpx;
   }
   .job {
@@ -38,7 +38,7 @@ export default {};
     height: 175.23rpx;
     font-size: 24.78rpx;
     font-weight: 700;
-    background-color: $uni-zt-color-job;
+    // background-color: $uni-zt-color-job;
     border-radius: 26.29rpx;
   }
 }

@@ -12,7 +12,6 @@
  * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
  */
 /* 主题颜色变量 */
-/* 行为相关颜色 */
 /* 文字基本颜色 */
 /* 背景颜色 */
 /* 边框颜色 */
@@ -26,7 +25,7 @@
 /* 文章场景相关 */
 .container.data-v-ba9c7734 {
   min-height: 100vh;
-  background-color: #E9E9E9;
+  background-color: #e9e9e9;
 }
 .container .search.data-v-ba9c7734 {
   padding-top: 20px;
