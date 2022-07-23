@@ -9,9 +9,11 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 5);
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
-var _my = _interopRequireDefault(__webpack_require__(/*! ./pages/my/my.vue */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
-createPage(_my.default);
+
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
+var _my = _interopRequireDefault(__webpack_require__(/*! ./pages/my/my.vue */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // @ts-ignore
+wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;createPage(_my.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -130,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var UniBottomExhibit = function UniBottomExhibit() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-bottom-exhibit */ "pages/my/components/uni-bottom-exhibit").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-exhibit.vue */ 114));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniCenterNav = function UniCenterNav() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-center-nav */ "pages/my/components/uni-center-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-center-nav.vue */ 121));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniTopCard = function uniTopCard() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-top-card */ "pages/my/components/uni-top-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-top-card.vue */ 128));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var UniBottomExhibit = function UniBottomExhibit() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-bottom-exhibit */ "pages/my/components/uni-bottom-exhibit").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-exhibit.vue */ 113));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniCenterNav = function UniCenterNav() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-center-nav */ "pages/my/components/uni-center-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-center-nav.vue */ 120));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniTopCard = function uniTopCard() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-top-card */ "pages/my/components/uni-top-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-top-card.vue */ 127));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 

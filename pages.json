@@ -66,7 +66,16 @@
         }
       }
     }
-  ],
+      ,{
+            "path" : "pages/login/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     // "navigationBarTitleText": "uni-app",
