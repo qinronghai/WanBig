@@ -89,10 +89,39 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
   onLaunch: function onLaunch() {
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力');
+    } else {
+      wx.cloud.init({
+        env: 'cloud1-0gb7xwq6a6005629',
+        traceUser: true });
+
+    }
+
+
     console.log("App Launch");
+    wx.cloud.callFunction({
+      name: "getOpenID" }).
+    then(function (res) {var
+      userInfo = res.result.event.userInfo;
+      // 取得用户openId
+      console.log(userInfo);
+      // 存储到本地缓存
+      uni.setStorage({
+        key: 'userInfo',
+        data: userInfo,
+        success: function success(result) {
+          console.log("app启动，openId存储到本地成功");
+        },
+        fail: function fail(error) {
+          console.log("app启动，openId存储到本地失败！");
+
+        } });
+
+    }).catch(console.error);
   },
   onShow: function onShow() {
     console.log("App Show");
@@ -100,6 +129,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   onHide: function onHide() {
     console.log("App Hide");
   } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 9 */

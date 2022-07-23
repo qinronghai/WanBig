@@ -41,6 +41,7 @@
       }
     ]
   },
+  "permission": {},
   "usingComponents": {
     "van-button": "/wxcomponents/vant/button/index",
     "van-search": "/wxcomponents/vant/search/index",

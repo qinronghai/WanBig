@@ -3,6 +3,7 @@
   "enablePullDownRefresh": false,
   "navigationBarBackgroundColor": "#e9e9e9",
   "usingComponents": {
+    "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
     "uni-top-card": "/pages/my/components/uni-top-card",
     "uni-center-nav": "/pages/my/components/uni-center-nav",
     "uni-bottom-exhibit": "/pages/my/components/uni-bottom-exhibit"

@@ -1,17 +1,25 @@
 <template>
-    <div class="login">
-        <h1 class="title">湾大闲置杂货铺欢迎你~</h1>
-        <div class="btn-login">
-            <button class="btn">微信一键登录</button>
-        </div>
-        <div class="no-login">暂不登录</div>
-        <div class="tip">—— 登录即同意我们的《用户协议》——</div>
-
+  <div class="login">
+    <h1 class="title">湾大闲置杂货铺欢迎你~</h1>
+    <div class="btn-login">
+      <button class="btn" v-on:click="login">微信一键登录</button>
     </div>
+    <div class="no-login">暂不登录</div>
+    <div class="tip">—— 登录即同意我们的《用户协议》——</div>
+
+  </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+
+  },
 
 }
 </script>

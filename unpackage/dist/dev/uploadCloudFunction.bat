@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat" cloud functions deploy --e cloud1-0gb7xwq6a6005629 --n quickstartFunctions --r --project "D:\My-Document\projects\WanBig\unpackage\dist\dev" --report_first --report

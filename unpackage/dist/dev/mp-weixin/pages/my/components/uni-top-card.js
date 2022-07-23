@@ -114,7 +114,14 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/icon */ 141));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniLogin = function UniLogin() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-login */ "pages/my/components/uni-login").then((function () {return resolve(__webpack_require__(/*! ./uni-login.vue */ 185));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../../wxcomponents/vant/icon */ 141));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniLogin = function UniLogin() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-login */ "pages/my/components/uni-login").then((function () {return resolve(__webpack_require__(/*! ./uni-login.vue */ 166));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
 
 
 
@@ -166,17 +173,79 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 {
   data: function data() {
     return {
-      showLogin: false };
+      showLogin: false,
+      userInfo: {
+        nickName: "未登录"
+        // avatarUrl: ''
+      },
+      avatarUrl: '' };
 
   },
   methods: {
     login: function login() {
       console.log("点击了登录");
       this.showLogin = true;
+
     },
+    // 处理登录
+    handleLogin: function handleLogin() {
+      console.log("用户点击了登录按钮");
+      var _this = this;
+      wx.getSetting({
+        success: function success(res) {
+          if (res.authSetting['scope.userInfo']) {
+            wx.getUserProfile({
+              desc: '登录',
+              success: function success(res) {
+                var user = res.userInfo;
+                var userInfo = uni.getStorageSync('userInfo');
+                // 给缓存中的用户数据添加头像和名字
+                userInfo.avatarUrl = user.avatarUrl;
+                userInfo.nickName = user.nickName;
+                _this.userInfo = userInfo;
+                _this.avatarUrl = userInfo.avatarUrl;
+                // 
+                uni.setStorage({
+                  key: 'userInfo',
+                  data: userInfo }).
+                then(function (res) {
+                  console.log("用户已经成功登录");
+                  _this.showLogin = false;
+                });
+              },
+              fail: function fail(res) {
+                // debugger
+                console.log(res);
+              } });
+
+          }
+        } });
+
+    },
+    // 处理点击了暂不登录
+    handleNoLogin: function handleNoLogin() {
+      this.showLogin = false;
+      console.log('用户点击了暂不登录');
+
+    },
+    // 关闭登录框
     onCloseLogin: function onCloseLogin() {
       this.showLogin = false;
       console.log("点击了关闭登录");
+    },
+    isUserInfo: function isUserInfo() {
+      var userInfo = uni.getStorageSync('userInfo');
+      console.log("测试", userInfo);
+      if (userInfo.nickName) {
+        console.log("本地缓存中有用户的信息");
+        this.showLogin = false;
+        this.userInfo = userInfo;
+        this.avatarUrl = userInfo.avatarUrl;
+      } else {
+        console.log("本地缓存中没有用户的信息");
+        // 弹窗显示登录组件
+        this.showLogin = true;
+      }
     } },
 
   components: {
@@ -184,8 +253,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     UniLogin: UniLogin },
 
   mounted: function mounted() {
-    this.showLogin = true;
+    // 判断是否登录过--本地是否有用户信息
+    this.isUserInfo(); // TODO 获取用户ID号，以及上传用户到数据库中的user表。
   } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

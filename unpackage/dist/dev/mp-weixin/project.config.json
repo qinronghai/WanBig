@@ -5,11 +5,13 @@
   },
   "setting": {
     "urlCheck": false,
-    "es6": true
+    "es6": true,
+    "postcss": true,
+    "minified": true
   },
   "compileType": "miniprogram",
   "libVersion": "",
-  "appid": "touristappid",
+  "appid": "wx11f00ae8a1d4499c",
   "projectname": "WanBig",
   "condition": {
     "search": {
