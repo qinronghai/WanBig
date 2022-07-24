@@ -42,6 +42,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 /*每个页面公共css */
 .van-ellipsis {
   overflow: hidden;

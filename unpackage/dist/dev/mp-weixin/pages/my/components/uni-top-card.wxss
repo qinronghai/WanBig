@@ -24,7 +24,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .wrap.data-v-08521d74 {
-  height: 385.51rpx;
+  height: 335.51rpx;
   padding: 0 43.81rpx;
   background-color: #fff;
   border-radius: 17.52rpx;
@@ -89,9 +89,6 @@
 .wrap .top-person-info .left .left-name-id .name.data-v-08521d74 {
   font-size: 24.53rpx;
 }
-.wrap .top-person-info .left .left-name-id .id.data-v-08521d74 {
-  font-size: 15.77rpx;
-}
 .wrap .top-person-info .right.data-v-08521d74 {
   display: flex;
   width: auto;
@@ -124,15 +121,12 @@
 .wrap .top-person-info .right .label.deal-num.data-v-08521d74 {
   background-color: #43cf7c;
 }
-.wrap .bottom-project-info.data-v-08521d74 {
-  margin-top: 35.05rpx;
-}
 .wrap .bottom-project-info .item__to.data-v-08521d74 {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 77.1rpx;
-  margin-top: 26.29rpx;
+  margin-top: 20rpx;
   background-color: #c4c4c4;
   border-radius: 15.77rpx;
 }

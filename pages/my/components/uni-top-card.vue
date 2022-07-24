@@ -5,7 +5,6 @@
         <image :src="avatarUrl" mode="aspectFill" class="left-avatar"></image>
         <div class="left-name-id">
           <div class="name">{{ userInfo.nickName }}</div>
-          <div class="id">ID:未知</div>
         </div>
       </div>
       <van-popup :show="showLogin" round position="bottom" custom-style="height: 40%" @close="onCloseLogin" closeable>
@@ -54,6 +53,7 @@
 <script>
 import VanIcon from "../../../wxcomponents/vant/icon";
 import UniLogin from "./uni-login.vue";
+const db = wx.cloud.database();
 export default {
   data() {
     return {
@@ -67,13 +67,13 @@ export default {
   },
   methods: {
     login() {
-      console.log("点击了登录");
+      console.log("点击了未登录的地方");
       this.showLogin = true;
 
     },
-    // 处理登录
+
     handleLogin() {
-      console.log("用户点击了登录按钮");
+      console.log("用户点击了一键登录按钮");
       let _this = this;
       wx.getSetting({
         success(res) {
@@ -81,21 +81,30 @@ export default {
             wx.getUserProfile({
               desc: '登录',
               success: (res) => {
-                let user = res.userInfo;
-                let userInfo = uni.getStorageSync('userInfo');
-                // 给缓存中的用户数据添加头像和名字
-                userInfo.avatarUrl = user.avatarUrl;
-                userInfo.nickName = user.nickName;
-                _this.userInfo = userInfo;
+                console.log('登录成功', res.userInfo);
+                let { userInfo } = res;
+                // 存入本地缓存
+                uni.setStorageSync('userInfo', userInfo);
+                // 渲染页面
+                _this.userInfo.nickName = userInfo.nickName;
                 _this.avatarUrl = userInfo.avatarUrl;
-                // 
-                uni.setStorage({
-                  key: 'userInfo',
-                  data: userInfo,
-                }).then(res => {
-                  console.log("用户已经成功登录");
-                  _this.showLogin = false;
+                _this.showLogin = false
+                // 存入数据库
+                db.collection('user-info').add({
+                  // data 字段表示需新增的 JSON 数据
+                  data: {
+                    _openid: userInfo.openid,
+                    name: userInfo.nickName,
+                    avatarUrl: userInfo.avatarUrl,
+                    vip: true,
+                    auditor: true,
+                    selledNum: 10,
+                    phone: '18376161994'
+                  }
                 })
+                  .then(res => {
+                    console.log(res)
+                  })
               },
               fail: (res) => {
                 // debugger
@@ -117,18 +126,48 @@ export default {
       this.showLogin = false;
       console.log("点击了关闭登录");
     },
+    // 请求数据库是否有用户信息
+    async getUserInfo(openId) {
+      console.log(openId
+      );
+      let _this = this;
+      await db.collection('user-info').where({
+        _openid: openId
+      }).get().then(res => {
+        console.log(res);
+        // 如果数据库中没有用户信息，表明该用户是新用户
+        if (res.data.length === 0) {
+          console.log('数据库中无该用户的信息');
+          // 弹窗“一键登录”，获取信息存入缓存中并渲染页面
+          _this.login();
+          // 将新用户存入到数据库表中
+          // _this.setUserInfoToDatabase();
+        } else {
+          console.log('数据库中有该用户的信息');
+          let userInfo = res.data[0];
+          // 存入缓存中
+          uni.setStorageSync('userInfo', userInfo);
+          // 渲染页面
+          _this.userInfo.nickName = userInfo.name;
+          _this.avatarUrl = userInfo.avatarUrl;
+        }
+      })
+    },
+    // 判断本地缓存是否有用户信息
     isUserInfo() {
       let userInfo = uni.getStorageSync('userInfo');
       console.log("测试", userInfo);
-      if (userInfo.nickName) {
+      console.log(userInfo.nickName);
+      if (userInfo.nickName != null) {
         console.log("本地缓存中有用户的信息");
+        // 有用户信息，执行渲染逻辑
         this.showLogin = false;
         this.userInfo = userInfo;
         this.avatarUrl = userInfo.avatarUrl;
       } else {
         console.log("本地缓存中没有用户的信息");
-        // 弹窗显示登录组件
-        this.showLogin = true;
+        // 本地缓存没有用户信息，执行请求数据库判断是否有用户信息
+        this.getUserInfo(userInfo.openId);
       }
     }
   },
@@ -145,7 +184,7 @@ export default {
 
 <style lang="scss" scoped>
 .wrap {
-  height: 385.51rpx;
+  height: 335.51rpx;
   padding: 0 43.81rpx;
   background-color: #fff;
   border-radius: 17.52rpx;
@@ -217,10 +256,6 @@ export default {
         .name {
           font-size: 24.53rpx;
         }
-
-        .id {
-          font-size: 15.77rpx;
-        }
       }
     }
 
@@ -266,14 +301,14 @@ export default {
   }
 
   .bottom-project-info {
-    margin-top: 35.05rpx;
+    // margin-top: 10rpx;
 
     .item__to {
       display: flex;
       justify-content: space-between;
       align-items: center;
       height: 77.1rpx;
-      margin-top: 26.29rpx;
+      margin-top: 20rpx;
       background-color: #c4c4c4;
       border-radius: 15.77rpx;
 
