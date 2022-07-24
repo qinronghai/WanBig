@@ -17,7 +17,6 @@ export default {
       wx.cloud.callFunction({
         name: "getOpenID"
       }).then((res) => {
-        console.log(res);
         if (res.result.openId !== "") {
 
           let { userInfo } = res.result.event;

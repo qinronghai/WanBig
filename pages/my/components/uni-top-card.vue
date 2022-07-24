@@ -4,18 +4,17 @@
       <div class="left" v-on:click="login">
         <image :src="avatarUrl" mode="aspectFill" class="left-avatar"></image>
         <div class="left-name-id">
-          <div class="name">{{ userInfo.nickName }}</div>
+          <div class="name">{{ nickName }}</div>
         </div>
       </div>
       <van-popup :show="showLogin" round position="bottom" custom-style="height: 40%" @close="onCloseLogin" closeable>
         <div class="login">
           <h1 class="title">湾大闲置杂货铺欢迎你~</h1>
           <div class="btn-login">
-            <button class="btn" v-on:click="handleLogin">微信一键登录</button>
+            <button class="btn" v-on:click="oneclickLogin">微信一键登录</button>
           </div>
-          <div class="no-login" v-on:click="handleNoLogin">暂不登录</div>
+          <div class="no-login" v-on:click="clickNoLogin">暂不登录</div>
           <div class="tip">—— 登录即同意我们的《用户协议》——</div>
-
         </div>
       </van-popup>
       <div class="right">
@@ -51,123 +50,105 @@
 </template>
 
 <script>
-import VanIcon from "../../../wxcomponents/vant/icon";
-import UniLogin from "./uni-login.vue";
-const db = wx.cloud.database();
+import VanIcon from '../../../wxcomponents/vant/icon'
+import UniLogin from './uni-login.vue'
+const db = wx.cloud.database()
 export default {
   data() {
     return {
       showLogin: false,
-      userInfo: {
-        nickName: "未登录",
-      },
+      nickName: '',
       avatarUrl: ''
-    };
+    }
   },
   methods: {
     login() {
-      console.log("点击了未登录的地方");
-      this.showLogin = true;
-
+      console.log('弹窗一键登录')
+      this.showLogin = true
     },
 
-    handleLogin() {
-      console.log("用户点击了一键登录按钮");
-      let _this = this;
+    oneclickLogin() {
+      let _this = this
       wx.getSetting({
         success(res) {
           if (res.authSetting['scope.userInfo']) {
             wx.getUserProfile({
               desc: '登录',
-              success: (res) => {
-                console.log('登录成功', res.userInfo);
-                let { userInfo } = res;
-                // 存入本地缓存
-                uni.setStorageSync('userInfo', userInfo);
-                // 渲染页面
-                _this.userInfo.nickName = userInfo.nickName;
-                _this.avatarUrl = userInfo.avatarUrl;
-                _this.showLogin = false
+              success: res => {
+                let { userInfo } = res
+                uni.setStorageSync('userInfo', userInfo)
+                _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
                 // 存入数据库
-                db.collection('user-info').add({
-                  // data 字段表示需新增的 JSON 数据
-                  data: {
-                    _openid: userInfo.openid,
-                    name: userInfo.nickName,
-                    avatarUrl: userInfo.avatarUrl,
-                    vip: true,
-                    auditor: true,
-                    selledNum: 10,
-                    phone: '18376161994'
-                  }
-                })
+                db.collection('user-info')
+                  .add({
+                    data: {
+                      nickName: userInfo.nickName,
+                      avatarUrl: userInfo.avatarUrl
+                    }
+                  })
                   .then(res => {
-                    console.log(res)
+                    console.log(res.errMsg)
+                    console.log('登录成功')
                   })
               },
-              fail: (res) => {
-                // debugger
+              fail: res => {
                 console.log(res)
               }
-            });
+            })
           }
         }
       })
     },
-    // 处理点击了暂不登录
-    handleNoLogin() {
-      this.showLogin = false;
-      console.log('用户点击了暂不登录');
-
+    // 点击了暂不登录
+    clickNoLogin() {
+      this.showLogin = false
+      console.log('用户点击了暂不登录')
     },
     // 关闭登录框
     onCloseLogin() {
-      this.showLogin = false;
-      console.log("点击了关闭登录");
+      this.showLogin = false
     },
-    // 请求数据库是否有用户信息
-    async getUserInfo(openId) {
-      console.log(openId
-      );
-      let _this = this;
-      await db.collection('user-info').where({
-        _openid: openId
-      }).get().then(res => {
-        console.log(res);
-        // 如果数据库中没有用户信息，表明该用户是新用户
-        if (res.data.length === 0) {
-          console.log('数据库中无该用户的信息');
-          // 弹窗“一键登录”，获取信息存入缓存中并渲染页面
-          _this.login();
-          // 将新用户存入到数据库表中
-          // _this.setUserInfoToDatabase();
-        } else {
-          console.log('数据库中有该用户的信息');
-          let userInfo = res.data[0];
-          // 存入缓存中
-          uni.setStorageSync('userInfo', userInfo);
-          // 渲染页面
-          _this.userInfo.nickName = userInfo.name;
-          _this.avatarUrl = userInfo.avatarUrl;
-        }
-      })
+
+    async judgeUserInDatabase(openId) {
+      let _this = this
+      await db
+        .collection('user-info')
+        .where({
+          _openid: openId
+        })
+        .get()
+        .then(res => {
+          if (res.data.length === 0) {
+            console.log('数据库中--无该用户的信息')
+            // 弹窗“一键登录”，获取信息存入缓存中并渲染页面
+            _this.login()
+          } else {
+            console.log('数据库中--有该用户的信息')
+
+            let userInfo = res.data[0]
+
+            uni.setStorageSync('userInfo', userInfo)
+
+            _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
+          }
+        })
     },
-    // 判断本地缓存是否有用户信息
-    isUserInfo() {
-      let userInfo = uni.getStorageSync('userInfo');
-      console.log("测试", userInfo);
-      console.log(userInfo.nickName);
+
+    judgeHasLocalUserInfo() {
+      let userInfo = uni.getStorageSync('userInfo')
       if (userInfo.nickName != null) {
-        console.log("本地缓存中有用户的信息");
-        // 有用户信息，执行渲染逻辑
-        this.showLogin = false;
-        this.userInfo = userInfo;
-        this.avatarUrl = userInfo.avatarUrl;
+        console.log('本地缓存中--有用户的信息')
+        this.renderPage(userInfo.nickName, userInfo.avatarUrl)
       } else {
-        console.log("本地缓存中没有用户的信息");
-        // 本地缓存没有用户信息，执行请求数据库判断是否有用户信息
-        this.getUserInfo(userInfo.openId);
+        console.log('本地缓存中--没有用户的信息')
+        this.judgeUserInDatabase(userInfo.openId)
       }
+    },
+
+    renderPage(nickName = '未登录', avatarUrl) {
+      this.showLogin = false
+      this.nickName = nickName
+      this.avatarUrl = avatarUrl
     }
   },
   components: {
@@ -175,10 +156,9 @@ export default {
     UniLogin
   },
   mounted() {
-    // 判断是否登录过--本地是否有用户信息
-    this.isUserInfo();  // TODO 获取用户ID号，以及上传用户到数据库中的user表。
-  },
-};
+    this.judgeHasLocalUserInfo();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

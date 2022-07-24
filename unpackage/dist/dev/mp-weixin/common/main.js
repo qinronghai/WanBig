@@ -108,7 +108,6 @@ __webpack_require__.r(__webpack_exports__);
                 wx.cloud.callFunction({
                   name: "getOpenID" }).
                 then(function (res) {
-                  console.log(res);
                   if (res.result.openId !== "") {var
 
                     userInfo = res.result.event.userInfo;
