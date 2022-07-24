@@ -175,9 +175,8 @@ var db = wx.cloud.database();var _default =
     return {
       showLogin: false,
       userInfo: {
-        nickName: "未登录"
-        // avatarUrl: ''
-      },
+        nickName: "未登录" },
+
       avatarUrl: '' };
 
   },

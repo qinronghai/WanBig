@@ -60,7 +60,6 @@ export default {
       showLogin: false,
       userInfo: {
         nickName: "未登录",
-        // avatarUrl: ''
       },
       avatarUrl: ''
     };

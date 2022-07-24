@@ -12,35 +12,29 @@ export default {
 
 
     console.log("App Launch");
-    var i = 100;
-    function promise() {
-      return new Promise(function (resolve, reject) {
-        wx.cloud.callFunction({
-          name: "getOpenID"
-        }).then((res) => {
-          if (res.result.event.openId != '') {
-            let { userInfo } = res.result.event;
-            // 取得用户openId
-            console.log("用户的opeid为", userInfo.openId);
-            // 存储到本地缓存
-            uni.setStorageSync('userInfo', userInfo);
-            console.log('App启动，执行云函数获取openId成功');
-            console.log('1');
-            resolve(userInfo);
-          }
-        }).catch(console.error)
-      });
-    }
 
-    await promise().then((success) => {
-      console.log(success);
-      console.log('2');
+    let getOpenId = new Promise(function (resolve, reject) {
+      wx.cloud.callFunction({
+        name: "getOpenID"
+      }).then((res) => {
+        console.log(res);
+        if (res.result.openId !== "") {
+
+          let { userInfo } = res.result.event;
+
+          uni.setStorageSync('userInfo', userInfo);
+
+          resolve(userInfo.openId);
+        }
+      }).catch(console.error)
+    })
+    await getOpenId.then((res) => {
+      console.log("获取用户的opeid成功，为：" + res);
     }, (fail) => {
       console.log(fail);
     })
 
 
-    console.log('3');
 
   },
   onShow: function () {

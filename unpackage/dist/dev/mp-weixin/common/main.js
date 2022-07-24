@@ -91,47 +91,41 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
-  onLaunch: function () {var _onLaunch = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var i,
+  onLaunch: function () {var _onLaunch = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var getOpenId;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+              if (!wx.cloud) {
+                console.error('请使用 2.2.3 或以上的基础库以使用云能力');
+              } else {
+                wx.cloud.init({
+                  env: 'wb-dev-test-5g8b8c8u14429de5', // 专属测试环境
+                  traceUser: true });
+
+              }
 
 
+              console.log("App Launch");
 
+              getOpenId = new Promise(function (resolve, reject) {
+                wx.cloud.callFunction({
+                  name: "getOpenID" }).
+                then(function (res) {
+                  console.log(res);
+                  if (res.result.openId !== "") {var
 
+                    userInfo = res.result.event.userInfo;
 
+                    uni.setStorageSync('userInfo', userInfo);
 
-
-
-
-
-
-
-      promise;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:promise = function _promise() {
-                return new Promise(function (resolve, reject) {
-                  wx.cloud.callFunction({
-                    name: "getOpenID" }).
-                  then(function (res) {
-                    if (res.result.event.openId != '') {var
-                      userInfo = res.result.event.userInfo;
-                      // 取得用户openId
-                      console.log("用户的opeid为", userInfo.openId);
-                      // 存储到本地缓存
-                      uni.setStorageSync('userInfo', userInfo);
-                      console.log('App启动，执行云函数获取openId成功');
-                      console.log('1');
-                      resolve(userInfo);
-                    }
-                  }).catch(console.error);
-                });
-              };if (!wx.cloud) {console.error('请使用 2.2.3 或以上的基础库以使用云能力');} else {wx.cloud.init({ env: 'wb-dev-test-5g8b8c8u14429de5', // 专属测试环境
-                  traceUser: true });}console.log("App Launch");i = 100;_context.next = 6;return (
-                promise().then(function (success) {
-                  console.log(success);
-                  console.log('2');
+                    resolve(userInfo.openId);
+                  }
+                }).catch(console.error);
+              });_context.next = 5;return (
+                getOpenId.then(function (res) {
+                  console.log("获取用户的opeid成功，为：" + res);
                 }, function (fail) {
                   console.log(fail);
-                }));case 6:
+                }));case 5:case "end":return _context.stop();}}}, _callee);}));function onLaunch() {return _onLaunch.apply(this, arguments);}return onLaunch;}(),
 
 
-              console.log('3');case 7:case "end":return _context.stop();}}}, _callee);}));function onLaunch() {return _onLaunch.apply(this, arguments);}return onLaunch;}(),
 
 
   onShow: function onShow() {
