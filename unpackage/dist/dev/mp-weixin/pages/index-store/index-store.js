@@ -159,9 +159,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
 {
   components: { uniBanner: uniBanner, UniProductCatgNav: UniProductCatgNav, UniGoodsCard: UniGoodsCard, uniGoodsCard: uniGoodsCard },
   data: function data() {

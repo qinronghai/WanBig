@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="wrap">
-      <view class="item" v-for="(item, id) in catgList" :key="id">
+      <view class="item" v-for="(item, id) in catgList" :key="id" @click="toggleCategory(id)">
         <image class="image" :src="item.img" mode="scaleToFill" />
         <text class="text"> {{ item.title }}</text>
         <view :class="item.isActive ? 'active' : ''"></view>
@@ -54,6 +54,17 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    toggleCategory(id) {
+      console.log('切换到了--' + this.catgList[id].title + '--分类');
+
+      this.catgList.forEach(item => {
+        item.isActive = false;
+      });
+
+      this.catgList[id].isActive = true;
+    }
   },
 };
 </script>

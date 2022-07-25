@@ -170,7 +170,17 @@ var _default =
 
 
 
-  } };exports.default = _default;
+  },
+  methods: {
+    toggleCategory: function toggleCategory(id) {
+      console.log('切换到了--' + this.catgList[id].title + '--分类');
+
+      this.catgList.forEach(function (item) {
+        item.isActive = false;
+      });
+
+      this.catgList[id].isActive = true;
+    } } };exports.default = _default;
 
 /***/ }),
 

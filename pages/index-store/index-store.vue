@@ -4,9 +4,6 @@
     <van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @search="toSearchPage" bind:cancel="onCancel" />
     <!-- 轮播图 -->
     <uni-banner></uni-banner>
-    <!-- 跳转搜索结果 -->
-    <navigator url="/pages/search-res/search-res" open-type="navigate" hover-class="navigator-hover">
-    </navigator>
     <!-- 分类导航图标 -->
     <uni-product-catg-nav></uni-product-catg-nav>
     <!-- 商品卡片展示 -->
