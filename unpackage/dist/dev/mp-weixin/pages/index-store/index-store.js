@@ -141,7 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniGoodsCard = function uniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 67));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniBanner = function uniBanner() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-banner */ "pages/index-store/components/uni-banner").then((function () {return resolve(__webpack_require__(/*! ./components/uni-banner.vue */ 74));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsCard = function UniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 67));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniProductCatgNav = function UniProductCatgNav() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-product-catg-nav */ "pages/index-store/components/uni-product-catg-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-product-catg-nav.vue */ 81));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniGoodsCard = function uniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 67));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniBanner = function uniBanner() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-banner */ "pages/index-store/components/uni-banner").then((function () {return resolve(__webpack_require__(/*! ./components/uni-banner.vue */ 74));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsCard = function UniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 67));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniProductCatgNav = function UniProductCatgNav() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-product-catg-nav */ "pages/index-store/components/uni-product-catg-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-product-catg-nav.vue */ 81));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -165,10 +165,19 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 {
   components: { uniBanner: uniBanner, UniProductCatgNav: UniProductCatgNav, UniGoodsCard: UniGoodsCard, uniGoodsCard: uniGoodsCard },
   data: function data() {
-    return {};
+    return {
+      searchKey: '商品' };
+
   },
   methods: {
-    toSearchPage: function toSearchPage() {} } };exports.default = _default;
+    toSearchPage: function toSearchPage() {
+      console.log(this.searchKey);
+      // 跳转搜索结果页
+      uni.navigateTo({
+        url: '/pages/search-res/search-res?searchKey=' + this.searchKey });
+
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 21 */

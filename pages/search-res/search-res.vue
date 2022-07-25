@@ -1,18 +1,13 @@
 <template>
   <view class="container">
     <div class="search">
-      <van-search
-        placeholder="请输入搜索关键词"
-        show-action
-        shape="round"
-        bind:search="onSearch"
-        bind:cancel="onCancel"
-      />
+      <van-search placeholder="请输入搜索关键词" :value="searchKey" show-action shape="round" bind:search="onSearch"
+        bind:cancel="onCancel" />
     </div>
     <div class="dropdown-menu">
       <van-dropdown-menu active-color="#ffc300">
-        <van-dropdown-item :value="value1" :options="option1" />
-        <van-dropdown-item :value="value2" :options="option2" />
+        <van-dropdown-item :value="categoryDefault" :options="categoryOption" />
+        <van-dropdown-item :value="sortDefault" :options="sortOption" />
       </van-dropdown-menu>
     </div>
     <div class="exhibit-goods">
@@ -24,10 +19,14 @@
 <script>
 import uniExhibitMyGoods from "../my/components/uni-exhibit-my-goods.vue";
 export default {
+  onLoad: function (option) {
+    console.log(option.searchKey); //打印出上个页面传递的参数。
+    this.searchKey = option.searchKey;
+  },
   components: { uniExhibitMyGoods },
   data() {
     return {
-      option1: [
+      categoryOption: [
         {
           icon: "/static/category-nav/all.svg",
           text: "全部商品",
@@ -64,14 +63,15 @@ export default {
           value: 6,
         },
       ],
-      option2: [
+      sortOption: [
         { text: "默认排序", value: "a" },
         { text: "最新", value: "b" },
         { text: "价格由高到低", value: "c" },
         { text: "价格由低到高", value: "d" },
       ],
-      value1: 0,
-      value2: "a",
+      categoryDefault: 0,
+      sortDefault: "a",
+      searchKey: ''
     };
   },
   methods: {},
@@ -81,19 +81,22 @@ export default {
 <style lang="scss" scoped>
 .container {
   min-height: 100vh;
-  // padding: 0 29.79rpx;
-  background-color: $uni-bg-color-grey;
+  background-color: #f0f0f0;
+
   .search {
     padding-top: 20px;
   }
+
   .dropdown-menu {
     margin-top: 20px;
   }
+
    /deep/ .van-search {
     padding: 0;
     // margin: 17px 0 0 0;
-    background-color: #e9e9e9 !important;
+    background-color: #f0f0f0 !important;
   }
+
   .exhibit-goods {
     margin: 20px 29rpx 0;
   }

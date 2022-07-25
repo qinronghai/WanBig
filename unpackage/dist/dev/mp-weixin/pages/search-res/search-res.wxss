@@ -25,7 +25,7 @@
 /* 文章场景相关 */
 .container.data-v-ba9c7734 {
   min-height: 100vh;
-  background-color: #e9e9e9;
+  background-color: #f0f0f0;
 }
 .container .search.data-v-ba9c7734 {
   padding-top: 20px;
@@ -35,7 +35,7 @@
 }
 .container.data-v-ba9c7734 .van-search {
   padding: 0;
-  background-color: #e9e9e9 !important;
+  background-color: #f0f0f0 !important;
 }
 .container .exhibit-goods.data-v-ba9c7734 {
   margin: 20px 29rpx 0;

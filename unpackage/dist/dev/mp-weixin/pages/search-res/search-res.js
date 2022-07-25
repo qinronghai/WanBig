@@ -152,16 +152,15 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-
-
-
-
-
 {
+  onLoad: function onLoad(option) {
+    console.log(option.searchKey); //打印出上个页面传递的参数。
+    this.searchKey = option.searchKey;
+  },
   components: { uniExhibitMyGoods: uniExhibitMyGoods },
   data: function data() {
     return {
-      option1: [
+      categoryOption: [
       {
         icon: "/static/category-nav/all.svg",
         text: "全部商品",
@@ -198,14 +197,15 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         value: 6 }],
 
 
-      option2: [
+      sortOption: [
       { text: "默认排序", value: "a" },
       { text: "最新", value: "b" },
       { text: "价格由高到低", value: "c" },
       { text: "价格由低到高", value: "d" }],
 
-      value1: 0,
-      value2: "a" };
+      categoryDefault: 0,
+      sortDefault: "a",
+      searchKey: '' };
 
   },
   methods: {} };exports.default = _default;

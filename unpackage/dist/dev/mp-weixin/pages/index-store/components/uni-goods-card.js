@@ -298,7 +298,7 @@ var _default =
     } },
 
   mounted: function mounted() {
-    this.loadData();
+    // this.loadData();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

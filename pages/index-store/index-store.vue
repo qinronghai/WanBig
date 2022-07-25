@@ -1,7 +1,7 @@
 <template>
   <view class="index-store-page">
     <!-- 搜索框 -->
-    <van-search placeholder="请输入搜索关键词" show-action bind:search="onSearch" bind:cancel="onCancel" />
+    <van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @search="toSearchPage" bind:cancel="onCancel" />
     <!-- 轮播图 -->
     <uni-banner></uni-banner>
     <!-- 跳转搜索结果 -->
@@ -22,10 +22,18 @@ import UniProductCatgNav from "./components/uni-product-catg-nav.vue";
 export default {
   components: { uniBanner, UniProductCatgNav, UniGoodsCard, uniGoodsCard },
   data() {
-    return {};
+    return {
+      searchKey: '商品'
+    };
   },
   methods: {
-    toSearchPage() { },
+    toSearchPage() {
+      console.log(this.searchKey);
+      // 跳转搜索结果页
+      uni.navigateTo({
+        url: '/pages/search-res/search-res?searchKey=' + this.searchKey
+      });
+    },
   },
 };
 </script>
