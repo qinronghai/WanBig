@@ -168,6 +168,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var db = wx.cloud.database();var _default =
 {
   data: function data() {
@@ -182,15 +187,16 @@ var db = wx.cloud.database();var _default =
       console.log('弹窗一键登录');
       this.showLogin = true;
     },
-
-    oneclickLogin: function oneclickLogin() {
+    // 点击一键登录
+    clickOneLogin: function clickOneLogin() {
       var _this = this;
       wx.getSetting({
         success: function success(res) {
           if (res.authSetting['scope.userInfo']) {
             wx.getUserProfile({
               desc: '登录',
-              success: function success(res) {var
+              success: function success(res) {
+                console.log('登录授权，获取用户信息--成功');var
                 userInfo = res.userInfo;
                 uni.setStorageSync('userInfo', userInfo);
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl);
@@ -203,12 +209,11 @@ var db = wx.cloud.database();var _default =
 
 
                 then(function (res) {
-                  console.log(res.errMsg);
-                  console.log('登录成功');
+                  console.log('将用户信息--存入数据库--成功');
                 });
               },
               fail: function fail(res) {
-                console.log(res);
+                console.log('登录授权，获取用户信息--成功', res);
               } });
 
           }
@@ -224,7 +229,7 @@ var db = wx.cloud.database();var _default =
     onCloseLogin: function onCloseLogin() {
       this.showLogin = false;
     },
-
+    // 判断数据库中有无用户信息
     judgeUserInDatabase: function judgeUserInDatabase(openId) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _this;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 _this = _this2;_context.next = 3;return (
                   db.
@@ -249,8 +254,8 @@ var db = wx.cloud.database();var _default =
                     }
                   }));case 3:case "end":return _context.stop();}}}, _callee);}))();
     },
-
-    judgeHasLocalUserInfo: function judgeHasLocalUserInfo() {
+    // 判断本地中有无用户信息
+    judgeUserInLocal: function judgeUserInLocal() {
       var userInfo = uni.getStorageSync('userInfo');
       if (userInfo.nickName != null) {
         console.log('本地缓存中--有用户的信息');
@@ -271,8 +276,10 @@ var db = wx.cloud.database();var _default =
     VanIcon: VanIcon,
     UniLogin: UniLogin },
 
+  beforeMount: function beforeMount() {
+    this.judgeUserInLocal();
+  },
   mounted: function mounted() {
-    this.judgeHasLocalUserInfo();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

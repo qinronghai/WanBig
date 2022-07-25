@@ -1,5 +1,7 @@
 <template>
   <div class="wrap">
+
+    <!--个人信息  -->
     <div class="top-person-info">
       <div class="left" v-on:click="login">
         <image :src="avatarUrl" mode="aspectFill" class="left-avatar"></image>
@@ -11,7 +13,7 @@
         <div class="login">
           <h1 class="title">湾大闲置杂货铺欢迎你~</h1>
           <div class="btn-login">
-            <button class="btn" v-on:click="oneclickLogin">微信一键登录</button>
+            <button class="btn" v-on:click="clickOneLogin">微信一键登录</button>
           </div>
           <div class="no-login" v-on:click="clickNoLogin">暂不登录</div>
           <div class="tip">—— 登录即同意我们的《用户协议》——</div>
@@ -32,6 +34,8 @@
         </div>
       </div>
     </div>
+
+    <!-- 项目信息 -->
     <div class="bottom-project-info">
       <div class="item__to">
         <div class="txt">申请成为审核员</div>
@@ -46,6 +50,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -66,8 +71,8 @@ export default {
       console.log('弹窗一键登录')
       this.showLogin = true
     },
-
-    oneclickLogin() {
+    // 点击一键登录
+    clickOneLogin() {
       let _this = this
       wx.getSetting({
         success(res) {
@@ -75,6 +80,7 @@ export default {
             wx.getUserProfile({
               desc: '登录',
               success: res => {
+                console.log('登录授权，获取用户信息--成功');
                 let { userInfo } = res
                 uni.setStorageSync('userInfo', userInfo)
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
@@ -87,12 +93,11 @@ export default {
                     }
                   })
                   .then(res => {
-                    console.log(res.errMsg)
-                    console.log('登录成功')
+                    console.log('将用户信息--存入数据库--成功');
                   })
               },
               fail: res => {
-                console.log(res)
+                console.log('登录授权，获取用户信息--成功', res);
               }
             })
           }
@@ -108,7 +113,7 @@ export default {
     onCloseLogin() {
       this.showLogin = false
     },
-
+    // 判断数据库中有无用户信息
     async judgeUserInDatabase(openId) {
       let _this = this
       await db
@@ -133,8 +138,8 @@ export default {
           }
         })
     },
-
-    judgeHasLocalUserInfo() {
+    // 判断本地中有无用户信息
+    judgeUserInLocal() {
       let userInfo = uni.getStorageSync('userInfo')
       if (userInfo.nickName != null) {
         console.log('本地缓存中--有用户的信息')
@@ -155,8 +160,10 @@ export default {
     VanIcon,
     UniLogin
   },
+  beforeMount() {
+    this.judgeUserInLocal();
+  },
   mounted() {
-    this.judgeHasLocalUserInfo();
   }
 }
 </script>
@@ -240,7 +247,6 @@ export default {
 
     .right {
       display: flex;
-      // justify-content: space-between;
       width: auto;
       height: 29.79rpx;
       margin-top: 21.03rpx;
@@ -280,8 +286,6 @@ export default {
   }
 
   .bottom-project-info {
-    // margin-top: 10rpx;
-
     .item__to {
       display: flex;
       justify-content: space-between;
