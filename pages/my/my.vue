@@ -16,6 +16,10 @@ export default {
   data() {
     return {};
   },
+  onLoad: function (option) {
+    console.log(option.showLogin); //打印出上个页面传递的参数。
+    this.showLogin = option.showLogin;
+  },
   methods: {},
 };
 </script>

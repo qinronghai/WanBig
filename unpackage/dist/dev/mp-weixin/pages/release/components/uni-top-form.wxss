@@ -48,6 +48,11 @@
   font-size: 12px;
   text-align: center;
 }
+.top-form__item .input.data-v-3ce67c61 {
+  width: 80px;
+  font-weight: 500;
+  text-align: right;
+}
 .top-form .top-form__item.address.data-v-3ce67c61 {
   padding-bottom: 15px;
 }
@@ -58,11 +63,16 @@
 .top-form .top-form__item.address .input.data-v-3ce67c61 {
   display: flex;
   align-items: center;
+  width: auto;
 }
-.top-form .top-form__item.address .input .radio-west.data-v-3ce67c61 {
-  padding-right: 5px;
+.top-form .top-form__item.address .input .radio.data-v-3ce67c61 {
+  display: flex;
+  align-items: center;
 }
 .top-form .top-form__item.address .input .input__number.data-v-3ce67c61 {
-  padding-left: 30px;
+  padding-left: 10px;
+}
+.top-form .top-form__item.address .input .input__number .address-input.data-v-3ce67c61 {
+  width: 80px;
 }
 

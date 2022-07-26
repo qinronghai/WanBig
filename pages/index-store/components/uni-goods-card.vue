@@ -31,7 +31,7 @@
       </view>
     </div>
     <div class="column_item_1">
-      <view class="item" v-for="(pics, index) in columns[0]" :key="index">
+      <view class="item" v-for="(pics, index) in columns[1]" :key="index">
         <image :src="pics" class="column_pic" mode="aspectFill" />
         <div class="column-bottom">
 
@@ -58,6 +58,8 @@
 </template>
 
 <script>
+const db = wx.cloud.database()
+
 export default {
   data() {
     return {
@@ -75,6 +77,7 @@ export default {
         "https://res.wx.qq.com/wxdoc/dist/assets/img/51203.97d4269b.png",
         "https://res.wx.qq.com/wxdoc/dist/assets/img/5803.c3f8aebf.png",
       ],
+      goodsInfo: [],
       jsData: {
         columnsHeight: [0, 0],
         isLoading: false,
@@ -155,7 +158,6 @@ export default {
         columns = data.columns,
         tempPics = data.tempPics,
         length = tempPics.length,
-        // columnsHeight = that.jsData.columnsHeight,
         index = 0;
 
       this.Mode == "Batch"
@@ -174,15 +176,45 @@ export default {
       var that = this;
       console.log(that.jsData.isLoading);
       if (!that.jsData.isLoading) {
-        wx.showLoading();
         that.jsData.isLoading = true;
-
+        console.log('resssss', this.pics);
         that.renderPage(that.pics);
       }
     },
+    async loadGoodsInfo() {
+      // 向数据库发送请求
+      console.log('请求数据库');
+      await db.collection('goods').get().then(res => {
+        // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
+        console.log(res.data)
+        this.goodsInfo = res.data;
+        let goodsInfo = res.data;
+
+        // 拆分图片单独做组
+        let pics = this.goodsInfo.map(item => {
+          return item.picture[0];
+        })
+        console.log("888", pics);
+        this.pics = pics;
+        this.loadData();
+
+      })
+    },
+    judgeGoodsInLocal() {
+      // 判断本地存储有无商品信息
+      let goodsInfo = uni.getStorageSync('goodsInfo');
+      if (goodsInfo.length) {
+        this.goodsInfo = goodsInfo;
+      } else {
+        this.loadGoodsInfo();
+      }
+    },
+    startTest() {
+      this.judgeGoodsInLocal();
+    }
   },
-  mounted() {
-    // this.loadData();
+  async mounted() {
+    await this.startTest();
   },
 };
 </script>
@@ -226,12 +258,9 @@ export default {
     .item {
       margin-bottom: 15rpx;
 
-      // box-shadow: 5rpx 5rpx 10rpx 0 rgba(0, 0, 0, .3);
       .column_pic {
         display: block;
         width: 100%;
-
-// width: 280.37rpx;
         height: 336.45rpx;
         border-radius: 12rpx;
       }
@@ -248,11 +277,10 @@ export default {
           display: -webkit-box;
           overflow: hidden;
           height: 70rpx;
+          padding-bottom: 5rpx;
           font-size: 12px;
           font-weight: bold;
           text-overflow: ellipsis;
-
-// background-color: red;
 
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 2;
@@ -262,8 +290,6 @@ export default {
             margin-right: 5px;
             font-size: 10px;
             font-weight: normal;
-
-// font-size: 8px;
             background-color: #0095ff;
             border-radius: 2px;
 
@@ -281,7 +307,6 @@ export default {
         padding-top: 5px;
 
         .bottom-price {
-          // background-color: rgb(27, 37, 183);
           display: flex;
           align-items: center;
           height: 40rpx;
@@ -303,8 +328,6 @@ export default {
           align-items: center;
           height: 40rpx;
           margin-left: 10px;
-
-// margin-top: 10rpx;
           font-size: 16.02rpx;
           font-weight: normal;
 
@@ -317,8 +340,6 @@ export default {
             margin-top: 4rpx;
             margin-right: 15rpx;
             color: #ed555c;
-
-// background-color: #ffc300;
             border: .5px solid rgb(255, 101, 101);
             border-radius: 5rpx;
 
@@ -334,8 +355,6 @@ export default {
 
 .column_item_1 {
   width: 48%;
-
-// width: 100%;
   margin: 0 0 15rpx 0;
   margin-bottom: 18rpx;
   border-radius: 8.76rpx;
@@ -351,12 +370,9 @@ export default {
   .item {
     margin-bottom: 15rpx;
 
-    // box-shadow: 5rpx 5rpx 10rpx 0 rgba(0, 0, 0, .3);
     .column_pic {
       display: block;
       width: 100%;
-
-// width: 280.37rpx;
       height: 336.45rpx;
       border-radius: 12rpx;
     }
@@ -373,11 +389,10 @@ export default {
         display: -webkit-box;
         overflow: hidden;
         height: 70rpx;
+        padding-bottom: 5rpx;
         font-size: 12px;
         font-weight: bold;
         text-overflow: ellipsis;
-
-// background-color: red;
 
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
@@ -387,8 +402,6 @@ export default {
           margin-right: 5px;
           font-size: 10px;
           font-weight: normal;
-
-// font-size: 8px;
           background-color: #0095ff;
           border-radius: 2px;
 
@@ -406,7 +419,6 @@ export default {
       padding-top: 5px;
 
       .bottom-price {
-        // background-color: rgb(27, 37, 183);
         display: flex;
         align-items: center;
         height: 40rpx;
@@ -428,8 +440,6 @@ export default {
         align-items: center;
         height: 40rpx;
         margin-left: 10px;
-
-// margin-top: 10rpx;
         font-size: 16.02rpx;
         font-weight: normal;
 
@@ -442,8 +452,6 @@ export default {
           margin-top: 4rpx;
           margin-right: 15rpx;
           color: #ed555c;
-
-// background-color: #ffc300;
           border: .5px solid rgb(255, 101, 101);
           border-radius: 5rpx;
 

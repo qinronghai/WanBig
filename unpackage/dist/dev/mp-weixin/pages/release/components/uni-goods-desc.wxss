@@ -44,4 +44,8 @@
 .goods-desc .bottom-desc__input.data-v-678ceb8d {
   padding: 13px;
 }
+.goods-desc .bottom-desc__input .textarea.data-v-678ceb8d {
+  width: 100%;
+  font-size: 14px;
+}
 

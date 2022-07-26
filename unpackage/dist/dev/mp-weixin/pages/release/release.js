@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 88));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 95));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 102));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniTopForm = function UniTopForm() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-top-form */ "pages/release/components/uni-top-form").then((function () {return resolve(__webpack_require__(/*! ./components/uni-top-form.vue */ 109));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));
 
 
 
@@ -156,11 +156,207 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _index = __webpack_require__(/*! ../../async/index */ 109);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 88));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 95));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 102));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 144));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 147));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 148));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 153));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var db = wx.cloud.database();var _default =
 
 {
-  components: { uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc, UniTopForm: UniTopForm, UniBottomOptions: UniBottomOptions },
+  components: {
+    uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc, UniBottomOptions: UniBottomOptions, VanPopup: VanPopup,
+    VanIcon: VanIcon,
+    VanPicker: VanPicker,
+    Toast: Toast },
+
+
+
   data: function data() {
+
     return {
+      navList: [
+      {
+        id: 1,
+        img: "../../static/category-nav/books.svg",
+        txt: "书籍资料" },
+
+      {
+        id: 2,
+        img: "../../static/category-nav/iphone.svg ",
+        txt: "电子设备" },
+
+      {
+        id: 3,
+        img: "../../static/category-nav/fitness.svg",
+        txt: "健身器材" },
+
+      {
+        id: 4,
+        img: "../../static/category-nav/brush.svg",
+        txt: "美妆日化" },
+
+      {
+        id: 5,
+        img: "../../static/category-nav/clothes.svg",
+        txt: "服装服饰" },
+
+      {
+        id: 6,
+        img: "../../static/category-nav/other.svg",
+        txt: "其他宝贝" }],
+
+
+      columns: [
+      {
+        id: 1,
+        title: "全新" },
+
+      {
+        id: 2,
+        title: "几乎全新" },
+
+      {
+        id: 3,
+        title: "轻微痕迹" },
+
+      {
+        id: 4,
+        title: "明显痕迹" }],
+
+
+
+      // 底部
+      // 显示控制
+      showGoodsCategory: false,
+      showGoodQuality: false,
+      showCategoryArrow: true,
+      showQualityArrow: true,
+      // 索引判断
+      rightIndex: 0,
+      clickCateIndex: 0,
+
+      // 复选框控制
+      addressRadio: true,
+      needRadio: true,
+
+      // 商品信息
       fileList: [
       {
         url: "https://img.yzcdn.cn/vant/leaf.jpg",
@@ -168,31 +364,222 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
       {
         url: "https://img.yzcdn.cn/vant/leaf.jpg",
-        name: "图片2" }] };
+        name: "图片2" }],
+
+
+      category: '',
+      quality: '全新',
+      need: '出',
+      title: '',
+      price: '',
+      area: '西区',
+      floorNum: '',
+      contact: '',
+      view: 0,
+      releaseTime: '',
+
+      userInfo: {} };
 
 
 
   },
+  onLoad: function onLoad(options) {
+
+  },
   methods: {
-    afterRead: function afterRead(event) {
+    getGoodTitle: function getGoodTitle(title) {
+      // title就是子组件传过来的值
+      console.log('传过来了', title);
+      this.title = title;
+    },
+    deleteImg: function deleteImg(event) {
+      // 获取点击图片的下标：
+      var index = event.detail.index;
+      // 从appdata中获取fileList数据
+      var fileList = this.fileList;
+      // 删除对应index的元素
+      fileList.splice(index, 1);
+      // 重新放回fileList中
+      this.fileList = fileList;
+      console.log("删除图片成功", this.fileList);
+    },
+
+    afterRead: function afterRead(event) {var _this$fileList;
       console.log(event);var
+
       file = event.detail.file;
       console.log(file);
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-      wx.uploadFile({
-        url: file.url, // 仅为示例，非真实的接口地址
-        filePath: file.url,
-        name: "file",
-        formData: { user: "test" },
-        success: function success(res) {
-          console.log("上传成功！");
-          // 上传完成需要更新 fileList
-          var _this$data$fileList = this.data.fileList,fileList = _this$data$fileList === void 0 ? [] : _this$data$fileList;
-          fileList.push(_objectSpread(_objectSpread({}, file), {}, { url: res.data }));
-          this.setData({ fileList: fileList });
-        } });
+      var pics = file.map(function (item) {
+        return {
+          url: item.thumb };
 
+      });
+      console.log("1111", pics);
+      (_this$fileList = this.fileList).push.apply(_this$fileList, _toConsumableArray(pics));
+      console.log(this.fileList);
+
+
+    },
+    radioChange: function radioChange(e) {
+      this.area = e.detail.value;
+    },
+    handleContact: function handleContact(event) {
+      var contact = event.detail.value;
+
+      var wxReg = new RegExp("^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$"); //微信号正则校验   
+      var qqReg = new RegExp("^[1-9][0-9]{4,9}$"); //QQ号正则校验   
+
+      var flagWX = wxReg.test(contact);
+      var flagQQ = qqReg.test(contact);
+
+      if (flagWX) {
+        var WX = '微信：' + contact;
+        this.contact = WX;
+        console.log(WX);
+      } else if (flagQQ) {
+        var QQ = 'QQ：' + contact;
+        this.contact = QQ;
+        console.log(QQ);
+
+      }
+
+    },
+    handlePrice: function handlePrice(event) {
+      var price = parseInt(event.detail.value);
+      this.price = price;
+      console.log(price);
+    },
+    handleAddress: function handleAddress(event) {
+      this.floorNum = event.detail.value;
+    },
+    showPopup: function showPopup() {
+      this.showGoodsCategory = true;
+    },
+    showGoodQualityPopup: function showGoodQualityPopup() {
+      this.showGoodQuality = true;
+    },
+
+    onCloseGoodsCategory: function onCloseGoodsCategory() {
+      this.showGoodsCategory = false;
+    },
+    onCloseGoodQuality: function onCloseGoodQuality() {
+      this.showGoodQuality = false;
+    },
+    rightTap: function rightTap(index) {
+      this.rightIndex = index;
+      var quality = this.columns[index].title;
+      console.log(quality);
+      this.quality = quality;
+      this.showGoodQuality = false;
+      this.showQualityArrow = false;
+    },
+    needRadioChange: function needRadioChange(e) {
+      this.need = e.detail.value;
+    },
+
+    handleCategory: function handleCategory(id) {
+      var category = this.navList[id - 1].txt;
+      console.log('点击了分类', this.navList[id - 1].txt);
+      this.category = category;
+      this.clickCateIndex = id;
+
+      this.showGoodsCategory = false;
+      this.showCategoryArrow = false;
+
+
+    },
+    submit: function submit() {
+      var userInfo = uni.getStorageSync('userInfo');
+      console.log('release', userInfo);
+
+      if (userInfo.nickName == null) {
+        console.log("您还未登录，请登录之后，再提交审核。");
+        wx.showModal({
+          title: '提示',
+          content: '您还未登录，请登录之后，再提交审核',
+          success: function success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定');
+              uni.switchTab({
+                url: '/pages/my/my' });
+
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          } });
+
+      } else {
+        this.userInfo = userInfo;
+
+        this.upLoadImage();
+      }
+
+    },
+    upLoadGoodInfo: function upLoadGoodInfo() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var goodInfo;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                goodInfo = {
+                  title: _this.title,
+                  pics: _this.fileList,
+                  price: _this.price,
+                  contact: _this.contact,
+                  address: _this.address,
+                  category: _this.category,
+                  quality: _this.quality,
+                  need: _this.need,
+                  views: _this.views,
+                  releaseTime: _this.releaseTime,
+                  userInfo: _this.userInfo };
+
+                console.log(goodInfo);_context.next = 4;return (
+                  db.collection('goods').
+                  add({
+                    data: {
+                      title: _this.title,
+                      pics: _this.fileList,
+                      price: _this.price,
+                      contact: _this.contact,
+                      address: _this.address,
+                      category: _this.category,
+                      quality: _this.quality,
+                      need: _this.need,
+                      views: _this.views,
+                      releaseTime: _this.releaseTime,
+                      userInfo: _this.userInfo } }).
+
+
+                  then(function (res) {
+                    console.log(res);
+                    console.log('将商品信息--存入数据库--成功');
+                    wx.showToast({
+                      title: '提交审核成功' });
+
+                  }));case 4:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    upLoadImage: function upLoadImage() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var fileList, _loop, i;return _regenerator.default.wrap(function _callee2$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                fileList = _this2.fileList;_loop = /*#__PURE__*/_regenerator.default.mark(function _loop(
+                i) {return _regenerator.default.wrap(function _loop$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                          console.log(fileList[i].url);_context2.next = 3;return (
+                            (0, _index.request)(fileList[i].url).then(function (result) {
+                              console.log(result);
+                              if (result.statusCode === 204) {
+                                console.log('上传图片' + (i + 1) + '成功');
+                              }
+                              // 
+                              if (i === fileList.length - 1 && result.statusCode === 204) {
+                                console.log('全部图片上传完毕');
+                                _this2.upLoadGoodInfo();
+                              }
+                            }));case 3:case "end":return _context2.stop();}}}, _loop);});i = 0;case 3:if (!(i < fileList.length)) {_context3.next = 8;break;}return _context3.delegateYield(_loop(i), "t0", 5);case 5:i++;_context3.next = 3;break;case 8:case "end":return _context3.stop();}}}, _callee2);}))();
+
+
+    } },
+
+
+  computed: {
+    address: function address() {
+      return this.area + ' ' + this.floorNum;
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

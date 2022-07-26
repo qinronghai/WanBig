@@ -73,6 +73,7 @@
   display: -webkit-box;
   overflow: hidden;
   height: 70rpx;
+  padding-bottom: 5rpx;
   font-size: 12px;
   font-weight: bold;
   text-overflow: ellipsis;
@@ -167,6 +168,7 @@
   display: -webkit-box;
   overflow: hidden;
   height: 70rpx;
+  padding-bottom: 5rpx;
   font-size: 12px;
   font-weight: bold;
   text-overflow: ellipsis;

@@ -105,15 +105,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-}
-var recyclableRender = false
+var render = function () {}
 var staticRenderFns = []
-render._withStripped = true
+var recyclableRender
+var components
 
 
 
@@ -155,8 +150,25 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
 var _default =
-{};exports.default = _default;
+{
+  data: function data() {
+    return {
+      title: '' };
+
+  },
+  methods: {
+
+    confirm: function confirm(e) {
+      console.log('点击了确认');
+      var text = e.detail.value;
+      this.title = text;
+      this.$emit('getGoodTitle', this.title);
+    } },
+
+
+  watch: {} };exports.default = _default;
 
 /***/ })
 

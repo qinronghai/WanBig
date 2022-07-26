@@ -1,52 +1,53 @@
 <template>
-  <div class="top-form">
-    <div class="top-form__item">
-      <div class="left">
-        <image src="../../../static/release/price.svg" class="icon"></image>
-        <div class="txt">价格</div>
-      </div>
-      <div class="input">请输入价格</div>
-    </div>
-    <div class="top-form__item contact">
-      <div class="left">
-        <image src="../../../static/release/contact.svg" class="icon"></image>
-        <div class="txt">联系方式</div>
-      </div>
-      <div class="input">QQ号/微信</div>
-    </div>
-    <div class="top-form__item address">
-      <div class="left">
-        <image src="../../../static/release/floor-num.svg" class="icon"></image>
-        <div class="txt">楼号</div>
-      </div>
-      <div class="input">
-        <radio-group @change="radioChange">
-          <label class="radio-west">
-            <radio style="transform: scale(0.7)" value="西区" :checked="area" />西区
-          </label>
-          <label class="radio">
-            <radio style="transform: scale(0.7)" value="东区" />东区
-          </label>
-        </radio-group>
-        <div class="input__number">请输入楼号</div>
-      </div>
-    </div>
-  </div>
+
 </template>
 
 <script>
 export default {
   data() {
     return {
-      // radio
-      area: true,
+      addressRadio: true,
+      price: '',
+      area: '西区',
+      floorNum: '',
+      contact: ''
     };
   },
   methods: {
     radioChange(e) {
-      console.log(e);
+      this.area = e.detail.value;
     },
+    handleContact(event) {
+      let contact = event.detail.value;
+
+      let wxReg = new RegExp("^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$"); //微信号正则校验   
+      let qqReg = new RegExp("^[1-9][0-9]{4,9}$"); //QQ号正则校验   
+
+      let flagWX = wxReg.test(contact);
+      let flagQQ = qqReg.test(contact);
+
+      if (flagWX) {
+        let WX = '微信：' + contact;
+        this.contact = WX;
+      } else if (flagQQ) {
+        let QQ = 'QQ：' + contact;
+        this.contact = QQ;
+      }
+
+    },
+    handlePrice(event) {
+      let price = parseInt(event.detail.value);
+      this.price = price;
+    },
+    handleAddress(event) {
+      this.floorNum = event.detail.value;
+    }
   },
+  computed: {
+    address: function () {
+      return this.area + ' ' + this.floorNum
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -79,6 +80,9 @@ export default {
     }
 
     .input {
+      width: 80px;
+      font-weight: 500;
+      text-align: right;
     }
   }
 
@@ -95,13 +99,23 @@ export default {
     .input {
       display: flex;
       align-items: center;
+      width: auto;
 
-      .radio-west {
-        padding-right: 5px;
+      .radio {
+        display: flex;
+        align-items: center;
+
+        .radio-west {
+          // padding-right: 5px;
+        }
       }
 
       .input__number {
-        padding-left: 30px;
+        padding-left: 10px;
+
+        .address-input {
+          width: 80px;
+        }
       }
     }
   }

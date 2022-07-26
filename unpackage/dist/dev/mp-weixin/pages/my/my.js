@@ -150,6 +150,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   data: function data() {
     return {};
   },
+  onLoad: function onLoad(option) {
+    console.log(option.showLogin); //打印出上个页面传递的参数。
+    this.showLogin = option.showLogin;
+  },
   methods: {} };exports.default = _default;
 
 /***/ }),

@@ -5,13 +5,33 @@
       <div class="txt-tip">优质的商品介绍会有更好的展示效果哦~</div>
     </div>
     <div class="bottom-desc__input">
-      在一家白色的咖啡廳裡，有時候，還是乖乖去買咖啡好了，所以一旦遇到像今天這樣晴空萬里的好天氣，喝了杯咖啡
+      <textarea :value="title" v-on:confirm="confirm" v-on:blur="confirm" auto-height="true" maxlength="140"
+        class="textarea" placeholder="在这里输入商品描述文字哦~ （限140字）" focus="{{focus}}" confirm-type="done" />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      title: ''
+    }
+  },
+  methods: {
+
+    confirm(e) {
+      console.log('点击了确认')
+      const text = e.detail.value;
+      this.title = text;
+      this.$emit('getGoodTitle', this.title)
+    }
+
+  },
+  watch: {
+
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -19,10 +39,12 @@ export default {};
   height: 204px;
   background-color: #fff;
   border-radius: 15px;
+
   .top-tip {
     display: flex;
     align-items: center;
     padding: 7px 0 0 12px;
+
     .icon-tip {
       width: 24px;
       height: 24px;
@@ -36,6 +58,12 @@ export default {};
 
   .bottom-desc__input {
     padding: 13px;
+
+    .textarea {
+      width: 100%;
+      font-size: 14px;
+      // height: 100%;
+    }
   }
 }
 </style>

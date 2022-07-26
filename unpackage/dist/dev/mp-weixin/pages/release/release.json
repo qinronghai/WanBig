@@ -10,7 +10,10 @@
     "van-cell-group": "/wxcomponents/vant/cell-group/index",
     "uni-header-bar": "/pages/release/components/uni-header-bar",
     "uni-goods-desc": "/pages/release/components/uni-goods-desc",
-    "uni-top-form": "/pages/release/components/uni-top-form",
-    "uni-bottom-options": "/pages/release/components/uni-bottom-options"
+    "uni-bottom-options": "/pages/release/components/uni-bottom-options",
+    "van-popup": "/wxcomponents/vant/popup/index",
+    "van-icon": "/wxcomponents/vant/icon/index",
+    "van-picker": "/wxcomponents/vant/picker/index",
+    "toast": "/wxcomponents/vant/toast/index"
   }
 }
