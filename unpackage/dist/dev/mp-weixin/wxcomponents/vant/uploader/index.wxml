@@ -75,7 +75,8 @@
         style="{{ computed.sizeStyle({ previewSize }) }}"
         bindtap="startUpload"
       >
-        <van-icon name="{{ uploadIcon }}" class="van-uploader__upload-icon" />
+        <!-- <van-icon name="{{ uploadIcon }}" class="van-uploader__upload-icon" /> -->
+        <image src="/static/release/camera.svg" style="width:25px;height:25px"/>
         <text wx:if="{{ uploadText }}" class="van-uploader__upload-text">{{ uploadText }}</text>
       </view>
     </block>

@@ -486,9 +486,10 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100%;
+
+// width: 100%;
       height: auto;
-      padding-top: 8px;
+      padding: 8px 13px 0;
       margin: 8px 0 5px 0;
       background-color: #fff;
       border-radius: 15px;
