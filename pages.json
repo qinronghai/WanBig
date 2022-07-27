@@ -6,7 +6,7 @@
       "style": {
         "navigationBarTitleText": "杂货铺首页",
         "navigationBarBackgroundColor": "#f0f0f0",
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": true
         // "backgroundColor": "#333"
         // 页面局部 注册组件
         /* "usingComponents": {
@@ -18,7 +18,7 @@
       "path": "pages/release/release",
       "style": {
         "navigationBarTitleText": "发布页面",
-        "enablePullDownRefresh": false,
+        "enablePullDownRefresh": true,
         "navigationBarBackgroundColor": "#e9e9e9",
         "usingComponents": {
           "van-uploader": "/wxcomponents/vant/uploader/index",
@@ -74,17 +74,15 @@
         "navigationBarTitleText": "",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/dev-demo-test/dev-demo-test",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
     }
-      ,{
-            "path" : "pages/dev-demo-test/dev-demo-test",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+  ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     // "navigationBarTitleText": "uni-app",

@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "发布页面",
-  "enablePullDownRefresh": false,
+  "enablePullDownRefresh": true,
   "navigationBarBackgroundColor": "#e9e9e9",
   "usingComponents": {
     "van-uploader": "/wxcomponents/vant/uploader/index",

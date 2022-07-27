@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniExhibitMyGoods = function uniExhibitMyGoods() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-exhibit-my-goods */ "pages/my/components/uni-exhibit-my-goods").then((function () {return resolve(__webpack_require__(/*! ../my/components/uni-exhibit-my-goods.vue */ 142));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniExhibitMyGoods = function uniExhibitMyGoods() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-exhibit-my-goods */ "pages/my/components/uni-exhibit-my-goods").then((function () {return resolve(__webpack_require__(/*! ../my/components/uni-exhibit-my-goods.vue */ 149));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 

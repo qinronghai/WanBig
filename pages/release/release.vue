@@ -1,5 +1,5 @@
 <template>
-  <view class="container">
+  <view :key="componentKey" class="container">
 
     <!-- 商品描述文本组件 -->
     <uni-goods-desc v-on:getGoodTitle="getGoodTitle"></uni-goods-desc>
@@ -58,7 +58,7 @@
 
       <div class="bottom-options">
 
-        <van-popup :show="showGoodsCategory" round position="bottom" custom-style="height: 35%"
+        <van-popup duration="1500" :show="showGoodsCategory" round position="bottom" custom-style="height: 40%"
           @close="onCloseGoodsCategory" closeable>
 
           <div class="goods-category">
@@ -83,7 +83,7 @@
             <div v-show="!showCategoryArrow">{{ category }}</div>
           </div>
         </div>
-        <van-popup :show="showGoodQuality" round position="bottom" custom-style="height: 35%"
+        <van-popup duration="1500" :show="showGoodQuality" round position="bottom" custom-style="height: 40%"
           @close="onCloseGoodQuality" closeable>
           <div class="goods-quality">
             <div class="goods-quality__item" v-for="(item, index) in columns" :key="index" @click="rightTap(index)">
@@ -161,7 +161,6 @@ import VanPopup from "../../wxcomponents/vant/popup/index";
 import VanPicker from "../../wxcomponents/vant/picker";
 import { request } from "../../async/index";
 const db = wx.cloud.database()
-
 export default {
   components: {
     uniHeaderBar, UniGoodsDesc, UniBottomOptions, VanPopup,
@@ -174,6 +173,7 @@ export default {
   data() {
 
     return {
+      componentKey: 0,
       navList: [
         {
           id: 1,
@@ -224,7 +224,7 @@ export default {
           title: "明显痕迹",
         },
       ],
-
+      ischeckText: false,
       // 底部
       // 显示控制
       showGoodsCategory: false,
@@ -259,7 +259,7 @@ export default {
       area: '西区',
       floorNum: '',
       contact: '',
-      view: 0,
+      views: 0,
       releaseTime: '',
       transport: '自取',
       userInfo: {}
@@ -271,6 +271,10 @@ export default {
 
   },
   methods: {
+    forceRerender() {
+      console.log('hello');
+      this.componentKey += 1;
+    },
     getGoodTitle: function (title) {
       // title就是子组件传过来的值
       console.log('des组件传值过来了--', title);
@@ -379,8 +383,9 @@ export default {
 
 
     },
-    submit() {
+    async submit() {
       let userInfo = uni.getStorageSync('userInfo')
+      let _this = this;
       console.log('release', userInfo);
 
       if (userInfo.nickName == null) {
@@ -402,11 +407,67 @@ export default {
       } else {
         this.userInfo = userInfo;
 
-        this.upLoadImage();
+        wx.showModal({
+          title: '提示',
+          content: '确定要提交审核吗？',
+          async success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              // 先进行文本检测
+              await _this.checkText(_this.title, _this.userInfo._openid);
+              console.log("ischeckText is " + _this.ischeckText);
+              if (_this.ischeckText) {
+                // 文本合法，上传图片
+                _this.upLoadImage();
+                console.log("上传图片中");
+              } else {
+                wx.hideLoading();
+                wx.showModal({
+                  title: '提醒',
+                  content: '请注意言论',
+                  showCancel: false
+                })
+              }
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
       }
 
     },
+    async checkText(text, openid) {
+      // 推荐文本内容检测
+      wx.hideLoading();
+      wx.showLoading({
+        title: '文本合法性检测中',
+      })
+      await wx.cloud.callFunction({
+        name: 'msgcheck',
+        data: {
+          content: text,
+          openid: openid
+        }
+      }).then(ckres => {
+        console.log(ckres);
+        if (ckres.result.errCode == 0 && (ckres.result).result.label == 100) {
+          wx.hideLoading();
+          wx.showToast({
+            title: '检测通过',
+            icon: 'success',
+            duration: 2000
+          })
+          console.log("文本检测通过");
+          this.ischeckText = true;
+        } else {
+          console.log("文本检测不通过");
+          this.ischeckText = false;
+
+        }
+      })
+    },
     async upLoadGoodInfo() {
+      // 提交时间
       this.releaseTime = new Date();
       let goodInfo = {
         title: this.title,
@@ -420,32 +481,46 @@ export default {
         views: this.views,
         transport: this.transport,
         releaseTime: this.releaseTime,
-        userInfo: this.userInfo
+        userInfo: this.userInfo,
+        audited: false
       }
+      this.goodInfo = goodInfo;
       console.log(goodInfo);
-      await db.collection('goods')
-        .add({
-          data: {
-            title: this.title,
-            pics: this.fileList,
-            price: this.price,
-            contact: this.contact,
-            address: this.address,
-            category: this.category,
-            quality: this.quality,
-            need: this.need,
-            views: this.views,
-            releaseTime: this.releaseTime,
-            userInfo: this.userInfo
-          }
-        })
-        .then(res => {
-          console.log(res);
-          console.log('将商品信息--存入数据库--成功');
-          wx.showToast({
-            title: '提交审核成功',
+      // 校验数据是否为空
+      let isNotEmpty = this.checkGoodInfo(this.goodInfo);
+      console.log('校验数据为', isNotEmpty);
+
+      if (isNotEmpty) {
+        let _this = this;
+        await db.collection('goods')
+          .add({
+            data: {
+              title: this.title,
+              pics: this.fileList,
+              price: this.price,
+              contact: this.contact,
+              address: this.address,
+              category: this.category,
+              quality: this.quality,
+              need: this.need,
+              views: this.views,
+              releaseTime: this.releaseTime,
+              userInfo: this.userInfo
+            }
           })
-        })
+          .then(res => {
+            console.log(res);
+            console.log('将商品信息--存入数据库--成功');
+            wx.showToast({
+              title: '提交审核成功',
+            }).then(res => {
+              // _this.forceRerender();
+
+            })
+
+
+          })
+      }
     },
     async upLoadImage() {
       let fileList = this.fileList;
@@ -464,8 +539,28 @@ export default {
         })
 
       }
-    }
+    },
+    checkGoodInfo(userInfo) {
+      let values = Object.values(userInfo); console.log(values);
+      try {
 
+        values.forEach(item => {
+          if (item === '') {
+            console.log('有没填的信息');
+            throw new error;
+          }
+        });
+      } catch (error) {
+        wx.showToast({
+          title: '还有没填的信息',
+          icon: 'error',
+          duration: 2500
+        })
+        return false;
+        // console.log(error);
+      }
+      return true;
+    }
   },
   computed: {
     address: function () {
