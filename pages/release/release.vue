@@ -41,9 +41,9 @@
             <div class="txt">楼号</div>
           </div>
           <div class="input">
-            <radio-group class="radio" @change="radioChange">
+            <radio-group class="radio" @change="areaRadioChange">
               <label class="radio-west">
-                <radio style="transform: scale(0.7)" value="西区" :checked="addressRadio" />西区
+                <radio style="transform: scale(0.7)" value="西区" :checked="areaRadio" />西区
               </label>
               <label class="radio-west">
                 <radio style="transform: scale(0.7)" value="东区" />东区
@@ -114,7 +114,7 @@
             <div class="txt">出/蹲</div>
           </div>
           <div class="options">
-            <radio-group @change="needRadioChange">
+            <radio-group class="radio-group__need" @change="needRadioChange">
               <label class="radio-sell">
                 <radio value="出" :checked="needRadio" style="transform: scale(0.7)" />出
               </label>
@@ -124,9 +124,26 @@
             </radio-group>
           </div>
         </div>
+
       </div>
     </div>
-
+    <!-- 送货方式 -->
+    <div class="transport">
+      <div class="left">
+        <image src="../../static/release/transport.svg" class="icon"></image>
+        <div class="txt">送货</div>
+      </div>
+      <div class="options">
+        <radio-group @change="transportRadioChange">
+          <label class="radio-sell">
+            <radio value="自取" :checked="transportRadio" style="transform: scale(0.7)" />自取
+          </label>
+          <label class="radio">
+            <radio value="可送" style="transform: scale(0.7)" />可送
+          </label>
+        </radio-group>
+      </div>
+    </div>
     <!-- 提交按钮 -->
     <view class="submit_btn">
       <button class="btn" type="primary" @click="submit">提交审核</button>
@@ -219,10 +236,11 @@ export default {
       clickCateIndex: 0,
 
       // 复选框控制
-      addressRadio: true,
+      areaRadio: true,
       needRadio: true,
+      transportRadio: true,
 
-      // 商品信息
+      // 商品图片信息
       fileList: [
         {
           url: "https://img.yzcdn.cn/vant/leaf.jpg",
@@ -243,7 +261,7 @@ export default {
       contact: '',
       view: 0,
       releaseTime: '',
-
+      transport: '自取',
       userInfo: {}
 
 
@@ -255,13 +273,14 @@ export default {
   methods: {
     getGoodTitle: function (title) {
       // title就是子组件传过来的值
-      console.log('传过来了', title);
+      console.log('des组件传值过来了--', title);
       this.title = title
     },
+
     deleteImg(event) {
       // 获取点击图片的下标：
       const index = event.detail.index;
-      // 从appdata中获取fileList数据
+      // 获取fileList数据
       let fileList = this.fileList;
       // 删除对应index的元素
       fileList.splice(index, 1);
@@ -287,8 +306,12 @@ export default {
 
 
     },
-    radioChange(e) {
+    areaRadioChange(e) {
       this.area = e.detail.value;
+    },
+    transportRadioChange(e) {
+      this.transport = e.detail.value;
+      console.log(e.detail.value);
     },
     handleContact(event) {
       let contact = event.detail.value;
@@ -332,6 +355,7 @@ export default {
     onCloseGoodQuality() {
       this.showGoodQuality = false;
     },
+
     rightTap(index) {
       this.rightIndex = index;
       let quality = this.columns[index].title
@@ -383,6 +407,7 @@ export default {
 
     },
     async upLoadGoodInfo() {
+      this.releaseTime = new Date();
       let goodInfo = {
         title: this.title,
         pics: this.fileList,
@@ -393,6 +418,7 @@ export default {
         quality: this.quality,
         need: this.need,
         views: this.views,
+        transport: this.transport,
         releaseTime: this.releaseTime,
         userInfo: this.userInfo
       }
@@ -654,10 +680,17 @@ export default {
         padding-bottom: 15px;
 
         .options {
-          padding-right: 10px;
+          // padding-right: 10px;
+
+
+          .radio-group__need {
+            // display: flex;
+            // justify-content: space-between;
+            width: 106px;
+          }
 
           .radio-sell {
-            padding-right: 5px;
+            padding-right: 12px;
           }
         }
       }
@@ -676,11 +709,46 @@ export default {
     }
   }
 
+  .transport {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 15px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #fff;
+    border-radius: 10px;
+
+    .left {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        width: 23px;
+        height: 23px;
+        margin-right: 15px;
+      }
+
+      .txt {
+        text-align: center;
+      }
+    }
+
+    .input {
+    }
+  }
+
   .submit_btn {
     // width: 80%;
     padding: 20px 0;
 
     .btn {
+      color: #000;
+      font-style: italic;
+      font-weight: bold;
+      background-color: #ffc300;
+      border-radius: 10px;
     }
   }
 }

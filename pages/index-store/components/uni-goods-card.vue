@@ -191,8 +191,9 @@ export default {
         let goodsInfo = res.data;
 
         // 拆分图片单独做组
-        let pics = this.goodsInfo.map(item => {
-          return item.picture[0];
+        let pics = goodsInfo.map(item => {
+
+          return item.pics[0].url;
         })
         console.log("888", pics);
         this.pics = pics;

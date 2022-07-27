@@ -6,7 +6,8 @@
     "pages/project-info/project-info",
     "pages/goods-detail/goods-detail",
     "pages/search-res/search-res",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/dev-demo-test/dev-demo-test"
   ],
   "subPackages": [],
   "window": {

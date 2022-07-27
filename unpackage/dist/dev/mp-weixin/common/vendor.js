@@ -1400,7 +1400,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2509,41 +2509,6 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 109:
-/*!*****************************************************!*\
-  !*** D:/My-Document/projects/WanBig/async/index.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.request = void 0;var request = function request(filePath) {
-  wx.showLoading({
-    title: "加载中" });
-
-  return new Promise(function (resolve, reject) {
-    wx.cloud.uploadFile({
-      cloudPath: "good-pictures/" + new Date().getTime() + "-" + Math.floor(Math.random() * 1000),
-      filePath: filePath,
-      name: "file",
-      formData: { user: "test" },
-      success: function success(res) {
-        resolve(res);
-        console.log("调用异步请求成功");
-      },
-      fail: function fail(err) {
-        reject(err);
-        console.log("调用异步请求失败");
-      },
-      complete: function complete() {
-        wx.hideLoading();
-      } });
-
-  });
-};exports.request = request;
-
-/***/ }),
-
 /***/ 11:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
@@ -3276,136 +3241,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.request = 
 
 /***/ }),
 
-/***/ 14:
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 144:
+/***/ 110:
 /*!**********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
   \**********************************************************************/
@@ -3413,7 +3249,7 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 145);
+var _component = __webpack_require__(/*! ../common/component */ 111);
 (0, _component.VantComponent)({
   props: {
     dot: Boolean,
@@ -3434,7 +3270,7 @@ var _component = __webpack_require__(/*! ../common/component */ 145);
 
 /***/ }),
 
-/***/ 145:
+/***/ 111:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
   \****************************************************************************/
@@ -3442,7 +3278,7 @@ var _component = __webpack_require__(/*! ../common/component */ 145);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 146);
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 112);
 function mapKeys(source, target, map) {
   Object.keys(map).forEach(function (key) {
     if (source[key]) {
@@ -3489,7 +3325,7 @@ function VantComponent(vantOptions) {
 
 /***/ }),
 
-/***/ 146:
+/***/ 112:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
   \************************************************************************/
@@ -3509,7 +3345,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 
 /***/ }),
 
-/***/ 147:
+/***/ 113:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
   \***********************************************************************/
@@ -3517,7 +3353,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 145);
+var _component = __webpack_require__(/*! ../common/component */ 111);
 (0, _component.VantComponent)({
   props: {
     show: Boolean,
@@ -3547,7 +3383,7 @@ var _component = __webpack_require__(/*! ../common/component */ 145);
 
 /***/ }),
 
-/***/ 148:
+/***/ 114:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
   \***********************************************************************/
@@ -3555,8 +3391,8 @@ var _component = __webpack_require__(/*! ../common/component */ 145);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 145);
-var _transition = __webpack_require__(/*! ../mixins/transition */ 149);
+var _component = __webpack_require__(/*! ../common/component */ 111);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 115);
 (0, _component.VantComponent)({
   classes: [
   'enter-class',
@@ -3645,7 +3481,7 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 149);
 
 /***/ }),
 
-/***/ 149:
+/***/ 115:
 /*!*****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
   \*****************************************************************************/
@@ -3654,8 +3490,8 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 149);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
-var _utils = __webpack_require__(/*! ../common/utils */ 150);
-var _validator = __webpack_require__(/*! ../common/validator */ 151); // @ts-nocheck
+var _utils = __webpack_require__(/*! ../common/utils */ 116);
+var _validator = __webpack_require__(/*! ../common/validator */ 117); // @ts-nocheck
 var getClassNames = function getClassNames(name) {return {
     enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
     'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
@@ -3771,7 +3607,7 @@ function transition(showDefaultValue) {
 
 /***/ }),
 
-/***/ 150:
+/***/ 116:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
   \************************************************************************/
@@ -3779,8 +3615,8 @@ function transition(showDefaultValue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 151);
-var _version = __webpack_require__(/*! ./version */ 152);
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 117);
+var _version = __webpack_require__(/*! ./version */ 118);
 
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
@@ -3874,7 +3710,7 @@ function getCurrentPage() {
 
 /***/ }),
 
-/***/ 151:
+/***/ 117:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
   \****************************************************************************/
@@ -3916,7 +3752,7 @@ function isVideoUrl(url) {
 
 /***/ }),
 
-/***/ 152:
+/***/ 118:
 /*!**************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
   \**************************************************************************/
@@ -3924,7 +3760,7 @@ function isVideoUrl(url) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 150);
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 116);
 function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -3975,7 +3811,7 @@ function canIUseGetUserProfile() {
 
 /***/ }),
 
-/***/ 153:
+/***/ 119:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/index.js ***!
   \************************************************************************/
@@ -3983,8 +3819,8 @@ function canIUseGetUserProfile() {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 145);
-var _shared = __webpack_require__(/*! ./shared */ 154);
+var _component = __webpack_require__(/*! ../common/component */ 111);
+var _shared = __webpack_require__(/*! ./shared */ 120);
 (0, _component.VantComponent)({
   classes: ['active-class', 'toolbar-class', 'column-class'],
   props: Object.assign(Object.assign({}, _shared.pickerProps), { valueKey: {
@@ -4120,7 +3956,7 @@ var _shared = __webpack_require__(/*! ./shared */ 154);
 
 /***/ }),
 
-/***/ 154:
+/***/ 120:
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/shared.js ***!
   \*************************************************************************/
@@ -4147,6 +3983,167 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.pickerProp
   itemHeight: {
     type: Number,
     value: 44 } };exports.pickerProps = pickerProps;
+
+/***/ }),
+
+/***/ 14:
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 195:
+/*!***********************************************************!*\
+  !*** D:/My-Document/projects/WanBig/pages/utils/utils.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function formatTime(date) {
+
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+
+  var hour = date.getHours();
+  var minute = date.getMinutes();
+  var second = date.getSeconds();
+
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':');
+}
+
+function formatNumber(n) {
+
+  n = n.toString();
+  return n[1] ? n : '0' + n;
+}
+
+module.exports = {
+
+  formatTime: formatTime };
 
 /***/ }),
 
@@ -4178,6 +4175,41 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+
+/***/ 29:
+/*!*****************************************************!*\
+  !*** D:/My-Document/projects/WanBig/async/index.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.request = void 0;var request = function request(filePath) {
+  wx.showLoading({
+    title: "加载中" });
+
+  return new Promise(function (resolve, reject) {
+    wx.cloud.uploadFile({
+      cloudPath: "good-pictures/" + new Date().getTime() + "-" + Math.floor(Math.random() * 1000),
+      filePath: filePath,
+      name: "file",
+      formData: { user: "test" },
+      success: function success(res) {
+        resolve(res);
+        console.log("调用异步请求成功");
+      },
+      fail: function fail(err) {
+        reject(err);
+        console.log("调用异步请求失败");
+      },
+      complete: function complete() {
+        wx.hideLoading();
+      } });
+
+  });
+};exports.request = request;
 
 /***/ }),
 
@@ -10171,7 +10203,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -10192,14 +10224,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -10285,7 +10317,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));

@@ -1,0 +1,30 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "pages/release/release",
+                    "pathName": "pages/release/release",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/dev-demo-test/dev-demo-test",
+                    "pathName": "pages/dev-demo-test/dev-demo-test",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}
