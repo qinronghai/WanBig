@@ -675,6 +675,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 179);function _interopReq
                           console.log(fileList[i].url);_context5.next = 3;return (
                             (0, _index.request)(fileList[i].url).then(function (result) {
                               console.log(result);
+                              fileList[i].url = result.fileID;
                               if (result.statusCode === 204) {
                                 console.log('上传图片--' + (i + 1) + '--成功');
                               }

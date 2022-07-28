@@ -179,20 +179,7 @@ var db = wx.cloud.database();var _default =
 {
   data: function data() {
     return {
-      pics: [
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/5101.c1db6a96.png",
-      "https://www.thoughtco.com/thmb/jtUUbpSwsJTs7Kr4HEdvTagqxZ4=/1732x1272/filters:fill(auto,1)/GettyImages-1036106366-5c58ee26c9e77c00016b4152.jpg",
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/5106.d1c51378.png",
-      "https://s1.ax1x.com/2022/04/14/LQalVJ.jpg",
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/5102.332bb21d.png",
-      "https://img.lookvin.com/editor/202006/19/112020624.png",
-      "https://s1.ax1x.com/2022/04/14/LQaGP1.jpg",
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/5109.c1a972f0.png",
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/5103.47e64f38.png",
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/5104.401091c6.png",
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/51203.97d4269b.png",
-      "https://res.wx.qq.com/wxdoc/dist/assets/img/5803.c3f8aebf.png"],
-
+      pics: [],
       goodsInfo: [],
       jsData: {
         columnsHeight: [0, 0],
@@ -299,7 +286,7 @@ var db = wx.cloud.database();var _default =
     },
     loadGoodsInfo: function loadGoodsInfo() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 // 向数据库发送请求
-                console.log('请求数据库');_context.next = 3;return (
+                console.log('请求数据库--');_context.next = 3;return (
                   db.collection('goods').get().then(function (res) {
                     // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
                     console.log(res.data);

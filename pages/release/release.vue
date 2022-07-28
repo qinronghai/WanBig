@@ -541,6 +541,7 @@ export default {
         console.log(fileList[i].url);
         await request(fileList[i].url).then(result => {
           console.log(result);
+          fileList[i].url = result.fileID;
           if (result.statusCode === 204) {
             console.log('上传图片--' + (i + 1) + '--成功');
           }
