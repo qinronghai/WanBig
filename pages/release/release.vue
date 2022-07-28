@@ -484,7 +484,8 @@ export default {
         transport: this.transport,
         releaseTime: this.releaseTime,
         userInfo: this.userInfo,
-        audited: this.audited
+        audited: this.audited,
+        buy: false
       }
       this.goodInfo = goodInfo;
       console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
@@ -507,7 +508,8 @@ export default {
               views: this.views,
               releaseTime: this.releaseTime,
               userInfo: this.userInfo,
-              audited: this.audited
+              audited: this.audited,
+              buy: false
 
             }
           })
@@ -545,7 +547,7 @@ export default {
           if (result.statusCode === 204) {
             console.log('上传图片--' + (i + 1) + '--成功');
           }
-          // 
+
           if ((i === fileList.length - 1) && result.statusCode === 204) {
             console.log('上传图片--全部图片--上传完毕');
             this.upLoadGoodInfo();

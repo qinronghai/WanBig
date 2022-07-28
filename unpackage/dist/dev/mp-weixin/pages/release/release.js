@@ -618,7 +618,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 179);function _interopReq
                   transport: _this4.transport,
                   releaseTime: _this4.releaseTime,
                   userInfo: _this4.userInfo,
-                  audited: _this4.audited };
+                  audited: _this4.audited,
+                  buy: false };
 
                 _this4.goodInfo = goodInfo;
                 console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
@@ -641,7 +642,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 179);function _interopReq
                       views: _this4.views,
                       releaseTime: _this4.releaseTime,
                       userInfo: _this4.userInfo,
-                      audited: _this4.audited } }).
+                      audited: _this4.audited,
+                      buy: false } }).
 
 
 
@@ -679,7 +681,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 179);function _interopReq
                               if (result.statusCode === 204) {
                                 console.log('上传图片--' + (i + 1) + '--成功');
                               }
-                              // 
+
                               if (i === fileList.length - 1 && result.statusCode === 204) {
                                 console.log('上传图片--全部图片--上传完毕');
                                 _this5.upLoadGoodInfo();
