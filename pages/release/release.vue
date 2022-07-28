@@ -50,7 +50,7 @@
               </label>
             </radio-group>
             <div class="input__number"> <input :value="floorNum" confirm-type="done" class="address-input" type="number"
-                placeholder="请输入楼号" @blur="handleAddress" />
+                placeholder="请输入楼号" @blur="handleFloorNum" />
             </div>
           </div>
         </div>
@@ -86,7 +86,7 @@
         <van-popup duration="1500" :show="showGoodQuality" round position="bottom" custom-style="height: 40%"
           @close="onCloseGoodQuality" closeable>
           <div class="goods-quality">
-            <div class="goods-quality__item" v-for="(item, index) in columns" :key="index" @click="rightTap(index)">
+            <div class="goods-quality__item" v-for="(item, index) in qualityList" :key="index" @click="rightTap(index)">
               <div class="goods-quality__item--block">
                 <div class="txt" :class="{ active: index === rightIndex }">
                   {{ item.title }}
@@ -161,6 +161,7 @@ import VanPopup from "../../wxcomponents/vant/popup/index";
 import VanPicker from "../../wxcomponents/vant/picker";
 import { request } from "../../async/index";
 const db = wx.cloud.database()
+import { delay } from "../utils/delay";
 export default {
   components: {
     uniHeaderBar, UniGoodsDesc, UniBottomOptions, VanPopup,
@@ -171,9 +172,7 @@ export default {
   },
 
   data() {
-
     return {
-      componentKey: 0,
       navList: [
         {
           id: 1,
@@ -206,7 +205,7 @@ export default {
           txt: "其他宝贝",
         },
       ],
-      columns: [
+      qualityList: [
         {
           id: 1,
           title: "全新",
@@ -224,13 +223,13 @@ export default {
           title: "明显痕迹",
         },
       ],
-      ischeckText: false,
-      // 底部
+
       // 显示控制
       showGoodsCategory: false,
       showGoodQuality: false,
       showCategoryArrow: true,
       showQualityArrow: true,
+
       // 索引判断
       rightIndex: 0,
       clickCateIndex: 0,
@@ -240,16 +239,12 @@ export default {
       needRadio: true,
       transportRadio: true,
 
+      // 文本检测通过反馈
+      ischeckText: false,
+
       // 商品图片信息
       fileList: [
-        {
-          url: "https://img.yzcdn.cn/vant/leaf.jpg",
-          name: "图片1",
-        },
-        {
-          url: "https://img.yzcdn.cn/vant/leaf.jpg",
-          name: "图片2",
-        },
+
       ],
       category: '',
       quality: '全新',
@@ -262,19 +257,16 @@ export default {
       views: 0,
       releaseTime: '',
       transport: '自取',
+      audited: false,
       userInfo: {}
 
 
     };
   },
-  onLoad(options) {
 
-  },
+  // 方法
   methods: {
-    forceRerender() {
-      console.log('hello');
-      this.componentKey += 1;
-    },
+
     getGoodTitle: function (title) {
       // title就是子组件传过来的值
       console.log('des组件传值过来了--', title);
@@ -294,8 +286,6 @@ export default {
     },
 
     afterRead(event) {
-      console.log(event);
-
       const { file } = event.detail;
       console.log(file);
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
@@ -304,19 +294,22 @@ export default {
           url: item.thumb,
         }
       })
-      console.log("1111", pics)
+      console.log("afterRead--添加的图片：", pics)
       this.fileList.push(...pics);
-      console.log(this.fileList)
+      console.log("afterRead--添加后的图片列表：", this.fileList)
 
 
     },
+
     areaRadioChange(e) {
       this.area = e.detail.value;
     },
+
     transportRadioChange(e) {
       this.transport = e.detail.value;
       console.log(e.detail.value);
     },
+
     handleContact(event) {
       let contact = event.detail.value;
 
@@ -338,17 +331,30 @@ export default {
       }
 
     },
+
     handlePrice(event) {
       let price = parseInt(event.detail.value);
       this.price = price;
-      console.log(price);
+      console.log("价格：" + price);
     },
-    handleAddress(event) {
+
+    handleFloorNum(event) {
       this.floorNum = event.detail.value;
     },
+    handleCategory(id) {
+      let category = this.navList[id - 1].txt;
+      console.log('点击了商品分类--', this.navList[id - 1].txt);
+      this.category = category;
+      this.clickCateIndex = id;
+
+      this.showGoodsCategory = false;
+      this.showCategoryArrow = false;
+    },
+
     showPopup() {
       this.showGoodsCategory = true;
     },
+
     showGoodQualityPopup() {
       this.showGoodQuality = true;
     },
@@ -362,8 +368,8 @@ export default {
 
     rightTap(index) {
       this.rightIndex = index;
-      let quality = this.columns[index].title
-      console.log(quality);
+      let quality = this.qualityList[index].title
+      console.log("商品成色：" + quality);
       this.quality = quality;
       this.showGoodQuality = false;
       this.showQualityArrow = false;
@@ -372,22 +378,9 @@ export default {
       this.need = e.detail.value;
     },
 
-    handleCategory(id) {
-      let category = this.navList[id - 1].txt;
-      console.log('点击了分类', this.navList[id - 1].txt);
-      this.category = category;
-      this.clickCateIndex = id;
-
-      this.showGoodsCategory = false;
-      this.showCategoryArrow = false;
-
-
-    },
     async submit() {
       let userInfo = uni.getStorageSync('userInfo')
       let _this = this;
-      console.log('release', userInfo);
-
       if (userInfo.nickName == null) {
         console.log("您还未登录，请登录之后，再提交审核。");
         wx.showModal({
@@ -415,18 +408,13 @@ export default {
               console.log('用户点击确定')
               // 先进行文本检测
               await _this.checkText(_this.title, _this.userInfo._openid);
-              console.log("ischeckText is " + _this.ischeckText);
+              console.log("文本检测--ischeckText is --" + _this.ischeckText);
               if (_this.ischeckText) {
+                await delay(2000);
+
                 // 文本合法，上传图片
                 _this.upLoadImage();
-                console.log("上传图片中");
-              } else {
-                wx.hideLoading();
-                wx.showModal({
-                  title: '提醒',
-                  content: '请注意言论',
-                  showCancel: false
-                })
+                console.log("上传图片中...");
               }
             } else if (res.cancel) {
               console.log('用户点击取消')
@@ -441,6 +429,7 @@ export default {
       wx.hideLoading();
       wx.showLoading({
         title: '文本合法性检测中',
+        mask: true
       })
       await wx.cloud.callFunction({
         name: 'msgcheck',
@@ -449,20 +438,33 @@ export default {
           openid: openid
         }
       }).then(ckres => {
-        console.log(ckres);
+        console.log("文本检测--返回的结果--", ckres);
         if (ckres.result.errCode == 0 && (ckres.result).result.label == 100) {
           wx.hideLoading();
           wx.showToast({
             title: '检测通过',
             icon: 'success',
+            duration: 1500
+          })
+          console.log("文本检测--通过");
+          this.ischeckText = true;
+        } else if (ckres.result.errCode === 44004) {
+          wx.hideLoading();
+          wx.showToast({
+            title: '文本为空',
+            icon: 'error',
             duration: 2000
           })
-          console.log("文本检测通过");
-          this.ischeckText = true;
-        } else {
-          console.log("文本检测不通过");
           this.ischeckText = false;
-
+          console.log("文本检测--不通过--文本为空");
+        } else {
+          wx.hideLoading();
+          wx.showModal({
+            title: '提示',
+            content: '商品描述含敏感信息',
+            showCancel: false
+          })
+          console.log('文本检测--不通过--含敏感信息');
         }
       })
     },
@@ -482,14 +484,13 @@ export default {
         transport: this.transport,
         releaseTime: this.releaseTime,
         userInfo: this.userInfo,
-        audited: false
+        audited: this.audited
       }
       this.goodInfo = goodInfo;
-      console.log(goodInfo);
+      console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
       // 校验数据是否为空
       let isNotEmpty = this.checkGoodInfo(this.goodInfo);
-      console.log('校验数据为', isNotEmpty);
-
+      console.log('校验商品信息--已填写--', isNotEmpty);
       if (isNotEmpty) {
         let _this = this;
         await db.collection('goods')
@@ -505,22 +506,34 @@ export default {
               need: this.need,
               views: this.views,
               releaseTime: this.releaseTime,
-              userInfo: this.userInfo
+              userInfo: this.userInfo,
+              audited: this.audited
+
             }
           })
           .then(res => {
-            console.log(res);
-            console.log('将商品信息--存入数据库--成功');
+            console.log('上传商品信息--存入数据库--成功', res);
             wx.showToast({
               title: '提交审核成功',
+              icon: 'success',
+              duration: 2000,
+              mark: true
             }).then(res => {
-              // _this.forceRerender();
 
+              setTimeout(() => {
+                // 清空表单
+                Object.assign(this.$data, this.$options.data());
+                uni.switchTab({
+                  url: '/pages/index-store/index-store',
+                });
+              }, 2000);
             })
 
 
           })
       }
+
+
     },
     async upLoadImage() {
       let fileList = this.fileList;
@@ -529,11 +542,11 @@ export default {
         await request(fileList[i].url).then(result => {
           console.log(result);
           if (result.statusCode === 204) {
-            console.log('上传图片' + (i + 1) + '成功');
+            console.log('上传图片--' + (i + 1) + '--成功');
           }
           // 
           if ((i === fileList.length - 1) && result.statusCode === 204) {
-            console.log('全部图片上传完毕');
+            console.log('上传图片--全部图片--上传完毕');
             this.upLoadGoodInfo();
           }
         })
@@ -543,10 +556,9 @@ export default {
     checkGoodInfo(userInfo) {
       let values = Object.values(userInfo); console.log(values);
       try {
-
         values.forEach(item => {
           if (item === '') {
-            console.log('有没填的信息');
+            console.log('检测商品信息完整性--不完整');
             throw new error;
           }
         });
@@ -557,13 +569,16 @@ export default {
           duration: 2500
         })
         return false;
-        // console.log(error);
       }
+      console.log('检测商品信息完整性--完整');
       return true;
     }
   },
+
   computed: {
+    // 商品的地址由 地区+楼号 组成
     address: function () {
+      console.log("地址：" + (this.area + ' ' + this.floorNum));
       return this.area + ' ' + this.floorNum
     }
   }
@@ -581,8 +596,6 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-
-// width: 100%;
       height: auto;
       padding: 8px 13px 0;
       margin: 8px 0 5px 0;
@@ -776,12 +789,7 @@ export default {
         padding-bottom: 15px;
 
         .options {
-          // padding-right: 10px;
-
-
           .radio-group__need {
-            // display: flex;
-            // justify-content: space-between;
             width: 106px;
           }
 
@@ -836,7 +844,6 @@ export default {
   }
 
   .submit_btn {
-    // width: 80%;
     padding: 20px 0;
 
     .btn {

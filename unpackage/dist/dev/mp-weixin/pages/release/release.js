@@ -293,8 +293,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _index = __webpack_require__(/*! ../../async/index */ 29);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 96));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 103));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 110));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 117));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 120));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 121));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 126));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
-var db = wx.cloud.database();var _default =
+var _index = __webpack_require__(/*! ../../async/index */ 29);
+
+var _delay = __webpack_require__(/*! ../utils/delay */ 179);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 96));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 103));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 110));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 117));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 120));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 121));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 126));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _default =
 {
   components: {
     uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc, UniBottomOptions: UniBottomOptions, VanPopup: VanPopup,
@@ -305,9 +306,7 @@ var db = wx.cloud.database();var _default =
 
 
   data: function data() {
-
     return {
-      componentKey: 0,
       navList: [
       {
         id: 1,
@@ -340,7 +339,7 @@ var db = wx.cloud.database();var _default =
         txt: "其他宝贝" }],
 
 
-      columns: [
+      qualityList: [
       {
         id: 1,
         title: "全新" },
@@ -358,13 +357,13 @@ var db = wx.cloud.database();var _default =
         title: "明显痕迹" }],
 
 
-      ischeckText: false,
-      // 底部
+
       // 显示控制
       showGoodsCategory: false,
       showGoodQuality: false,
       showCategoryArrow: true,
       showQualityArrow: true,
+
       // 索引判断
       rightIndex: 0,
       clickCateIndex: 0,
@@ -374,15 +373,11 @@ var db = wx.cloud.database();var _default =
       needRadio: true,
       transportRadio: true,
 
-      // 商品图片信息
-      fileList: [
-      {
-        url: "https://img.yzcdn.cn/vant/leaf.jpg",
-        name: "图片1" },
+      // 文本检测通过反馈
+      ischeckText: false,
 
-      {
-        url: "https://img.yzcdn.cn/vant/leaf.jpg",
-        name: "图片2" }],
+      // 商品图片信息
+      fileList: [],
 
 
       category: '',
@@ -396,19 +391,16 @@ var db = wx.cloud.database();var _default =
       views: 0,
       releaseTime: '',
       transport: '自取',
+      audited: false,
       userInfo: {} };
 
 
 
   },
-  onLoad: function onLoad(options) {
 
-  },
+  // 方法
   methods: {
-    forceRerender: function forceRerender() {
-      console.log('hello');
-      this.componentKey += 1;
-    },
+
     getGoodTitle: function getGoodTitle(title) {
       // title就是子组件传过来的值
       console.log('des组件传值过来了--', title);
@@ -427,9 +419,7 @@ var db = wx.cloud.database();var _default =
       console.log("删除图片成功", this.fileList);
     },
 
-    afterRead: function afterRead(event) {var _this$fileList;
-      console.log(event);var
-
+    afterRead: function afterRead(event) {var _this$fileList;var
       file = event.detail.file;
       console.log(file);
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
@@ -438,19 +428,22 @@ var db = wx.cloud.database();var _default =
           url: item.thumb };
 
       });
-      console.log("1111", pics);
+      console.log("afterRead--添加的图片：", pics);
       (_this$fileList = this.fileList).push.apply(_this$fileList, _toConsumableArray(pics));
-      console.log(this.fileList);
+      console.log("afterRead--添加后的图片列表：", this.fileList);
 
 
     },
+
     areaRadioChange: function areaRadioChange(e) {
       this.area = e.detail.value;
     },
+
     transportRadioChange: function transportRadioChange(e) {
       this.transport = e.detail.value;
       console.log(e.detail.value);
     },
+
     handleContact: function handleContact(event) {
       var contact = event.detail.value;
 
@@ -472,17 +465,30 @@ var db = wx.cloud.database();var _default =
       }
 
     },
+
     handlePrice: function handlePrice(event) {
       var price = parseInt(event.detail.value);
       this.price = price;
-      console.log(price);
+      console.log("价格：" + price);
     },
-    handleAddress: function handleAddress(event) {
+
+    handleFloorNum: function handleFloorNum(event) {
       this.floorNum = event.detail.value;
     },
+    handleCategory: function handleCategory(id) {
+      var category = this.navList[id - 1].txt;
+      console.log('点击了商品分类--', this.navList[id - 1].txt);
+      this.category = category;
+      this.clickCateIndex = id;
+
+      this.showGoodsCategory = false;
+      this.showCategoryArrow = false;
+    },
+
     showPopup: function showPopup() {
       this.showGoodsCategory = true;
     },
+
     showGoodQualityPopup: function showGoodQualityPopup() {
       this.showGoodQuality = true;
     },
@@ -496,8 +502,8 @@ var db = wx.cloud.database();var _default =
 
     rightTap: function rightTap(index) {
       this.rightIndex = index;
-      var quality = this.columns[index].title;
-      console.log(quality);
+      var quality = this.qualityList[index].title;
+      console.log("商品成色：" + quality);
       this.quality = quality;
       this.showGoodQuality = false;
       this.showQualityArrow = false;
@@ -506,22 +512,9 @@ var db = wx.cloud.database();var _default =
       this.need = e.detail.value;
     },
 
-    handleCategory: function handleCategory(id) {
-      var category = this.navList[id - 1].txt;
-      console.log('点击了分类', this.navList[id - 1].txt);
-      this.category = category;
-      this.clickCateIndex = id;
-
-      this.showGoodsCategory = false;
-      this.showCategoryArrow = false;
-
-
-    },
     submit: function submit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var userInfo, _this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
                 userInfo = uni.getStorageSync('userInfo');
                 _this = _this2;
-                console.log('release', userInfo);
-
                 if (userInfo.nickName == null) {
                   console.log("您还未登录，请登录之后，再提交审核。");
                   wx.showModal({
@@ -545,36 +538,32 @@ var db = wx.cloud.database();var _default =
                     title: '提示',
                     content: '确定要提交审核吗？',
                     success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
-                                res.confirm) {_context.next = 8;break;}
+                                res.confirm) {_context.next = 12;break;}
                                 console.log('用户点击确定');
                                 // 先进行文本检测
                                 _context.next = 4;return _this.checkText(_this.title, _this.userInfo._openid);case 4:
-                                console.log("ischeckText is " + _this.ischeckText);
-                                if (_this.ischeckText) {
-                                  // 文本合法，上传图片
-                                  _this.upLoadImage();
-                                  console.log("上传图片中");
-                                } else {
-                                  wx.hideLoading();
-                                  wx.showModal({
-                                    title: '提醒',
-                                    content: '请注意言论',
-                                    showCancel: false });
+                                console.log("文本检测--ischeckText is --" + _this.ischeckText);if (!
+                                _this.ischeckText) {_context.next = 10;break;}_context.next = 8;return (
+                                  (0, _delay.delay)(2000));case 8:
 
-                                }_context.next = 9;break;case 8:
+                                // 文本合法，上传图片
+                                _this.upLoadImage();
+                                console.log("上传图片中...");case 10:_context.next = 13;break;case 12:
+
                                 if (res.cancel) {
                                   console.log('用户点击取消');
-                                }case 9:case "end":return _context.stop();}}}, _callee);}))();
+                                }case 13:case "end":return _context.stop();}}}, _callee);}))();
                     } });
 
-                }case 4:case "end":return _context2.stop();}}}, _callee2);}))();
+                }case 3:case "end":return _context2.stop();}}}, _callee2);}))();
 
     },
     checkText: function checkText(text, openid) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
                 // 推荐文本内容检测
                 wx.hideLoading();
                 wx.showLoading({
-                  title: '文本合法性检测中' });_context3.next = 4;return (
+                  title: '文本合法性检测中',
+                  mask: true });_context3.next = 4;return (
 
                   wx.cloud.callFunction({
                     name: 'msgcheck',
@@ -583,20 +572,33 @@ var db = wx.cloud.database();var _default =
                       openid: openid } }).
 
                   then(function (ckres) {
-                    console.log(ckres);
+                    console.log("文本检测--返回的结果--", ckres);
                     if (ckres.result.errCode == 0 && ckres.result.result.label == 100) {
                       wx.hideLoading();
                       wx.showToast({
                         title: '检测通过',
                         icon: 'success',
+                        duration: 1500 });
+
+                      console.log("文本检测--通过");
+                      _this3.ischeckText = true;
+                    } else if (ckres.result.errCode === 44004) {
+                      wx.hideLoading();
+                      wx.showToast({
+                        title: '文本为空',
+                        icon: 'error',
                         duration: 2000 });
 
-                      console.log("文本检测通过");
-                      _this3.ischeckText = true;
-                    } else {
-                      console.log("文本检测不通过");
                       _this3.ischeckText = false;
+                      console.log("文本检测--不通过--文本为空");
+                    } else {
+                      wx.hideLoading();
+                      wx.showModal({
+                        title: '提示',
+                        content: '商品描述含敏感信息',
+                        showCancel: false });
 
+                      console.log('文本检测--不通过--含敏感信息');
                     }
                   }));case 4:case "end":return _context3.stop();}}}, _callee3);}))();
     },
@@ -616,14 +618,13 @@ var db = wx.cloud.database();var _default =
                   transport: _this4.transport,
                   releaseTime: _this4.releaseTime,
                   userInfo: _this4.userInfo,
-                  audited: false };
+                  audited: _this4.audited };
 
                 _this4.goodInfo = goodInfo;
-                console.log(goodInfo);
+                console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
                 // 校验数据是否为空
                 isNotEmpty = _this4.checkGoodInfo(_this4.goodInfo);
-                console.log('校验数据为', isNotEmpty);if (!
-
+                console.log('校验商品信息--已填写--', isNotEmpty);if (!
                 isNotEmpty) {_context4.next = 10;break;}
                 _this = _this4;_context4.next = 10;return (
                   db.collection('goods').
@@ -639,21 +640,33 @@ var db = wx.cloud.database();var _default =
                       need: _this4.need,
                       views: _this4.views,
                       releaseTime: _this4.releaseTime,
-                      userInfo: _this4.userInfo } }).
+                      userInfo: _this4.userInfo,
+                      audited: _this4.audited } }).
+
 
 
                   then(function (res) {
-                    console.log(res);
-                    console.log('将商品信息--存入数据库--成功');
+                    console.log('上传商品信息--存入数据库--成功', res);
                     wx.showToast({
-                      title: '提交审核成功' }).
+                      title: '提交审核成功',
+                      icon: 'success',
+                      duration: 2000,
+                      mark: true }).
                     then(function (res) {
-                      // _this.forceRerender();
 
+                      setTimeout(function () {
+                        // 清空表单
+                        Object.assign(_this4.$data, _this4.$options.data());
+                        uni.switchTab({
+                          url: '/pages/index-store/index-store' });
+
+                      }, 2000);
                     });
 
 
                   }));case 10:case "end":return _context4.stop();}}}, _callee4);}))();
+
+
 
     },
     upLoadImage: function upLoadImage() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var fileList, _loop, i;return _regenerator.default.wrap(function _callee5$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
@@ -663,11 +676,11 @@ var db = wx.cloud.database();var _default =
                             (0, _index.request)(fileList[i].url).then(function (result) {
                               console.log(result);
                               if (result.statusCode === 204) {
-                                console.log('上传图片' + (i + 1) + '成功');
+                                console.log('上传图片--' + (i + 1) + '--成功');
                               }
                               // 
                               if (i === fileList.length - 1 && result.statusCode === 204) {
-                                console.log('全部图片上传完毕');
+                                console.log('上传图片--全部图片--上传完毕');
                                 _this5.upLoadGoodInfo();
                               }
                             }));case 3:case "end":return _context5.stop();}}}, _loop);});i = 0;case 3:if (!(i < fileList.length)) {_context6.next = 8;break;}return _context6.delegateYield(_loop(i), "t0", 5);case 5:i++;_context6.next = 3;break;case 8:case "end":return _context6.stop();}}}, _callee5);}))();
@@ -677,10 +690,9 @@ var db = wx.cloud.database();var _default =
     checkGoodInfo: function checkGoodInfo(userInfo) {
       var values = Object.values(userInfo);console.log(values);
       try {
-
         values.forEach(function (item) {
           if (item === '') {
-            console.log('有没填的信息');
+            console.log('检测商品信息完整性--不完整');
             throw new error();
           }
         });
@@ -691,13 +703,16 @@ var db = wx.cloud.database();var _default =
           duration: 2500 });
 
         return false;
-        // console.log(error);
       }
+      console.log('检测商品信息完整性--完整');
       return true;
     } },
 
+
   computed: {
+    // 商品的地址由 地区+楼号 组成
     address: function address() {
+      console.log("地址：" + (this.area + ' ' + this.floorNum));
       return this.area + ' ' + this.floorNum;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
