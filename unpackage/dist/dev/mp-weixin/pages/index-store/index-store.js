@@ -141,7 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniGoodsCard = function uniGoodsCard() {Promise.all(/*! require.ensure | pages/index-store/components/uni-goods-card */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/index-store/components/uni-goods-card")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniBanner = function uniBanner() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-banner */ "pages/index-store/components/uni-banner").then((function () {return resolve(__webpack_require__(/*! ./components/uni-banner.vue */ 82));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsCard = function UniGoodsCard() {Promise.all(/*! require.ensure | pages/index-store/components/uni-goods-card */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/index-store/components/uni-goods-card")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniProductCatgNav = function UniProductCatgNav() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-product-catg-nav */ "pages/index-store/components/uni-product-catg-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-product-catg-nav.vue */ 89));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var uniGoodsCard = function uniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniBanner = function uniBanner() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-banner */ "pages/index-store/components/uni-banner").then((function () {return resolve(__webpack_require__(/*! ./components/uni-banner.vue */ 82));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsCard = function UniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniProductCatgNav = function UniProductCatgNav() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-product-catg-nav */ "pages/index-store/components/uni-product-catg-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-product-catg-nav.vue */ 89));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -159,12 +159,158 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var db = wx.cloud.database();var _default =
 {
   components: { uniBanner: uniBanner, UniProductCatgNav: UniProductCatgNav, UniGoodsCard: UniGoodsCard, uniGoodsCard: uniGoodsCard },
   data: function data() {
     return {
-      searchKey: '商品' };
+      searchKey: '商品',
+      pics: [],
+      goodsInfo: [],
+      jsData: {
+        columnsHeight: [0, 0],
+        isLoading: false },
 
+      columns: [[], []],
+      indexObj: {},
+      tempPics: [],
+      Mode: "Loop",
+      isShow: false,
+      columnLeft: [],
+      columnRight: [],
+      catgList: [
+      {
+        id: 1,
+        img: "../../static/category-nav/all.svg",
+        title: "全部商品",
+        isActive: true },
+
+
+      {
+        id: 2,
+        img: "../../static/category-nav/iphone.svg",
+        title: "电子设备",
+        isActive: false },
+
+      {
+        id: 3,
+        img: "../../static/category-nav/fitness.svg",
+        title: "健身器材",
+        isActive: false },
+
+      {
+        id: 4,
+        img: "../../static/category-nav/brush.svg",
+        title: "美妆日化",
+        isActive: false },
+
+      {
+        id: 5,
+        img: "../../static/category-nav/clothes.svg",
+        title: "服装服饰",
+        isActive: false },
+
+      {
+        id: 6,
+        img: "../../static/category-nav/other.svg",
+        title: "其他宝贝",
+        isActive: false }],
+
+
+      sum: 0,
+      itemList: [
+      {
+        id: 1,
+        title: "第一张图片",
+        img: "../../static/banner/curtain.svg" },
+
+      {
+        id: 2,
+        title: "第二张图片",
+        img: "../../static/banner/curtain.svg" },
+
+      {
+        id: 3,
+        title: "第三张图片",
+        img: "../../static/banner/curtain.svg" }] };
+
+
+
+  },
+  onShow: function onShow() {
+    console.log("index Page Show");
   },
   methods: {
     toSearchPage: function toSearchPage() {
@@ -173,7 +319,59 @@ __webpack_require__.r(__webpack_exports__);
       uni.navigateTo({
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey });
 
-    } } };exports.default = _default;
+    },
+    loadGoodsInfo: function loadGoodsInfo() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                // 向数据库发送请求
+                console.log('请求数据库--');_context.next = 3;return (
+                  db.collection('goods').where({
+                    audited: false }).
+                  get().then(function (res) {
+                    // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
+                    console.log(res.data);
+                    _this.goodsInfo = res.data;
+                    var goodsInfo = res.data;
+                    goodsInfo.forEach(function (item) {
+                      item.pics = item.pics[0].url;
+                    });
+                    console.log('test----', goodsInfo);
+                    // 拆分两边
+
+                    var columnLeft = goodsInfo.filter(function (item, index) {
+                      return index % 2 === 0;
+                    });
+                    var columnRight = goodsInfo.filter(function (item, index) {
+                      return index % 2 !== 0;
+                    });
+                    if (goodsInfo.length % 2 !== 0) {
+                      columnRight.push({
+                        pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
+                        transport: "不送",
+                        title: "曾梦想仗剑走天涯，没想到码农过一生",
+                        price: 100,
+                        quality: "底部彩蛋" });
+
+                    }
+                    _this.columnLeft = columnLeft;
+                    _this.columnRight = columnRight;
+
+                    console.log(columnLeft, columnRight);
+                    _this.goodsInfo = goodsInfo;
+
+                  }));case 3:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    toggleCategory: function toggleCategory(id) {
+      console.log('切换到了--' + this.catgList[id].title + '--分类');
+
+      this.catgList.forEach(function (item) {
+        item.isActive = false;
+      });
+
+      this.catgList[id].isActive = true;
+    } },
+
+  mounted: function mounted() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                _this2.loadGoodsInfo());case 2:case "end":return _context2.stop();}}}, _callee2);}))();
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

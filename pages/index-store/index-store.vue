@@ -3,11 +3,83 @@
     <!-- 搜索框 -->
     <van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @search="toSearchPage" bind:cancel="onCancel" />
     <!-- 轮播图 -->
-    <uni-banner></uni-banner>
+    <view class="banner-container">
+      <swiper class="swiper" autoplay circular>
+        <swiper-item class="swiper-item" v-for="(item, id) in itemList" :key="id">
+          <image class="image" :src="item.img" mode="scaleToFill" />
+        </swiper-item>
+      </swiper>
+    </view>
+    <!-- <uni-banner></uni-banner> -->
     <!-- 分类导航图标 -->
-    <uni-product-catg-nav></uni-product-catg-nav>
+    <view class="container">
+      <view class="wrap">
+        <view class="item" v-for="(item, id) in catgList" :key="id" @click="toggleCategory(id)">
+          <image class="image" :src="item.img" mode="scaleToFill" />
+          <text class="text"> {{ item.title }}</text>
+          <view :class="item.isActive ? 'active' : ''"></view>
+        </view>
+      </view>
+    </view>
+    <!-- <uni-product-catg-nav></uni-product-catg-nav> -->
     <!-- 商品卡片展示 -->
-    <uni-goods-card></uni-goods-card>
+    <!-- <uni-goods-card></uni-goods-card> -->
+    <view class="main">
+      <div class="column_item_0">
+        <div class="test-style">
+
+          <image class="book-icon" src="../../static/category-nav/books.svg" mode="" />
+          书籍市场
+
+        </div>
+        <view class="item" v-for="(item, index) in columnLeft" :key="index">
+          <image :src="item.pics" class="column_pic" mode="aspectFill" />
+          <div class="column-bottom">
+
+
+            <div class="bottom-text">
+              <span class="label"> <span class="text">{{ item.transport }}</span> </span>{{ item.title }}
+            </div>
+            <div class="box">
+
+
+              <div class="bottom-price">
+                <span class="price"><span class="symbol">￥</span>{{ item.price }}</span>
+              </div>
+              <div class="property-label">
+                <div class="quality">
+                  <span class="text-quality">{{ item.quality }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </view>
+      </div>
+      <div class="column_item_1">
+        <view class="item" v-for="(item, index) in columnRight" :key="index">
+          <image :src="item.pics" class="column_pic" mode="aspectFill" />
+          <div class="column-bottom">
+
+
+            <div class="bottom-text">
+              <span class="label"> <span class="text">{{ item.transport }}</span> </span>{{ item.title }}
+            </div>
+            <div class="box">
+
+
+              <div class="bottom-price">
+                <span class="price"><span class="symbol">￥</span>{{ item.price }}</span>
+              </div>
+              <div class="property-label">
+                <div class="quality">
+                  <span class="text-quality">{{ item.quality }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </view>
+      </div>
+    </view>
   </view>
 </template>
 
@@ -16,12 +88,86 @@ import uniGoodsCard from "./components/uni-goods-card.vue";
 import uniBanner from "./components/uni-banner.vue";
 import UniGoodsCard from "./components/uni-goods-card.vue";
 import UniProductCatgNav from "./components/uni-product-catg-nav.vue";
+const db = wx.cloud.database()
 export default {
   components: { uniBanner, UniProductCatgNav, UniGoodsCard, uniGoodsCard },
   data() {
     return {
-      searchKey: '商品'
+      searchKey: '商品',
+      pics: [],
+      goodsInfo: [],
+      jsData: {
+        columnsHeight: [0, 0],
+        isLoading: false,
+      },
+      columns: [[], []],
+      indexObj: {},
+      tempPics: [],
+      Mode: "Loop",
+      isShow: false,
+      columnLeft: [],
+      columnRight: [],
+      catgList: [
+        {
+          id: 1,
+          img: "../../static/category-nav/all.svg",
+          title: "全部商品",
+          isActive: true,
+        },
+
+        {
+          id: 2,
+          img: "../../static/category-nav/iphone.svg",
+          title: "电子设备",
+          isActive: false,
+        },
+        {
+          id: 3,
+          img: "../../static/category-nav/fitness.svg",
+          title: "健身器材",
+          isActive: false,
+        },
+        {
+          id: 4,
+          img: "../../static/category-nav/brush.svg",
+          title: "美妆日化",
+          isActive: false,
+        },
+        {
+          id: 5,
+          img: "../../static/category-nav/clothes.svg",
+          title: "服装服饰",
+          isActive: false,
+        },
+        {
+          id: 6,
+          img: "../../static/category-nav/other.svg",
+          title: "其他宝贝",
+          isActive: false,
+        },
+      ],
+      sum: 0,
+      itemList: [
+        {
+          id: 1,
+          title: "第一张图片",
+          img: "../../static/banner/curtain.svg",
+        },
+        {
+          id: 2,
+          title: "第二张图片",
+          img: "../../static/banner/curtain.svg",
+        },
+        {
+          id: 3,
+          title: "第三张图片",
+          img: "../../static/banner/curtain.svg",
+        },
+      ],
     };
+  },
+  onShow: function () {
+    console.log("index Page Show");
   },
   methods: {
     toSearchPage() {
@@ -31,6 +177,57 @@ export default {
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey
       });
     },
+    async loadGoodsInfo() {
+      // 向数据库发送请求
+      console.log('请求数据库--');
+      await db.collection('goods').where({
+        audited: false,
+      }).get().then(res => {
+        // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
+        console.log(res.data)
+        this.goodsInfo = res.data;
+        let goodsInfo = res.data;
+        goodsInfo.forEach(item => {
+          item.pics = item.pics[0].url
+        });
+        console.log('test----', goodsInfo);
+        // 拆分两边
+
+        let columnLeft = goodsInfo.filter((item, index) => {
+          return index % 2 === 0
+        })
+        let columnRight = goodsInfo.filter((item, index) => {
+          return index % 2 !== 0
+        })
+        if (goodsInfo.length % 2 !== 0) {
+          columnRight.push({
+            pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
+            transport: "不送",
+            title: "曾梦想仗剑走天涯，没想到码农过一生",
+            price: 100,
+            quality: "底部彩蛋"
+          })
+        }
+        this.columnLeft = columnLeft;
+        this.columnRight = columnRight;
+
+        console.log(columnLeft, columnRight);
+        this.goodsInfo = goodsInfo;
+
+      })
+    },
+    toggleCategory(id) {
+      console.log('切换到了--' + this.catgList[id].title + '--分类');
+
+      this.catgList.forEach(item => {
+        item.isActive = false;
+      });
+
+      this.catgList[id].isActive = true;
+    }
+  },
+  async mounted() {
+    await this.loadGoodsInfo();
   },
 };
 </script>
@@ -45,6 +242,321 @@ export default {
     padding: 0;
     padding: 10rpx 0 17.52rpx 0;
     background-color: #f0f0f0 !important;
+  }
+
+  .banner-container {
+    border-radius: 26.29rpx;
+
+    .swiper {
+      overflow: hidden;
+      height: 380.16rpx;
+      background-color: green;
+      border-radius: 26.29rpx;
+
+      .swiper-item {
+        .image {
+          z-index: -1;
+          width: 100%;
+          height: inherit;
+        }
+      }
+    }
+  }
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+
+// 交叉轴的起点对齐
+    align-items: flex-start;
+    margin-top: 20rpx;
+
+    .column_item_0 {
+      width: 48%;
+
+// width: 100%;
+      margin: 0 0 15rpx 0;
+      margin-bottom: 18rpx;
+      border-radius: 8.76rpx;
+
+      .test-style {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 120rpx;
+        margin-bottom: 10rpx;
+        font-weight: bold;
+        text-align: center;
+        background-color: #ffc300;
+        border-radius: 17.52rpx;
+
+        .book-icon {
+          width: 50rpx;
+          height: 50rpx;
+          padding-right: 5px;
+        }
+      }
+
+      .item {
+        margin-bottom: 15rpx;
+
+        .column_pic {
+          display: block;
+          width: 100%;
+          height: 336.45rpx;
+          border-radius: 12rpx;
+        }
+
+        .column-bottom {
+          box-sizing: border-box;
+          width: 100%;
+          height: auto;
+          padding: 10.51rpx 15rpx;
+          background: #fff;
+          border-radius: 0 0 10rpx 10rpx;
+
+          .bottom-text {
+            display: -webkit-box;
+            overflow: hidden;
+            height: auto;
+            padding-bottom: 5rpx;
+            font-size: 12px;
+            font-weight: bold;
+            text-overflow: ellipsis;
+
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+
+            .label {
+              width: auto;
+              margin-right: 5px;
+              font-size: 10px;
+              font-weight: normal;
+              background-color: #0095ff;
+              border-radius: 2px;
+
+              .text {
+                padding: 2px 4px;
+                color: #fff;
+                font-size: 10px;
+              }
+            }
+          }
+        }
+
+        .box {
+          display: flex;
+          padding: 5px 0;
+
+          .bottom-price {
+            display: flex;
+            align-items: center;
+            height: 40rpx;
+
+            .price {
+              color: rgb(255, 0, 0);
+              font-size: 35rpx;
+              font-weight: bold;
+
+              .symbol {
+                font-size: 22.52rpx;
+              }
+            }
+          }
+
+          .property-label {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 40rpx;
+            margin-left: 10px;
+            font-size: 16.02rpx;
+            font-weight: normal;
+
+            .quality {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: auto;
+              height: 23rpx;
+              margin-top: 4rpx;
+              margin-right: 15rpx;
+              color: #ed555c;
+              border: .5px solid rgb(255, 101, 101);
+              border-radius: 5rpx;
+
+              .text-quality {
+                margin: 10rpx;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .column_item_1 {
+    width: 48%;
+    margin: 0 0 15rpx 0;
+    margin-bottom: 18rpx;
+    border-radius: 8.76rpx;
+
+    .test-style {
+      width: 100%;
+      height: 150rpx;
+      margin-bottom: 10rpx;
+      background-color: green;
+      border-radius: 17.52rpx;
+    }
+
+    .item {
+      margin-bottom: 15rpx;
+
+      .column_pic {
+        display: block;
+        width: 100%;
+        height: 336.45rpx;
+        border-radius: 12rpx;
+      }
+
+      .column-bottom {
+        box-sizing: border-box;
+        width: 100%;
+        height: auto;
+        padding: 10.51rpx 15rpx;
+        background: #fff;
+        border-radius: 0 0 10rpx 10rpx;
+
+        .bottom-text {
+          display: -webkit-box;
+          overflow: hidden;
+          height: auto;
+          padding-bottom: 5rpx;
+          font-size: 12px;
+          font-weight: bold;
+          text-overflow: ellipsis;
+
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+
+          .label {
+            width: auto;
+            margin-right: 5px;
+            font-size: 10px;
+            font-weight: normal;
+            background-color: #0095ff;
+            border-radius: 2px;
+
+            .text {
+              padding: 2px 4px;
+              color: #fff;
+              font-size: 10px;
+            }
+          }
+        }
+      }
+
+      .box {
+        display: flex;
+        padding: 5px 0;
+
+        .bottom-price {
+          display: flex;
+          align-items: center;
+          height: 40rpx;
+
+          .price {
+            color: rgb(255, 0, 0);
+            font-size: 35rpx;
+            font-weight: bold;
+
+            .symbol {
+              font-size: 22.52rpx;
+            }
+          }
+        }
+
+        .property-label {
+          position: relative;
+          display: flex;
+          align-items: center;
+          height: 40rpx;
+          margin-left: 10px;
+          font-size: 16.02rpx;
+          font-weight: normal;
+
+          .quality {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+            height: 23rpx;
+            margin-top: 4rpx;
+            margin-right: 15rpx;
+            color: #ed555c;
+            border: .5px solid rgb(255, 101, 101);
+            border-radius: 5rpx;
+
+            .text-quality {
+              margin: 10rpx;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 130.39rpx;
+    margin-top: 20.52rpx;
+    background-color: rgb(255, 255, 255);
+    border-radius: 22.78rpx;
+
+    .wrap {
+      display: flex;
+      width: 95%;
+      white-space: nowrap;
+      transform: translateY(-10%);
+
+      .item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        width: 90rpx;
+        height: 90rpx;
+
+        .image {
+          width: 80rpx;
+          height: 80rpx;
+        }
+
+        .text {
+          margin-top: 7rpx;
+          font-size: 20rpx;
+          font-weight: bold;
+        }
+
+        .active {
+          position: absolute;
+          bottom: -18rpx;
+          width: 55rpx;
+          height: 8rpx;
+          background-color: #fc9b42;
+          border-radius: 25px;
+        }
+      }
+
+      .item:nth-child(6) {
+        margin-right: 0;
+      }
+    }
   }
 }
 </style>

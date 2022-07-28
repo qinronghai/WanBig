@@ -506,6 +506,7 @@ export default {
               address: this.address,
               category: this.category,
               quality: this.quality,
+              transport: this.transport,
               need: this.need,
               views: this.views,
               releaseTime: this.releaseTime,

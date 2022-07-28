@@ -1,5 +1,5 @@
 <template>
-  <view class="main" v-if="isShow">
+  <view class="main">
     <div class="column_item_0">
       <div class="test-style">
 
@@ -7,23 +7,23 @@
         书籍市场
 
       </div>
-      <view class="item" v-for="(pics, index) in columns[0]" :key="index">
-        <image :src="pics" class="column_pic" mode="aspectFill" />
+      <view class="item" v-for="(item, index) in columnLeft" :key="index">
+        <image :src="item.pics" class="column_pic" mode="aspectFill" />
         <div class="column-bottom">
 
 
           <div class="bottom-text">
-            <span class="label"> <span class="text">自取</span> </span>完美，手抖，下班時間忙，重要的不是禮物的貴重
+            <span class="label"> <span class="text">{{ item.transport }}</span> </span>{{ item.title }}
           </div>
           <div class="box">
 
 
             <div class="bottom-price">
-              <span class="price"><span class="symbol">￥</span>10</span>
+              <span class="price"><span class="symbol">￥</span>{{ item.price }}</span>
             </div>
             <div class="property-label">
               <div class="quality">
-                <span class="text-quality">几乎全新</span>
+                <span class="text-quality">{{ item.quality }}</span>
               </div>
             </div>
           </div>
@@ -31,23 +31,23 @@
       </view>
     </div>
     <div class="column_item_1">
-      <view class="item" v-for="(pics, index) in columns[1]" :key="index">
-        <image :src="pics" class="column_pic" mode="aspectFill" />
+      <view class="item" v-for="(item, index) in columnRight" :key="index">
+        <image :src="item.pics" class="column_pic" mode="aspectFill" />
         <div class="column-bottom">
 
 
           <div class="bottom-text">
-            <span class="label"> <span class="text">自取</span> </span>完美，手抖，下班時間忙，重要的不是禮物的貴重
+            <span class="label"> <span class="text">{{ item.transport }}</span> </span>{{ item.title }}
           </div>
           <div class="box">
 
 
             <div class="bottom-price">
-              <span class="price"><span class="symbol">￥</span>10</span>
+              <span class="price"><span class="symbol">￥</span>{{ item.price }}</span>
             </div>
             <div class="property-label">
               <div class="quality">
-                <span class="text-quality">几乎全新</span>
+                <span class="text-quality">{{ item.quality }}</span>
               </div>
             </div>
           </div>
@@ -70,124 +70,146 @@ export default {
         isLoading: false,
       },
       columns: [[], []],
+      indexObj: {},
       tempPics: [],
       Mode: "Loop",
       isShow: false,
+      columnLeft: [],
+      columnRight: []
     };
   },
   methods: {
-    getImageInfo(src) {
-      console.log("getImageInfo被调用了");
-      return new Promise((resolve, reject) => {
-        uni.getImageInfo({
-          src,
-          success(res) {
-            const height = (res.height * 750) / res.width;
-            // 374*668
-            resolve({ ...res, height, src });
-          },
-          fail(e) {
-            console.error(e, "失败了");
-            resolve({
-              type: "error",
-              height: 750,
-              src,
-            });
-          },
-        });
-      });
-    },
-    //获取所有图片信息以后一次加载，加载慢，渲染效果稍好
-    batchPics: function (picList, columns) {
-      let loadPicPs = [];
+    // getImageInfo(src) {
+    //   console.log("getImageInfo被调用了");
+    //   return new Promise((resolve, reject) => {
+    //     uni.getImageInfo({
+    //       src,
+    //       success(res) {
+    //         const height = (res.height * 750) / res.width;
+    //         // 374*668
+    //         resolve({ ...res, height, src });
+    //       },
+    //       fail(e) {
+    //         console.error(e, "失败了");
+    //         resolve({
+    //           type: "error",
+    //           height: 750,
+    //           src,
+    //         });
+    //       },
+    //     });
+    //   });
+    // },
+    // //获取所有图片信息以后一次加载，加载慢，渲染效果稍好
+    // batchPics: function (picList, columns) {
+    //   let loadPicPs = [];
 
-      for (let i = 0; i < picList.length; i++) {
-        loadPicPs.push(this.getImageInfo(picList[i]));
-      }
+    //   for (let i = 0; i < picList.length; i++) {
+    //     loadPicPs.push(this.getImageInfo(picList[i]));
+    //   }
 
-      Promise.all(loadPicPs).then((results) => {
-        for (let i = 0; i < results.length; i++) {
-          let res = results[i];
-          if (i < results.length / 2) {
-            columns[0].push(res.path);
-          } else {
-            columns[1].push(res.path);
-          }
-        }
+    //   Promise.all(loadPicPs).then((results) => {
+    //     for (let i = 0; i < results.length; i++) {
+    //       let res = results[i];
+    //       if (i < results.length / 2) {
+    //         columns[0].push(res.path);
+    //       } else {
+    //         columns[1].push(res.path);
+    //       }
+    //     }
 
-        this.columns = columns;
-        // this.jsData.columnsHeight = columnsHeight;
-        wx.hideLoading();
-        this.isShow = true;
-      });
-    },
-    //递归图片加载，这种是获取一个信息往collumn里面放一个
-    //加载图片有点像挤牙膏
-    loopPics: function (picList, columns, columnsHeight, index) {
-      console.log(picList);
-      let pic = picList.shift();
-      if (!pic) return;
-      this.getImageInfo(pic).then((res) => {
-        console.log("wtfffffffff", res);
-        index = columnsHeight[1] < columnsHeight[0] ? 1 : 0;
-        columns[index].push(res.path);
-        columnsHeight[index] += res.height;
+    //     this.columns = columns;
+    //     this.indexObj.columns = columns;
+    //     console.log("主页大数组", this.indexObj);
+    //     // this.pics=
+    //     // this.jsData.columnsHeight = columnsHeight;
+    //     wx.hideLoading();
+    //     this.isShow = true;
+    //   });
+    // },
+    // //递归图片加载，这种是获取一个信息往collumn里面放一个
+    // //加载图片有点像挤牙膏
+    // loopPics: function (picList, columns, columnsHeight, index) {
+    //   console.log(picList);
+    //   let pic = picList.shift();
+    //   if (!pic) return;
+    //   this.getImageInfo(pic).then((res) => {
+    //     console.log("wtfffffffff", res);
+    //     index = columnsHeight[1] < columnsHeight[0] ? 1 : 0;
+    //     columns[index].push(res.path);
+    //     columnsHeight[index] += res.height;
 
-        this.columns = columns;
-        this.jsData.columnsHeight = columnsHeight;
-        loopPics();
-      });
-    },
-    // 渲染页面
-    renderPage: function (picList) {
-      var that = this,
-        data = this,
-        columns = data.columns,
-        tempPics = data.tempPics,
-        length = tempPics.length,
-        index = 0;
+    //     this.columns = columns;
+    //     this.jsData.columnsHeight = columnsHeight;
+    //     loopPics();
+    //   });
+    // },
+    // // 渲染页面
+    // renderPage: function (picList) {
+    //   var that = this,
+    //     data = this,
+    //     columns = data.columns,
+    //     tempPics = data.tempPics,
+    //     length = tempPics.length,
+    //     index = 0;
 
-      this.Mode == "Batch"
-        ? this.loopPics(
-          picList,
-          columns,
-          tempPics,
-          length,
-          columnsHeight,
-          index
-        )
-        : this.batchPics(picList, columns);
-    },
-    //加载数据
-    loadData: function () {
-      var that = this;
-      console.log(that.jsData.isLoading);
-      if (!that.jsData.isLoading) {
-        that.jsData.isLoading = true;
-        console.log('resssss', this.pics);
-        that.renderPage(that.pics);
-      }
-    },
+    //   this.Mode == "Batch"
+    //     ? this.loopPics(
+    //       picList,
+    //       columns,
+    //       tempPics,
+    //       length,
+    //       columnsHeight,
+    //       index
+    //     )
+    //     : this.batchPics(picList, columns);
+    // },
+    // //加载数据
+    // loadData: function () {
+    //   var that = this;
+    //   console.log(that.jsData.isLoading);
+    //   if (!that.jsData.isLoading) {
+    //     that.jsData.isLoading = true;
+    //     console.log('resssss', this.pics);
+    //     that.renderPage(that.pics);
+    //   }
+    // },
     async loadGoodsInfo() {
       // 向数据库发送请求
       console.log('请求数据库--');
       await db.collection('goods').where({
         audited: false,
-
       }).get().then(res => {
         // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
         console.log(res.data)
         this.goodsInfo = res.data;
         let goodsInfo = res.data;
+        goodsInfo.forEach(item => {
+          item.pics = item.pics[0].url
+        });
+        console.log('test----', goodsInfo);
+        // 拆分两边
 
-        // 拆分图片单独做组
-        let pics = goodsInfo.map(item => {
-
-          return item.pics[0].url;
+        let columnLeft = goodsInfo.filter((item, index) => {
+          return index % 2 === 0
         })
-        console.log("888", pics);
-        this.pics = pics;
-        this.loadData();
+        let columnRight = goodsInfo.filter((item, index) => {
+          return index % 2 !== 0
+        })
+        if (goodsInfo.length % 2 !== 0) {
+          columnRight.push({
+            pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
+            transport: "不送",
+            title: "曾梦想仗剑走天涯，没想到码农过一生",
+            price: 100,
+            quality: "底部彩蛋"
+          })
+        }
+        this.columnLeft = columnLeft;
+        this.columnRight = columnRight;
+
+        console.log(columnLeft, columnRight);
+        this.goodsInfo = goodsInfo;
 
       })
     },
@@ -259,7 +281,7 @@ export default {
       .column-bottom {
         box-sizing: border-box;
         width: 100%;
-        height: 140rpx;
+        height: auto;
         padding: 10.51rpx 15rpx;
         background: #fff;
         border-radius: 0 0 10rpx 10rpx;
@@ -267,7 +289,7 @@ export default {
         .bottom-text {
           display: -webkit-box;
           overflow: hidden;
-          height: 70rpx;
+          height: auto;
           padding-bottom: 5rpx;
           font-size: 12px;
           font-weight: bold;
@@ -295,7 +317,7 @@ export default {
 
       .box {
         display: flex;
-        padding-top: 5px;
+        padding: 5px 0;
 
         .bottom-price {
           display: flex;
@@ -371,7 +393,7 @@ export default {
     .column-bottom {
       box-sizing: border-box;
       width: 100%;
-      height: 140rpx;
+      height: auto;
       padding: 10.51rpx 15rpx;
       background: #fff;
       border-radius: 0 0 10rpx 10rpx;
@@ -379,7 +401,7 @@ export default {
       .bottom-text {
         display: -webkit-box;
         overflow: hidden;
-        height: 70rpx;
+        height: auto;
         padding-bottom: 5rpx;
         font-size: 12px;
         font-weight: bold;
@@ -407,7 +429,7 @@ export default {
 
     .box {
       display: flex;
-      padding-top: 5px;
+      padding: 5px 0;
 
       .bottom-price {
         display: flex;

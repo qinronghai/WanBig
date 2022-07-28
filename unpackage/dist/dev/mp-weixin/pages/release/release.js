@@ -640,6 +640,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 179);function _interopReq
                       address: _this4.address,
                       category: _this4.category,
                       quality: _this4.quality,
+                      transport: _this4.transport,
                       need: _this4.need,
                       views: _this4.views,
                       releaseTime: _this4.releaseTime,
