@@ -171,7 +171,10 @@ export default {
     async loadGoodsInfo() {
       // 向数据库发送请求
       console.log('请求数据库--');
-      await db.collection('goods').get().then(res => {
+      await db.collection('goods').where({
+        audited: false,
+
+      }).get().then(res => {
         // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
         console.log(res.data)
         this.goodsInfo = res.data;

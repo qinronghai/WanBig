@@ -391,8 +391,10 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 179);function _interopReq
       views: 0,
       releaseTime: '',
       transport: '自取',
+      userInfo: {},
+
       audited: false,
-      userInfo: {} };
+      buy: false };
 
 
 

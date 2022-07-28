@@ -257,8 +257,10 @@ export default {
       views: 0,
       releaseTime: '',
       transport: '自取',
+      userInfo: {},
+
       audited: false,
-      userInfo: {}
+      buy: false
 
 
     };

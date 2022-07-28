@@ -287,7 +287,10 @@ var db = wx.cloud.database();var _default =
     loadGoodsInfo: function loadGoodsInfo() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 // 向数据库发送请求
                 console.log('请求数据库--');_context.next = 3;return (
-                  db.collection('goods').get().then(function (res) {
+                  db.collection('goods').where({
+                    audited: false }).
+
+                  get().then(function (res) {
                     // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
                     console.log(res.data);
                     _this3.goodsInfo = res.data;
