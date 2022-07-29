@@ -81,7 +81,7 @@
                 {
                     "name": "pages/goods-detail/goods-detail",
                     "pathName": "pages/goods-detail/goods-detail",
-                    "query": "",
+                    "query": "goodId=0a4ec1f962e25a7a12d12d225ec31776",
                     "scene": null
                 },
                 {

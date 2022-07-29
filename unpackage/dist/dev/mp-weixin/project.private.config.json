@@ -23,6 +23,12 @@
                     "pathName": "pages/dev-demo-test/dev-demo-test",
                     "query": "",
                     "scene": null
+                },
+                {
+                    "name": "pages/index-store/index-store",
+                    "pathName": "pages/index-store/index-store",
+                    "query": "",
+                    "scene": null
                 }
             ]
         }

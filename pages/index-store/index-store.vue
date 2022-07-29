@@ -30,7 +30,7 @@
           <image class="book-icon" src="../../static/category-nav/books.svg" mode="" />
           书籍市场
         </div>
-        <view class="item" v-for="(item, index) in columnLeft" :key="index">
+        <view class="item" v-for="(item, index) in columnLeft" :key="index" @click="toGoodDetailPage(item._id)">
           <image :src="item.pics" class="column_pic" mode="aspectFill" />
           <div class="column-bottom">
             <div class="bottom-text">
@@ -50,7 +50,7 @@
         </view>
       </div>
       <div class="column_item_1">
-        <view class="item" v-for="(item, index) in columnRight" :key="index">
+        <view class="item" v-for="(item, index) in columnRight" :key="index" @click="toGoodDetailPage(item._id)">
           <image :src="item.pics" class="column_pic" mode="aspectFill" />
           <div class="column-bottom">
             <div class="bottom-text">
@@ -260,6 +260,12 @@ export default {
         default:
 
       }
+    },
+    toGoodDetailPage(goodId) {
+      console.log(goodId);
+      uni.navigateTo({
+        url: '/pages/goods-detail/goods-detail?goodId=' + goodId
+      });
     }
   },
   async mounted() {
@@ -418,7 +424,7 @@ export default {
               margin-top: 4rpx;
               margin-right: 15rpx;
               color: #ed555c;
-              border: .5px solid rgb(255, 101, 101);
+              border: 1px solid rgb(255, 101, 101);
               border-radius: 5rpx;
 
               .text-quality {
@@ -530,7 +536,7 @@ export default {
             margin-top: 4rpx;
             margin-right: 15rpx;
             color: #ed555c;
-            border: .5px solid rgb(255, 101, 101);
+            border: 1px solid rgb(255, 101, 101);
             border-radius: 5rpx;
 
             .text-quality {

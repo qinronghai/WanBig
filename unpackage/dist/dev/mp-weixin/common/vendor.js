@@ -1400,7 +1400,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -4112,6 +4112,129 @@ function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ 150:
+/*!************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/button/index.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 119);
+var _button = __webpack_require__(/*! ../mixins/button */ 151);
+var _version = __webpack_require__(/*! ../common/version */ 126);
+var mixins = [_button.button];
+if ((0, _version.canIUseFormFieldButton)()) {
+  mixins.push('wx://form-field-button');
+}
+(0, _component.VantComponent)({
+  mixins: mixins,
+  classes: ['hover-class', 'loading-class'],
+  data: {
+    baseStyle: '' },
+
+  props: {
+    formType: String,
+    icon: String,
+    classPrefix: {
+      type: String,
+      value: 'van-icon' },
+
+    plain: Boolean,
+    block: Boolean,
+    round: Boolean,
+    square: Boolean,
+    loading: Boolean,
+    hairline: Boolean,
+    disabled: Boolean,
+    loadingText: String,
+    customStyle: String,
+    loadingType: {
+      type: String,
+      value: 'circular' },
+
+    type: {
+      type: String,
+      value: 'default' },
+
+    dataset: null,
+    size: {
+      type: String,
+      value: 'normal' },
+
+    loadingSize: {
+      type: String,
+      value: '20px' },
+
+    color: String },
+
+  methods: {
+    onClick: function onClick(event) {var _this = this;
+      this.$emit('click', event);var _this$data =
+      this.data,canIUseGetUserProfile = _this$data.canIUseGetUserProfile,openType = _this$data.openType,getUserProfileDesc = _this$data.getUserProfileDesc,lang = _this$data.lang;
+      if (openType === 'getUserInfo' && canIUseGetUserProfile) {
+        wx.getUserProfile({
+          desc: getUserProfileDesc || '  ',
+          lang: lang || 'en',
+          complete: function complete(userProfile) {
+            _this.$emit('getuserinfo', userProfile);
+          } });
+
+      }
+    } } });
+
+/***/ }),
+
+/***/ 151:
+/*!*************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/button.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.button = void 0;var _version = __webpack_require__(/*! ../common/version */ 126);
+var button = Behavior({
+  externalClasses: ['hover-class'],
+  properties: {
+    id: String,
+    lang: String,
+    businessId: Number,
+    sessionFrom: String,
+    sendMessageTitle: String,
+    sendMessagePath: String,
+    sendMessageImg: String,
+    showMessageCard: Boolean,
+    appParameter: String,
+    ariaLabel: String,
+    openType: String,
+    getUserProfileDesc: String },
+
+  data: {
+    canIUseGetUserProfile: (0, _version.canIUseGetUserProfile)() },
+
+  methods: {
+    onGetUserInfo: function onGetUserInfo(event) {
+      this.triggerEvent('getuserinfo', event.detail);
+    },
+    onContact: function onContact(event) {
+      this.triggerEvent('contact', event.detail);
+    },
+    onGetPhoneNumber: function onGetPhoneNumber(event) {
+      this.triggerEvent('getphonenumber', event.detail);
+    },
+    onError: function onError(event) {
+      this.triggerEvent('error', event.detail);
+    },
+    onLaunchApp: function onLaunchApp(event) {
+      this.triggerEvent('launchapp', event.detail);
+    },
+    onOpenSetting: function onOpenSetting(event) {
+      this.triggerEvent('opensetting', event.detail);
+    } } });exports.button = button;
 
 /***/ }),
 
@@ -10188,7 +10311,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -10209,14 +10332,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -10302,7 +10425,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));

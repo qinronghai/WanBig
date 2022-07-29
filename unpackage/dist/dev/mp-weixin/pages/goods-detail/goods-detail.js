@@ -132,80 +132,135 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanButton = function VanButton() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/button/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/button/index */ 150));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   data: function data() {
-    return {};
+    return {
+      good: {},
+      goodId: '',
+      goodsInfo: {},
+      userInfo: {} };
+
   },
-  methods: {} };exports.default = _default;
+  components: { VanButton: VanButton },
+  onLoad: function onLoad(option) {
+    console.log(option.goodId); //打印出上个页面传递的参数。
+    this.goodId = option.goodId;
+    this.goodsInfo = uni.getStorageSync('goodsInfo');
+    this.userInfo = uni.getStorageSync('userInfo');
+    this.render(option.goodId);
+  },
+  methods: {
+    handlePop: function handlePop() {
+      wx.showModal({
+        title: '联系我~',
+        content: this.userInfo.contact,
+        success: function success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定');
+            // 复制到粘贴板
+            wx.setClipboardData({
+              data: "185043843",
+              success: function success(res) {
+                wx.getClipboardData({
+                  success: function success(res) {
+                    console.log("已成功复制联系方式", res.data); // data
+                  } });
+
+              } });
+
+          } else if (res.cancel) {
+            console.log('用户点击取消');
+          }
+        } });
+
+    },
+    render: function render(goodId) {var _this = this;
+      this.goodsInfo.forEach(function (good) {
+        if (good._id === goodId) {
+          _this.good = good;
+          _this.userInfo = good.userInfo;
+          console.log("商品详情--该商品--", good);
+          console.log("商品详情--发布该商品的用户--", good.userInfo);
+
+        }
+      });
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
