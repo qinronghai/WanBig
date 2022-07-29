@@ -141,17 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var uniGoodsCard = function uniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniBanner = function uniBanner() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-banner */ "pages/index-store/components/uni-banner").then((function () {return resolve(__webpack_require__(/*! ./components/uni-banner.vue */ 82));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsCard = function UniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniProductCatgNav = function UniProductCatgNav() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-product-catg-nav */ "pages/index-store/components/uni-product-catg-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-product-catg-nav.vue */ 89));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var uniGoodsCard = function uniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 178));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniBanner = function uniBanner() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-banner */ "pages/index-store/components/uni-banner").then((function () {return resolve(__webpack_require__(/*! ./components/uni-banner.vue */ 83));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsCard = function UniGoodsCard() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-goods-card */ "pages/index-store/components/uni-goods-card").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-card.vue */ 178));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniProductCatgNav = function UniProductCatgNav() {__webpack_require__.e(/*! require.ensure | pages/index-store/components/uni-product-catg-nav */ "pages/index-store/components/uni-product-catg-nav").then((function () {return resolve(__webpack_require__(/*! ./components/uni-product-catg-nav.vue */ 90));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -234,9 +224,10 @@ __webpack_require__.r(__webpack_exports__);
 var db = wx.cloud.database();var _default =
 {
   components: { uniBanner: uniBanner, UniProductCatgNav: UniProductCatgNav, UniGoodsCard: UniGoodsCard, uniGoodsCard: uniGoodsCard },
-  data: function data() {
-    return {
-      searchKey: '商品',
+  data: function data() {var _ref;
+    return _ref = {
+      searchKey: '',
+      isShow: 'true',
       pics: [],
       goodsInfo: [],
       jsData: {
@@ -246,71 +237,59 @@ var db = wx.cloud.database();var _default =
       columns: [[], []],
       indexObj: {},
       tempPics: [],
-      Mode: "Loop",
-      isShow: false,
-      columnLeft: [],
-      columnRight: [],
-      catgList: [
-      {
-        id: 1,
-        img: "../../static/category-nav/all.svg",
-        title: "全部商品",
-        isActive: true },
+      Mode: "Loop" }, _defineProperty(_ref, "isShow",
+    false), _defineProperty(_ref, "columnLeft",
+    []), _defineProperty(_ref, "columnRight",
+    []), _defineProperty(_ref, "catgList",
+    [
+    {
+      id: 1,
+      img: "../../static/category-nav/all.svg",
+      title: "全部商品",
+      isActive: true },
 
 
-      {
-        id: 2,
-        img: "../../static/category-nav/iphone.svg",
-        title: "电子设备",
-        isActive: false },
+    {
+      id: 2,
+      img: "../../static/category-nav/iphone.svg",
+      title: "电子设备",
+      isActive: false },
 
-      {
-        id: 3,
-        img: "../../static/category-nav/fitness.svg",
-        title: "健身器材",
-        isActive: false },
+    {
+      id: 3,
+      img: "../../static/category-nav/fitness.svg",
+      title: "健身器材",
+      isActive: false },
 
-      {
-        id: 4,
-        img: "../../static/category-nav/brush.svg",
-        title: "美妆日化",
-        isActive: false },
+    {
+      id: 4,
+      img: "../../static/category-nav/brush.svg",
+      title: "美妆日化",
+      isActive: false },
 
-      {
-        id: 5,
-        img: "../../static/category-nav/clothes.svg",
-        title: "服装服饰",
-        isActive: false },
+    {
+      id: 5,
+      img: "../../static/category-nav/clothes.svg",
+      title: "服装服饰",
+      isActive: false },
 
-      {
-        id: 6,
-        img: "../../static/category-nav/other.svg",
-        title: "其他宝贝",
-        isActive: false }],
-
-
-      sum: 0,
-      itemList: [
-      {
-        id: 1,
-        title: "第一张图片",
-        img: "../../static/banner/curtain.svg" },
-
-      {
-        id: 2,
-        title: "第二张图片",
-        img: "../../static/banner/curtain.svg" },
-
-      {
-        id: 3,
-        title: "第三张图片",
-        img: "../../static/banner/curtain.svg" }] };
+    {
+      id: 6,
+      img: "../../static/category-nav/other.svg",
+      title: "其他宝贝",
+      isActive: false }]), _defineProperty(_ref, "sum",
 
 
+    0), _defineProperty(_ref, "swiperList",
+    []), _ref;
 
   },
   onShow: function onShow() {
     console.log("index Page Show");
+  },
+  onPullDownRefresh: function onPullDownRefresh() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                _this2.getGoodsInfo());case 2:
+              uni.stopPullDownRefresh();case 3:case "end":return _context.stop();}}}, _callee);}))();
   },
   methods: {
     toSearchPage: function toSearchPage() {
@@ -320,57 +299,115 @@ var db = wx.cloud.database();var _default =
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey });
 
     },
-    loadGoodsInfo: function loadGoodsInfo() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                // 向数据库发送请求
-                console.log('请求数据库--');_context.next = 3;return (
-                  db.collection('goods').where({
-                    audited: false }).
-                  get().then(function (res) {
-                    // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
-                    console.log(res.data);
-                    _this.goodsInfo = res.data;
-                    var goodsInfo = res.data;
-                    goodsInfo.forEach(function (item) {
-                      item.pics = item.pics[0].url;
-                    });
-                    console.log('test----', goodsInfo);
-                    // 拆分两边
+    filterPics: function filterPics() {
+      // 首页商品卡片的图片单独做组
+      this.goodsInfo.forEach(function (item) {
+        item.pics = item.pics[0].url;
+      });
+    },
+    sortData: function sortData(goodsInfo) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var columnLeft, columnRight;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                // 拆分两为两列
+                columnLeft = goodsInfo.filter(function (item, index) {
+                  return index % 2 === 0;
+                });
+                columnRight = goodsInfo.filter(function (item, index) {
+                  return index % 2 !== 0;
+                });
+                // 当数组长度为单数时，造成右列空缺很高，需要补一个
+                if (goodsInfo.length % 2 !== 0) {
+                  columnRight.push({
+                    pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
+                    transport: "不送",
+                    title: "曾梦想仗剑走天涯，没想到码农过一生",
+                    price: 100,
+                    quality: "底部彩蛋" });
 
-                    var columnLeft = goodsInfo.filter(function (item, index) {
-                      return index % 2 === 0;
-                    });
-                    var columnRight = goodsInfo.filter(function (item, index) {
-                      return index % 2 !== 0;
-                    });
-                    if (goodsInfo.length % 2 !== 0) {
-                      columnRight.push({
-                        pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
-                        transport: "不送",
-                        title: "曾梦想仗剑走天涯，没想到码农过一生",
-                        price: 100,
-                        quality: "底部彩蛋" });
+                }
+                _this3.columnLeft = columnLeft;
+                _this3.columnRight = columnRight;
 
-                    }
-                    _this.columnLeft = columnLeft;
-                    _this.columnRight = columnRight;
+                console.log("首页--调整数据--完毕", columnLeft, columnRight);case 6:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
+    getGoodsInfo: function getGoodsInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                _this = _this4;
+                wx.showLoading({
+                  title: '数据加载中',
+                  mark: true });_context3.next = 4;return (
 
-                    console.log(columnLeft, columnRight);
-                    _this.goodsInfo = goodsInfo;
+                  wx.cloud.callFunction({
+                    name: 'getGoodsInfo' }).
 
-                  }));case 3:case "end":return _context.stop();}}}, _callee);}))();
+                  then(function (res) {
+                    console.log("首页-请求所有数据-成功");
+                    _this4.goodsInfo = res.result.data;
+                    wx.hideLoading({
+                      success: function success(res) {
+                        uni.setStorageSync('goodsInfo', _this4.goodsInfo);
+                        // 筛选第一张图片
+                        _this4.filterPics();
+                        // 整理数据 -- 全部商品
+                        _this.sortData(_this4.goodsInfo);
+                      } });
+
+                  }).
+                  catch(console.error));case 4:case "end":return _context3.stop();}}}, _callee3);}))();
+    },
+    getswiperList: function getswiperList() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                  db.collection("swiper").doc('058dfefe62e372210fc0828f369ba54d').get().then(function (res) {
+                    console.log("首页--请求轮播图数据--成功");
+                    _this5.swiperList = res.data.swiperList;
+                  }));case 2:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     toggleCategory: function toggleCategory(id) {
-      console.log('切换到了--' + this.catgList[id].title + '--分类');
-
+      console.log('切换到了--' + this.catgList[id].title + '--分类' + "--" + id);
       this.catgList.forEach(function (item) {
         item.isActive = false;
       });
-
       this.catgList[id].isActive = true;
+
+      var goodsInfo = this.goodsInfo;
+      switch (id) {
+        case 0:
+          this.sortData(goodsInfo);
+          break;
+        case 1:
+          var electronic = goodsInfo.filter(function (item) {
+            return item.category === '电子设备';
+          });
+          this.sortData(electronic);
+          break;
+        case 2:
+          var fitness = goodsInfo.filter(function (item) {
+            return item.category === '健身器材';
+          });
+          this.sortData(fitness);
+          break;
+        case 3:
+          var makeups = goodsInfo.filter(function (item) {
+            return item.category === '美妆日化';
+          });
+          this.sortData(makeups);
+          break;
+        case 4:
+          var clothing = goodsInfo.filter(function (item) {
+            return item.category === '服装服饰';
+          });
+          this.sortData(clothing);
+          break;
+        case 5:
+          var other = goodsInfo.filter(function (item) {
+            return item.category === '其他宝贝';
+          });
+          this.sortData(other);
+          break;
+        default:}
+
+
     } },
 
-  mounted: function mounted() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                _this2.loadGoodsInfo());case 2:case "end":return _context2.stop();}}}, _callee2);}))();
+  mounted: function mounted() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+                _this6.getGoodsInfo());case 2:_context5.next = 4;return (
+                _this6.getswiperList());case 4:case "end":return _context5.stop();}}}, _callee5);}))();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

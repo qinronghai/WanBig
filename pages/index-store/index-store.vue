@@ -5,8 +5,8 @@
     <!-- 轮播图 -->
     <view class="banner-container">
       <swiper class="swiper" autoplay circular>
-        <swiper-item class="swiper-item" v-for="(item, id) in itemList" :key="id">
-          <image class="image" :src="item.img" mode="scaleToFill" />
+        <swiper-item class="swiper-item" v-for="(item, index) in swiperList" :key="index">
+          <image class="image" :src="item" mode="scaleToFill" />
         </swiper-item>
       </swiper>
     </view>
@@ -27,22 +27,16 @@
     <view class="main">
       <div class="column_item_0">
         <div class="test-style">
-
           <image class="book-icon" src="../../static/category-nav/books.svg" mode="" />
           书籍市场
-
         </div>
         <view class="item" v-for="(item, index) in columnLeft" :key="index">
           <image :src="item.pics" class="column_pic" mode="aspectFill" />
           <div class="column-bottom">
-
-
             <div class="bottom-text">
               <span class="label"> <span class="text">{{ item.transport }}</span> </span>{{ item.title }}
             </div>
             <div class="box">
-
-
               <div class="bottom-price">
                 <span class="price"><span class="symbol">￥</span>{{ item.price }}</span>
               </div>
@@ -59,14 +53,10 @@
         <view class="item" v-for="(item, index) in columnRight" :key="index">
           <image :src="item.pics" class="column_pic" mode="aspectFill" />
           <div class="column-bottom">
-
-
             <div class="bottom-text">
               <span class="label"> <span class="text">{{ item.transport }}</span> </span>{{ item.title }}
             </div>
             <div class="box">
-
-
               <div class="bottom-price">
                 <span class="price"><span class="symbol">￥</span>{{ item.price }}</span>
               </div>
@@ -93,7 +83,8 @@ export default {
   components: { uniBanner, UniProductCatgNav, UniGoodsCard, uniGoodsCard },
   data() {
     return {
-      searchKey: '商品',
+      searchKey: '',
+      isShow: 'true',
       pics: [],
       goodsInfo: [],
       jsData: {
@@ -147,27 +138,15 @@ export default {
         },
       ],
       sum: 0,
-      itemList: [
-        {
-          id: 1,
-          title: "第一张图片",
-          img: "../../static/banner/curtain.svg",
-        },
-        {
-          id: 2,
-          title: "第二张图片",
-          img: "../../static/banner/curtain.svg",
-        },
-        {
-          id: 3,
-          title: "第三张图片",
-          img: "../../static/banner/curtain.svg",
-        },
-      ],
+      swiperList: [],
     };
   },
   onShow: function () {
     console.log("index Page Show");
+  },
+  async onPullDownRefresh() {
+    await this.getGoodsInfo();
+    uni.stopPullDownRefresh();
   },
   methods: {
     toSearchPage() {
@@ -177,57 +156,115 @@ export default {
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey
       });
     },
-    async loadGoodsInfo() {
-      // 向数据库发送请求
-      console.log('请求数据库--');
-      await db.collection('goods').where({
-        audited: false,
-      }).get().then(res => {
-        // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
-        console.log(res.data)
-        this.goodsInfo = res.data;
-        let goodsInfo = res.data;
-        goodsInfo.forEach(item => {
-          item.pics = item.pics[0].url
-        });
-        console.log('test----', goodsInfo);
-        // 拆分两边
+    filterPics() {
+      // 首页商品卡片的图片单独做组
+      this.goodsInfo.forEach(item => {
+        item.pics = item.pics[0].url
+      });
+    },
+    async sortData(goodsInfo) {
+      // 拆分两为两列
+      let columnLeft = goodsInfo.filter((item, index) => {
+        return index % 2 === 0
+      })
+      let columnRight = goodsInfo.filter((item, index) => {
+        return index % 2 !== 0
+      })
+      // 当数组长度为单数时，造成右列空缺很高，需要补一个
+      if (goodsInfo.length % 2 !== 0) {
+        columnRight.push({
+          pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
+          transport: "不送",
+          title: "曾梦想仗剑走天涯，没想到码农过一生",
+          price: 100,
+          quality: "底部彩蛋"
+        })
+      }
+      this.columnLeft = columnLeft;
+      this.columnRight = columnRight;
 
-        let columnLeft = goodsInfo.filter((item, index) => {
-          return index % 2 === 0
-        })
-        let columnRight = goodsInfo.filter((item, index) => {
-          return index % 2 !== 0
-        })
-        if (goodsInfo.length % 2 !== 0) {
-          columnRight.push({
-            pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
-            transport: "不送",
-            title: "曾梦想仗剑走天涯，没想到码农过一生",
-            price: 100,
-            quality: "底部彩蛋"
+      console.log("首页--调整数据--完毕", columnLeft, columnRight);
+    },
+    async getGoodsInfo() {
+      let _this = this;
+      wx.showLoading({
+        title: '数据加载中',
+        mark: true
+      })
+      await wx.cloud.callFunction({
+        name: 'getGoodsInfo',
+      })
+        .then(res => {
+          console.log("首页-请求所有数据-成功")
+          this.goodsInfo = res.result.data;
+          wx.hideLoading({
+            success: (res) => {
+              uni.setStorageSync('goodsInfo', this.goodsInfo);
+              // 筛选第一张图片
+              this.filterPics();
+              // 整理数据 -- 全部商品
+              _this.sortData(this.goodsInfo);
+            },
           })
-        }
-        this.columnLeft = columnLeft;
-        this.columnRight = columnRight;
-
-        console.log(columnLeft, columnRight);
-        this.goodsInfo = goodsInfo;
-
+        })
+        .catch(console.error)
+    },
+    async getswiperList() {
+      await db.collection("swiper").doc('058dfefe62e372210fc0828f369ba54d').get().then((res) => {
+        console.log("首页--请求轮播图数据--成功");
+        this.swiperList = res.data.swiperList;
       })
     },
     toggleCategory(id) {
-      console.log('切换到了--' + this.catgList[id].title + '--分类');
-
+      console.log('切换到了--' + this.catgList[id].title + '--分类' + "--" + id);
       this.catgList.forEach(item => {
         item.isActive = false;
       });
-
       this.catgList[id].isActive = true;
+
+      let goodsInfo = this.goodsInfo;
+      switch (id) {
+        case 0:
+          this.sortData(goodsInfo);
+          break;
+        case 1:
+          let electronic = goodsInfo.filter(item => {
+            return item.category === '电子设备'
+          })
+          this.sortData(electronic);
+          break;
+        case 2:
+          let fitness = goodsInfo.filter(item => {
+            return item.category === '健身器材'
+          })
+          this.sortData(fitness);
+          break;
+        case 3:
+          let makeups = goodsInfo.filter(item => {
+            return item.category === '美妆日化'
+          })
+          this.sortData(makeups);
+          break;
+        case 4:
+          let clothing = goodsInfo.filter(item => {
+            return item.category === '服装服饰'
+          })
+          this.sortData(clothing);
+          break;
+        case 5:
+          let other = goodsInfo.filter(item => {
+            return item.category === '其他宝贝'
+          })
+          this.sortData(other);
+          break;
+        default:
+
+      }
     }
   },
   async mounted() {
-    await this.loadGoodsInfo();
+    await this.getGoodsInfo();
+    await this.getswiperList();
   },
 };
 </script>
@@ -250,7 +287,7 @@ export default {
     .swiper {
       overflow: hidden;
       height: 380.16rpx;
-      background-color: green;
+      background-color: rgb(204, 204, 204);
       border-radius: 26.29rpx;
 
       .swiper-item {
@@ -273,8 +310,6 @@ export default {
 
     .column_item_0 {
       width: 48%;
-
-// width: 100%;
       margin: 0 0 15rpx 0;
       margin-bottom: 18rpx;
       border-radius: 8.76rpx;

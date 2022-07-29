@@ -39,7 +39,7 @@
 .index-store-page .banner-container .swiper.data-v-fe52f258 {
   overflow: hidden;
   height: 380.16rpx;
-  background-color: green;
+  background-color: #cccccc;
   border-radius: 26.29rpx;
 }
 .index-store-page .banner-container .swiper .swiper-item .image.data-v-fe52f258 {

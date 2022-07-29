@@ -3241,7 +3241,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 117:
+/***/ 118:
 /*!**********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
   \**********************************************************************/
@@ -3249,7 +3249,7 @@ if (hadRuntime) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 118);
+var _component = __webpack_require__(/*! ../common/component */ 119);
 (0, _component.VantComponent)({
   props: {
     dot: Boolean,
@@ -3270,7 +3270,7 @@ var _component = __webpack_require__(/*! ../common/component */ 118);
 
 /***/ }),
 
-/***/ 118:
+/***/ 119:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
   \****************************************************************************/
@@ -3278,7 +3278,7 @@ var _component = __webpack_require__(/*! ../common/component */ 118);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 119);
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 120);
 function mapKeys(source, target, map) {
   Object.keys(map).forEach(function (key) {
     if (source[key]) {
@@ -3325,7 +3325,7 @@ function VantComponent(vantOptions) {
 
 /***/ }),
 
-/***/ 119:
+/***/ 120:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
   \************************************************************************/
@@ -3345,7 +3345,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 
 /***/ }),
 
-/***/ 120:
+/***/ 121:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
   \***********************************************************************/
@@ -3353,7 +3353,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 118);
+var _component = __webpack_require__(/*! ../common/component */ 119);
 (0, _component.VantComponent)({
   props: {
     show: Boolean,
@@ -3383,7 +3383,7 @@ var _component = __webpack_require__(/*! ../common/component */ 118);
 
 /***/ }),
 
-/***/ 121:
+/***/ 122:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
   \***********************************************************************/
@@ -3391,8 +3391,8 @@ var _component = __webpack_require__(/*! ../common/component */ 118);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 118);
-var _transition = __webpack_require__(/*! ../mixins/transition */ 122);
+var _component = __webpack_require__(/*! ../common/component */ 119);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 123);
 (0, _component.VantComponent)({
   classes: [
   'enter-class',
@@ -3481,7 +3481,7 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 122);
 
 /***/ }),
 
-/***/ 122:
+/***/ 123:
 /*!*****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
   \*****************************************************************************/
@@ -3490,8 +3490,8 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 122);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
-var _utils = __webpack_require__(/*! ../common/utils */ 123);
-var _validator = __webpack_require__(/*! ../common/validator */ 124); // @ts-nocheck
+var _utils = __webpack_require__(/*! ../common/utils */ 124);
+var _validator = __webpack_require__(/*! ../common/validator */ 125); // @ts-nocheck
 var getClassNames = function getClassNames(name) {return {
     enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
     'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
@@ -3607,7 +3607,7 @@ function transition(showDefaultValue) {
 
 /***/ }),
 
-/***/ 123:
+/***/ 124:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
   \************************************************************************/
@@ -3615,8 +3615,8 @@ function transition(showDefaultValue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 124);
-var _version = __webpack_require__(/*! ./version */ 125);
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 125);
+var _version = __webpack_require__(/*! ./version */ 126);
 
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
@@ -3710,7 +3710,7 @@ function getCurrentPage() {
 
 /***/ }),
 
-/***/ 124:
+/***/ 125:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
   \****************************************************************************/
@@ -3752,7 +3752,7 @@ function isVideoUrl(url) {
 
 /***/ }),
 
-/***/ 125:
+/***/ 126:
 /*!**************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
   \**************************************************************************/
@@ -3760,7 +3760,7 @@ function isVideoUrl(url) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 123);
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 124);
 function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -3811,7 +3811,7 @@ function canIUseGetUserProfile() {
 
 /***/ }),
 
-/***/ 126:
+/***/ 127:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/index.js ***!
   \************************************************************************/
@@ -3819,8 +3819,8 @@ function canIUseGetUserProfile() {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 118);
-var _shared = __webpack_require__(/*! ./shared */ 127);
+var _component = __webpack_require__(/*! ../common/component */ 119);
+var _shared = __webpack_require__(/*! ./shared */ 128);
 (0, _component.VantComponent)({
   classes: ['active-class', 'toolbar-class', 'column-class'],
   props: Object.assign(Object.assign({}, _shared.pickerProps), { valueKey: {
@@ -3956,7 +3956,7 @@ var _shared = __webpack_require__(/*! ./shared */ 127);
 
 /***/ }),
 
-/***/ 127:
+/***/ 128:
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/shared.js ***!
   \*************************************************************************/
@@ -4112,23 +4112,6 @@ function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 179:
-/*!***********************************************************!*\
-  !*** D:/My-Document/projects/WanBig/pages/utils/delay.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.delay = delay;function delay(milSec) {
-  console.log("延迟2秒.....");
-  return new Promise(function (resolve) {
-    setTimeout(resolve, milSec);
-  });
-}
 
 /***/ }),
 
@@ -4659,6 +4642,23 @@ function resolveLocaleChain(locale) {
   return chain;
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
+
+/***/ }),
+
+/***/ 30:
+/*!***********************************************************!*\
+  !*** D:/My-Document/projects/WanBig/pages/utils/delay.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.delay = delay;function delay(milSec) {
+  console.log("延迟2秒.....");
+  return new Promise(function (resolve) {
+    setTimeout(resolve, milSec);
+  });
+}
 
 /***/ }),
 
@@ -10723,7 +10723,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 74:
+/***/ 75:
 /*!***********************************************************!*\
   !*** D:/My-Document/projects/WanBig/pages/utils/utils.js ***!
   \***********************************************************/
