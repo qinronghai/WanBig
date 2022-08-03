@@ -1,8 +1,8 @@
 const cloud = require("wx-server-sdk");
 // cloud.init();
 cloud.init({
-  env: 'wb-dev-test-5g8b8c8u14429de5'
-})
+  env: "wb-dev-test-8g4qxuuj00591c1e",
+});
 const db = cloud.database();
 const MAX_LIMIT = 100;
 exports.main = async (event, context) => {

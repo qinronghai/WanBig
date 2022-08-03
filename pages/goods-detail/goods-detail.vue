@@ -31,8 +31,8 @@
           <!-- 联系方式 -->
           <div class="contact__button">
             <!-- TODO click 没有对应的方法？？ -->
-            <van-button bind:click="handlePop" icon="smile-comment-o" round type="info" color="#7232dd" size="small">
-              联系卖家
+            <van-button @click="popContact" icon="smile-comment-o" round type="info" color="#7232dd" size="small">
+              马上预定
             </van-button>
           </div>
         </div>
@@ -73,6 +73,10 @@
 
 <script>
 import VanButton from "../../wxcomponents/vant/button/index";
+// import { formatTime } from "../utils/formatTime.js";
+var util = require("../utils/formatTime.js");
+
+const db = wx.cloud.database()
 
 export default {
   data() {
@@ -90,22 +94,36 @@ export default {
     this.goodsInfo = uni.getStorageSync('goodsInfo');
     this.userInfo = uni.getStorageSync('userInfo');
     this.render(option.goodId);
+
+    // let currentTime = new Date();
+    // console.log(util.formatTime(currentTime));
+
+    // console.log(util.formatTime(threeDaysLater));
+
   },
   methods: {
-    handlePop() {
+    popContact() {
+      console.log('弹窗联系方式--');
+      let { contact } = this.good;
+      let _this = this;
       wx.showModal({
         title: '联系我~',
-        content: this.userInfo.contact,
+        content: contact,
         success(res) {
           if (res.confirm) {
             console.log('用户点击确定')
             // 复制到粘贴板
             wx.setClipboardData({
-              data: "185043843",
+              data: contact,
               success(res) {
                 wx.getClipboardData({
                   success(res) {
-                    console.log("已成功复制联系方式", res.data); // data
+                    console.log("已成功复制联系方式", res.data);
+                    // 更新数据库中的数据：预定信息，将其锁定，并上传预定的时间和购买状态。
+                    _this.updataBuyTime();
+                    // 发出订阅消息通知卖家该商品已被某某预定，附带联系方式，请卖家及时主动联系买家进行交货。
+                    _this.sendBookingSuccessMsg();
+                    // TODO 每次有发布过商品的卖家登录该小程序时，如果其有商品是buy，则弹窗提示卖家进行核验该商品是否卖出去，如果是则下架该商品。
                   },
                 });
               },
@@ -116,6 +134,58 @@ export default {
         }
       })
     },
+    async sendBookingSuccessMsg() {
+      // 处理时间格式
+      let startingTime = util.formatTime(this.buyTime);
+
+      // 现在的毫秒数
+      let cur = Date.now();
+
+      // 两天后的毫秒数
+      let curAdd2 = cur + (86400000 * 2)
+      // 数字化
+      curAdd2 = parseInt(curAdd2)
+      // 
+      let twoDaysLater = new Date(curAdd2);
+      twoDaysLater = util.formatTime(twoDaysLater);
+      console.log(twoDaysLater);
+      await wx.cloud
+        .callFunction({
+          name: "sendBookingSuccessMsg",
+          data: {
+            openid: this.good.userInfo._openid,
+            goodId: this.goodId,
+            orderInfo: this.good.title,
+            startingTime: startingTime,
+            contact: this.good.contact,
+            address: this.good.address,
+            endTime: twoDaysLater
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async updataBuyTime() {
+      this.buyTime = new Date();
+
+      let id = this.good._id;
+      console.log(this.buyTime);
+      await db.collection("goods").doc(id).update({
+        data: {
+          buyTime: this.buyTime,
+          buy: true
+        },
+        success: function (res) {
+          console.log(res)
+        }
+      })
+
+    },
+
     render(goodId) {
       this.goodsInfo.forEach(good => {
         if (good._id === goodId) {

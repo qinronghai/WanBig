@@ -260,7 +260,8 @@ export default {
       userInfo: {},
 
       audited: false,
-      buy: false
+      buy: false,
+      buyTime: '1',
 
 
     };
@@ -379,8 +380,32 @@ export default {
     needRadioChange(e) {
       this.need = e.detail.value;
     },
+    subscribNews() {
+      let tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
+      wx.requestSubscribeMessage({
+        tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag'],
+        // tempId就是上面后台生成的模板ID
+        success: res => {
+          console.log(res);
+          if (res[tempId] == "accept") {
+            // 'accept'表示用户同意订阅该条id对应的模板消息，
+            // 'reject'表示用户拒绝订阅该条id对应的模板消
+            // wx.showToast({
+            //   title: "订阅消息成功",
+            //   icon: "success",
+            //   success: sub => {
 
+            //   }
+            // })
+            console.log('授权成功');
+          }
+
+        }
+      })
+    },
     async submit() {
+      // 让卖家订阅消息
+      await this.subscribNews();
       let userInfo = uni.getStorageSync('userInfo')
       let _this = this;
       if (userInfo.nickName == null) {
@@ -487,7 +512,8 @@ export default {
         releaseTime: this.releaseTime,
         userInfo: this.userInfo,
         audited: this.audited,
-        buy: false
+        buy: false,
+        buyTime: this.buyTime
       }
       this.goodInfo = goodInfo;
       console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
@@ -512,8 +538,8 @@ export default {
               releaseTime: this.releaseTime,
               userInfo: this.userInfo,
               audited: this.audited,
-              buy: false
-
+              buy: false,
+              buyTime: this.buyTime
             }
           })
           .then(res => {

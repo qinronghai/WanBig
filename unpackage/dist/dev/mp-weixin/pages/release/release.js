@@ -394,7 +394,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
       userInfo: {},
 
       audited: false,
-      buy: false };
+      buy: false,
+      buyTime: '1' };
 
 
 
@@ -513,8 +514,32 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
     needRadioChange: function needRadioChange(e) {
       this.need = e.detail.value;
     },
+    subscribNews: function subscribNews() {
+      var tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
+      wx.requestSubscribeMessage({
+        tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag'],
+        // tempId就是上面后台生成的模板ID
+        success: function success(res) {
+          console.log(res);
+          if (res[tempId] == "accept") {
+            // 'accept'表示用户同意订阅该条id对应的模板消息，
+            // 'reject'表示用户拒绝订阅该条id对应的模板消
+            // wx.showToast({
+            //   title: "订阅消息成功",
+            //   icon: "success",
+            //   success: sub => {
 
-    submit: function submit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var userInfo, _this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+            //   }
+            // })
+            console.log('授权成功');
+          }
+
+        } });
+
+    },
+    submit: function submit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var userInfo, _this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+
+                  _this2.subscribNews());case 2:
                 userInfo = uni.getStorageSync('userInfo');
                 _this = _this2;
                 if (userInfo.nickName == null) {
@@ -557,7 +582,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                                 }case 13:case "end":return _context.stop();}}}, _callee);}))();
                     } });
 
-                }case 3:case "end":return _context2.stop();}}}, _callee2);}))();
+                }case 5:case "end":return _context2.stop();}}}, _callee2);}))();
 
     },
     checkText: function checkText(text, openid) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
@@ -621,7 +646,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                   releaseTime: _this4.releaseTime,
                   userInfo: _this4.userInfo,
                   audited: _this4.audited,
-                  buy: false };
+                  buy: false,
+                  buyTime: _this4.buyTime };
 
                 _this4.goodInfo = goodInfo;
                 console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
@@ -646,8 +672,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                       releaseTime: _this4.releaseTime,
                       userInfo: _this4.userInfo,
                       audited: _this4.audited,
-                      buy: false } }).
-
+                      buy: false,
+                      buyTime: _this4.buyTime } }).
 
 
                   then(function (res) {

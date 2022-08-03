@@ -5,7 +5,7 @@ export default {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
       wx.cloud.init({
-        env: 'wb-dev-test-5g8b8c8u14429de5', // 专属测试环境
+        env: 'wb-dev-test-8g4qxuuj00591c1e', // 专属测试环境
         traceUser: true,
       })
     }

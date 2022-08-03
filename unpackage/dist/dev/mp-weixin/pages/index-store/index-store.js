@@ -316,7 +316,7 @@ var db = wx.cloud.database();var _default =
                 // 当数组长度为单数时，造成右列空缺很高，需要补一个
                 if (goodsInfo.length % 2 !== 0) {
                   columnRight.push({
-                    pics: "cloud://wb-dev-test-5g8b8c8u14429de5.7762-wb-dev-test-5g8b8c8u14429de5-1306682869/good-pictures/1658999835919-430",
+                    pics: "cloud://wb-dev-test-8g4qxuuj00591c1e.7762-wb-dev-test-8g4qxuuj00591c1e-1313188449/good-pictures/Snipaste_2022-04-23_08-37-48.png",
                     transport: "不送",
                     title: "曾梦想仗剑走天涯，没想到码农过一生",
                     price: 100,

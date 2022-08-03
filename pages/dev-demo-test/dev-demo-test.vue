@@ -5,7 +5,7 @@
 </template>
 
 <script>
-var util = require("../utils/utils.js");
+var util = require("../utils/formatTime.js");
 
 export default {
 	data() {
