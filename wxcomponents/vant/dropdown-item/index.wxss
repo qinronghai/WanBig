@@ -17,6 +17,8 @@
 }
 .van-dropdown-item--down {
   bottom: 0;
+  margin: 0 15px;
+
 }
 .van-dropdown-item__icon {
   display: block;

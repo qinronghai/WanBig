@@ -334,7 +334,7 @@ var promiseInterceptor = {
 
 
 var SYNC_API_RE =
-/^\$|Window$|WindowStyle$|sendHostEvent|sendNativeEvent|restoreGlobal|requireGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64|getLocale|setLocale|invokePushCallback|getWindowInfo|getDeviceInfo|getAppBaseInfo/;
+/^\$|Window$|WindowStyle$|sendHostEvent|sendNativeEvent|restoreGlobal|requireGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64|getLocale|setLocale|invokePushCallback|getWindowInfo|getDeviceInfo|getAppBaseInfo|getSystemSetting|getAppAuthorizeSetting/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
 
@@ -342,7 +342,7 @@ var CONTEXT_API_RE = /^create|Manager$/;
 var CONTEXT_API_RE_EXC = ['createBLEConnection'];
 
 // 同步例外情况
-var ASYNC_API = ['createBLEConnection'];
+var ASYNC_API = ['createBLEConnection', 'createPushMessage'];
 
 var CALLBACK_API_RE = /^on|^off/;
 
@@ -766,8 +766,8 @@ function populateParameters(result) {var _result$brand =
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.4.18",
-    uniRuntimeVersion: "3.4.18",
+    uniCompileVersion: "3.5.3",
+    uniRuntimeVersion: "3.5.3",
     uniPlatform: undefined || "mp-weixin",
     deviceBrand: deviceBrand,
     deviceModel: model,
@@ -910,6 +910,19 @@ var getWindowInfo = {
   } };
 
 
+var getAppAuthorizeSetting = {
+  returnValue: function returnValue(result) {var
+    locationReducedAccuracy = result.locationReducedAccuracy;
+
+    result.locationAccuracy = 'unsupported';
+    if (locationReducedAccuracy === true) {
+      result.locationAccuracy = 'reduced';
+    } else if (locationReducedAccuracy === false) {
+      result.locationAccuracy = 'full';
+    }
+  } };
+
+
 // import navigateTo from 'uni-helpers/navigate-to'
 
 var protocols = {
@@ -921,7 +934,8 @@ var protocols = {
   showActionSheet: showActionSheet,
   getAppBaseInfo: getAppBaseInfo,
   getDeviceInfo: getDeviceInfo,
-  getWindowInfo: getWindowInfo };
+  getWindowInfo: getWindowInfo,
+  getAppAuthorizeSetting: getAppAuthorizeSetting };
 
 var todos = [
 'vibrate',
@@ -1146,6 +1160,7 @@ function getApiCallbacks(params) {
 
 var cid;
 var cidErrMsg;
+var enabled;
 
 function normalizePushMessage(message) {
   try {
@@ -1157,17 +1172,25 @@ function normalizePushMessage(message) {
 function invokePushCallback(
 args)
 {
-  if (args.type === 'clientId') {
+  if (args.type === 'enabled') {
+    enabled = true;
+  } else if (args.type === 'clientId') {
     cid = args.cid;
     cidErrMsg = args.errMsg;
     invokeGetPushCidCallbacks(cid, args.errMsg);
   } else if (args.type === 'pushMsg') {
-    onPushMessageCallbacks.forEach(function (callback) {
-      callback({
-        type: 'receive',
-        data: normalizePushMessage(args.message) });
+    var message = {
+      type: 'receive',
+      data: normalizePushMessage(args.message) };
 
-    });
+    for (var i = 0; i < onPushMessageCallbacks.length; i++) {
+      var callback = onPushMessageCallbacks[i];
+      callback(message);
+      // 该消息已被阻止
+      if (message.stopped) {
+        break;
+      }
+    }
   } else if (args.type === 'click') {
     onPushMessageCallbacks.forEach(function (callback) {
       callback({
@@ -1187,7 +1210,7 @@ function invokeGetPushCidCallbacks(cid, errMsg) {
   getPushCidCallbacks.length = 0;
 }
 
-function getPushClientid(args) {
+function getPushClientId(args) {
   if (!isPlainObject(args)) {
     args = {};
   }var _getApiCallbacks =
@@ -1199,25 +1222,32 @@ function getPushClientid(args) {
   var hasSuccess = isFn(success);
   var hasFail = isFn(fail);
   var hasComplete = isFn(complete);
-  getPushCidCallbacks.push(function (cid, errMsg) {
-    var res;
-    if (cid) {
-      res = {
-        errMsg: 'getPushClientid:ok',
-        cid: cid };
-
-      hasSuccess && success(res);
-    } else {
-      res = {
-        errMsg: 'getPushClientid:fail' + (errMsg ? ' ' + errMsg : '') };
-
-      hasFail && fail(res);
+  Promise.resolve().then(function () {
+    if (typeof enabled === 'undefined') {
+      enabled = false;
+      cid = '';
+      cidErrMsg = 'unipush is not enabled';
     }
-    hasComplete && complete(res);
+    getPushCidCallbacks.push(function (cid, errMsg) {
+      var res;
+      if (cid) {
+        res = {
+          errMsg: 'getPushClientId:ok',
+          cid: cid };
+
+        hasSuccess && success(res);
+      } else {
+        res = {
+          errMsg: 'getPushClientId:fail' + (errMsg ? ' ' + errMsg : '') };
+
+        hasFail && fail(res);
+      }
+      hasComplete && complete(res);
+    });
+    if (typeof cid !== 'undefined') {
+      invokeGetPushCidCallbacks(cid, cidErrMsg);
+    }
   });
-  if (typeof cid !== 'undefined') {
-    Promise.resolve().then(function () {return invokeGetPushCidCallbacks(cid, cidErrMsg);});
-  }
 }
 
 var onPushMessageCallbacks = [];
@@ -1241,7 +1271,7 @@ var offPushMessage = function offPushMessage(fn) {
 
 var api = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  getPushClientid: getPushClientid,
+  getPushClientId: getPushClientId,
   onPushMessage: onPushMessage,
   offPushMessage: offPushMessage,
   invokePushCallback: invokePushCallback });
@@ -1495,18 +1525,25 @@ function parsePropType(key, type, defaultValue, file) {
   return type;
 }
 
-function initProperties(props) {var isBehavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;var file = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+function initProperties(props) {var isBehavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;var file = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';var options = arguments.length > 3 ? arguments[3] : undefined;
   var properties = {};
   if (!isBehavior) {
     properties.vueId = {
       type: String,
       value: '' };
 
-    // 用于字节跳动小程序模拟抽象节点
-    properties.generic = {
-      type: Object,
-      value: null };
+    {
+      if (options.virtualHost) {
+        properties.virtualHostStyle = {
+          type: null,
+          value: '' };
 
+        properties.virtualHostClass = {
+          type: null,
+          value: '' };
+
+      }
+    }
     // scopedSlotsCompiler auto
     properties.scopedSlotsCompiler = {
       type: String,
@@ -1802,7 +1839,9 @@ function handleEvent(event) {var _this2 = this;
           }
           var handler = handlerCtx[methodName];
           if (!isFn(handler)) {
-            throw new Error(" _vm.".concat(methodName, " is not a function"));
+            var _type = _this2.$vm.mpType === 'page' ? 'Page' : 'Component';
+            var path = _this2.route || _this2.is;
+            throw new Error("".concat(_type, " \"").concat(path, "\" does not have a method \"").concat(methodName, "\""));
           }
           if (isOnce) {
             if (handler.once) {
@@ -2185,7 +2224,7 @@ function parseBaseComponent(vueComponentOptions)
     options: options,
     data: initData(vueOptions, _vue.default.prototype),
     behaviors: initBehaviors(vueOptions, initBehavior),
-    properties: initProperties(vueOptions.props, false, vueOptions.__file),
+    properties: initProperties(vueOptions.props, false, vueOptions.__file, options),
     lifetimes: {
       attached: function attached() {
         var properties = this.properties;
@@ -4238,6 +4277,127 @@ var button = Behavior({
 
 /***/ }),
 
+/***/ 199:
+/*!*******************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/dropdown-menu/index.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 119);
+var _relation = __webpack_require__(/*! ../common/relation */ 200);
+var _utils = __webpack_require__(/*! ../common/utils */ 124);
+var ARRAY = [];
+(0, _component.VantComponent)({
+  field: true,
+  relation: (0, _relation.useChildren)('dropdown-item', function () {
+    this.updateItemListData();
+  }),
+  props: {
+    activeColor: {
+      type: String,
+      observer: 'updateChildrenData' },
+
+    overlay: {
+      type: Boolean,
+      value: true,
+      observer: 'updateChildrenData' },
+
+    zIndex: {
+      type: Number,
+      value: 10 },
+
+    duration: {
+      type: Number,
+      value: 200,
+      observer: 'updateChildrenData' },
+
+    direction: {
+      type: String,
+      value: 'down',
+      observer: 'updateChildrenData' },
+
+    closeOnClickOverlay: {
+      type: Boolean,
+      value: true,
+      observer: 'updateChildrenData' },
+
+    closeOnClickOutside: {
+      type: Boolean,
+      value: true } },
+
+
+  data: {
+    itemListData: [] },
+
+  beforeCreate: function beforeCreate() {var _getSystemInfoSync =
+    (0, _utils.getSystemInfoSync)(),windowHeight = _getSystemInfoSync.windowHeight;
+    this.windowHeight = windowHeight;
+    ARRAY.push(this);
+  },
+  destroyed: function destroyed() {var _this = this;
+    ARRAY = ARRAY.filter(function (item) {return item !== _this;});
+  },
+  methods: {
+    updateItemListData: function updateItemListData() {
+      this.setData({
+        itemListData: this.children.map(function (child) {return child.data;}) });
+
+    },
+    updateChildrenData: function updateChildrenData() {
+      this.children.forEach(function (child) {
+        child.updateDataFromParent();
+      });
+    },
+    toggleItem: function toggleItem(active) {
+      this.children.forEach(function (item, index) {var
+        showPopup = item.data.showPopup;
+        if (index === active) {
+          item.toggle();
+        } else
+        if (showPopup) {
+          item.toggle(false, { immediate: true });
+        }
+      });
+    },
+    close: function close() {
+      this.children.forEach(function (child) {
+        child.toggle(false, { immediate: true });
+      });
+    },
+    getChildWrapperStyle: function getChildWrapperStyle() {var _this2 = this;var _this$data =
+      this.data,zIndex = _this$data.zIndex,direction = _this$data.direction;
+      return (0, _utils.getRect)(this, '.van-dropdown-menu').then(function (rect) {var _rect$top =
+        rect.top,top = _rect$top === void 0 ? 0 : _rect$top,_rect$bottom = rect.bottom,bottom = _rect$bottom === void 0 ? 0 : _rect$bottom;
+        var offset = direction === 'down' ? bottom : _this2.windowHeight - top;
+        var wrapperStyle = "z-index: ".concat(zIndex, ";");
+        if (direction === 'down') {
+          wrapperStyle += "top: ".concat((0, _utils.addUnit)(offset), ";");
+        } else
+        {
+          wrapperStyle += "bottom: ".concat((0, _utils.addUnit)(offset), ";");
+        }
+        return wrapperStyle;
+      });
+    },
+    onTitleTap: function onTitleTap(event) {var _this3 = this;var
+      index = event.currentTarget.dataset.index;
+      var child = this.children[index];
+      if (!child.data.disabled) {
+        ARRAY.forEach(function (menuItem) {
+          if (menuItem &&
+          menuItem.data.closeOnClickOutside &&
+          menuItem !== _this3) {
+            menuItem.close();
+          }
+        });
+        this.toggleItem(index);
+      }
+    } } });
+
+/***/ }),
+
 /***/ 2:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -4266,6 +4426,184 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+
+/***/ 200:
+/*!***************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/relation.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.useParent = useParent;exports.useChildren = useChildren;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function useParent(name, onEffect) {
+  var path = "../".concat(name, "/index");
+  return {
+    relations: _defineProperty({},
+    path, {
+      type: 'ancestor',
+      linked: function linked() {
+        onEffect && onEffect.call(this);
+      },
+      linkChanged: function linkChanged() {
+        onEffect && onEffect.call(this);
+      },
+      unlinked: function unlinked() {
+        onEffect && onEffect.call(this);
+      } }),
+
+
+    mixin: Behavior({
+      created: function created() {var _this = this;
+        Object.defineProperty(this, 'parent', {
+          get: function get() {return _this.getRelationNodes(path)[0];} });
+
+        Object.defineProperty(this, 'index', {
+          // @ts-ignore
+          get: function get() {var _a, _b;return (_b = (_a = _this.parent) === null || _a === void 0 ? void 0 : _a.children) === null || _b === void 0 ? void 0 : _b.indexOf(_this);} });
+
+      } }) };
+
+
+}
+function useChildren(name, onEffect) {
+  var path = "../".concat(name, "/index");
+  return {
+    relations: _defineProperty({},
+    path, {
+      type: 'descendant',
+      linked: function linked(target) {
+        onEffect && onEffect.call(this, target);
+      },
+      linkChanged: function linkChanged(target) {
+        onEffect && onEffect.call(this, target);
+      },
+      unlinked: function unlinked(target) {
+        onEffect && onEffect.call(this, target);
+      } }),
+
+
+    mixin: Behavior({
+      created: function created() {var _this2 = this;
+        Object.defineProperty(this, 'children', {
+          get: function get() {return _this2.getRelationNodes(path) || [];} });
+
+      } }) };
+
+
+}
+
+/***/ }),
+
+/***/ 201:
+/*!*******************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/dropdown-item/index.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _relation = __webpack_require__(/*! ../common/relation */ 200);
+var _component = __webpack_require__(/*! ../common/component */ 119);
+(0, _component.VantComponent)({
+  field: true,
+  relation: (0, _relation.useParent)('dropdown-menu', function () {
+    this.updateDataFromParent();
+  }),
+  props: {
+    value: {
+      type: null,
+      observer: 'rerender' },
+
+    title: {
+      type: String,
+      observer: 'rerender' },
+
+    disabled: Boolean,
+    titleClass: {
+      type: String,
+      observer: 'rerender' },
+
+    options: {
+      type: Array,
+      value: [],
+      observer: 'rerender' },
+
+    popupStyle: String },
+
+  data: {
+    transition: true,
+    showPopup: false,
+    showWrapper: false,
+    displayTitle: '' },
+
+  methods: {
+    rerender: function rerender() {var _this = this;
+      wx.nextTick(function () {
+        var _a;
+        (_a = _this.parent) === null || _a === void 0 ? void 0 : _a.updateItemListData();
+      });
+    },
+    updateDataFromParent: function updateDataFromParent() {
+      if (this.parent) {var _this$parent$data =
+        this.parent.data,overlay = _this$parent$data.overlay,duration = _this$parent$data.duration,activeColor = _this$parent$data.activeColor,closeOnClickOverlay = _this$parent$data.closeOnClickOverlay,direction = _this$parent$data.direction;
+        this.setData({
+          overlay: overlay,
+          duration: duration,
+          activeColor: activeColor,
+          closeOnClickOverlay: closeOnClickOverlay,
+          direction: direction });
+
+      }
+    },
+    onOpen: function onOpen() {
+      this.$emit('open');
+    },
+    onOpened: function onOpened() {
+      this.$emit('opened');
+    },
+    onClose: function onClose() {
+      this.$emit('close');
+    },
+    onClosed: function onClosed() {
+      this.$emit('closed');
+      this.setData({ showWrapper: false });
+    },
+    onOptionTap: function onOptionTap(event) {var
+      option = event.currentTarget.dataset.option;var
+      value = option.value;
+      var shouldEmitChange = this.data.value !== value;
+      this.setData({ showPopup: false, value: value });
+      this.$emit('close');
+      this.rerender();
+      if (shouldEmitChange) {
+        this.$emit('change', value);
+      }
+    },
+    toggle: function toggle(show) {var _this2 = this;var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var _a;var
+      showPopup = this.data.showPopup;
+      if (typeof show !== 'boolean') {
+        show = !showPopup;
+      }
+      if (show === showPopup) {
+        return;
+      }
+      this.setData({
+        transition: !options.immediate,
+        showPopup: show });
+
+      if (show) {
+        (_a = this.parent) === null || _a === void 0 ? void 0 : _a.getChildWrapperStyle().then(function (wrapperStyle) {
+          _this2.setData({ wrapperStyle: wrapperStyle, showWrapper: true });
+          _this2.rerender();
+        });
+      } else
+      {
+        this.rerender();
+      }
+    } } });
 
 /***/ }),
 

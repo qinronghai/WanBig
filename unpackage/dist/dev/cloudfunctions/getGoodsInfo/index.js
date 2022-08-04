@@ -16,7 +16,10 @@ exports.main = async (event, context) => {
   for (let i = 0; i < batchTimes; i++) {
     // skip(num) 指定查询返回结果时从指定序列后的结果开始返回
     const promise = db
-      .collection("goods")
+      .collection("goods").where({
+        buy:false,
+        audited: false
+      })
       .skip(i * MAX_LIMIT)
       .limit(MAX_LIMIT)
       .get();

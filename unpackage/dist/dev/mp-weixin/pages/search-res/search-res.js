@@ -132,7 +132,42 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniExhibitMyGoods = function uniExhibitMyGoods() {__webpack_require__.e(/*! require.ensure | pages/my/components/uni-exhibit-my-goods */ "pages/my/components/uni-exhibit-my-goods").then((function () {return resolve(__webpack_require__(/*! ../my/components/uni-exhibit-my-goods.vue */ 152));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon/index */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanDropdownMenu = function VanDropdownMenu() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/dropdown-menu/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/dropdown-menu/index */ 199));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanDropdownItem = function VanDropdownItem() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/dropdown-item/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/dropdown-item/index */ 201));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,7 +192,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     console.log(option.searchKey); //打印出上个页面传递的参数。
     this.searchKey = option.searchKey;
   },
-  components: { uniExhibitMyGoods: uniExhibitMyGoods },
+  components: { VanIcon: VanIcon, VanDropdownMenu: VanDropdownMenu, VanDropdownItem: VanDropdownItem },
   data: function data() {
     return {
       categoryOption: [
@@ -208,7 +243,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       searchKey: '' };
 
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    change1: function change1(e) {
+      console.log('e.detail :>> ', e);
+    } } };exports.default = _default;
 
 /***/ }),
 

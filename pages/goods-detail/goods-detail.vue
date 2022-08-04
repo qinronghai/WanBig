@@ -30,7 +30,6 @@
           </div>
           <!-- 联系方式 -->
           <div class="contact__button">
-            <!-- TODO click 没有对应的方法？？ -->
             <van-button @click="popContact" icon="smile-comment-o" round type="info" color="#7232dd" size="small">
               马上预定
             </van-button>

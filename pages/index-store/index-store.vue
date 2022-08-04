@@ -194,6 +194,7 @@ export default {
       await wx.cloud.callFunction({
         name: 'getGoodsInfo',
       })
+        // TODO 已审核的数据筛选
         .then(res => {
           console.log("首页-请求所有数据-成功")
           this.goodsInfo = res.result.data;

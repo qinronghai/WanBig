@@ -335,9 +335,10 @@ var db = wx.cloud.database();var _default =
                   mark: true });_context3.next = 4;return (
 
                   wx.cloud.callFunction({
-                    name: 'getGoodsInfo' }).
+                    name: 'getGoodsInfo' })
 
-                  then(function (res) {
+                  // TODO 已审核的数据筛选
+                  .then(function (res) {
                     console.log("首页-请求所有数据-成功");
                     _this4.goodsInfo = res.result.data;
                     wx.hideLoading({
