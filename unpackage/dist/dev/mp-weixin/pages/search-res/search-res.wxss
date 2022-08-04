@@ -39,7 +39,6 @@
   background-color: #f0f0f0 !important;
 }
 .container .exhibit-goods.data-v-ba9c7734 {
-  z-index: 9;
   margin: 20px 0 0;
 }
 .container .exhibit-goods .wrap.data-v-ba9c7734 {

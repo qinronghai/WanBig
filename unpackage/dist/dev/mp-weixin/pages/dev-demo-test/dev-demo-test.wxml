@@ -1,1 +1,1 @@
-<view>{{''+currentTime+''}}</view>
+<view><van-dropdown-menu vue-id="6a0f1994-1" active-color="#ffc300" data-com-type="wx" bind:__l="__l" vue-slots="{{['default']}}"><van-dropdown-item vue-id="{{('6a0f1994-2')+','+('6a0f1994-1')}}" value="{{categoryDefault}}" options="{{categoryOption}}" data-com-type="wx" bind:__l="__l"></van-dropdown-item><van-dropdown-item vue-id="{{('6a0f1994-3')+','+('6a0f1994-1')}}" value="{{sortDefault}}" options="{{sortOption}}" data-com-type="wx" bind:__l="__l"></van-dropdown-item></van-dropdown-menu></view>

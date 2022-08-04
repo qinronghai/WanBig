@@ -79,7 +79,11 @@
       "path": "pages/dev-demo-test/dev-demo-test",
       "style": {
         "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": false,
+        "usingComponents": {
+          "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+          "van-dropdown-item": "/wxcomponents/vant/dropdown-item/index"
+        }
       }
     }
   ],

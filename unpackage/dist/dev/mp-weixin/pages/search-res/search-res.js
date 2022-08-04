@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon/index */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanDropdownMenu = function VanDropdownMenu() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/dropdown-menu/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/dropdown-menu/index */ 199));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanDropdownItem = function VanDropdownItem() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/dropdown-item/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/dropdown-item/index */ 201));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon/index */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -185,14 +185,15 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-
-
-{
+// import VanPopup from "../../wxcomponents/vant/popup/index";
+// import VanDropdownMenu from "../../wxcomponents/vant/dropdown-menu/index";
+// import VanDropdownItem from "../../wxcomponents/vant/dropdown-item/index";
+var _default = {
   onLoad: function onLoad(option) {
     console.log(option.searchKey); //打印出上个页面传递的参数。
     this.searchKey = option.searchKey;
   },
-  components: { VanIcon: VanIcon, VanDropdownMenu: VanDropdownMenu, VanDropdownItem: VanDropdownItem },
+  components: { VanIcon: VanIcon },
   data: function data() {
     return {
       categoryOption: [
@@ -246,6 +247,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   methods: {
     change1: function change1(e) {
       console.log('e.detail :>> ', e);
+    },
+    test: function test() {
+      console.log('test点击出现了吗');
+    },
+    close2: function close2() {
+      console.log('close2');
     } } };exports.default = _default;
 
 /***/ }),

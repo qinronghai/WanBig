@@ -59,6 +59,8 @@ VantComponent({
         },
         onClose() {
             this.$emit('close');
+			// 这里修改了 即关闭的时候消失
+			      this.setData({ showWrapper: false });
         },
         onClosed() {
             this.$emit('closed');

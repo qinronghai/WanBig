@@ -5,12 +5,13 @@
         bind:cancel="onCancel" />
     </div>
     <div class="dropdown-menu">
-      <van-dropdown-menu :overlay='false' active-color="#ffc300">
+      <van-dropdown-menu active-color="#ffc300">
         <van-dropdown-item :value="categoryDefault" :options="categoryOption" />
-        <van-dropdown-item :value="sortDefault" :options="sortOption" />
+        <van-dropdown-item @close="close2" :value="sortDefault" :options="sortOption" />
       </van-dropdown-menu>
     </div>
-    <div class="exhibit-goods">
+
+    <div class="exhibit-goods" @click="test">
       <div class="wrap">
         <div class="left">
           <image class="img-good" src="https://s1.ax1x.com/2022/04/14/LQalVJ.jpg" mode="aspectFill" />
@@ -51,14 +52,14 @@
 // import uniExhibitMyGoods from "my/components/uni-exhibit-my-goods.vue";
 import VanIcon from "../../wxcomponents/vant/icon/index";
 // import VanPopup from "../../wxcomponents/vant/popup/index";
-import VanDropdownMenu from "../../wxcomponents/vant/dropdown-menu/index";
-import VanDropdownItem from "../../wxcomponents/vant/dropdown-item/index";
+// import VanDropdownMenu from "../../wxcomponents/vant/dropdown-menu/index";
+// import VanDropdownItem from "../../wxcomponents/vant/dropdown-item/index";
 export default {
   onLoad: function (option) {
     console.log(option.searchKey); //打印出上个页面传递的参数。
     this.searchKey = option.searchKey;
   },
-  components: { VanIcon, VanDropdownMenu, VanDropdownItem },
+  components: { VanIcon },
   data() {
     return {
       categoryOption: [
@@ -112,6 +113,12 @@ export default {
   methods: {
     change1(e) {
       console.log('e.detail :>> ', e);
+    },
+    test() {
+      console.log('test点击出现了吗');
+    },
+    close2() {
+      console.log('close2');
     }
   },
 };
@@ -140,7 +147,7 @@ export default {
   }
 
   .exhibit-goods {
-    z-index: 9;
+    // z-index: 9;
     margin: 20px 0 0;
 
     .wrap {
