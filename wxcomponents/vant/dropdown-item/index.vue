@@ -81,6 +81,8 @@ VantComponent({
         },
         onClose() {
             this.$emit('close');
+			// 这里修改了 即关闭的时候消失
+			      this.setData({ showWrapper: false });
         },
         onClosed() {
             this.$emit('closed');
@@ -144,6 +146,8 @@ export default global['__wxComponents']['vant/dropdown-item/index']
 }
 .van-dropdown-item--down {
   bottom: 0;
+  margin: 0 15px;
+
 }
 .van-dropdown-item__icon {
   display: block;

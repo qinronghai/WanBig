@@ -1,11 +1,10 @@
 <template>
   <view class="container">
     <div class="search">
-      <van-search placeholder="请输入搜索关键词" :value="searchKey" show-action shape="round" bind:search="onSearch"
-        bind:cancel="onCancel" />
+      <van-search placeholder="请输入搜索关键词" :value="searchKey" show-action bind:search="onSearch" bind:cancel="onCancel" />
     </div>
     <div class="dropdown-menu">
-      <van-dropdown-menu active-color="#ffc300">
+      <van-dropdown-menu :overlay="false" active-color="#ffc300">
         <van-dropdown-item :value="categoryDefault" :options="categoryOption" />
         <van-dropdown-item @close="close2" :value="sortDefault" :options="sortOption" />
       </van-dropdown-menu>
@@ -14,7 +13,9 @@
     <div class="exhibit-goods" @click="test">
       <div class="wrap">
         <div class="left">
-          <image class="img-good" src="https://s1.ax1x.com/2022/04/14/LQalVJ.jpg" mode="aspectFill" />
+          <image class="img-good"
+            src="cloud://wb-dev-test-8g4qxuuj00591c1e.7762-wb-dev-test-8g4qxuuj00591c1e-1313188449/swiper/long-loney-dirt-road-in-the-desert-photorealistic_0000-100.webp"
+            mode="aspectFill" />
         </div>
         <div class="center">
           <div class="top">
@@ -25,12 +26,16 @@
           </div>
           <div class="bottom">
             <div class="label">
+              <div class="transport">
+                <image class="icon-transport" src="../../static/label/transport.svg" mode="" />
+                <span class="text-transport">自取</span>
+              </div>
               <div class="address">
-                <image class="icon-address" src="../../../static/label/address.svg" mode="" />
+                <image class="icon-address" src="../../static/label/address.svg" mode="" />
                 <span class="text-address">西8</span>
               </div>
               <div class="quality">
-                <image class="icon-quality" src="../../../static/label/quality.svg" mode="" />
+                <image class="icon-quality" src="../../static/label/quality.svg" mode="" />
                 <span class="text-quality">几乎全新</span>
               </div>
             </div>
@@ -49,11 +54,7 @@
 </template>
 
 <script>
-// import uniExhibitMyGoods from "my/components/uni-exhibit-my-goods.vue";
 import VanIcon from "../../wxcomponents/vant/icon/index";
-// import VanPopup from "../../wxcomponents/vant/popup/index";
-// import VanDropdownMenu from "../../wxcomponents/vant/dropdown-menu/index";
-// import VanDropdownItem from "../../wxcomponents/vant/dropdown-item/index";
 export default {
   onLoad: function (option) {
     console.log(option.searchKey); //打印出上个页面传递的参数。
@@ -147,21 +148,21 @@ export default {
   }
 
   .exhibit-goods {
-    // z-index: 9;
-    margin: 20px 0 0;
+    margin: 15px 0 0;
 
     .wrap {
       display: flex;
-      height: 110px;
+      height: 100px;
       background-color: #fff;
       border-radius: 10px;
 
       .left {
-        padding: 15px 20px;
+        padding: 10px;
 
         .img-good {
           width: 80px;
           height: 80px;
+          border-radius: 5px;
         }
       }
 
@@ -169,7 +170,7 @@ export default {
         padding-right: 10px;
 
         .top {
-          margin-top: 15px;
+          margin-top: 10px;
 
           .desc {
             display: -webkit-box;
@@ -183,7 +184,7 @@ export default {
           }
 
           .price {
-            padding: 5px 0;
+            padding: 5px 0 0;
             color: #d43f3f;
             font-weight: bold;
           }
@@ -201,6 +202,27 @@ export default {
             font-size: 16.02rpx;
             font-weight: bolder;
 
+            .transport {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 30rpx;
+              margin-top: 4rpx;
+              margin-right: 15rpx;
+              background-color: #4da4e2;
+              border-radius: 5rpx;
+
+              .text-transport {
+                margin: 10rpx;
+              }
+
+              .icon-transport {
+                width: 19.28rpx;
+                height: 19.28rpx;
+                margin-left: 10rpx;
+              }
+            }
+
             .address {
               display: flex;
               justify-content: center;
@@ -209,7 +231,7 @@ export default {
               margin-top: 4rpx;
               margin-right: 15rpx;
               background-color: #ffc300;
-              border-radius: 10rpx;
+              border-radius: 5rpx;
 
               .text-address {
                 margin: 10rpx;
@@ -230,7 +252,7 @@ export default {
               margin-top: 4rpx;
               margin-right: 15rpx;
               background-color: #ffc300;
-              border-radius: 10rpx;
+              border-radius: 5rpx;
 
               .text-quality {
                 margin: 10rpx;

@@ -39,26 +39,27 @@
   background-color: #f0f0f0 !important;
 }
 .container .exhibit-goods.data-v-ba9c7734 {
-  margin: 20px 0 0;
+  margin: 15px 0 0;
 }
 .container .exhibit-goods .wrap.data-v-ba9c7734 {
   display: flex;
-  height: 110px;
+  height: 100px;
   background-color: #fff;
   border-radius: 10px;
 }
 .container .exhibit-goods .wrap .left.data-v-ba9c7734 {
-  padding: 15px 20px;
+  padding: 10px;
 }
 .container .exhibit-goods .wrap .left .img-good.data-v-ba9c7734 {
   width: 80px;
   height: 80px;
+  border-radius: 5px;
 }
 .container .exhibit-goods .wrap .center.data-v-ba9c7734 {
   padding-right: 10px;
 }
 .container .exhibit-goods .wrap .center .top.data-v-ba9c7734 {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 .container .exhibit-goods .wrap .center .top .desc.data-v-ba9c7734 {
   display: -webkit-box;
@@ -70,7 +71,7 @@
   -webkit-line-clamp: 2;
 }
 .container .exhibit-goods .wrap .center .top .price.data-v-ba9c7734 {
-  padding: 5px 0;
+  padding: 5px 0 0;
   color: #d43f3f;
   font-weight: bold;
 }
@@ -86,6 +87,24 @@
   font-size: 16.02rpx;
   font-weight: bolder;
 }
+.container .exhibit-goods .wrap .center .bottom .label .transport.data-v-ba9c7734 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30rpx;
+  margin-top: 4rpx;
+  margin-right: 15rpx;
+  background-color: #4da4e2;
+  border-radius: 5rpx;
+}
+.container .exhibit-goods .wrap .center .bottom .label .transport .text-transport.data-v-ba9c7734 {
+  margin: 10rpx;
+}
+.container .exhibit-goods .wrap .center .bottom .label .transport .icon-transport.data-v-ba9c7734 {
+  width: 19.28rpx;
+  height: 19.28rpx;
+  margin-left: 10rpx;
+}
 .container .exhibit-goods .wrap .center .bottom .label .address.data-v-ba9c7734 {
   display: flex;
   justify-content: center;
@@ -94,7 +113,7 @@
   margin-top: 4rpx;
   margin-right: 15rpx;
   background-color: #ffc300;
-  border-radius: 10rpx;
+  border-radius: 5rpx;
 }
 .container .exhibit-goods .wrap .center .bottom .label .address .text-address.data-v-ba9c7734 {
   margin: 10rpx;
@@ -112,7 +131,7 @@
   margin-top: 4rpx;
   margin-right: 15rpx;
   background-color: #ffc300;
-  border-radius: 10rpx;
+  border-radius: 5rpx;
 }
 .container .exhibit-goods .wrap .center .bottom .label .quality .text-quality.data-v-ba9c7734 {
   margin: 10rpx;

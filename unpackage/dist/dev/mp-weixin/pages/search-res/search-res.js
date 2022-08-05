@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon/index */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon/index */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -185,10 +185,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-// import VanPopup from "../../wxcomponents/vant/popup/index";
-// import VanDropdownMenu from "../../wxcomponents/vant/dropdown-menu/index";
-// import VanDropdownItem from "../../wxcomponents/vant/dropdown-item/index";
-var _default = {
+
+
+
+
+{
   onLoad: function onLoad(option) {
     console.log(option.searchKey); //打印出上个页面传递的参数。
     this.searchKey = option.searchKey;
