@@ -119,9 +119,9 @@ export default {
     };
   },
   onLoad: function (option) {
-    // console.log('搜索关键字' + option); //打印出上个页面传递的搜索关键字参数。
-    // this.searchKey = option.searchKey;
-    this.searchKey = '发';
+    console.log('搜索关键字' + option); //打印出上个页面传递的搜索关键字参数。
+    this.searchKey = option.searchKey;
+    // this.searchKey = '发';
 
     let goodsInfo = uni.getStorageSync('goodsInfo');
     console.log('goodsInfo->', goodsInfo);
