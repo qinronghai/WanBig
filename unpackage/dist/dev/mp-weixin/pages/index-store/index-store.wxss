@@ -50,7 +50,6 @@
 .index-store-page .main.data-v-fe52f258 {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   margin-top: 20rpx;
 }
 .index-store-page .main .column_item_0.data-v-fe52f258 {

@@ -87,7 +87,7 @@
                 {
                     "name": "pages/search-res/search-res",
                     "pathName": "pages/search-res/search-res",
-                    "query": "",
+                    "query": "searchKey=发",
                     "scene": null
                 }
             ]

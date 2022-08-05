@@ -1,65 +1,70 @@
 <template>
   <view class="container">
     <div class="search">
-      <van-search placeholder="请输入搜索关键词" :value="searchKey" show-action bind:search="onSearch" bind:cancel="onCancel" />
+      <van-search placeholder="请输入搜索关键词" :value="searchKey" show-action @search="onSearch" bind:cancel="onCancel" />
     </div>
-    <div class="dropdown-menu">
-      <van-dropdown-menu :overlay="false" active-color="#ffc300">
-        <van-dropdown-item :value="categoryDefault" :options="categoryOption" />
-        <van-dropdown-item @close="close2" :value="sortDefault" :options="sortOption" />
-      </van-dropdown-menu>
-    </div>
-
-    <div class="exhibit-goods" @click="test">
-      <div class="wrap">
-        <div class="left">
-          <image class="img-good"
-            src="cloud://wb-dev-test-8g4qxuuj00591c1e.7762-wb-dev-test-8g4qxuuj00591c1e-1313188449/swiper/long-loney-dirt-road-in-the-desert-photorealistic_0000-100.webp"
-            mode="aspectFill" />
-        </div>
-        <div class="center">
-          <div class="top">
-            <div class="desc">
-              笔记本水冷改装在练习的过程中，重构現在我不敢肯定，請允許我，我什麼都要，我沒有妳會死，照顧你生命中的每一天，現在已經過了人生的四分之一，什麼都別說了，現在已經過了人生的四分之一，我會終生守護妳。《湾大杂货铺》这个小程序。
-            </div>
-            <div class="price">￥10</div>
-          </div>
-          <div class="bottom">
-            <div class="label">
-              <div class="transport">
-                <image class="icon-transport" src="../../static/label/transport.svg" mode="" />
-                <span class="text-transport">自取</span>
-              </div>
-              <div class="address">
-                <image class="icon-address" src="../../static/label/address.svg" mode="" />
-                <span class="text-address">西8</span>
-              </div>
-              <div class="quality">
-                <image class="icon-quality" src="../../static/label/quality.svg" mode="" />
-                <span class="text-quality">几乎全新</span>
-              </div>
-            </div>
-            <div class="browse">
-              <div class="icon-eye">
-                <van-icon name="eye-o" />
-              </div>
-              <span class="num">7</span>
-            </div>
-          </div>
-        </div>
-
+    <block v-if="resArrTemp.length > 0">
+      <div class="dropdown-menu">
+        <van-dropdown-menu :overlay="false" active-color="#ffc300">
+          <van-dropdown-item @change="changeCategory" :value="categoryDefault" :options="categoryOption" />
+          <van-dropdown-item @change="changeSort" :value="sortDefault" :options="sortOption" />
+        </van-dropdown-menu>
       </div>
-    </div>
+
+      <div v-for="(item, index) in resArr" :key="index" class="exhibit-goods" @click="toGoodDetailPage(item._id)">
+        <div class="wrap">
+          <div class="left">
+            <image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
+          </div>
+          <div class="center">
+            <div class="top">
+              <div class="desc">
+                {{ item.title }}
+              </div>
+              <div class="price">{{ item.price }}</div>
+            </div>
+            <div class="bottom">
+              <div class="label">
+                <div class="transport">
+                  <image class="icon-transport" src="../../static/label/transport.svg" mode="" />
+                  <span class="text-transport">{{ item.transport }}</span>
+                </div>
+                <div class="address">
+                  <image class="icon-address" src="../../static/label/address.svg" mode="" />
+                  <span class="text-address">{{ item.address }}</span>
+                </div>
+                <div class="quality">
+                  <image class="icon-quality" src="../../static/label/quality.svg" mode="" />
+                  <span class="text-quality">{{ item.quality }}</span>
+                </div>
+              </div>
+              <div class="browse">
+                <div class="icon-eye">
+                  <van-icon name="eye-o" />
+                </div>
+                <span class="num">{{ item.views }}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </block>
+    <block v-else>
+      <div class="no-find">
+        <image src="../../static/illustration/暂无搜索结果.svg" mode="scaleToFill" />
+        <div class="no-find-text">
+          暂无搜索结果~
+        </div>
+      </div>
+    </block>
+
   </view>
 </template>
 
 <script>
 import VanIcon from "../../wxcomponents/vant/icon/index";
 export default {
-  onLoad: function (option) {
-    console.log(option.searchKey); //打印出上个页面传递的参数。
-    this.searchKey = option.searchKey;
-  },
   components: { VanIcon },
   data() {
     return {
@@ -71,7 +76,7 @@ export default {
         },
         {
           icon: "/static/category-nav/books.svg",
-          text: "书籍材料",
+          text: "书籍资料",
           value: 1,
         },
         {
@@ -101,25 +106,104 @@ export default {
         },
       ],
       sortOption: [
-        { text: "默认排序", value: "a" },
-        { text: "最新", value: "b" },
-        { text: "价格由高到低", value: "c" },
-        { text: "价格由低到高", value: "d" },
+        { text: "默认排序", value: 0 },
+        { text: "价格由高到低", value: 1 },
+        { text: "价格由低到高", value: 2 },
       ],
       categoryDefault: 0,
-      sortDefault: "a",
-      searchKey: ''
+      sortDefault: 0,
+      searchKey: '',
+      goodsInfo: [],
+      resArr: [],
+      resArrTemp: []
     };
   },
+  onLoad: function (option) {
+    // console.log('搜索关键字' + option); //打印出上个页面传递的搜索关键字参数。
+    // this.searchKey = option.searchKey;
+    this.searchKey = '发';
+
+    let goodsInfo = uni.getStorageSync('goodsInfo');
+    console.log('goodsInfo->', goodsInfo);
+    this.goodsInfo = goodsInfo;
+
+    this.search(goodsInfo, this.searchKey);
+
+  },
   methods: {
-    change1(e) {
-      console.log('e.detail :>> ', e);
+    onSearch(e) {
+      this.searchKey = e.detail;
+      this.search(this.goodsInfo, this.searchKey);
     },
-    test() {
-      console.log('test点击出现了吗');
+    search(lists, key) {
+      let reg = new RegExp(key);
+      console.log(reg);
+      let resArr = [];
+      lists.filter(item => {
+        if (reg.test(item.title)) {
+          resArr.push(item);
+        }
+      })
+      this.resArr = resArr;
+      // 备用数组
+      this.resArrTemp = resArr;
     },
-    close2() {
-      console.log('close2');
+    toGoodDetailPage(goodId) {
+      uni.navigateTo({
+        url: '/pages/goods-detail/goods-detail?goodId=' + goodId,
+      });
+    },
+    changeCategory(e) {
+      let index = e.detail;
+      let category = this.categoryOption[index].text;
+
+      // 每次切换分类都重置渲染数组为搜索后的数组
+      this.resArr = this.resArrTemp;
+
+      if (category == "全部商品") {
+        this.resArr = this.resArrTemp;
+      } else {
+        let temp = [];
+        this.resArr.forEach(item => {
+          if (item.category == category) {
+            temp.push(item);
+          }
+        });
+        // 渲染数组
+        this.resArr = temp;
+      }
+    },
+    changeSort(e) {
+      console.log(e);
+      let index = e.detail;
+      console.log(this.sortOption[index].value); // 0-默认、1-价格高到低、2-价格低到高
+      let sortValue = this.sortOption[index].text;
+      console.log(sortValue);
+
+      if (sortValue === "价格由低到高") {
+        this.resArr.sort(this.compareDesc("price"));
+      } else if (sortValue === "价格由高到低") {
+        this.resArr.sort(this.compareAsce("price"));
+      } else {
+        this.resArr = this.resArrTemp;
+      }
+      console.log(this.resArrTemp);
+    },
+    // 升序比较函数（由小到大）
+    compareDesc(p) {
+      return function (m, n) {
+        var a = m[p];
+        var b = n[p];
+        return a - b;
+      }
+    },
+    // 降序比较函数
+    compareAsce(p) {
+      return function (m, n) {
+        var a = m[p];
+        var b = n[p];
+        return b - a;
+      }
     }
   },
 };
@@ -167,20 +251,22 @@ export default {
       }
 
       .center {
+        width: 100%;
         padding-right: 10px;
 
         .top {
           margin-top: 10px;
 
           .desc {
-            display: -webkit-box;
-            overflow: hidden;
+            min-height: 33px;
             font-size: 13px;
             font-weight: 500;
             text-overflow: ellipsis;
 
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
+            mdisplay: -webkit-box;
+            noverflow: hidden;
           }
 
           .price {
@@ -295,6 +381,17 @@ export default {
           height: 26px;
         }
       }
+    }
+  }
+
+  .no-find {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    .no-find-text {
+      font-style: italic;
     }
   }
 }

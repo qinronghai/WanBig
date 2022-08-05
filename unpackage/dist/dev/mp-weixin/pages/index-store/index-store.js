@@ -221,6 +221,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var db = wx.cloud.database();var _default =
 {
   components: { uniBanner: uniBanner, UniProductCatgNav: UniProductCatgNav, UniGoodsCard: UniGoodsCard, uniGoodsCard: uniGoodsCard },
@@ -292,8 +293,12 @@ var db = wx.cloud.database();var _default =
               uni.stopPullDownRefresh();case 3:case "end":return _context.stop();}}}, _callee);}))();
   },
   methods: {
+    searchOnChange: function searchOnChange(e) {
+      console.log(e.detail);
+      this.searchKey = e.detail;
+    },
     toSearchPage: function toSearchPage() {
-      console.log(this.searchKey);
+      console.log('index首页关键字' + this.searchKey);
       // 跳转搜索结果页
       uni.navigateTo({
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey });

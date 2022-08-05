@@ -132,7 +132,16 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon/index */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon/index */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
 
 
 
@@ -190,10 +199,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 {
-  onLoad: function onLoad(option) {
-    console.log(option.searchKey); //打印出上个页面传递的参数。
-    this.searchKey = option.searchKey;
-  },
   components: { VanIcon: VanIcon },
   data: function data() {
     return {
@@ -205,7 +210,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
       {
         icon: "/static/category-nav/books.svg",
-        text: "书籍材料",
+        text: "书籍资料",
         value: 1 },
 
       {
@@ -235,26 +240,106 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
       sortOption: [
-      { text: "默认排序", value: "a" },
-      { text: "最新", value: "b" },
-      { text: "价格由高到低", value: "c" },
-      { text: "价格由低到高", value: "d" }],
+      { text: "默认排序", value: 0 },
+      { text: "价格由高到低", value: 1 },
+      { text: "价格由低到高", value: 2 }],
 
       categoryDefault: 0,
-      sortDefault: "a",
-      searchKey: '' };
+      sortDefault: 0,
+      searchKey: '',
+      goodsInfo: [],
+      resArr: [],
+      resArrTemp: [] };
+
+  },
+  onLoad: function onLoad(option) {
+    // console.log('搜索关键字' + option); //打印出上个页面传递的搜索关键字参数。
+    // this.searchKey = option.searchKey;
+    this.searchKey = '发';
+
+    var goodsInfo = uni.getStorageSync('goodsInfo');
+    console.log('goodsInfo->', goodsInfo);
+    this.goodsInfo = goodsInfo;
+
+    this.search(goodsInfo, this.searchKey);
 
   },
   methods: {
-    change1: function change1(e) {
-      console.log('e.detail :>> ', e);
+    onSearch: function onSearch(e) {
+      this.searchKey = e.detail;
+      this.search(this.goodsInfo, this.searchKey);
     },
-    test: function test() {
-      console.log('test点击出现了吗');
+    search: function search(lists, key) {
+      var reg = new RegExp(key);
+      console.log(reg);
+      var resArr = [];
+      lists.filter(function (item) {
+        if (reg.test(item.title)) {
+          resArr.push(item);
+        }
+      });
+      this.resArr = resArr;
+      // 备用数组
+      this.resArrTemp = resArr;
     },
-    close2: function close2() {
-      console.log('close2');
+    toGoodDetailPage: function toGoodDetailPage(goodId) {
+      uni.navigateTo({
+        url: '/pages/goods-detail/goods-detail?goodId=' + goodId });
+
+    },
+    changeCategory: function changeCategory(e) {
+      var index = e.detail;
+      var category = this.categoryOption[index].text;
+
+      // 每次切换分类都重置渲染数组为搜索后的数组
+      this.resArr = this.resArrTemp;
+
+      if (category == "全部商品") {
+        this.resArr = this.resArrTemp;
+      } else {
+        var temp = [];
+        this.resArr.forEach(function (item) {
+          if (item.category == category) {
+            temp.push(item);
+          }
+        });
+        // 渲染数组
+        this.resArr = temp;
+      }
+    },
+    changeSort: function changeSort(e) {
+      console.log(e);
+      var index = e.detail;
+      console.log(this.sortOption[index].value); // 0-默认、1-价格高到低、2-价格低到高
+      var sortValue = this.sortOption[index].text;
+      console.log(sortValue);
+
+      if (sortValue === "价格由低到高") {
+        this.resArr.sort(this.compareDesc("price"));
+      } else if (sortValue === "价格由高到低") {
+        this.resArr.sort(this.compareAsce("price"));
+      } else {
+        this.resArr = this.resArrTemp;
+      }
+      console.log(this.resArrTemp);
+    },
+    // 升序比较函数（由小到大）
+    compareDesc: function compareDesc(p) {
+      return function (m, n) {
+        var a = m[p];
+        var b = n[p];
+        return a - b;
+      };
+    },
+    // 降序比较函数
+    compareAsce: function compareAsce(p) {
+      return function (m, n) {
+        var a = m[p];
+        var b = n[p];
+        return b - a;
+      };
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

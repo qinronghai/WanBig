@@ -1,7 +1,8 @@
 <template>
   <view class="index-store-page">
     <!-- 搜索框 -->
-    <van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @search="toSearchPage" bind:cancel="onCancel" />
+    <van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @change="searchOnChange" @search="toSearchPage"
+      bind:cancel="onCancel" />
     <!-- 轮播图 -->
     <view class="banner-container">
       <swiper class="swiper" autoplay circular>
@@ -149,8 +150,12 @@ export default {
     uni.stopPullDownRefresh();
   },
   methods: {
+    searchOnChange(e) {
+      console.log(e.detail);
+      this.searchKey = e.detail;
+    },
     toSearchPage() {
-      console.log(this.searchKey);
+      console.log('index首页关键字' + this.searchKey);
       // 跳转搜索结果页
       uni.navigateTo({
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey
@@ -275,7 +280,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .index-store-page {
   height: auto;
@@ -311,8 +315,7 @@ export default {
     display: flex;
     justify-content: space-between;
 
-// 交叉轴的起点对齐
-    align-items: flex-start;
+// 叉轴的起点对齐 align-items: flex-start;
     margin-top: 20rpx;
 
     .column_item_0 {
@@ -602,3 +605,5 @@ export default {
   }
 }
 </style>
+
+
