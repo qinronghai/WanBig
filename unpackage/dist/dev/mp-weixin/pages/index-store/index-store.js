@@ -285,12 +285,17 @@ var db = wx.cloud.database();var _default =
     []), _ref;
 
   },
-  onShow: function onShow() {
-    console.log("index Page Show");
-  },
-  onPullDownRefresh: function onPullDownRefresh() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+  onShow: function () {var _onShow = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+              console.log("index Page Show");
+              // 清空搜索框文字
+              this.searchKey = '';
+              // 刷新页面，重新请求数据
+              _context.next = 4;return this.getGoodsInfo();case 4:case "end":return _context.stop();}}}, _callee, this);}));function onShow() {return _onShow.apply(this, arguments);}return onShow;}(),
+
+
+  onPullDownRefresh: function onPullDownRefresh() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                 _this2.getGoodsInfo());case 2:
-              uni.stopPullDownRefresh();case 3:case "end":return _context.stop();}}}, _callee);}))();
+              uni.stopPullDownRefresh();case 3:case "end":return _context2.stop();}}}, _callee2);}))();
   },
   methods: {
     searchOnChange: function searchOnChange(e) {
@@ -298,7 +303,6 @@ var db = wx.cloud.database();var _default =
       this.searchKey = e.detail;
     },
     toSearchPage: function toSearchPage() {
-      console.log('index首页关键字' + this.searchKey);
       // 跳转搜索结果页
       uni.navigateTo({
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey });
@@ -310,7 +314,7 @@ var db = wx.cloud.database();var _default =
         item.pics = item.pics[0].url;
       });
     },
-    sortData: function sortData(goodsInfo) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var columnLeft, columnRight;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+    sortData: function sortData(goodsInfo) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var columnLeft, columnRight;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
                 // 拆分两为两列
                 columnLeft = goodsInfo.filter(function (item, index) {
                   return index % 2 === 0;
@@ -331,13 +335,13 @@ var db = wx.cloud.database();var _default =
                 _this3.columnLeft = columnLeft;
                 _this3.columnRight = columnRight;
 
-                console.log("首页--调整数据--完毕", columnLeft, columnRight);case 6:case "end":return _context2.stop();}}}, _callee2);}))();
+                console.log("首页--调整数据--完毕", columnLeft, columnRight);case 6:case "end":return _context3.stop();}}}, _callee3);}))();
     },
-    getGoodsInfo: function getGoodsInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    getGoodsInfo: function getGoodsInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _this;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
                 _this = _this4;
                 wx.showLoading({
                   title: '数据加载中',
-                  mark: true });_context3.next = 4;return (
+                  mark: true });_context4.next = 4;return (
 
                   wx.cloud.callFunction({
                     name: 'getGoodsInfo' })
@@ -356,13 +360,13 @@ var db = wx.cloud.database();var _default =
                       } });
 
                   }).
-                  catch(console.error));case 4:case "end":return _context3.stop();}}}, _callee3);}))();
+                  catch(console.error));case 4:case "end":return _context4.stop();}}}, _callee4);}))();
     },
-    getswiperList: function getswiperList() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+    getswiperList: function getswiperList() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
                   db.collection("swiper").doc('058dfefe62e372210fc0828f369ba54d').get().then(function (res) {
                     console.log("首页--请求轮播图数据--成功");
                     _this5.swiperList = res.data.swiperList;
-                  }));case 2:case "end":return _context4.stop();}}}, _callee4);}))();
+                  }));case 2:case "end":return _context5.stop();}}}, _callee5);}))();
     },
     toggleCategory: function toggleCategory(id) {
       console.log('切换到了--' + this.catgList[id].title + '--分类' + "--" + id);
@@ -417,9 +421,9 @@ var db = wx.cloud.database();var _default =
 
     } },
 
-  mounted: function mounted() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
-                _this6.getGoodsInfo());case 2:_context5.next = 4;return (
-                _this6.getswiperList());case 4:case "end":return _context5.stop();}}}, _callee5);}))();
+  mounted: function mounted() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
+                _this6.getGoodsInfo());case 2:_context6.next = 4;return (
+                _this6.getswiperList());case 4:case "end":return _context6.stop();}}}, _callee6);}))();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

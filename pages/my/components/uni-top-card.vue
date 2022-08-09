@@ -37,8 +37,8 @@
 
     <!-- 项目信息 -->
     <div class="bottom-project-info">
-      <div class="item__to">
-        <div class="txt">申请成为审核员</div>
+      <div class="item__to" @click="isAuditor">
+        <div class="txt">审核员专属</div>
         <div class="icon">
           <van-icon name="arrow" />
         </div>
@@ -63,7 +63,8 @@ export default {
     return {
       showLogin: false,
       nickName: '',
-      avatarUrl: ''
+      avatarUrl: '',
+      Auditor: ''
     }
   },
   methods: {
@@ -84,6 +85,7 @@ export default {
                 let { userInfo } = res
                 uni.setStorageSync('userInfo', userInfo)
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
+                this.userInfo = userInfo;
                 // 存入数据库
                 db.collection('user-info')
                   .add({
@@ -134,6 +136,8 @@ export default {
 
             uni.setStorageSync('userInfo', userInfo)
 
+            this.userInfo = userInfo;
+
             _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
           }
         })
@@ -154,6 +158,26 @@ export default {
       this.showLogin = false
       this.nickName = nickName
       this.avatarUrl = avatarUrl
+    },
+    // 判断当前用户是否是审核员
+    isAuditor() {
+      console.log(this.userInfo);
+      if (this.userInfo.isAuditor) {
+        uni.navigateTo({ url: '/pages/auditor/auditor' })
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '您还不是审核员，请联系作者申请',
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              //  TODO跳转到联系作者页面
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      }
     }
   },
   components: {
@@ -164,6 +188,8 @@ export default {
     this.judgeUserInLocal();
   },
   mounted() {
+    // console.log('判断是否是审核员');
+    // this.isAuditor();
   }
 }
 </script>
@@ -231,7 +257,8 @@ export default {
       .left-avatar {
         width: 105.14rpx;
         height: 105.14rpx;
-        // background-color: #2a82e4;
+
+// background-color: #2a82e4;
         border-radius: 50%;
         transform: translateY(-50%);
       }

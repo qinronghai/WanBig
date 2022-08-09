@@ -137,7 +137,6 @@ export default {
     },
     search(lists, key) {
       let reg = new RegExp(key);
-      console.log(reg);
       let resArr = [];
       lists.filter(item => {
         if (reg.test(item.title)) {
@@ -174,11 +173,8 @@ export default {
       }
     },
     changeSort(e) {
-      console.log(e);
       let index = e.detail;
-      console.log(this.sortOption[index].value); // 0-默认、1-价格高到低、2-价格低到高
       let sortValue = this.sortOption[index].text;
-      console.log(sortValue);
 
       if (sortValue === "价格由低到高") {
         this.resArr.sort(this.compareDesc("price"));

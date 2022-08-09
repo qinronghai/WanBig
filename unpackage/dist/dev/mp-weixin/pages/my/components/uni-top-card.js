@@ -179,7 +179,8 @@ var db = wx.cloud.database();var _default =
     return {
       showLogin: false,
       nickName: '',
-      avatarUrl: '' };
+      avatarUrl: '',
+      Auditor: '' };
 
   },
   methods: {
@@ -191,7 +192,7 @@ var db = wx.cloud.database();var _default =
     clickOneLogin: function clickOneLogin() {
       var _this = this;
       wx.getSetting({
-        success: function success(res) {
+        success: function success(res) {var _this2 = this;
           if (res.authSetting['scope.userInfo']) {
             wx.getUserProfile({
               desc: '登录',
@@ -200,6 +201,7 @@ var db = wx.cloud.database();var _default =
                 userInfo = res.userInfo;
                 uni.setStorageSync('userInfo', userInfo);
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl);
+                _this2.userInfo = userInfo;
                 // 存入数据库
                 db.collection('user-info').
                 add({
@@ -230,8 +232,8 @@ var db = wx.cloud.database();var _default =
       this.showLogin = false;
     },
     // 判断数据库中有无用户信息
-    judgeUserInDatabase: function judgeUserInDatabase(openId) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _this;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                _this = _this2;_context.next = 3;return (
+    judgeUserInDatabase: function judgeUserInDatabase(openId) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _this;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                _this = _this3;_context.next = 3;return (
                   db.
                   collection('user-info').
                   where({
@@ -249,6 +251,8 @@ var db = wx.cloud.database();var _default =
                       var userInfo = res.data[0];
 
                       uni.setStorageSync('userInfo', userInfo);
+
+                      _this3.userInfo = userInfo;
 
                       _this.renderPage(userInfo.nickName, userInfo.avatarUrl);
                     }
@@ -270,6 +274,26 @@ var db = wx.cloud.database();var _default =
       this.showLogin = false;
       this.nickName = nickName;
       this.avatarUrl = avatarUrl;
+    },
+    // 判断当前用户是否是审核员
+    isAuditor: function isAuditor() {
+      console.log(this.userInfo);
+      if (this.userInfo.isAuditor) {
+        uni.navigateTo({ url: '/pages/auditor/auditor' });
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '您还不是审核员，请联系作者申请',
+          success: function success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定');
+              //  TODO跳转到联系作者页面
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          } });
+
+      }
     } },
 
   components: {
@@ -280,6 +304,8 @@ var db = wx.cloud.database();var _default =
     this.judgeUserInLocal();
   },
   mounted: function mounted() {
+    // console.log('判断是否是审核员');
+    // this.isAuditor();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

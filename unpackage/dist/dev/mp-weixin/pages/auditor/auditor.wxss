@@ -1,0 +1,147 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 主题颜色变量 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.wrap.data-v-244e8704 {
+  display: flex;
+  height: 100px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.wrap .left.data-v-244e8704 {
+  padding: 10px;
+}
+.wrap .left .img-good.data-v-244e8704 {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+}
+.wrap .center.data-v-244e8704 {
+  width: 100%;
+  padding-right: 10px;
+}
+.wrap .center .top.data-v-244e8704 {
+  margin-top: 10px;
+}
+.wrap .center .top .desc.data-v-244e8704 {
+  min-height: 33px;
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  mdisplay: -webkit-box;
+  noverflow: hidden;
+}
+.wrap .center .top .price.data-v-244e8704 {
+  padding: 5px 0 0;
+  color: #d43f3f;
+  font-weight: bold;
+}
+.wrap .center .bottom.data-v-244e8704 {
+  display: flex;
+  justify-content: space-between;
+}
+.wrap .center .bottom .label.data-v-244e8704 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40rpx;
+  font-size: 16.02rpx;
+  font-weight: bolder;
+}
+.wrap .center .bottom .label .transport.data-v-244e8704 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30rpx;
+  margin-top: 4rpx;
+  margin-right: 15rpx;
+  background-color: #4da4e2;
+  border-radius: 5rpx;
+}
+.wrap .center .bottom .label .transport .text-transport.data-v-244e8704 {
+  margin: 10rpx;
+}
+.wrap .center .bottom .label .transport .icon-transport.data-v-244e8704 {
+  width: 19.28rpx;
+  height: 19.28rpx;
+  margin-left: 10rpx;
+}
+.wrap .center .bottom .label .address.data-v-244e8704 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30rpx;
+  margin-top: 4rpx;
+  margin-right: 15rpx;
+  background-color: #ffc300;
+  border-radius: 5rpx;
+}
+.wrap .center .bottom .label .address .text-address.data-v-244e8704 {
+  margin: 10rpx;
+}
+.wrap .center .bottom .label .address .icon-address.data-v-244e8704 {
+  width: 19.28rpx;
+  height: 19.28rpx;
+  margin-left: 10rpx;
+}
+.wrap .center .bottom .label .quality.data-v-244e8704 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30rpx;
+  margin-top: 4rpx;
+  margin-right: 15rpx;
+  background-color: #ffc300;
+  border-radius: 5rpx;
+}
+.wrap .center .bottom .label .quality .text-quality.data-v-244e8704 {
+  margin: 10rpx;
+}
+.wrap .center .bottom .label .quality .icon-quality.data-v-244e8704 {
+  width: 17.52rpx;
+  height: 17.52rpx;
+  margin-left: 10rpx;
+}
+.wrap .center .bottom .browse.data-v-244e8704 {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
+.wrap .center .bottom .browse .icon-eye.data-v-244e8704 {
+  padding-right: 5px;
+}
+.wrap .center .bottom .browse .num.data-v-244e8704 {
+  font-size: 10px;
+  text-align: center;
+}
+.wrap .right.data-v-244e8704 {
+  display: flex;
+  align-items: center;
+  width: 25px;
+  background-color: #e1e2dc;
+  border-radius: 0 10px 10px 0;
+}
+

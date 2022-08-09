@@ -388,15 +388,6 @@ export default {
         success: res => {
           console.log(res);
           if (res[tempId] == "accept") {
-            // 'accept'表示用户同意订阅该条id对应的模板消息，
-            // 'reject'表示用户拒绝订阅该条id对应的模板消
-            // wx.showToast({
-            //   title: "订阅消息成功",
-            //   icon: "success",
-            //   success: sub => {
-
-            //   }
-            // })
             console.log('授权成功');
           }
 

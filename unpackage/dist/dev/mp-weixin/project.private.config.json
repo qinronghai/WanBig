@@ -1,42 +1,27 @@
 {
-    "setting": {},
-    "condition": {
-        "plugin": {
-            "list": []
+  "projectname": "WanBig",
+  "setting": {
+    "compileHotReLoad": false
+  },
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/my/my",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
-        "game": {
-            "list": []
-        },
-        "gamePlugin": {
-            "list": []
-        },
-        "miniprogram": {
-            "list": [
-                {
-                    "name": "pages/release/release",
-                    "pathName": "pages/release/release",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "pages/dev-demo-test/dev-demo-test",
-                    "pathName": "pages/dev-demo-test/dev-demo-test",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "pages/index-store/index-store",
-                    "pathName": "pages/index-store/index-store",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "pages/search-res/search-res",
-                    "pathName": "pages/search-res/search-res",
-                    "query": "",
-                    "scene": null
-                }
-            ]
+        {
+          "name": "",
+          "pathName": "pages/auditor/auditor",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
+      ]
     }
+  }
 }

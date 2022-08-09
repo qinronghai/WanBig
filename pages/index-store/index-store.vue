@@ -142,8 +142,13 @@ export default {
       swiperList: [],
     };
   },
-  onShow: function () {
+  onShow: async function () {
     console.log("index Page Show");
+    // 清空搜索框文字
+    this.searchKey = '';
+    // 刷新页面，重新请求数据
+    await this.getGoodsInfo();
+
   },
   async onPullDownRefresh() {
     await this.getGoodsInfo();
@@ -155,7 +160,6 @@ export default {
       this.searchKey = e.detail;
     },
     toSearchPage() {
-      console.log('index首页关键字' + this.searchKey);
       // 跳转搜索结果页
       uni.navigateTo({
         url: '/pages/search-res/search-res?searchKey=' + this.searchKey

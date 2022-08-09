@@ -4,7 +4,7 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 });
 
-// 获取小程序二维码云函数入口函
+// 获取小程序二维码云函数入口函数
 exports.main = async (event, context) => {
   // 获取小程序二维码的buffer
   const resp = await cloud.openapi.wxacode.get({

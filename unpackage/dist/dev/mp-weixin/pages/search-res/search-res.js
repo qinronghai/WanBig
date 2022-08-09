@@ -271,7 +271,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     search: function search(lists, key) {
       var reg = new RegExp(key);
-      console.log(reg);
       var resArr = [];
       lists.filter(function (item) {
         if (reg.test(item.title)) {
@@ -308,11 +307,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     changeSort: function changeSort(e) {
-      console.log(e);
       var index = e.detail;
-      console.log(this.sortOption[index].value); // 0-默认、1-价格高到低、2-价格低到高
       var sortValue = this.sortOption[index].text;
-      console.log(sortValue);
 
       if (sortValue === "价格由低到高") {
         this.resArr.sort(this.compareDesc("price"));
