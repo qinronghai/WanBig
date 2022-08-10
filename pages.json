@@ -85,17 +85,20 @@
           "van-dropdown-item": "/wxcomponents/vant/dropdown-item/index"
         }
       }
-    }
-      ,{
-            "path" : "pages/auditor/auditor",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "审核页面",
-                "enablePullDownRefresh": false
-            }
-            
+    },
+
+    {
+      "path": "pages/auditor/auditor",
+      "style": {
+        "navigationBarTitleText": "审核页面",
+        "enablePullDownRefresh": false,
+        "usingComponents": {
+          "van-radio": "/wxcomponents/vant/radio/index",
+          "van-icon": "/wxcomponents/vant/icon/index"
         }
-    ],
+      }
+    }
+  ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     // "navigationBarTitleText": "uni-app",

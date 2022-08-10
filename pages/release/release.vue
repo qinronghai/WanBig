@@ -383,14 +383,32 @@ export default {
     subscribNews() {
       let tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
       wx.requestSubscribeMessage({
-        tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag'],
+        tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
+          '9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'],
         // tempId就是上面后台生成的模板ID
         success: res => {
           console.log(res);
           if (res[tempId] == "accept") {
-            console.log('授权成功');
-          }
+            wx.showToast({
+              title: '订阅成功！',
+              duration: 1000,
+            })
+          } else {
+            wx.showModal({
+              content: '未授权发送通知，您将收不到通知！',
+              confirmText: '重新授权',
+              cancelText: '取消授权',
+              success: (res) => {
+                if (res.confirm) {
+                  // 重新授权
+                  this.subscribNews();
+                } else {
+                  console.log('用户取消授权...');
+                }
+              }
+            })
 
+          }
         }
       })
     },

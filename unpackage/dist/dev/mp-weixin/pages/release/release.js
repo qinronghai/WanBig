@@ -295,7 +295,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var _index = __webpack_require__(/*! ../../async/index */ 29);
 
-var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 97));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 104));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 111));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 121));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 122));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 127));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _default =
+var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 105));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 112));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 119));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 126));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 129));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 130));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 135));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _default =
 {
   components: {
     uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc, UniBottomOptions: UniBottomOptions, VanPopup: VanPopup,
@@ -514,25 +514,43 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
     needRadioChange: function needRadioChange(e) {
       this.need = e.detail.value;
     },
-    subscribNews: function subscribNews() {
+    subscribNews: function subscribNews() {var _this2 = this;
       var tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
       wx.requestSubscribeMessage({
-        tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag'],
+        tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
+        '9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'],
         // tempId就是上面后台生成的模板ID
         success: function success(res) {
           console.log(res);
           if (res[tempId] == "accept") {
-            console.log('授权成功');
-          }
+            wx.showToast({
+              title: '订阅成功！',
+              duration: 1000 });
 
+          } else {
+            wx.showModal({
+              content: '未授权发送通知，您将收不到通知！',
+              confirmText: '重新授权',
+              cancelText: '取消授权',
+              success: function success(res) {
+                if (res.confirm) {
+                  // 重新授权
+                  _this2.subscribNews();
+                } else {
+                  console.log('用户取消授权...');
+                }
+              } });
+
+
+          }
         } });
 
     },
-    submit: function submit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var userInfo, _this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    submit: function submit() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var userInfo, _this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
 
-                  _this2.subscribNews());case 2:
+                  _this3.subscribNews());case 2:
                 userInfo = uni.getStorageSync('userInfo');
-                _this = _this2;
+                _this = _this3;
                 if (userInfo.nickName == null) {
                   console.log("您还未登录，请登录之后，再提交审核。");
                   wx.showModal({
@@ -550,7 +568,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                     } });
 
                 } else {
-                  _this2.userInfo = userInfo;
+                  _this3.userInfo = userInfo;
 
                   wx.showModal({
                     title: '提示',
@@ -576,7 +594,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                 }case 5:case "end":return _context2.stop();}}}, _callee2);}))();
 
     },
-    checkText: function checkText(text, openid) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    checkText: function checkText(text, openid) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
                 // 推荐文本内容检测
                 wx.hideLoading();
                 wx.showLoading({
@@ -599,7 +617,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                         duration: 1500 });
 
                       console.log("文本检测--通过");
-                      _this3.ischeckText = true;
+                      _this4.ischeckText = true;
                     } else if (ckres.result.errCode === 44004) {
                       wx.hideLoading();
                       wx.showToast({
@@ -607,7 +625,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                         icon: 'error',
                         duration: 2000 });
 
-                      _this3.ischeckText = false;
+                      _this4.ischeckText = false;
                       console.log("文本检测--不通过--文本为空");
                     } else {
                       wx.hideLoading();
@@ -620,51 +638,51 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
                     }
                   }));case 4:case "end":return _context3.stop();}}}, _callee3);}))();
     },
-    upLoadGoodInfo: function upLoadGoodInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var goodInfo, isNotEmpty, _this;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+    upLoadGoodInfo: function upLoadGoodInfo() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var goodInfo, isNotEmpty, _this;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
                 // 提交时间
-                _this4.releaseTime = new Date();
+                _this5.releaseTime = new Date();
                 goodInfo = {
-                  title: _this4.title,
-                  pics: _this4.fileList,
-                  price: _this4.price,
-                  contact: _this4.contact,
-                  address: _this4.address,
-                  category: _this4.category,
-                  quality: _this4.quality,
-                  need: _this4.need,
-                  views: _this4.views,
-                  transport: _this4.transport,
-                  releaseTime: _this4.releaseTime,
-                  userInfo: _this4.userInfo,
-                  audited: _this4.audited,
+                  title: _this5.title,
+                  pics: _this5.fileList,
+                  price: _this5.price,
+                  contact: _this5.contact,
+                  address: _this5.address,
+                  category: _this5.category,
+                  quality: _this5.quality,
+                  need: _this5.need,
+                  views: _this5.views,
+                  transport: _this5.transport,
+                  releaseTime: _this5.releaseTime,
+                  userInfo: _this5.userInfo,
+                  audited: _this5.audited,
                   buy: false,
-                  buyTime: _this4.buyTime };
+                  buyTime: _this5.buyTime };
 
-                _this4.goodInfo = goodInfo;
+                _this5.goodInfo = goodInfo;
                 console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
                 // 校验数据是否为空
-                isNotEmpty = _this4.checkGoodInfo(_this4.goodInfo);
+                isNotEmpty = _this5.checkGoodInfo(_this5.goodInfo);
                 console.log('校验商品信息--已填写--', isNotEmpty);if (!
                 isNotEmpty) {_context4.next = 10;break;}
-                _this = _this4;_context4.next = 10;return (
+                _this = _this5;_context4.next = 10;return (
                   db.collection('goods').
                   add({
                     data: {
-                      title: _this4.title,
-                      pics: _this4.fileList,
-                      price: _this4.price,
-                      contact: _this4.contact,
-                      address: _this4.address,
-                      category: _this4.category,
-                      quality: _this4.quality,
-                      transport: _this4.transport,
-                      need: _this4.need,
-                      views: _this4.views,
-                      releaseTime: _this4.releaseTime,
-                      userInfo: _this4.userInfo,
-                      audited: _this4.audited,
+                      title: _this5.title,
+                      pics: _this5.fileList,
+                      price: _this5.price,
+                      contact: _this5.contact,
+                      address: _this5.address,
+                      category: _this5.category,
+                      quality: _this5.quality,
+                      transport: _this5.transport,
+                      need: _this5.need,
+                      views: _this5.views,
+                      releaseTime: _this5.releaseTime,
+                      userInfo: _this5.userInfo,
+                      audited: _this5.audited,
                       buy: false,
-                      buyTime: _this4.buyTime } }).
+                      buyTime: _this5.buyTime } }).
 
 
                   then(function (res) {
@@ -678,7 +696,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
 
                       setTimeout(function () {
                         // 清空表单
-                        Object.assign(_this4.$data, _this4.$options.data());
+                        Object.assign(_this5.$data, _this5.$options.data());
                         uni.switchTab({
                           url: '/pages/index-store/index-store' });
 
@@ -691,8 +709,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
 
 
     },
-    upLoadImage: function upLoadImage() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var fileList, _loop, i;return _regenerator.default.wrap(function _callee5$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
-                fileList = _this5.fileList;_loop = /*#__PURE__*/_regenerator.default.mark(function _loop(
+    upLoadImage: function upLoadImage() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var fileList, _loop, i;return _regenerator.default.wrap(function _callee5$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+                fileList = _this6.fileList;_loop = /*#__PURE__*/_regenerator.default.mark(function _loop(
                 i) {return _regenerator.default.wrap(function _loop$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
                           console.log(fileList[i].url);_context5.next = 3;return (
                             (0, _index.request)(fileList[i].url).then(function (result) {
@@ -704,7 +722,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 30);function _interopRequ
 
                               if (i === fileList.length - 1 && result.statusCode === 204) {
                                 console.log('上传图片--全部图片--上传完毕');
-                                _this5.upLoadGoodInfo();
+                                _this6.upLoadGoodInfo();
                               }
                             }));case 3:case "end":return _context5.stop();}}}, _loop);});i = 0;case 3:if (!(i < fileList.length)) {_context6.next = 8;break;}return _context6.delegateYield(_loop(i), "t0", 5);case 5:i++;_context6.next = 3;break;case 8:case "end":return _context6.stop();}}}, _callee5);}))();
 
