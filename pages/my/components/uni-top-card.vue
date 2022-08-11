@@ -20,17 +20,18 @@
         </div>
       </van-popup>
       <div class="right">
-        <div class="label vip">
+        <div class="label vip" v-if="userInfo.vip">
           <image class="label__icon vip" src="../../../static/goods-detail/vip.svg" mode="" />
           <span class="vip__txt">vip</span>
         </div>
-        <div class="label auditor">
+        <div class="label auditor" v-if="userInfo.isAuditor">
           <image class="label__icon" src="../../../static/goods-detail/auditor.svg" mode="" />
           <span class="auditor__txt">审核员</span>
         </div>
         <div class="label deal-num">
           <image class="label__icon" src="../../../static/goods-detail/deal.svg" mode="" />
-          <span class="deal-num__txt">已成交 8</span>
+          <span class="deal-num__txt">已成交{{userInfo.dealNum}}</span>
+          <!-- TODO 用户发布一个商品就需要更新其用户信息中的已成交数量 -->
         </div>
       </div>
     </div>
@@ -64,7 +65,8 @@ export default {
       showLogin: false,
       nickName: '',
       avatarUrl: '',
-      Auditor: ''
+      Auditor: '',
+      userInfo: {}
     }
   },
   methods: {
@@ -147,6 +149,7 @@ export default {
       let userInfo = uni.getStorageSync('userInfo')
       if (userInfo.nickName != null) {
         console.log('本地缓存中--有用户的信息')
+        this.userInfo = userInfo;
         this.renderPage(userInfo.nickName, userInfo.avatarUrl)
       } else {
         console.log('本地缓存中--没有用户的信息')
@@ -188,8 +191,7 @@ export default {
     this.judgeUserInLocal();
   },
   mounted() {
-    // console.log('判断是否是审核员');
-    // this.isAuditor();
+
   }
 }
 </script>

@@ -173,6 +173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var db = wx.cloud.database();var _default =
 {
   data: function data() {
@@ -180,7 +181,8 @@ var db = wx.cloud.database();var _default =
       showLogin: false,
       nickName: '',
       avatarUrl: '',
-      Auditor: '' };
+      Auditor: '',
+      userInfo: {} };
 
   },
   methods: {
@@ -263,6 +265,7 @@ var db = wx.cloud.database();var _default =
       var userInfo = uni.getStorageSync('userInfo');
       if (userInfo.nickName != null) {
         console.log('本地缓存中--有用户的信息');
+        this.userInfo = userInfo;
         this.renderPage(userInfo.nickName, userInfo.avatarUrl);
       } else {
         console.log('本地缓存中--没有用户的信息');
@@ -304,8 +307,7 @@ var db = wx.cloud.database();var _default =
     this.judgeUserInLocal();
   },
   mounted: function mounted() {
-    // console.log('判断是否是审核员');
-    // this.isAuditor();
+
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
