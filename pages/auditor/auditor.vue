@@ -35,7 +35,6 @@
               <span class="text-quality">{{ item.quality }}</span>
             </div>
           </div>
-
         </div>
       </div>
       <div class="right">
@@ -78,7 +77,7 @@ export default {
     },
     async AuditedNoPass(item) {
       await this.updateAudite(item._id, false);
-      // TODO发送通知用户该审核不通过
+      // 发送通知用户该审核不通过
       let pass = "不通过";
       let note = "内容违规，请联系开发者申诉";
       this.sendAuditResultNotice(item, pass, note);
@@ -99,7 +98,7 @@ export default {
       // 数组中所有项全部审核且通过
       await this.goodsInfo.forEach(item => {
         this.updateAudite(item._id, true);
-        // TODO发送通知用户该审核通过
+        // 发送通知用户该审核通过
         this.sendAuditResultNotice(item, pass, note);
       });
 

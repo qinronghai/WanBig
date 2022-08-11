@@ -85,6 +85,8 @@
 }
 .wrap .top-person-info .left .left-name-id.data-v-08521d74 {
   margin-left: 40.57rpx;
+  font-size: 14px;
+  font-weight: bold;
 }
 .wrap .top-person-info .left .left-name-id .name.data-v-08521d74 {
   font-size: 24.53rpx;
@@ -99,7 +101,7 @@
 .wrap .top-person-info .right .label.data-v-08521d74 {
   display: flex;
   align-items: center;
-  padding: 5rpx;
+  padding: 14rpx;
   padding-right: 10rpx;
   font-weight: bold;
 }
@@ -133,6 +135,8 @@
 .wrap .bottom-project-info .item__to .txt.data-v-08521d74 {
   margin-left: 26.29rpx;
   font-size: 26.29rpx;
+  font-style: italic;
+  font-weight: bold;
 }
 .wrap .bottom-project-info .item__to .icon.data-v-08521d74 {
   margin-right: 26.29rpx;

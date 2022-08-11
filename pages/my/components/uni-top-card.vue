@@ -265,6 +265,8 @@ export default {
 
       .left-name-id {
         margin-left: 40.57rpx;
+        font-size: 14px;
+        font-weight: bold;
 
         .name {
           font-size: 24.53rpx;
@@ -282,7 +284,7 @@ export default {
       .label {
         display: flex;
         align-items: center;
-        padding: 5rpx;
+        padding: 14rpx;
         padding-right: 10rpx;
         font-weight: bold;
 
@@ -325,6 +327,8 @@ export default {
       .txt {
         margin-left: 26.29rpx;
         font-size: 26.29rpx;
+        font-style: italic;
+        font-weight: bold;
       }
 
       .icon {

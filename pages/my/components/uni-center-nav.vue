@@ -1,12 +1,7 @@
 <template>
   <div class="wrap">
     <div class="nav-items">
-      <div
-        class="nav-item"
-        v-for="(item, index) in navIconList"
-        :key="index"
-        @click="toggleNav(index)"
-      >
+      <div class="nav-item" v-for="(item, index) in navIconList" :key="index" @click="toggleNav(index)">
         <image :src="item.url" class="icon"></image>
         <div class="title">{{ item.title }}</div>
         <div :class="{ active: index === activeIndex }"></div>
@@ -56,6 +51,7 @@ export default {
   margin-top: 10px;
   background-color: #fff;
   border-radius: 10px;
+
   .nav-items {
     display: flex;
     // 是flex-direction 和 flex-wrap的简写形式
@@ -63,12 +59,14 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+
     .nav-item {
       position: relative;
       display: flex;
       flex-flow: 1;
       flex-direction: column;
       align-items: center;
+
       .icon {
         width: 30px;
         height: 30px;
@@ -76,8 +74,10 @@ export default {
 
       .title {
         margin-top: 5px;
-        font-size: 9px;
+        font-size: 12px;
+        font-weight: bold;
       }
+
       .active {
         position: absolute;
         bottom: -8px;

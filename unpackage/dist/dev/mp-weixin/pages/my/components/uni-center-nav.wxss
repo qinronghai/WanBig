@@ -50,7 +50,8 @@
 }
 .wrap .nav-items .nav-item .title.data-v-50c4de17 {
   margin-top: 5px;
-  font-size: 9px;
+  font-size: 12px;
+  font-weight: bold;
 }
 .wrap .nav-items .nav-item .active.data-v-50c4de17 {
   position: absolute;
