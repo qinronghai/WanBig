@@ -27,4 +27,9 @@
   min-height: 280px;
   margin-top: 15px;
 }
+.example-content.data-v-97abaf3a {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
 

@@ -1,6 +1,7 @@
 <template>
   <div class="wrap">
     <rich-text :nodes="strings"> </rich-text>
+    <br>
   </div>
 </template>
 

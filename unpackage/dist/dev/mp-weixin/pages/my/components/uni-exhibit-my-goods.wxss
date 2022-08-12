@@ -23,35 +23,43 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.example-content.data-v-2755c015 {
+  background-color: #e9e9e9;
+}
 .wrap.data-v-2755c015 {
   display: flex;
-  height: 110px;
+  width: 92.5%;
+  height: 100px;
   background-color: #fff;
-  box-shadow: 2px 2px 5px #888;
+  box-shadow: 1px 1.5px 5px 1px #b4b3b3;
   border-radius: 10px;
 }
 .wrap .left.data-v-2755c015 {
-  padding: 15px 20px;
+  padding: 10px;
 }
 .wrap .left .img-good.data-v-2755c015 {
   width: 80px;
   height: 80px;
+  border-radius: 5px;
+}
+.wrap .center.data-v-2755c015 {
+  flex: 1;
 }
 .wrap .center .top.data-v-2755c015 {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 .wrap .center .top .desc.data-v-2755c015 {
-  display: -webkit-box;
-  overflow: hidden;
-  padding-right: 10px;
+  min-height: 33px;
   font-size: 13px;
   font-weight: 500;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  mdisplay: -webkit-box;
+  noverflow: hidden;
 }
 .wrap .center .top .price.data-v-2755c015 {
-  padding: 5px 0;
+  padding: 5px 0 0;
   color: #d43f3f;
   font-weight: bold;
 }
@@ -67,6 +75,24 @@
   font-size: 16.02rpx;
   font-weight: bolder;
 }
+.wrap .center .bottom .label .transport.data-v-2755c015 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30rpx;
+  margin-top: 4rpx;
+  margin-right: 15rpx;
+  background-color: #4da4e2;
+  border-radius: 5rpx;
+}
+.wrap .center .bottom .label .transport .text-transport.data-v-2755c015 {
+  margin: 10rpx;
+}
+.wrap .center .bottom .label .transport .icon-transport.data-v-2755c015 {
+  width: 19.28rpx;
+  height: 19.28rpx;
+  margin-left: 10rpx;
+}
 .wrap .center .bottom .label .address.data-v-2755c015 {
   display: flex;
   justify-content: center;
@@ -75,7 +101,7 @@
   margin-top: 4rpx;
   margin-right: 15rpx;
   background-color: #ffc300;
-  border-radius: 10rpx;
+  border-radius: 5rpx;
 }
 .wrap .center .bottom .label .address .text-address.data-v-2755c015 {
   margin: 10rpx;
@@ -93,7 +119,7 @@
   margin-top: 4rpx;
   margin-right: 15rpx;
   background-color: #ffc300;
-  border-radius: 10rpx;
+  border-radius: 5rpx;
 }
 .wrap .center .bottom .label .quality .text-quality.data-v-2755c015 {
   margin: 10rpx;
@@ -117,13 +143,10 @@
 }
 .wrap .right.data-v-2755c015 {
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 25px;
-  background-color: #292929;
+  background-color: #eee;
   border-radius: 0 10px 10px 0;
-}
-.wrap .right .arrow_left.data-v-2755c015 {
-  width: 26px;
-  height: 26px;
 }
 

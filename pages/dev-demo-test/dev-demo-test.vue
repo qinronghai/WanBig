@@ -1,16 +1,26 @@
 <template>
 	<view>
-		<van-dropdown-menu active-color="#ffc300">
+		<!-- <van-dropdown-menu active-color="#ffc300">
 			<van-dropdown-item :value="categoryDefault" :options="categoryOption" />
 			<van-dropdown-item :value="sortDefault" :options="sortOption" />
-		</van-dropdown-menu>
+		</van-dropdown-menu> -->
+
+		<w-swiper-out :swiperOutBtns="btns1" @delete="delete1" @added="added" buttonWidth="50">
+			<view class="example-content" style="">
+				Example Content
+			</view>
+		</w-swiper-out>
 	</view>
 </template>
 
 <script>
 var util = require("../utils/formatTime.js");
+import { WSwiperOut } from "../../wxcomponents/wuss-weapp/w-swiper-out/index";
 
 export default {
+	components: {
+		WSwiperOut
+	},
 	data() {
 		return {
 			currentTime: '',
@@ -59,10 +69,45 @@ export default {
 			],
 			categoryDefault: 0,
 			sortDefault: "a",
+			btns1: [
+				{
+					text: '成交',
+					color: '#ffffff',
+					background: '#28a745',
+					disabled: false,
+					size: '14px',
+					type: 'added',
+				},
+				{
+					text: '删除',
+					color: '#ffffff',
+					background: '#e42112',
+					disabled: false,
+					size: '14px',
+					type: 'delete',
+				},
+			],
 		}
 	},
 	methods: {
-
+		delete1(e) {
+			wx.showModal({
+				title: '提示',
+				content: 'delete',
+				showCancel: false,
+			});
+		},
+		added() {
+			wx.showModal({
+				title: '提示',
+				content: 'added',
+				showCancel: false,
+			});
+		},
+		handleBtnClick(e) {
+			const { onPress } = e.detail;
+			onPress.call(this);
+		},
 	},
 	mounted() {
 		let currentTime = new Date();
@@ -72,5 +117,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.example-content {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
 </style>

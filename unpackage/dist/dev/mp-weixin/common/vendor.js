@@ -3280,7 +3280,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 127:
+/***/ 129:
 /*!**********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
   \**********************************************************************/
@@ -3288,7 +3288,7 @@ if (hadRuntime) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 128);
+var _component = __webpack_require__(/*! ../common/component */ 130);
 (0, _component.VantComponent)({
   props: {
     dot: Boolean,
@@ -3309,7 +3309,7 @@ var _component = __webpack_require__(/*! ../common/component */ 128);
 
 /***/ }),
 
-/***/ 128:
+/***/ 130:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
   \****************************************************************************/
@@ -3317,7 +3317,7 @@ var _component = __webpack_require__(/*! ../common/component */ 128);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 129);
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 131);
 function mapKeys(source, target, map) {
   Object.keys(map).forEach(function (key) {
     if (source[key]) {
@@ -3364,7 +3364,7 @@ function VantComponent(vantOptions) {
 
 /***/ }),
 
-/***/ 129:
+/***/ 131:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
   \************************************************************************/
@@ -3384,7 +3384,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 
 /***/ }),
 
-/***/ 130:
+/***/ 132:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
   \***********************************************************************/
@@ -3392,7 +3392,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 128);
+var _component = __webpack_require__(/*! ../common/component */ 130);
 (0, _component.VantComponent)({
   props: {
     show: Boolean,
@@ -3422,7 +3422,7 @@ var _component = __webpack_require__(/*! ../common/component */ 128);
 
 /***/ }),
 
-/***/ 131:
+/***/ 133:
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
   \***********************************************************************/
@@ -3430,8 +3430,8 @@ var _component = __webpack_require__(/*! ../common/component */ 128);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 128);
-var _transition = __webpack_require__(/*! ../mixins/transition */ 132);
+var _component = __webpack_require__(/*! ../common/component */ 130);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 134);
 (0, _component.VantComponent)({
   classes: [
   'enter-class',
@@ -3520,7 +3520,7 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 132);
 
 /***/ }),
 
-/***/ 132:
+/***/ 134:
 /*!*****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
   \*****************************************************************************/
@@ -3529,8 +3529,8 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 132);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
-var _utils = __webpack_require__(/*! ../common/utils */ 133);
-var _validator = __webpack_require__(/*! ../common/validator */ 134); // @ts-nocheck
+var _utils = __webpack_require__(/*! ../common/utils */ 135);
+var _validator = __webpack_require__(/*! ../common/validator */ 136); // @ts-nocheck
 var getClassNames = function getClassNames(name) {return {
     enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
     'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
@@ -3646,7 +3646,7 @@ function transition(showDefaultValue) {
 
 /***/ }),
 
-/***/ 133:
+/***/ 135:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
   \************************************************************************/
@@ -3654,8 +3654,8 @@ function transition(showDefaultValue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 134);
-var _version = __webpack_require__(/*! ./version */ 135);
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 136);
+var _version = __webpack_require__(/*! ./version */ 137);
 
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
@@ -3749,7 +3749,7 @@ function getCurrentPage() {
 
 /***/ }),
 
-/***/ 134:
+/***/ 136:
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
   \****************************************************************************/
@@ -3791,7 +3791,7 @@ function isVideoUrl(url) {
 
 /***/ }),
 
-/***/ 135:
+/***/ 137:
 /*!**************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
   \**************************************************************************/
@@ -3799,7 +3799,7 @@ function isVideoUrl(url) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 133);
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 135);
 function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -3850,7 +3850,7 @@ function canIUseGetUserProfile() {
 
 /***/ }),
 
-/***/ 136:
+/***/ 138:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/index.js ***!
   \************************************************************************/
@@ -3858,8 +3858,8 @@ function canIUseGetUserProfile() {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 128);
-var _shared = __webpack_require__(/*! ./shared */ 137);
+var _component = __webpack_require__(/*! ../common/component */ 130);
+var _shared = __webpack_require__(/*! ./shared */ 139);
 (0, _component.VantComponent)({
   classes: ['active-class', 'toolbar-class', 'column-class'],
   props: Object.assign(Object.assign({}, _shared.pickerProps), { valueKey: {
@@ -3995,7 +3995,7 @@ var _shared = __webpack_require__(/*! ./shared */ 137);
 
 /***/ }),
 
-/***/ 137:
+/***/ 139:
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/shared.js ***!
   \*************************************************************************/
@@ -4154,7 +4154,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 159:
+/***/ 161:
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/button/index.js ***!
   \************************************************************************/
@@ -4162,9 +4162,9 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 128);
-var _button = __webpack_require__(/*! ../mixins/button */ 160);
-var _version = __webpack_require__(/*! ../common/version */ 135);
+var _component = __webpack_require__(/*! ../common/component */ 130);
+var _button = __webpack_require__(/*! ../mixins/button */ 162);
+var _version = __webpack_require__(/*! ../common/version */ 137);
 var mixins = [_button.button];
 if ((0, _version.canIUseFormFieldButton)()) {
   mixins.push('wx://form-field-button');
@@ -4227,7 +4227,7 @@ if ((0, _version.canIUseFormFieldButton)()) {
 
 /***/ }),
 
-/***/ 160:
+/***/ 162:
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/button.js ***!
   \*************************************************************************/
@@ -4235,7 +4235,7 @@ if ((0, _version.canIUseFormFieldButton)()) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.button = void 0;var _version = __webpack_require__(/*! ../common/version */ 135);
+Object.defineProperty(exports, "__esModule", { value: true });exports.button = void 0;var _version = __webpack_require__(/*! ../common/version */ 137);
 var button = Behavior({
   externalClasses: ['hover-class'],
   properties: {
@@ -4274,6 +4274,266 @@ var button = Behavior({
     onOpenSetting: function onOpenSetting(event) {
       this.triggerEvent('opensetting', event.detail);
     } } });exports.button = button;
+
+/***/ }),
+
+/***/ 163:
+/*!************************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/wuss-weapp/w-swiper-out/index.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+
+
+
+var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ../common/extends/baseComponent */ 164));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /*
+                                                                                                                                                                                       * @Author: Github.Caitingwei[https://github.com/Caitingwei]
+                                                                                                                                                                                       * @Date: 2018-09-06 16:23:23
+                                                                                                                                                                                       * @Last Modified by: Github.Caitingwei[https://github.com/Caitingwei]
+                                                                                                                                                                                       * @Last Modified time: 2019-02-25 09:13:33
+                                                                                                                                                                                       */var SYSTEM_INFO = wx.getSystemInfoSync();(0, _baseComponent.default)({ /**
+                                                                                                                                                                                                                                                                 * 组件的属性列表
+                                                                                                                                                                                                                                                                 * @param {array} swiperOutBtns 侧滑菜单按钮列表 参数有 text, color, background, disabled
+                                                                                                                                                                                                                                                                 * @param {number} buttonWidth 按钮的宽度
+                                                                                                                                                                                                                                                                 * @param {boolean} close 是否展开
+                                                                                                                                                                                                                                                                 * @param {string} backgroundColor 背景颜色
+                                                                                                                                                                                                                                                                 * @param {number} height  容器的高度
+                                                                                                                                                                                                                                                                 * @param {number} threshold 侧滑触发的阀值
+                                                                                                                                                                                                                                                                 * @param {boolean} autoClose 点击按钮自动收起
+                                                                                                                                                                                                                                                                 * @param {boolean} disabled 禁用侧滑菜单
+                                                                                                                                                                                                                                                                 */properties: {
+    swiperOutBtns: {
+      type: Array,
+      value: [] },
+
+    backgroundColor: {
+      type: String,
+      value: "#ffffff" },
+
+    buttonWidth: {
+      type: Number,
+      value: 0 },
+
+    height: {
+      type: Number,
+      value: 48 },
+
+    threshold: {
+      type: Number,
+      value: 0.35 },
+
+    close: {
+      type: Boolean,
+      value: false,
+      observer: function observer(val) {
+        val ? this.open() : this.close();
+      } },
+
+    autoClose: {
+      type: Boolean,
+      value: true },
+
+    disabled: {
+      type: Boolean,
+      value: false } },
+
+
+  data: {
+    _scrollX: 0,
+    _startX: 0,
+    _slideWidth: 0,
+    out: true,
+    _width: SYSTEM_INFO.windowWidth,
+    _threshold: 0 },
+
+  methods: {
+    /**
+              * movable-view 移动回调
+              */
+    handleChange: function handleChange(e) {var _this$data =
+      this.data,out = _this$data.out,_threshold = _this$data._threshold,disabled = _this$data.disabled;var
+      x = e.detail.x;
+      if (disabled) return false;
+      if (!out && x < -_threshold) {
+        this.setData({
+          out: true });
+
+      } else if (out && x >= -_threshold) {
+        this.setData({
+          out: false });
+
+      }
+    },
+    /**
+        * movable-view 鼠标按下回调
+        */
+    handleTouchStart: function handleTouchStart(e) {var _e$changedTouches$ =
+      e.changedTouches["0"],pageX = _e$changedTouches$.pageX,pageY = _e$changedTouches$.pageY;
+      this.setData({ _startX: pageX, _startY: pageY });
+    },
+    /**
+        * movable-view 鼠标松开回调
+        */
+    handleTouchEnd: function handleTouchEnd(e) {var _e$changedTouches$2 =
+      e.changedTouches["0"],pageX = _e$changedTouches$2.pageX,pageY = _e$changedTouches$2.pageY;var _this$data2 =
+      this.data,_startX = _this$data2._startX,_startY = _this$data2._startY,_slideWidth = _this$data2._slideWidth,_threshold = _this$data2._threshold,disabled = _this$data2.disabled,height = _this$data2.height;
+      if (disabled) return false;
+      if (_startX - pageX >= _threshold && Math.abs(_startY - pageY) <= height) {
+        this.setData({
+          _scrollX: -_slideWidth });
+
+      } else if (_startX - pageX < _threshold && _startX - pageX > 0) {
+        this.setData({
+          _scrollX: 0 });
+
+      } else if (pageX - _startX >= _threshold) {
+        this.setData({
+          _scrollX: 0 });
+
+      } else if (pageX - _startX < _threshold && pageX - _startX > 0) {
+        this.setData({
+          _scrollX: 0 });
+
+      } else if (pageX === _startX || pageY === _startY) {
+        this.setData({
+          _scrollX: 0 });
+
+      }
+    },
+    /**
+        * 菜单列表按钮被按下
+        */
+    handleBtnClick: function handleBtnClick(e) {
+      try {var
+        key = e.currentTarget.dataset.key;var _this$data3 =
+
+        this.data,swiperOutBtns = _this$data3.swiperOutBtns,autoClose = _this$data3.autoClose;
+
+        var item = swiperOutBtns[key];
+
+        if (item.disabled) return false;
+        this.triggerEvent(item.type);
+        autoClose ? this.close() : "";
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+        * left内容区被点击
+        */
+    handleLeftClick: function handleLeftClick() {var _this$data4 =
+      this.data,autoClose = _this$data4.autoClose,_scrollX = _this$data4._scrollX,_slideWidth = _this$data4._slideWidth;
+      if (_scrollX === -_slideWidth) {
+        // 展开状态
+        autoClose ? this.close() : "";
+      } else {
+        this.triggerEvent("onClick");
+      }
+    },
+    open: function open() {var
+      _slideWidth = this.data._slideWidth;
+      this.setData({
+        _scrollX: -_slideWidth });
+
+    },
+    close: function close() {
+      this.setData({
+        _scrollX: 0 });
+
+    } },
+
+  ready: function ready() {var _this$data5 =
+    this.data,threshold = _this$data5.threshold,buttonWidth = _this$data5.buttonWidth,swiperOutBtns = _this$data5.swiperOutBtns,close = _this$data5.close;
+    var _slideWidth = swiperOutBtns.length * (buttonWidth ? buttonWidth : SYSTEM_INFO.windowWidth * 0.45 / swiperOutBtns.length);
+    this.setData({
+      _slideWidth: _slideWidth,
+      _threshold: _slideWidth * threshold });
+
+    close ? this.open() : "";
+  } });
+
+/***/ }),
+
+/***/ 164:
+/*!**********************************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/wuss-weapp/common/extends/baseComponent.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _index = _interopRequireDefault(__webpack_require__(/*! ../behavior/index */ 165));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
+function _default() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  options.options = _objectSpread({
+    multipleSlots: true,
+    addGlobalClass: true },
+  options.options);
+
+
+  options.behaviors = [
+  _index.default].concat(_toConsumableArray(
+  options.behaviors = options.behaviors || []));
+
+
+  options.externalClasses = [
+  'wuss-class'].concat(_toConsumableArray(
+  options.externalClasses = options.externalClasses || []));
+
+
+  return Component(options);
+};exports.default = _default;
+
+/***/ }),
+
+/***/ 165:
+/*!***************************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/wuss-weapp/common/behavior/index.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = Behavior({
+  behaviors: [],
+  properties: {},
+
+
+  data: {},
+
+
+  attached: function attached() {},
+  methods: {
+    /**
+              * 
+              * @param {string} v 要格式化的单位
+              * @param {string} unit 无单位时补充的单位
+              * @param {string} r 要替换的单位
+              */
+    formatUnit: function formatUnit(v, unit, r) {
+      var units = ['px', 'rpx', '%', 'rm', 'rem'];
+      if (!v) return '';
+      var x = '';
+      return !!units.reduce(function (p, n) {
+        if (String(v).indexOf(n) > -1) {
+          p += 1;
+          x = n;
+        }
+        return p;
+      }, 0) ? r != null || r != undefined ? v.replace(new RegExp(x, 'g'), '') + r : v : v + unit;
+    },
+    /**
+        * 判断是否是数组对象 [{},{},{}....]
+        * @param {array} arry 
+        */
+    isArrayObject: function isArrayObject(arry) {
+      return Array.isArray(arry) && arry.length > 0 && Object.prototype.toString.call(arry[0]) === '[object Object]';
+    } } });
 
 /***/ }),
 
@@ -10914,7 +11174,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 82:
+/***/ 84:
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/pages/utils/formatTimeToChinese.js ***!
   \*************************************************************************/

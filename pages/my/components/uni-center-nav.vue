@@ -4,7 +4,7 @@
       <div class="nav-item" v-for="(item, index) in navIconList" :key="index" @click="toggleNav(index)">
         <image :src="item.url" class="icon"></image>
         <div class="title">{{ item.title }}</div>
-        <div :class="{ active: index === activeIndex }"></div>
+        <div :class="{ active: item.active === true }"></div>
       </div>
     </div>
   </div>
@@ -14,31 +14,43 @@
 export default {
   data() {
     return {
-      activeIndex: 1,
       navIconList: [
-        {
-          url: "../../../static/my/tip.svg",
-          title: "使用提示",
-        },
         {
           url: "../../../static/my/my-goods.svg",
           title: "我的商品",
+          active: true,
+        },
+        {
+          url: "../../../static/my/tip.svg",
+          title: "使用提示",
+          active: false
         },
         {
           url: "../../../static/my/contact-author.svg",
           title: "联系作者",
+          active: false
         },
         {
           url: "../../../static/my/share.svg",
           title: "分享软件",
+          active: false
         },
       ],
     };
   },
   methods: {
     toggleNav(index) {
-      this.activeIndex = index;
-      uni.$emit("update", { index: index });
+      console.log("点击了--" + this.navIconList[index].title);
+      // 点击切换
+      // 切换之前 激活状态全部为false
+      this.navIconList.forEach(item => {
+        item.active = false;
+      });
+      // 被点击的选项设为true
+      this.navIconList[index].active = true;
+      console.log(this.navIconList);
+      uni.$emit("update", { index: index, navIconList: this.navIconList });
+
     },
   },
 };

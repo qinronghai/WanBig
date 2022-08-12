@@ -1,14 +1,16 @@
 <template>
-  <div class="wrap">
-    <div class="my-goods">
-      <!-- <uni-exhibit-my-goods></uni-exhibit-my-goods> -->
+  <div class="wrap" :key="numberkey">
+
+    <div class="my-goods" v-if="index === 0">
+      <uni-exhibit-my-goods></uni-exhibit-my-goods>
     </div>
-    <div class="contact-author">
-      <!-- <uni-exhibit-contact-author></uni-exhibit-contact-author> -->
-    </div>
-    <div class="tip">
+    <div class="tip" v-if="index === 1">
       <uni-exhibit-tip></uni-exhibit-tip>
     </div>
+    <div class="contact-author" v-if="index === 2">
+      <uni-exhibit-contact-author></uni-exhibit-contact-author>
+    </div>
+
   </div>
 </template>
 
@@ -19,20 +21,33 @@ import UniExhibitTip from "./uni-exhibit-tip.vue";
 export default {
   data() {
     return {
-      index: 1,
+      numberkey: 0,
+      index: 0,
+      navIconList: [],// 导航图标
+
     };
   },
-  methods: {},
+  methods: {
+
+  },
   computed: {},
   components: { uniExhibitMyGoods, UniExhibitContactAuthor, UniExhibitTip },
   mounted() {
     console.log(this.index);
+    let _this = this;
     uni.$on("update", function (data) {
-      console.log("监听到事件来自 update ，携带参数 index 为：" + data.index);
-      this.index = data.index;
-      console.log(this.index);
+      let index = data.index;
+      _this.index = index;
+      _this.chenRender();
     });
   },
+  methods: {
+    // 重新渲染
+    chenRender() {
+      this.numberkey += 1;
+    }
+  },
+
 };
 </script>
 
@@ -40,5 +55,11 @@ export default {
 .wrap {
   min-height: 280px;
   margin-top: 15px;
+}
+
+.example-content {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
 }
 </style>

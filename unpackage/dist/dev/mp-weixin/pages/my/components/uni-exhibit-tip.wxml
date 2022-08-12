@@ -1,1 +1,1 @@
-<view class="wrap _div data-v-d178feaa"><rich-text nodes="{{strings}}" class="data-v-d178feaa"></rich-text></view>
+<view class="wrap _div data-v-d178feaa"><rich-text nodes="{{strings}}" class="data-v-d178feaa"></rich-text><view class="_br data-v-d178feaa"></view></view>

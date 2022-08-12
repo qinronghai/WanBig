@@ -30,7 +30,7 @@
         </div>
         <div class="label deal-num">
           <image class="label__icon" src="../../../static/goods-detail/deal.svg" mode="" />
-          <span class="deal-num__txt">已成交{{userInfo.dealNum}}</span>
+          <span class="deal-num__txt">已成交{{ userInfo.dealNum }}</span>
           <!-- TODO 用户发布一个商品就需要更新其用户信息中的已成交数量 -->
         </div>
       </div>
@@ -132,7 +132,7 @@ export default {
             // 弹窗“一键登录”，获取信息存入缓存中并渲染页面
             _this.login()
           } else {
-            console.log('数据库中--有该用户的信息')
+            console.log('数据库中--有该用户的信息', res.data[0])
 
             let userInfo = res.data[0]
 
@@ -149,6 +149,7 @@ export default {
       let userInfo = uni.getStorageSync('userInfo')
       if (userInfo.nickName != null) {
         console.log('本地缓存中--有用户的信息')
+        console.log(userInfo, '缓存中的用户信息');
         this.userInfo = userInfo;
         this.renderPage(userInfo.nickName, userInfo.avatarUrl)
       } else {
@@ -188,11 +189,15 @@ export default {
     UniLogin
   },
   beforeMount() {
-    this.judgeUserInLocal();
   },
   mounted() {
+    this.judgeUserInLocal();
 
+  },
+  onShow() {
+    this.judgeUserInLocal();
   }
+
 }
 </script>
 

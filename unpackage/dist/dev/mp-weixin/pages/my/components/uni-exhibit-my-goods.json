@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "van-icon": "/wxcomponents/vant/icon/index"
+    "van-icon": "/wxcomponents/vant/icon/index",
+    "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
   }
 }
