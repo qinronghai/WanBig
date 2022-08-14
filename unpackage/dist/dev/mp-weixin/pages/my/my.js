@@ -262,10 +262,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 var db = wx.cloud.database();
 var _ = db.command;var _default =
 
@@ -353,31 +349,7 @@ var _ = db.command;var _default =
       // 被点击的选项设为true
       this.navIconList[index].active = true;
 
-      // index为4 调用分享接口
-      if (index === 3) {
-        this.onShareAppMessage();
-      }
       this.index = index;
-
-    },
-    // 分享该软件
-    shareThisApp: function shareThisApp() {
-      console.log('分享--用户分享该软件');
-      uni.share({
-        provider: "weixin",
-        scene: "WXSceneSession",
-        type: 1,
-        summary: "我正在使用《湾大闲置品小铺》，赶紧跟我一起来体验吧！",
-        success: function success(res) {
-          console.log("success:" + JSON.stringify(res));
-        },
-        fail: function fail(err) {
-          console.log("fail:" + JSON.stringify(err));
-        } });
-
-
-    },
-    onShareAppMessage: function onShareAppMessage() {
 
     },
     // 获取用户信息

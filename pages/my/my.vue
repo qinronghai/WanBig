@@ -13,11 +13,7 @@
           <div :class="{ active: item.active === true }"></div>
         </div>
       </div>
-      <button style="  margin: 0;
-      border: none;
-      border: 0;
-
-      outline: none;" class="share-btn" open-type="share"></button>
+      <button class="share-btn" open-type="share"></button>
     </div>
     <!-- 我的商品 不采用组件的方式的原因是有bug无法避免 -->
     <div class="wrap-out-side">
@@ -219,31 +215,7 @@ export default {
       // 被点击的选项设为true
       this.navIconList[index].active = true;
 
-      // index为4 调用分享接口
-      if (index === 3) {
-        this.onShareAppMessage();
-      }
       this.index = index;
-
-    },
-    // 分享该软件
-    shareThisApp() {
-      console.log('分享--用户分享该软件');
-      uni.share({
-        provider: "weixin",
-        scene: "WXSceneSession",
-        type: 1,
-        summary: "我正在使用《湾大闲置品小铺》，赶紧跟我一起来体验吧！",
-        success: function (res) {
-          console.log("success:" + JSON.stringify(res));
-        },
-        fail: function (err) {
-          console.log("fail:" + JSON.stringify(err));
-        }
-      });
-
-    },
-    onShareAppMessage() {
 
     },
     // 获取用户信息
