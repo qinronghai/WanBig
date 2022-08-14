@@ -69,6 +69,10 @@ export default {
       userInfo: {}
     }
   },
+  onLoad(options) {
+    // TODO 登录这部分有bug
+    console.log(options, '登录卡片埋点');
+  },
   methods: {
     login() {
       console.log('弹窗一键登录')

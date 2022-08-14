@@ -1,1 +1,1 @@
-<view class="wrap _div data-v-50c4de17"><view class="nav-items _div data-v-50c4de17"><block wx:for="{{navIconList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view data-event-opts="{{[['tap',[['toggleNav',[index]]]]]}}" class="nav-item _div data-v-50c4de17" bindtap="__e"><image class="icon data-v-50c4de17" src="{{item.url}}"></image><view class="title _div data-v-50c4de17">{{item.title}}</view><view class="{{['_div','data-v-50c4de17',(item.active===true)?'active':'']}}"></view></view></block></view></view>
+<view class="_div data-v-50c4de17"></view>

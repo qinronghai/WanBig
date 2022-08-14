@@ -148,7 +148,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 
-var util = __webpack_require__(/*! ../utils/formatTime.js */ 53);var WSwiperOut = function WSwiperOut() {__webpack_require__.e(/*! require.ensure | wxcomponents/wuss-weapp/w-swiper-out/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/wuss-weapp/w-swiper-out/index */ 163));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var util = __webpack_require__(/*! ../utils/formatTime.js */ 53);var WSwiperOut = function WSwiperOut() {__webpack_require__.e(/*! require.ensure | wxcomponents/wuss-weapp/w-swiper-out/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/wuss-weapp/w-swiper-out/index */ 182));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 {

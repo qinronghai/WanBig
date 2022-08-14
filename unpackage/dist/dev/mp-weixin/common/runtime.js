@@ -105,7 +105,7 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"pages/index-store/components/uni-banner":1,"pages/index-store/components/uni-goods-card":1,"pages/index-store/components/uni-product-catg-nav":1,"pages/release/components/uni-bottom-options":1,"pages/release/components/uni-goods-desc":1,"pages/release/components/uni-header-bar":1,"pages/my/components/uni-bottom-exhibit":1,"pages/my/components/uni-center-nav":1,"pages/my/components/uni-exhibit-contact-author":1,"pages/my/components/uni-exhibit-my-goods":1,"pages/my/components/uni-exhibit-tip":1,"pages/my/components/uni-top-card":1,"pages/my/components/uni-login":1};
+/******/ 		var cssChunks = {"pages/index-store/components/uni-banner":1,"pages/index-store/components/uni-goods-card":1,"pages/index-store/components/uni-product-catg-nav":1,"pages/release/components/uni-bottom-options":1,"pages/release/components/uni-goods-desc":1,"pages/release/components/uni-header-bar":1,"pages/my/components/uni-bottom-exhibit":1,"pages/my/components/uni-exhibit-contact-author":1,"pages/my/components/uni-exhibit-my-goods":1,"pages/my/components/uni-exhibit-tip":1,"pages/my/components/uni-top-card":1,"pages/my/components/uni-login":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {

@@ -5,12 +5,76 @@
     <!-- 资料卡片 -->
     <uni-top-card></uni-top-card>
     <!-- 菜单导航栏 -->
-    <uni-center-nav></uni-center-nav>
+    <div class="wrap-nav">
+      <div class="nav-items">
+        <div class="nav-item" v-for="(item, index) in navIconList" :key="index" @click="toggleNav(index)">
+          <image :src="item.url" class="icon"></image>
+          <div class="title">{{ item.title }}</div>
+          <div :class="{ active: item.active === true }"></div>
+        </div>
+      </div>
+      <button style="  margin: 0;
+      border: none;
+      border: 0;
+
+      outline: none;" class="share-btn" open-type="share"></button>
+    </div>
     <!-- 我的商品 不采用组件的方式的原因是有bug无法避免 -->
-    <div class="wrap-out-side" :key="numberkey">
-      <div class="my-goods" v-if="index === 0">
-        <w-swiper-out height="100" v-for="(item, index) in goodsInfo" :key="index" :swiperOutBtns="btns1"
-          @delete="delete2" @added="deal" buttonWidth="50">
+    <div class="wrap-out-side">
+      <div class="my-goods" :key="numberkey" v-if="index === 0">
+        <!-- 我的商品--未成交 -->
+        <div class="bar">
+          <div class="bar-text">
+            未成交
+          </div>
+        </div>
+        <!-- 商品列表 -->
+        <w-swiper-out height="100" v-for="(item, index) in noDealGoodsInfo" :key="index" :swiperOutBtns="btns1"
+          @delete="delete2(item)" @added="deal(item)" buttonWidth="50">
+          <view class="example-content" style="">
+            <div class="wrap">
+              <div class="left">
+                <image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
+              </div>
+              <div class="center">
+                <div class="top">
+                  <div class="desc">
+                    {{ item.title }}
+                  </div>
+                  <div class="price">{{ item.price }}</div>
+                </div>
+                <div class="bottom">
+                  <div class="label">
+                    <div class="transport">
+                      <image class="icon-transport" src="../../static/label/transport.svg" mode="" />
+                      <span class="text-transport">{{ item.transport }}</span>
+                    </div>
+                    <div class="address">
+                      <image class="icon-address" src="../../static/label/address.svg" mode="" />
+                      <span class="text-address">{{ item.address }}</span>
+                    </div>
+                    <div class="quality">
+                      <image class="icon-quality" src="../../static/label/quality.svg" mode="" />
+                      <span class="text-quality">{{ item.quality }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <van-icon name="arrow-left" />
+              </div>
+            </div>
+          </view>
+        </w-swiper-out>
+        <!-- 我的商品--已成交 -->
+        <div class="bar">
+          <div class="bar-text">
+            已成交
+          </div>
+        </div>
+        <!-- 商品列表 -->
+        <w-swiper-out height="100" v-for="(item, index) in dealedGoodsInfo" :key="index" :swiperOutBtns="btns1"
+          @delete="delete2(item)" @added="deal(item)" buttonWidth="50">
           <view class="example-content" style="">
             <div class="wrap">
               <div class="left">
@@ -76,10 +140,39 @@ export default {
   data() {
     return {
       openid: '',
+      // 全部的商品信息
       goodsInfo: [],
+      // 已成交的商品信息
+      dealedGoodsInfo: [],
+      // 未成交的商品信息
+      noDealGoodsInfo: [],
+      // 刷新页面自带参数
       numberkey: 0,
-      index: 0,
-      navIconList: [],// 导航图标
+      // 分类导航默认参数
+      index: 1,
+      // 导航图标
+      navIconList: [
+        {
+          url: "../../static/my/my-goods.svg",
+          title: "我的商品",
+          active: false,
+        },
+        {
+          url: "../../static/my/tip.svg",
+          title: "使用提示",
+          active: true
+        },
+        {
+          url: "../../static/my/contact-author.svg",
+          title: "联系作者",
+          active: false
+        },
+        {
+          url: "../../static/my/share.svg",
+          title: "分享软件",
+          active: false
+        },
+      ],
       // 处理侧滑菜单按钮事件
       btns1: [
         {
@@ -101,109 +194,217 @@ export default {
       ],
     };
   },
-  onLoad: function (option) {
+  onLoad: async function (option) {
     // 处理登录请求
-    console.log(option.showLogin); //打印出上个页面传递的参数。
+    console.log('打印出上个页面传递的参数。', option.showLogin); //打印出上个页面传递的参数。
     this.showLogin = option.showLogin;
-  },
-  async mounted() {
-    // 获取用户信息
-    let userInfo = uni.getStorageSync('userInfo');
-    // this.userInfo = userInfo;
-    // 获取用户openid
-    let openid = userInfo._openid
-    this.openid = openid;
-    console.log('用户的openid为' + openid);
+    // 请求用户信息
+    await this.getUserInfo();
     // 请求我的商品数据
-    await this.getMyGoods(openid);
-    // 处理菜单导航切换
-    let _this = this;
-    uni.$on("update", function (data) {
-      let index = data.index;
-      _this.index = index;
-      _this.chenRender(); // 重新渲染组件
-    });
+    await this.getMyGoods(this.userInfo._openid);
   },
   methods: {
     // 重新渲染
     chenRender() {
       this.numberkey += 1;
     },
+    // 处理切换导航
+    toggleNav(index) {
+      console.log("点击了--" + this.navIconList[index].title);
+      // 点击切换
+      // 切换之前 激活状态全部为false
+      this.navIconList.forEach(item => {
+        item.active = false;
+      });
+      // 被点击的选项设为true
+      this.navIconList[index].active = true;
+
+      // index为4 调用分享接口
+      if (index === 3) {
+        this.onShareAppMessage();
+      }
+      this.index = index;
+
+    },
+    // 分享该软件
+    shareThisApp() {
+      console.log('分享--用户分享该软件');
+      uni.share({
+        provider: "weixin",
+        scene: "WXSceneSession",
+        type: 1,
+        summary: "我正在使用《湾大闲置品小铺》，赶紧跟我一起来体验吧！",
+        success: function (res) {
+          console.log("success:" + JSON.stringify(res));
+        },
+        fail: function (err) {
+          console.log("fail:" + JSON.stringify(err));
+        }
+      });
+
+    },
+    onShareAppMessage() {
+
+    },
+    // 获取用户信息
+    async getUserInfo() {
+      let _this = this
+      await db
+        .collection('user-info')
+        .where({
+          _openid: this.openid
+        })
+        .get()
+        .then(res => {
+          let userInfo = res.data[0];
+          console.log('获取--用户信息--成功', userInfo._openid);
+          uni.setStorageSync('userInfo', userInfo);
+          _this.userInfo = userInfo;
+          _this.openid = userInfo._openid;
+        })
+    },
+    // 获取我的商品数据
     async getMyGoods(openid) {
       let _this = this;
+
       wx.showLoading({
         title: '数据加载中',
         mark: true
       })
       await db.collection('goods').where({
-        openid: openid,
+        _openid: openid,
       }).get().then((res) => {
-        console.log(res);
-        this.goodsInfo = res.data;
+        if (res.data.length > 0) {
+          console.log('获取--我的商品信息--成功', res);
+          // 根据 deal属性进行分类
+          _this.sortDataForDeal(res.data);
+        } else {
+          console.log('获取--我的商品信息--失败');
+        }
       }).catch((err) => {
-
+        console.log('获取-我的商品信息--出错', err);
       });
       wx.hideLoading();
     },
+    // 根据deal属性进行分类商品数据
+    async sortDataForDeal(goodsInfo) {
+
+      let dealedGoodsInfo = [];
+      let noDealGoodsInfo = [];
+
+      goodsInfo.forEach(item => {
+        if (item.deal === true) {
+          dealedGoodsInfo.push(item);
+        } else {
+          noDealGoodsInfo.push(item);
+        }
+      })
+
+      this.dealedGoodsInfo = dealedGoodsInfo;
+      this.noDealGoodsInfo = noDealGoodsInfo;
+    },
+    // 更新商品成交数量
     async updateGoodDealNum() {
-      console.log(this.userInfo);
       db.collection("user-info").doc(this.userInfo._id).update({
         data: {
           dealNum: _.inc(1)
         },
         success: function (res) {
-          console.log(res, '更新已成交数成功')
+          console.log(res, '更新--成交数--成功')
         }
       })
     },
-    delete2(e) {
+    // 处理删除按钮事件
+    delete2(item) {
+      let _this = this;
+      wx.showModal({
+        title: '提示',
+        content: '是否确定下架该商品？',
+        async success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定--确定下架该商品');
+            // 删除该用户上传的图片
+            await _this.deleteGoodPicture(item);
+            // 删除数据库对应的记录
+            await _this.deleteData(item);
 
+
+            wx.showToast({
+              title: '下架该商品成功',
+              icon: "success",
+              duration: 1500,
+              mask: true
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消--取消下架该商品');
+          }
+        }
+      })
     },
-    deal() {
-      let userInfo = uni.getStorageSync('userInfo');
-      this.userInfo = userInfo;
+    // 处理成交按钮事件
+    deal(item) {
       let _this = this;
       wx.showModal({
         title: '提示',
         content: '该商品是否已成交？',
-        success(res) {
+        async success(res) {
           if (res.confirm) {
             console.log('用户确定该商品已成交');
             // 更新已成交商品数量记录
-            _this.updateGoodDealNum();
-            // 删除数据库对应的记录
-            // db.collection('goods').doc
-            // 删除该用户上传的图片
+            await _this.updateGoodDealNum();
+            // 增加deal属性
+            await _this.addPropertyDeal(item);
+            // 重新获取我的数据
+            await _this.getMyGoods(_this.openid);
+
           } else if (res.cancel) {
             console.log('用户点击取消')
           }
         }
       })
     },
-    handleBtnClick(e) {
-      const { onPress } = e.detail;
-      onPress.call(this);
-    },
-
-
-    deleteThisGood() {
+    // 删除改商品在存储中的照片
+    async deleteGoodPicture(item) {
       let _this = this;
-      // 弹窗提示是否删除该商品
-      wx.showModal({
-        title: '提示',
-        content: '是否删除该商品？',
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            // 删除数据库对应的记录
-            db.collection('goods').doc
-            // 删除该用户上传的图片
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
+      // 获取商品图片的FileID列表
+      let fileList = [];
+      item.pics.forEach(item => {
+        fileList.push(item.url);
+      });
+      // 删除云端图片
+      await wx.cloud.deleteFile({
+        fileList: fileList
+      }).then(res => {
+        console.log(res.fileList, '删除该商品在存储中的照片成功');
+      }).catch(error => {
+        console.log(error, '删除该商品在存储中的照片失败');
+      })
+
+    },
+    // 删除数据库中的对应的商品记录
+    async deleteData(item) {
+      let _this = this;
+      await db.collection('goods').doc(item._id).remove({
+        success: function (res) {
+          console.log(res, '删除数据库中的对应商品记录成功')
+          // 重新请求我的商品数据
+          _this.getMyGoods(_this.openid);
         }
       })
     },
+    // 增加‘成交’属性
+    async addPropertyDeal(item) {
+      console.log(item._id);
+      let _this = this;
+      await db.collection('goods').doc(item._id).update({
+        data: {
+          deal: true
+        }
+      }).then(res => {
+        console.log(res, 'add the property of deal is success');
+      })
+    },
+
   },
 
 };
@@ -213,8 +414,6 @@ export default {
 .example-content {
   background-color: #e9e9e9;
 }
-
-
 
 .container {
   min-height: 100vh;
@@ -226,12 +425,92 @@ export default {
     border-radius: 10px;
   }
 
+  .wrap-nav {
+    position: relative;
+    height: 70px;
+    padding: 0 25px;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+
+    .nav-items {
+      display: flex;
+
+// 是flex-direction 和 flex-wrap的简写形式
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+
+      .nav-item {
+        position: relative;
+        display: flex;
+        flex-flow: 1;
+        flex-direction: column;
+        align-items: center;
+
+        .icon {
+          width: 30px;
+          height: 30px;
+        }
+
+        .title {
+          margin-top: 5px;
+          font-size: 12px;
+          font-weight: bold;
+        }
+
+        .active {
+          position: absolute;
+          bottom: -8px;
+          width: 30px;
+          height: 4px;
+          background-color: #ffc300;
+          border-radius: 10px;
+        }
+      }
+    }
+
+
+
+    .share-btn {
+      position: absolute;
+      top: 5px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: rgba(169, 102, 102, 0);
+    }
+
+    button::after {
+      border: none;
+    }
+  }
+
   .wrap-out-side {
     margin-top: 10px;
     background-color: #e9e9e9;
 
     .my-goods {
       background-color: #e9e9e9;
+
+      .bar {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 20px;
+        margin-bottom: 5px;
+        background-color: #ffc300;
+        box-shadow: 1px 1.5px 5px 1px rgb(180, 179, 179);
+        border-radius: 3px;
+
+
+        .bar-text {
+          padding-left: 10px;
+          font-size: 10px;
+          font-weight: bold;
+        }
+      }
 
       .wrap {
         display: flex;
@@ -380,6 +659,9 @@ export default {
           border-radius: 0 10px 10px 0;
         }
       }
+    }
+
+    .contact-author {
     }
   }
 }
