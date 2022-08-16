@@ -20,9 +20,8 @@ export default {
         if (res.result.openId !== "") {
 
           let { userInfo } = res.result.event;
-
+          uni.setStorageSync('openid', userInfo.openId)
           uni.setStorageSync('userInfo', userInfo);
-
           resolve(userInfo.openId);
         }
       }).catch(console.error)

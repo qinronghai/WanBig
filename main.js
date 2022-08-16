@@ -1,5 +1,5 @@
 import App from "./App";
-
+Vue.prototype.towxml = require("./static/towxml/index.js");
 // #ifndef VUE3
 import Vue from "vue";
 Vue.config.productionTip = false;
@@ -11,7 +11,6 @@ const app = new Vue({
 // Vue.forceUpdate();
 app.$mount();
 // #endif
-
 // #ifdef VUE3
 import { createSSRApp } from "vue";
 export function createApp() {

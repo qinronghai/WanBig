@@ -88,31 +88,37 @@ export default {
   height: auto;
   background-color: #fff;
   border-radius: 10px;
+
   .contact-ways {
     padding: 25px 35px;
+
     .item {
       display: flex;
       align-items: center;
       padding: 10px 0;
-      color: #707070;
+      color: #000;
       font-size: 12px;
+
       .icon {
         width: 20px;
         height: 20px;
         padding-right: 15px;
       }
     }
+
     .click-button {
       display: inline;
       font-size: 10px;
-      background-color: #ffc400;
-      border-radius: 15px;
+      background-color: #ffc300;
+      border-radius: 2px;
     }
   }
+
   .img-avatar {
     width: 100px;
     height: 100px;
-    margin-right: 50px;
+    margin-right: 40px;
+    border-radius: 10px;
   }
 }
 </style>

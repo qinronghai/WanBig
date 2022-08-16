@@ -41,6 +41,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/project-info/project-info",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

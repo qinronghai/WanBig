@@ -39,6 +39,7 @@
         "usingComponents": {
           "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
           "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
+          // "towxml": "/wxcomponents/towxml/index.js"
         }
       }
     },
@@ -111,6 +112,7 @@
       "van-button": "/wxcomponents/vant/button/index",
       "van-search": "/wxcomponents/vant/search/index",
       "van-popup": "/wxcomponents/vant/popup/index"
+      // "towxml": "/wxcomponents/towxml/index"
     }
   },
   "tabBar": {

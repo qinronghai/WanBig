@@ -193,11 +193,17 @@ export default {
   onLoad: async function (option) {
     // 处理登录请求
     console.log('打印出上个页面传递的参数。', option.showLogin); //打印出上个页面传递的参数。
-    this.showLogin = option.showLogin;
+    // 从缓存中获取openid
+    this.openid = await uni.getStorageSync('openid');
+    console.log(this.openid);
+    console.log("获取openid--成功", this.openid);
+
     // 请求用户信息
-    await this.getUserInfo();
+    // await this.getUserInfo();
+    // this.showLogin = option.showLogin;
     // 请求我的商品数据
-    await this.getMyGoods(this.userInfo._openid);
+    // console.log('test', this.userInfo);
+    await this.getMyGoods(this.openid);
   },
   methods: {
     // 重新渲染
@@ -220,7 +226,8 @@ export default {
     },
     // 获取用户信息
     async getUserInfo() {
-      let _this = this
+      let _this = this;
+      console.log('objectOpenid', this.openid);
       await db
         .collection('user-info')
         .where({
@@ -229,10 +236,17 @@ export default {
         .get()
         .then(res => {
           let userInfo = res.data[0];
-          console.log('获取--用户信息--成功', userInfo._openid);
-          uni.setStorageSync('userInfo', userInfo);
-          _this.userInfo = userInfo;
-          _this.openid = userInfo._openid;
+          console.log('object', res);
+          // 有用户信息
+          if (res.data.length) {
+            console.log('获取--用户信息--成功', res);
+            uni.setStorageSync('userInfo', userInfo);
+            _this.userInfo = userInfo;
+            _this.openid = userInfo._openid;
+          } else {
+            console.log('获取--用户信息--失败,数据库中没有该用户的信息', res);
+
+          }
         })
     },
     // 获取我的商品数据

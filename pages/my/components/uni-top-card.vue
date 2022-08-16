@@ -44,7 +44,7 @@
           <van-icon name="arrow" />
         </div>
       </div>
-      <div class="item__to">
+      <div class="item__to" @click="toProjectPage">
         <div class="txt">了解本项目</div>
         <div class="icon">
           <van-icon name="arrow" />
@@ -74,6 +74,9 @@ export default {
     console.log(options, '登录卡片埋点');
   },
   methods: {
+    toProjectPage() {
+      uni.navigateTo({ url: '/pages/project-info/project-info' })
+    },
     login() {
       console.log('弹窗一键登录')
       this.showLogin = true
@@ -88,10 +91,11 @@ export default {
               desc: '登录',
               success: res => {
                 console.log('登录授权，获取用户信息--成功');
-                let { userInfo } = res
-                uni.setStorageSync('userInfo', userInfo)
+                let userInfo = res.userInfo;
+
+                uni.setStorageSync('userInfo', userInfo);
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
-                this.userInfo = userInfo;
+                _this.userInfo = userInfo;
                 // 存入数据库
                 db.collection('user-info')
                   .add({
@@ -150,11 +154,17 @@ export default {
     },
     // 判断本地中有无用户信息
     judgeUserInLocal() {
-      let userInfo = uni.getStorageSync('userInfo')
+      let userInfo = uni.getStorageSync('userInfo');
+
+      console.log(userInfo.nickName, 'ssss');
       if (userInfo.nickName != null) {
         console.log('本地缓存中--有用户的信息')
         console.log(userInfo, '缓存中的用户信息');
         this.userInfo = userInfo;
+
+        // uni.setStorageSync('userInfo', userInfo);
+
+
         this.renderPage(userInfo.nickName, userInfo.avatarUrl)
       } else {
         console.log('本地缓存中--没有用户的信息')

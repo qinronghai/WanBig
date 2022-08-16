@@ -415,7 +415,8 @@ export default {
     async submit() {
       // 让卖家订阅消息
       await this.subscribNews();
-      let userInfo = uni.getStorageSync('userInfo')
+      let userInfo = uni.getStorageSync('userInfo');
+      console.log('未登录', userInfo);
       let _this = this;
       if (userInfo.nickName == null) {
         console.log("您还未登录，请登录之后，再提交审核。");
@@ -434,7 +435,8 @@ export default {
           }
         })
       } else {
-        this.userInfo = userInfo;
+        this.openid = uni.getStorageSync('openid');
+        // console.log(this.openid);
 
         wx.showModal({
           title: '提示',
@@ -443,7 +445,8 @@ export default {
             if (res.confirm) {
               console.log('用户点击确定')
               // 先进行文本检测
-              await _this.checkText(_this.title, _this.userInfo._openid);
+              console.log('测试openid，', _this.openid);
+              await _this.checkText(_this.title, _this.openid);
               console.log("文本检测--ischeckText is --" + _this.ischeckText);
               if (_this.ischeckText) {
                 await delay(2000);

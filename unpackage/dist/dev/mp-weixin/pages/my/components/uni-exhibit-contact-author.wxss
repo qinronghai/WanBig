@@ -38,7 +38,7 @@
   display: flex;
   align-items: center;
   padding: 10px 0;
-  color: #707070;
+  color: #000;
   font-size: 12px;
 }
 .wrap .contact-ways .item .icon.data-v-33faa710 {
@@ -49,12 +49,13 @@
 .wrap .contact-ways .click-button.data-v-33faa710 {
   display: inline;
   font-size: 10px;
-  background-color: #ffc400;
-  border-radius: 15px;
+  background-color: #ffc300;
+  border-radius: 2px;
 }
 .wrap .img-avatar.data-v-33faa710 {
   width: 100px;
   height: 100px;
-  margin-right: 50px;
+  margin-right: 40px;
+  border-radius: 10px;
 }
 
