@@ -146,7 +146,7 @@
     </div>
     <!-- 提交按钮 -->
     <view class="submit_btn">
-      <button class="btn" type="primary" @click="submit">提交审核</button>
+      <button class="btn" type="primary" @click="handleSubmitBtn">提交审核</button>
     </view>
   </view>
 </template>
@@ -160,7 +160,9 @@ import Toast from "../../wxcomponents/vant/toast";
 import VanPopup from "../../wxcomponents/vant/popup/index";
 import VanPicker from "../../wxcomponents/vant/picker";
 import { request } from "../../async/index";
-const db = wx.cloud.database()
+const db = wx.cloud.database();
+const _ = db.command;
+
 import { delay } from "../utils/delay";
 export default {
   components: {
@@ -382,16 +384,21 @@ export default {
     },
     subscribNews() {
       let tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
+      let _this = this;
       wx.requestSubscribeMessage({
         tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
           '9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'],
-        // tempId就是上面后台生成的模板ID
         success: res => {
           console.log(res);
           if (res[tempId] == "accept") {
             wx.showToast({
               title: '订阅成功！',
               duration: 1000,
+              success() {
+                console.log('订阅成功');
+                // 点击订阅成功后再去提交审核
+                _this.submitAudit();
+              }
             })
           } else {
             wx.showModal({
@@ -401,7 +408,7 @@ export default {
               success: (res) => {
                 if (res.confirm) {
                   // 重新授权
-                  this.subscribNews();
+                  _this.subscribNews();
                 } else {
                   console.log('用户取消授权...');
                 }
@@ -412,11 +419,24 @@ export default {
         }
       })
     },
-    async submit() {
-      // 让卖家订阅消息
-      await this.subscribNews();
+    async submitAudit() {
+      // 先进行文本检测
+      console.log('测试openid，', this.openid);
+      await this.checkText(this.title, this.openid);
+      console.log("文本检测--ischeckText is --" + this.ischeckText);
+      if (this.ischeckText) {
+        await delay(2000);
+
+        // 文本合法，上传图片
+        this.upLoadImage();
+        console.log("上传图片中...");
+      }
+    },
+    async handleSubmitBtn() {
+
+      // BUG 当前获取不到nickName值
       let userInfo = uni.getStorageSync('userInfo');
-      console.log('未登录', userInfo);
+      console.log('发布--获取缓存中的信息', userInfo);
       let _this = this;
       if (userInfo.nickName == null) {
         console.log("您还未登录，请登录之后，再提交审核。");
@@ -436,25 +456,15 @@ export default {
         })
       } else {
         this.openid = uni.getStorageSync('openid');
-        // console.log(this.openid);
-
         wx.showModal({
           title: '提示',
           content: '确定要提交审核吗？',
           async success(res) {
             if (res.confirm) {
               console.log('用户点击确定')
-              // 先进行文本检测
-              console.log('测试openid，', _this.openid);
-              await _this.checkText(_this.title, _this.openid);
-              console.log("文本检测--ischeckText is --" + _this.ischeckText);
-              if (_this.ischeckText) {
-                await delay(2000);
+              // 让卖家订阅消息
+              await _this.subscribNews();
 
-                // 文本合法，上传图片
-                _this.upLoadImage();
-                console.log("上传图片中...");
-              }
             } else if (res.cancel) {
               console.log('用户点击取消')
             }
@@ -508,6 +518,9 @@ export default {
       })
     },
     async upLoadGoodInfo() {
+      let userInfo = uni.getStorageSync('userInfo');
+      console.log('----------------------', userInfo);
+
       // 提交时间
       this.releaseTime = new Date();
       let goodInfo = {
@@ -522,10 +535,11 @@ export default {
         views: this.views,
         transport: this.transport,
         releaseTime: this.releaseTime,
-        userInfo: this.userInfo,
+        userInfo: userInfo,
         audited: this.audited,
         buy: false,
-        buyTime: this.buyTime
+        buyTime: this.buyTime,
+        pass: false
       }
       this.goodInfo = goodInfo;
       console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
@@ -533,6 +547,8 @@ export default {
       let isNotEmpty = this.checkGoodInfo(this.goodInfo);
       console.log('校验商品信息--已填写--', isNotEmpty);
       if (isNotEmpty) {
+
+
         let _this = this;
         await db.collection('goods')
           .add({
@@ -548,10 +564,12 @@ export default {
               need: this.need,
               views: this.views,
               releaseTime: this.releaseTime,
-              userInfo: this.userInfo,
+              userInfo: userInfo,
               audited: this.audited,
               buy: false,
-              buyTime: this.buyTime
+              buyTime: this.buyTime,
+              pass: false
+
             }
           })
           .then(res => {

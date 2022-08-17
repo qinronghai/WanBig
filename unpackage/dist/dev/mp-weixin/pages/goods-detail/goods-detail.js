@@ -206,10 +206,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import { formatTime } from "../utils/formatTime.js";
 var util = __webpack_require__(/*! ../utils/formatTime.js */ 97);
-
-var db = wx.cloud.database();var _default =
+var db = wx.cloud.database();
+var _ = db.command;var _default =
 
 {
   data: function data() {
@@ -217,21 +216,34 @@ var db = wx.cloud.database();var _default =
       good: {},
       goodId: '',
       goodsInfo: {},
-      userInfo: {} };
+      userInfo: '' };
 
   },
   components: { VanButton: VanButton },
   onLoad: function onLoad(option) {
-    console.log(option.goodId); //打印出上个页面传递的参数。
+    console.log(option.goodId, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
+    console.log(option.flag, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
+
     this.goodId = option.goodId;
-    this.goodsInfo = uni.getStorageSync('goodsInfo');
+    if (option.flag === '1') {
+      // 从我的页面--我的商品来的
+      this.goodsInfo = uni.getStorageSync('goodsInfoFlag');
+    } else {
+      // 从主页来的
+      this.goodsInfo = uni.getStorageSync('goodsInfo');
+    }
     this.userInfo = uni.getStorageSync('userInfo');
+    // 更新浏览量
+    db.collection('goods').doc(option.goodId).update({
+      data: {
+        views: _.inc(1) },
+
+      success: function success(res) {
+        console.log(res, '更新--浏览量--成功');
+      } });
+
     this.render(option.goodId);
 
-    // let currentTime = new Date();
-    // console.log(util.formatTime(currentTime));
-
-    // console.log(util.formatTime(threeDaysLater));
 
   },
   methods: {
@@ -320,13 +332,14 @@ var db = wx.cloud.database();var _default =
     },
 
     render: function render(goodId) {var _this4 = this;
+      console.log(goodId);
+      console.log(this.goodsInfo);
       this.goodsInfo.forEach(function (good) {
         if (good._id === goodId) {
           _this4.good = good;
           _this4.userInfo = good.userInfo;
           console.log("商品详情--该商品--", good);
           console.log("商品详情--发布该商品的用户--", good.userInfo);
-
         }
       });
     } } };exports.default = _default;

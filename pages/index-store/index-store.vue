@@ -147,7 +147,7 @@ export default {
     // 清空搜索框文字
     this.searchKey = '';
     // 刷新页面，重新请求数据
-    await this.getGoodsInfo();
+    // await this.getGoodsInfo();
 
   },
   async onPullDownRefresh() {

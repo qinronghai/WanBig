@@ -92,8 +92,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
+
+
 {
-  onLaunch: function () {var _onLaunch = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var getOpenId;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+  onLaunch: function () {var _onLaunch = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var db, getOpenId, openid;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
               if (!wx.cloud) {
                 console.error('请使用 2.2.3 或以上的基础库以使用云能力');
               } else {
@@ -102,6 +104,9 @@ __webpack_require__.r(__webpack_exports__);
                   traceUser: true });
 
               }
+
+              db = wx.cloud.database();
+
 
 
               console.log("App Launch");
@@ -114,16 +119,28 @@ __webpack_require__.r(__webpack_exports__);
 
                     userInfo = res.result.event.userInfo;
                     uni.setStorageSync('openid', userInfo.openId);
-                    uni.setStorageSync('userInfo', userInfo);
+                    // uni.setStorageSync('userInfo', userInfo);
                     resolve(userInfo.openId);
                   }
                 }).catch(console.error);
-              });_context.next = 5;return (
-                getOpenId.then(function (res) {
-                  console.log("获取用户的opeid成功，为：" + res);
-                }, function (fail) {
-                  console.log(fail);
-                }));case 5:case "end":return _context.stop();}}}, _callee);}));function onLaunch() {return _onLaunch.apply(this, arguments);}return onLaunch;}(),
+              });
+              // 获取openid
+              _context.next = 6;return getOpenId.then(function (res) {
+                console.log("App启动--获取用户的opeid成功，为：" + res);
+                return res;
+              }, function (fail) {
+                console.log("App启动--获取用户的opeid成功，fail", fail);
+              });case 6:openid = _context.sent;_context.next = 9;return (
+
+                db.collection('user-info').where({
+                  _openid: openid }).
+                get().then(function (res) {
+                  if (res.data.length) {
+
+                    console.log("App启动--获取数据库中的用户信息成功", res);
+                    uni.setStorageSync('userInfo', res.data[0]);
+                  }
+                }));case 9:case "end":return _context.stop();}}}, _callee);}));function onLaunch() {return _onLaunch.apply(this, arguments);}return onLaunch;}(),
 
 
 

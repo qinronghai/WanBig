@@ -9,23 +9,23 @@
             <image class="avatar-info__avatar" :src="userInfo.avatarUrl" mode="" />
             <span class="avatar-info__name">{{ userInfo.nickName }}</span>
           </div>
-          <span class="on-sell__number">我有7件商品在售</span>
+          <span class="on-sell__number">我有{{ userInfo.goodsNum }}件商品在售</span>
         </div>
         <!-- 右边 -->
         <div class="seller-info__right">
           <!-- 认证标签 -->
           <div class="certification-labels">
-            <div class="label vip">
+            <div class="label vip" v-if="userInfo.vip">
               <image class="label__icon vip" src="../../static/goods-detail/vip.svg" mode="" />
               <span class="vip__txt">vip</span>
             </div>
-            <div class="label auditor">
+            <div class="label auditor" v-if="userInfo.isAuditor">
               <image class="label__icon" src="../../static/goods-detail/auditor.svg" mode="" />
               <span class="auditor__txt">审核员</span>
             </div>
-            <div class="label deal-num">
+            <div class="label deal-num" v-if="userInfo.dealNum > 0">
               <image class="label__icon" src="../../static/goods-detail/deal.svg" mode="" />
-              <span class="deal-num__txt">已成交 8</span>
+              <span class="deal-num__txt">已成交{{ userInfo.dealNum }}</span>
             </div>
           </div>
           <!-- 联系方式 -->
@@ -72,10 +72,9 @@
 
 <script>
 import VanButton from "../../wxcomponents/vant/button/index";
-// import { formatTime } from "../utils/formatTime.js";
 var util = require("../utils/formatTime.js");
-
 const db = wx.cloud.database()
+const _ = db.command;
 
 export default {
   data() {
@@ -83,21 +82,34 @@ export default {
       good: {},
       goodId: '',
       goodsInfo: {},
-      userInfo: {}
+      userInfo: ''
     };
   },
   components: { VanButton },
   onLoad: function (option) {
-    console.log(option.goodId); //打印出上个页面传递的参数。
+    console.log(option.goodId, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
+    console.log(option.flag, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
+
     this.goodId = option.goodId;
-    this.goodsInfo = uni.getStorageSync('goodsInfo');
+    if (option.flag === '1') {
+      // 从我的页面--我的商品来的
+      this.goodsInfo = uni.getStorageSync('goodsInfoFlag');
+    } else {
+      // 从主页来的
+      this.goodsInfo = uni.getStorageSync('goodsInfo');
+    }
     this.userInfo = uni.getStorageSync('userInfo');
+    // 更新浏览量
+    db.collection('goods').doc(option.goodId).update({
+      data: {
+        views: _.inc(1),
+      },
+      success: function (res) {
+        console.log(res, '更新--浏览量--成功')
+      }
+    })
     this.render(option.goodId);
 
-    // let currentTime = new Date();
-    // console.log(util.formatTime(currentTime));
-
-    // console.log(util.formatTime(threeDaysLater));
 
   },
   methods: {
@@ -186,13 +198,14 @@ export default {
     },
 
     render(goodId) {
+      console.log(goodId);
+      console.log(this.goodsInfo);
       this.goodsInfo.forEach(good => {
         if (good._id === goodId) {
           this.good = good;
           this.userInfo = good.userInfo;
           console.log("商品详情--该商品--", good);
           console.log("商品详情--发布该商品的用户--", good.userInfo);
-
         }
       });
     },

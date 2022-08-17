@@ -28,7 +28,7 @@
           <image class="label__icon" src="../../../static/goods-detail/auditor.svg" mode="" />
           <span class="auditor__txt">审核员</span>
         </div>
-        <div class="label deal-num">
+        <div class="label deal-num" v-if="userInfo.dealNum > 0">
           <image class="label__icon" src="../../../static/goods-detail/deal.svg" mode="" />
           <span class="deal-num__txt">已成交{{ userInfo.dealNum }}</span>
           <!-- TODO 用户发布一个商品就需要更新其用户信息中的已成交数量 -->
@@ -92,16 +92,23 @@ export default {
               success: res => {
                 console.log('登录授权，获取用户信息--成功');
                 let userInfo = res.userInfo;
-
+                // 用户信息存入缓存中
                 uni.setStorageSync('userInfo', userInfo);
+
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
                 _this.userInfo = userInfo;
                 // 存入数据库
                 db.collection('user-info')
                   .add({
                     data: {
+                      // 给每个新用户的标签初始化
+
                       nickName: userInfo.nickName,
-                      avatarUrl: userInfo.avatarUrl
+                      avatarUrl: userInfo.avatarUrl,
+                      vip: false,
+                      isAuditor: false,
+                      dealNum: 0,
+                      goodsNum: 0,
                     }
                   })
                   .then(res => {

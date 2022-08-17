@@ -47,6 +47,7 @@
 <script>
 const db = wx.cloud.database();
 var util = require("../utils/formatTimeToChinese.js");
+const _ = db.command;
 
 export default {
   data() {
@@ -76,12 +77,12 @@ export default {
       wx.hideLoading();
     },
     async AuditedNoPass(item) {
-      await this.updateAudite(item._id, false);
+      await this.updateAudite(item, false);
       // 发送通知用户该审核不通过
       let pass = "不通过";
       let note = "内容违规，请联系开发者申诉";
       this.sendAuditResultNotice(item, pass, note);
-      在当前数组中删除该项
+      // 在当前数组中删除该项
       this.goodsInfo.forEach((element, index, arr) => {
         if (element._id === item._id) {
           console.log('删除当前项', element._id);
@@ -97,7 +98,7 @@ export default {
 
       // 数组中所有项全部审核且通过
       await this.goodsInfo.forEach(item => {
-        this.updateAudite(item._id, true);
+        this.updateAudite(item, true);
         // 发送通知用户该审核通过
         this.sendAuditResultNotice(item, pass, note);
       });
@@ -106,15 +107,28 @@ export default {
       this.goodsInfo = [];
       console.log(this.goodsInfo, '快速审核完毕！');
     },
-    async updateAudite(id, pass) {
+    async updateAudite(item, pass) {
       // 更新audited属性为true，pass属性为false：表示已经审核，但是审核不通过
-      await db.collection('goods').doc(id).update({
+
+      await db.collection('goods').doc(item._id).update({
         data: {
           audited: true, // 已经审核
           pass: pass, // 审核状态
         },
         success: function (res) {
           console.log(res, '更新审核状态完毕')
+        }
+      })
+      // 
+      let userInfo = uni.getStorageSync('userInfo')
+      console.log('object-0-0-0---0-0-0-', item.userInfo);
+      // 更新所在售的商品数量
+      await db.collection("user-info").doc(item.userInfo._id).update({
+        data: {
+          goodsNum: _.inc(1),
+        },
+        success: function (res) {
+          console.log(res, '更新--商品数--成功')
         }
       })
     },
@@ -201,6 +215,8 @@ export default {
       margin-top: 10px;
 
       .desc {
+        display: -webkit-box;
+        overflow: hidden;
         min-height: 33px;
         font-size: 13px;
         font-weight: 500;
@@ -208,8 +224,6 @@ export default {
 
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        mdisplay: -webkit-box;
-        noverflow: hidden;
       }
 
       .price {

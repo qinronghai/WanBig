@@ -295,7 +295,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var _index = __webpack_require__(/*! ../../async/index */ 73);
 
-var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 152));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 159));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 166));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 173));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 176));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 177));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 182));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _default =
+
+
+var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var UniBottomOptions = function UniBottomOptions() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-bottom-options */ "pages/release/components/uni-bottom-options").then((function () {return resolve(__webpack_require__(/*! ./components/uni-bottom-options.vue */ 152));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 159));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniHeaderBar = function uniHeaderBar() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-header-bar */ "pages/release/components/uni-header-bar").then((function () {return resolve(__webpack_require__(/*! ./components/uni-header-bar.vue */ 166));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 173));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 176));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 177));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 182));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _ = db.command;var _default =
 {
   components: {
     uniHeaderBar: uniHeaderBar, UniGoodsDesc: UniGoodsDesc, UniBottomOptions: UniBottomOptions, VanPopup: VanPopup,
@@ -514,18 +516,23 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
     needRadioChange: function needRadioChange(e) {
       this.need = e.detail.value;
     },
-    subscribNews: function subscribNews() {var _this2 = this;
+    subscribNews: function subscribNews() {
       var tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
+      var _this = this;
       wx.requestSubscribeMessage({
         tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
         '9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'],
-        // tempId就是上面后台生成的模板ID
         success: function success(res) {
           console.log(res);
           if (res[tempId] == "accept") {
             wx.showToast({
               title: '订阅成功！',
-              duration: 1000 });
+              duration: 1000,
+              success: function success() {
+                console.log('订阅成功');
+                // 点击订阅成功后再去提交审核
+                _this.submitAudit();
+              } });
 
           } else {
             wx.showModal({
@@ -535,7 +542,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
               success: function success(res) {
                 if (res.confirm) {
                   // 重新授权
-                  _this2.subscribNews();
+                  _this.subscribNews();
                 } else {
                   console.log('用户取消授权...');
                 }
@@ -546,11 +553,24 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
         } });
 
     },
-    submit: function submit() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var userInfo, _this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    submitAudit: function submitAudit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                // 先进行文本检测
+                console.log('测试openid，', _this2.openid);_context.next = 3;return (
+                  _this2.checkText(_this2.title, _this2.openid));case 3:
+                console.log("文本检测--ischeckText is --" + _this2.ischeckText);if (!
+                _this2.ischeckText) {_context.next = 9;break;}_context.next = 7;return (
+                  (0, _delay.delay)(2000));case 7:
 
-                  _this3.subscribNews());case 2:
+                // 文本合法，上传图片
+                _this2.upLoadImage();
+                console.log("上传图片中...");case 9:case "end":return _context.stop();}}}, _callee);}))();
+
+    },
+    handleSubmitBtn: function handleSubmitBtn() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var userInfo, _this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+
+                // BUG 当前获取不到nickName值
                 userInfo = uni.getStorageSync('userInfo');
-                console.log('未登录', userInfo);
+                console.log('发布--获取缓存中的信息', userInfo);
                 _this = _this3;
                 if (userInfo.nickName == null) {
                   console.log("您还未登录，请登录之后，再提交审核。");
@@ -570,39 +590,29 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
 
                 } else {
                   _this3.openid = uni.getStorageSync('openid');
-                  // console.log(this.openid);
-
                   wx.showModal({
                     title: '提示',
                     content: '确定要提交审核吗？',
-                    success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
-                                res.confirm) {_context.next = 13;break;}
+                    success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (!
+                                res.confirm) {_context2.next = 6;break;}
                                 console.log('用户点击确定');
-                                // 先进行文本检测
-                                console.log('测试openid，', _this.openid);_context.next = 5;return (
-                                  _this.checkText(_this.title, _this.openid));case 5:
-                                console.log("文本检测--ischeckText is --" + _this.ischeckText);if (!
-                                _this.ischeckText) {_context.next = 11;break;}_context.next = 9;return (
-                                  (0, _delay.delay)(2000));case 9:
-
-                                // 文本合法，上传图片
-                                _this.upLoadImage();
-                                console.log("上传图片中...");case 11:_context.next = 14;break;case 13:
+                                // 让卖家订阅消息
+                                _context2.next = 4;return _this.subscribNews();case 4:_context2.next = 7;break;case 6:
 
                                 if (res.cancel) {
                                   console.log('用户点击取消');
-                                }case 14:case "end":return _context.stop();}}}, _callee);}))();
+                                }case 7:case "end":return _context2.stop();}}}, _callee2);}))();
                     } });
 
-                }case 6:case "end":return _context2.stop();}}}, _callee2);}))();
+                }case 4:case "end":return _context3.stop();}}}, _callee3);}))();
 
     },
-    checkText: function checkText(text, openid) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    checkText: function checkText(text, openid) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
                 // 推荐文本内容检测
                 wx.hideLoading();
                 wx.showLoading({
                   title: '文本合法性检测中',
-                  mask: true });_context3.next = 4;return (
+                  mask: true });_context4.next = 4;return (
 
                   wx.cloud.callFunction({
                     name: 'msgcheck',
@@ -639,9 +649,12 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
 
                       console.log('文本检测--不通过--含敏感信息');
                     }
-                  }));case 4:case "end":return _context3.stop();}}}, _callee3);}))();
+                  }));case 4:case "end":return _context4.stop();}}}, _callee4);}))();
     },
-    upLoadGoodInfo: function upLoadGoodInfo() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var goodInfo, isNotEmpty, _this;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+    upLoadGoodInfo: function upLoadGoodInfo() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var userInfo, goodInfo, isNotEmpty, _this;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+                userInfo = uni.getStorageSync('userInfo');
+                console.log('----------------------', userInfo);
+
                 // 提交时间
                 _this5.releaseTime = new Date();
                 goodInfo = {
@@ -656,18 +669,21 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                   views: _this5.views,
                   transport: _this5.transport,
                   releaseTime: _this5.releaseTime,
-                  userInfo: _this5.userInfo,
+                  userInfo: userInfo,
                   audited: _this5.audited,
                   buy: false,
-                  buyTime: _this5.buyTime };
+                  buyTime: _this5.buyTime,
+                  pass: false };
 
                 _this5.goodInfo = goodInfo;
                 console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
                 // 校验数据是否为空
                 isNotEmpty = _this5.checkGoodInfo(_this5.goodInfo);
                 console.log('校验商品信息--已填写--', isNotEmpty);if (!
-                isNotEmpty) {_context4.next = 10;break;}
-                _this = _this5;_context4.next = 10;return (
+                isNotEmpty) {_context5.next = 12;break;}
+
+
+                _this = _this5;_context5.next = 12;return (
                   db.collection('goods').
                   add({
                     data: {
@@ -682,10 +698,12 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                       need: _this5.need,
                       views: _this5.views,
                       releaseTime: _this5.releaseTime,
-                      userInfo: _this5.userInfo,
+                      userInfo: userInfo,
                       audited: _this5.audited,
                       buy: false,
-                      buyTime: _this5.buyTime } }).
+                      buyTime: _this5.buyTime,
+                      pass: false } }).
+
 
 
                   then(function (res) {
@@ -707,15 +725,15 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                     });
 
 
-                  }));case 10:case "end":return _context4.stop();}}}, _callee4);}))();
+                  }));case 12:case "end":return _context5.stop();}}}, _callee5);}))();
 
 
 
     },
-    upLoadImage: function upLoadImage() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var fileList, _loop, i;return _regenerator.default.wrap(function _callee5$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+    upLoadImage: function upLoadImage() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var fileList, _loop, i;return _regenerator.default.wrap(function _callee6$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:
                 fileList = _this6.fileList;_loop = /*#__PURE__*/_regenerator.default.mark(function _loop(
-                i) {return _regenerator.default.wrap(function _loop$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
-                          console.log(fileList[i].url);_context5.next = 3;return (
+                i) {return _regenerator.default.wrap(function _loop$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+                          console.log(fileList[i].url);_context6.next = 3;return (
                             (0, _index.request)(fileList[i].url).then(function (result) {
                               console.log(result);
                               fileList[i].url = result.fileID;
@@ -727,7 +745,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                                 console.log('上传图片--全部图片--上传完毕');
                                 _this6.upLoadGoodInfo();
                               }
-                            }));case 3:case "end":return _context5.stop();}}}, _loop);});i = 0;case 3:if (!(i < fileList.length)) {_context6.next = 8;break;}return _context6.delegateYield(_loop(i), "t0", 5);case 5:i++;_context6.next = 3;break;case 8:case "end":return _context6.stop();}}}, _callee5);}))();
+                            }));case 3:case "end":return _context6.stop();}}}, _loop);});i = 0;case 3:if (!(i < fileList.length)) {_context7.next = 8;break;}return _context7.delegateYield(_loop(i), "t0", 5);case 5:i++;_context7.next = 3;break;case 8:case "end":return _context7.stop();}}}, _callee6);}))();
 
 
     },

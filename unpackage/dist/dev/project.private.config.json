@@ -72,6 +72,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/goods-detail/goods-detail",
+          "query": "6842667962ea03f10aeeff3d352cff8c",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/release/release",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

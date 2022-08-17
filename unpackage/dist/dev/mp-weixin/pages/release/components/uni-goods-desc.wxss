@@ -46,6 +46,7 @@
 }
 .goods-desc .bottom-desc__input .textarea.data-v-678ceb8d {
   width: 100%;
+  min-height: 120px;
   font-size: 14px;
 }
 

@@ -18,6 +18,49 @@
     <!-- 我的商品 不采用组件的方式的原因是有bug无法避免 -->
     <div class="wrap-out-side">
       <div class="my-goods" :key="numberkey" v-if="index === 0">
+        <!-- 我的商品--未审核 -->
+        <div class="bar">
+          <div class="bar-text">
+            未审核
+          </div>
+        </div>
+        <w-swiper-out height="100" v-for="(item, index) in noAudit" :key="index" :swiperOutBtns="btns2"
+          @delete="delete2(item)" buttonWidth="50">
+          <view class="example-content" style="">
+            <div class="wrap" @click="toGoodDetailPage(item._id)">
+              <div class="left">
+                <image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
+              </div>
+              <div class="center">
+                <div class="top">
+                  <div class="desc">
+                    {{ item.title }}
+                  </div>
+                  <div class="price">{{ item.price }}</div>
+                </div>
+                <div class="bottom">
+                  <div class="label">
+                    <div class="transport">
+                      <image class="icon-transport" src="../../static/label/transport.svg" mode="" />
+                      <span class="text-transport">{{ item.transport }}</span>
+                    </div>
+                    <div class="address">
+                      <image class="icon-address" src="../../static/label/address.svg" mode="" />
+                      <span class="text-address">{{ item.address }}</span>
+                    </div>
+                    <div class="quality">
+                      <image class="icon-quality" src="../../static/label/quality.svg" mode="" />
+                      <span class="text-quality">{{ item.quality }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <van-icon name="arrow-left" />
+              </div>
+            </div>
+          </view>
+        </w-swiper-out>
         <!-- 我的商品--未成交 -->
         <div class="bar">
           <div class="bar-text">
@@ -28,7 +71,7 @@
         <w-swiper-out height="100" v-for="(item, index) in noDealGoodsInfo" :key="index" :swiperOutBtns="btns1"
           @delete="delete2(item)" @added="deal(item)" buttonWidth="50">
           <view class="example-content" style="">
-            <div class="wrap">
+            <div class="wrap" @click="toGoodDetailPage(item._id)">
               <div class="left">
                 <image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
               </div>
@@ -72,7 +115,7 @@
         <w-swiper-out height="100" v-for="(item, index) in dealedGoodsInfo" :key="index" :swiperOutBtns="btns1"
           @delete="delete2(item)" @added="deal(item)" buttonWidth="50">
           <view class="example-content" style="">
-            <div class="wrap">
+            <div class="wrap" @click="toGoodDetailPage(item._id)">
               <div class="left">
                 <image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
               </div>
@@ -142,6 +185,8 @@ export default {
       dealedGoodsInfo: [],
       // 未成交的商品信息
       noDealGoodsInfo: [],
+      // 未审核的商品信息
+      noAudit: [],
       // 刷新页面自带参数
       numberkey: 0,
       // 分类导航默认参数
@@ -188,6 +233,16 @@ export default {
           type: 'delete',
         },
       ],
+      btns2: [
+        {
+          text: '删除',
+          color: '#ffffff',
+          background: '#e42112',
+          disabled: false,
+          size: '14px',
+          type: 'delete',
+        },
+      ],
     };
   },
   onLoad: async function (option) {
@@ -199,10 +254,8 @@ export default {
     console.log("获取openid--成功", this.openid);
 
     // 请求用户信息
-    // await this.getUserInfo();
-    // this.showLogin = option.showLogin;
-    // 请求我的商品数据
-    // console.log('test', this.userInfo);
+    this.userInfo = uni.getStorageSync('userInfo');
+
     await this.getMyGoods(this.openid);
   },
   methods: {
@@ -224,10 +277,18 @@ export default {
       this.index = index;
 
     },
+    // 去商品详情页
+    toGoodDetailPage(goodId) {
+      let goodsInfo = this.goodsInfo
+      uni.setStorageSync('goodsInfoFlag', goodsInfo);
+      console.log(goodId);
+      uni.navigateTo({
+        url: '/pages/goods-detail/goods-detail?goodId=' + goodId + '&flag=' + 1
+      });
+    },
     // 获取用户信息
     async getUserInfo() {
       let _this = this;
-      console.log('objectOpenid', this.openid);
       await db
         .collection('user-info')
         .where({
@@ -262,6 +323,8 @@ export default {
       }).get().then((res) => {
         if (res.data.length > 0) {
           console.log('获取--我的商品信息--成功', res);
+
+          _this.goodsInfo = res.data;
           // 根据 deal属性进行分类
           _this.sortDataForDeal(res.data);
         } else {
@@ -277,23 +340,30 @@ export default {
 
       let dealedGoodsInfo = [];
       let noDealGoodsInfo = [];
+      // 提炼出所有未审核的
+      let noAudit = [];
 
       goodsInfo.forEach(item => {
         if (item.deal === true) {
           dealedGoodsInfo.push(item);
-        } else {
+        } else if (item.audited === true) {
           noDealGoodsInfo.push(item);
+        } else if (item.audited === false) {
+          noAudit.push(item);
         }
       })
 
       this.dealedGoodsInfo = dealedGoodsInfo;
       this.noDealGoodsInfo = noDealGoodsInfo;
+      this.noAudit = noAudit;
+
     },
     // 更新商品成交数量
     async updateGoodDealNum() {
-      db.collection("user-info").doc(this.userInfo._id).update({
+      await db.collection("user-info").doc(this.userInfo._id).update({
         data: {
-          dealNum: _.inc(1)
+          dealNum: _.inc(1),
+          goodsNum: this.userInfo.goodsNum - 1
         },
         success: function (res) {
           console.log(res, '更新--成交数--成功')
@@ -313,7 +383,15 @@ export default {
             await _this.deleteGoodPicture(item);
             // 删除数据库对应的记录
             await _this.deleteData(item);
-
+            // 更新用户的在售商品数量
+            await db.collection('user-info').doc(_this.userInfo._id).update({
+              data: {
+                goodsNum: _this.userInfo.goodsNum - 1
+              },
+              success: function (res) {
+                console.log(res, '更新--商品数量--成功')
+              }
+            })
 
             wx.showToast({
               title: '下架该商品成功',
@@ -525,6 +603,8 @@ export default {
             margin-top: 10px;
 
             .desc {
+              display: -webkit-box;
+              overflow: hidden;
               min-height: 33px;
               font-size: 13px;
               font-weight: 500;
@@ -532,8 +612,6 @@ export default {
 
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 2;
-              mdisplay: -webkit-box;
-              noverflow: hidden;
             }
 
             .price {

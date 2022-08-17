@@ -63,14 +63,14 @@
   margin-top: 10px;
 }
 .container .exhibit-goods .wrap .center .top .desc.data-v-ba9c7734 {
+  display: -webkit-box;
+  overflow: hidden;
   min-height: 33px;
   font-size: 13px;
   font-weight: 500;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  mdisplay: -webkit-box;
-  noverflow: hidden;
 }
 .container .exhibit-goods .wrap .center .top .price.data-v-ba9c7734 {
   padding: 5px 0 0;

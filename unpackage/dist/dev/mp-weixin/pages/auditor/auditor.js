@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
 //
 //
 //
@@ -180,7 +180,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 
 var db = wx.cloud.database();
-var util = __webpack_require__(/*! ../utils/formatTimeToChinese.js */ 128);var _default =
+var util = __webpack_require__(/*! ../utils/formatTimeToChinese.js */ 128);
+var _ = db.command;var _default =
 
 {
   data: function data() {
@@ -210,19 +211,19 @@ var util = __webpack_require__(/*! ../utils/formatTimeToChinese.js */ 128);var _
                 wx.hideLoading();case 5:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     AuditedNoPass: function AuditedNoPass(item) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var pass, note;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-                  _this4.updateAudite(item._id, false));case 2:
+                  _this4.updateAudite(item, false));case 2:
                 // 发送通知用户该审核不通过
                 pass = "不通过";
                 note = "内容违规，请联系开发者申诉";
                 _this4.sendAuditResultNotice(item, pass, note);
-                在当前数组中删除该项;
+                // 在当前数组中删除该项
                 _this4.goodsInfo.forEach(function (element, index, arr) {
                   if (element._id === item._id) {
                     console.log('删除当前项', element._id);
                     arr.splice(index, 1);
                   }
                 });
-                console.log(_this4.goodsInfo);case 8:case "end":return _context3.stop();}}}, _callee3);}))();
+                console.log(_this4.goodsInfo);case 7:case "end":return _context3.stop();}}}, _callee3);}))();
 
     },
     AuditedAllPass: function AuditedAllPass() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var pass, note;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
@@ -231,7 +232,7 @@ var util = __webpack_require__(/*! ../utils/formatTimeToChinese.js */ 128);var _
 
                 // 数组中所有项全部审核且通过
                 _context4.next = 4;return _this5.goodsInfo.forEach(function (item) {
-                  _this5.updateAudite(item._id, true);
+                  _this5.updateAudite(item, true);
                   // 发送通知用户该审核通过
                   _this5.sendAuditResultNotice(item, pass, note);
                 });case 4:
@@ -240,16 +241,29 @@ var util = __webpack_require__(/*! ../utils/formatTimeToChinese.js */ 128);var _
                 _this5.goodsInfo = [];
                 console.log(_this5.goodsInfo, '快速审核完毕！');case 6:case "end":return _context4.stop();}}}, _callee4);}))();
     },
-    updateAudite: function updateAudite(id, pass) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+    updateAudite: function updateAudite(item, pass) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var userInfo;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
 
-                  db.collection('goods').doc(id).update({
+
+                  db.collection('goods').doc(item._id).update({
                     data: {
                       audited: true, // 已经审核
                       pass: pass // 审核状态
                     },
                     success: function success(res) {
                       console.log(res, '更新审核状态完毕');
-                    } }));case 2:case "end":return _context5.stop();}}}, _callee5);}))();
+                    } }));case 2:
+
+                // 
+                userInfo = uni.getStorageSync('userInfo');
+                console.log('object-0-0-0---0-0-0-', item.userInfo);
+                // 更新所在售的商品数量
+                _context5.next = 6;return db.collection("user-info").doc(item.userInfo._id).update({
+                  data: {
+                    goodsNum: _.inc(1) },
+
+                  success: function success(res) {
+                    console.log(res, '更新--商品数--成功');
+                  } });case 6:case "end":return _context5.stop();}}}, _callee5);}))();
 
     },
     sendAuditResultNotice: function sendAuditResultNotice(item, pass, note) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var riseTime, auditTime;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
@@ -278,6 +292,7 @@ var util = __webpack_require__(/*! ../utils/formatTimeToChinese.js */ 128);var _
                     console.log(err);
                   }));case 6:case "end":return _context6.stop();}}}, _callee6);}))();
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

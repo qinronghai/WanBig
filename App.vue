@@ -1,4 +1,6 @@
 <script>
+
+
 export default {
   onLaunch: async function () {
     if (!wx.cloud) {
@@ -9,6 +11,9 @@ export default {
         traceUser: true,
       })
     }
+
+    const db = wx.cloud.database()
+
 
 
     console.log("App Launch");
@@ -21,15 +26,27 @@ export default {
 
           let { userInfo } = res.result.event;
           uni.setStorageSync('openid', userInfo.openId)
-          uni.setStorageSync('userInfo', userInfo);
+          // uni.setStorageSync('userInfo', userInfo);
           resolve(userInfo.openId);
         }
       }).catch(console.error)
     })
-    await getOpenId.then((res) => {
-      console.log("获取用户的opeid成功，为：" + res);
+    // 获取openid
+    let openid = await getOpenId.then((res) => {
+      console.log("App启动--获取用户的opeid成功，为：" + res);
+      return res;
     }, (fail) => {
-      console.log(fail);
+      console.log("App启动--获取用户的opeid成功，fail", fail);
+    })
+    // 获取用户信息
+    await db.collection('user-info').where({
+      _openid: openid
+    }).get().then((res) => {
+      if (res.data.length) {
+
+        console.log("App启动--获取数据库中的用户信息成功", res);
+        uni.setStorageSync('userInfo', res.data[0]);
+      }
     })
 
 

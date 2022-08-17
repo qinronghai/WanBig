@@ -170,6 +170,8 @@ export default {
       margin-top: 10px;
 
       .desc {
+        display: -webkit-box;
+        overflow: hidden;
         min-height: 33px;
         font-size: 13px;
         font-weight: 500;
@@ -177,8 +179,6 @@ export default {
 
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        mdisplay: -webkit-box;
-        noverflow: hidden;
       }
 
       .price {

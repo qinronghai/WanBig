@@ -208,16 +208,23 @@ var db = wx.cloud.database();var _default =
               success: function success(res) {
                 console.log('登录授权，获取用户信息--成功');
                 var userInfo = res.userInfo;
-
+                // 用户信息存入缓存中
                 uni.setStorageSync('userInfo', userInfo);
+
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl);
                 _this.userInfo = userInfo;
                 // 存入数据库
                 db.collection('user-info').
                 add({
                   data: {
+                    // 给每个新用户的标签初始化
+
                     nickName: userInfo.nickName,
-                    avatarUrl: userInfo.avatarUrl } }).
+                    avatarUrl: userInfo.avatarUrl,
+                    vip: false,
+                    isAuditor: false,
+                    dealNum: 0,
+                    goodsNum: 0 } }).
 
 
                 then(function (res) {
