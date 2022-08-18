@@ -27,7 +27,7 @@
         <w-swiper-out height="100" v-for="(item, index) in noAudit" :key="index" :swiperOutBtns="btns2"
           @delete="delete2(item)" buttonWidth="50">
           <view class="example-content" style="">
-            <div class="wrap" @click="toGoodDetailPage(item._id)">
+            <div class="wrap">
               <div class="left">
                 <image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
               </div>
