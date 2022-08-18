@@ -245,9 +245,7 @@ export default {
       ischeckText: false,
 
       // 商品图片信息
-      fileList: [
-
-      ],
+      fileList: [],
       category: '',
       quality: '全新',
       need: '出',
@@ -264,11 +262,23 @@ export default {
       audited: false,
       buy: false,
       buyTime: '1',
-
-
     };
   },
+  async onLoad(options) {
+    // 获取openid
+    let openid = uni.getStorageSync('openid');
+    // 获取最新的用户数据
+    await db.collection('user-info').where({
+      _openid: openid
+    }).get().then((res) => {
+      console.log(res);
+      this.userInfo = res.data[0];
+      uni.setStorageSync('userInfo', this.userInfo)
+    })
+  },
+  onShow() {
 
+  },
   // 方法
   methods: {
 
@@ -436,7 +446,7 @@ export default {
 
       // BUG 当前获取不到nickName值
       let userInfo = uni.getStorageSync('userInfo');
-      console.log('发布--获取缓存中的信息', userInfo);
+      console.log('发布--最新的信息', userInfo);
       let _this = this;
       if (userInfo.nickName == null) {
         console.log("您还未登录，请登录之后，再提交审核。");
@@ -519,7 +529,7 @@ export default {
     },
     async upLoadGoodInfo() {
 
-      let userInfo = uni.getStorageSync('userInfo');
+      let userInfo = this.userInfo;
       console.log('----------------------', userInfo);
 
       // 提交时间
@@ -548,15 +558,7 @@ export default {
       let isNotEmpty = this.checkGoodInfo(this.goodInfo);
       console.log('校验商品信息--已填写--', isNotEmpty);
       if (isNotEmpty) {
-        // 更新所在售的商品数量
-        await db.collection("user-info").doc(userInfo._id).update({
-          data: {
-            goodsNum: _.inc(1),
-          },
-          success: function (res) {
-            console.log(res, '更新--商品数--成功')
-          }
-        })
+
         // userInfo.goodsNum++;
         let _this = this;
         await db.collection('goods')
@@ -583,7 +585,15 @@ export default {
           })
           .then(res => {
             console.log('上传商品信息--存入数据库--成功', res);
-            // 
+            // 更新所在售的商品数量
+            db.collection("user-info").doc(userInfo._id).update({
+              data: {
+                goodsNum: _.inc(1),
+              },
+              success: function (res) {
+                console.log(res, '更新--商品数--成功')
+              }
+            })
             wx.showToast({
               title: '提交审核成功',
               icon: 'success',

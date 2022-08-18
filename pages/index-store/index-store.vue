@@ -11,7 +11,6 @@
         </swiper-item>
       </swiper>
     </view>
-    <!-- <uni-banner></uni-banner> -->
     <!-- 分类导航图标 -->
     <view class="container">
       <view class="wrap">
@@ -22,9 +21,7 @@
         </view>
       </view>
     </view>
-    <!-- <uni-product-catg-nav></uni-product-catg-nav> -->
     <!-- 商品卡片展示 -->
-    <!-- <uni-goods-card></uni-goods-card> -->
     <view class="main">
       <div class="column_item_0">
         <div class="test-style">

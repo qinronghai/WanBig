@@ -367,6 +367,7 @@ var _ = db.command;var _default =
         type: 'delete' }],
 
 
+      // 只显示删除按钮
       btns2: [
       {
         text: '删除',
@@ -384,15 +385,22 @@ var _ = db.command;var _default =
               console.log('打印出上个页面传递的参数。', option.showLogin); //打印出上个页面传递的参数。
               // 从缓存中获取openid
               _context.next = 3;return uni.getStorageSync('openid');case 3:this.openid = _context.sent;
-              console.log(this.openid);
-              console.log("获取openid--成功", this.openid);
+              console.log("我的--获取openid--成功", this.openid);
 
               // 请求用户信息
-              this.userInfo = uni.getStorageSync('userInfo');_context.next = 9;return (
-
-                this.getMyGoods(this.openid));case 9:case "end":return _context.stop();}}}, _callee, this);}));function onLoad(_x) {return _onLoad.apply(this, arguments);}return onLoad;}(),
+              this.userInfo = uni.getStorageSync('userInfo');
+              // 获取我的商品信息
+              _context.next = 8;return this.getMyGoods(this.openid);case 8:case "end":return _context.stop();}}}, _callee, this);}));function onLoad(_x) {return _onLoad.apply(this, arguments);}return onLoad;}(),
 
   methods: {
+    // 下拉刷新页面
+    onPullDownRefresh: function onPullDownRefresh() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                // 请求用户信息
+                _this2.userInfo = uni.getStorageSync('userInfo');
+                // 获取我的商品信息
+                _context2.next = 3;return _this2.getMyGoods(_this2.openid);case 3:
+                uni.stopPullDownRefresh();case 4:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
     // 重新渲染
     chenRender: function chenRender() {
       this.numberkey += 1;
@@ -421,12 +429,12 @@ var _ = db.command;var _default =
 
     },
     // 获取用户信息
-    getUserInfo: function getUserInfo() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                _this = _this2;_context2.next = 3;return (
+    getUserInfo: function getUserInfo() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                _this = _this3;_context3.next = 3;return (
                   db.
                   collection('user-info').
                   where({
-                    _openid: _this2.openid }).
+                    _openid: _this3.openid }).
 
                   get().
                   then(function (res) {
@@ -442,15 +450,15 @@ var _ = db.command;var _default =
                       console.log('获取--用户信息--失败,数据库中没有该用户的信息', res);
 
                     }
-                  }));case 3:case "end":return _context2.stop();}}}, _callee2);}))();
+                  }));case 3:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     // 获取我的商品数据
-    getMyGoods: function getMyGoods(openid) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
-                _this = _this3;
+    getMyGoods: function getMyGoods(openid) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _this;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+                _this = _this4;
 
                 wx.showLoading({
                   title: '数据加载中',
-                  mark: true });_context3.next = 4;return (
+                  mark: true });_context4.next = 4;return (
 
                   db.collection('goods').where({
                     _openid: openid }).
@@ -469,10 +477,10 @@ var _ = db.command;var _default =
                   }).catch(function (err) {
                     console.log('获取-我的商品信息--出错', err);
                   }));case 4:
-                wx.hideLoading();case 5:case "end":return _context3.stop();}}}, _callee3);}))();
+                wx.hideLoading();case 5:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     // 根据deal属性进行分类商品数据
-    sortDataForDeal: function sortDataForDeal(goodsInfo) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var dealedGoodsInfo, noDealGoodsInfo, noAudit;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+    sortDataForDeal: function sortDataForDeal(goodsInfo) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var dealedGoodsInfo, noDealGoodsInfo, noAudit;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
 
                 dealedGoodsInfo = [];
                 noDealGoodsInfo = [];
@@ -489,24 +497,24 @@ var _ = db.command;var _default =
                   }
                 });
 
-                _this4.dealedGoodsInfo = dealedGoodsInfo;
-                _this4.noDealGoodsInfo = noDealGoodsInfo;
-                _this4.noAudit = noAudit;case 7:case "end":return _context4.stop();}}}, _callee4);}))();
+                _this5.dealedGoodsInfo = dealedGoodsInfo;
+                _this5.noDealGoodsInfo = noDealGoodsInfo;
+                _this5.noAudit = noAudit;case 7:case "end":return _context5.stop();}}}, _callee5);}))();
 
     },
     // 更新商品成交数量
-    updateGoodDealNum: function updateGoodDealNum(noDeal) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
-                console.log(_this5.userInfo.goodsNum, '成交的商品量');if (!(
-                noDeal === true)) {_context5.next = 4;break;}_context5.next = 4;return (
+    updateGoodDealNum: function updateGoodDealNum(noDeal) {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+                console.log(_this6.userInfo, '成交的商品量');if (!(
+                noDeal === true)) {_context6.next = 4;break;}_context6.next = 4;return (
 
-                  db.collection("user-info").doc(_this5.userInfo._id).update({
+                  db.collection("user-info").doc(_this6.userInfo._id).update({
                     data: {
                       dealNum: _.inc(1),
                       goodsNum: _.inc(-1) },
 
                     success: function success(res) {
                       console.log(res, '更新--成交数--成功');
-                    } }));case 4:case "end":return _context5.stop();}}}, _callee5);}))();
+                    } }));case 4:case "end":return _context6.stop();}}}, _callee6);}))();
 
 
     },
@@ -516,15 +524,15 @@ var _ = db.command;var _default =
       wx.showModal({
         title: '提示',
         content: '是否确定下架该商品？',
-        success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:if (!
-                    res.confirm) {_context6.next = 12;break;}
+        success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:if (!
+                    res.confirm) {_context7.next = 12;break;}
                     console.log('用户点击确定--确定下架该商品');
                     // 删除该用户上传的图片
-                    _context6.next = 4;return _this.deleteGoodPicture(item);case 4:_context6.next = 6;return (
+                    _context7.next = 4;return _this.deleteGoodPicture(item);case 4:_context7.next = 6;return (
 
                       _this.deleteData(item));case 6:if (!(
 
-                    noDeal === true)) {_context6.next = 9;break;}_context6.next = 9;return (
+                    noDeal === true)) {_context7.next = 9;break;}_context7.next = 9;return (
                       db.collection('user-info').doc(_this.userInfo._id).update({
                         data: {
                           goodsNum: _.inc(-1) },
@@ -539,11 +547,11 @@ var _ = db.command;var _default =
                       title: '下架该商品成功',
                       icon: "success",
                       duration: 1500,
-                      mask: true });_context6.next = 13;break;case 12:
+                      mask: true });_context7.next = 13;break;case 12:
 
                     if (res.cancel) {
                       console.log('用户点击取消--取消下架该商品');
-                    }case 13:case "end":return _context6.stop();}}}, _callee6);}))();
+                    }case 13:case "end":return _context7.stop();}}}, _callee7);}))();
         } });
 
     },
@@ -553,62 +561,62 @@ var _ = db.command;var _default =
       wx.showModal({
         title: '提示',
         content: '该商品是否已成交？',
-        success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:if (!
-                    res.confirm) {_context7.next = 10;break;}
+        success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8() {return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:if (!
+                    res.confirm) {_context8.next = 10;break;}
                     console.log('用户确定该商品已成交');
                     // 更新已成交商品数量记录
-                    _context7.next = 4;return _this.updateGoodDealNum(noDeal);case 4:_context7.next = 6;return (
+                    _context8.next = 4;return _this.updateGoodDealNum(noDeal);case 4:_context8.next = 6;return (
 
-                      _this.addPropertyDeal(item));case 6:_context7.next = 8;return (
+                      _this.addPropertyDeal(item));case 6:_context8.next = 8;return (
 
-                      _this.getMyGoods(_this.openid));case 8:_context7.next = 11;break;case 10:
+                      _this.getMyGoods(_this.openid));case 8:_context8.next = 11;break;case 10:
 
                     if (res.cancel) {
                       console.log('用户点击取消');
-                    }case 11:case "end":return _context7.stop();}}}, _callee7);}))();
+                    }case 11:case "end":return _context8.stop();}}}, _callee8);}))();
         } });
 
     },
     // 删除改商品在存储中的照片
-    deleteGoodPicture: function deleteGoodPicture(item) {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8() {var _this, fileList;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:
-                _this = _this6;
+    deleteGoodPicture: function deleteGoodPicture(item) {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee9() {var _this, fileList;return _regenerator.default.wrap(function _callee9$(_context9) {while (1) {switch (_context9.prev = _context9.next) {case 0:
+                _this = _this7;
                 // 获取商品图片的FileID列表
                 fileList = [];
                 item.pics.forEach(function (item) {
                   fileList.push(item.url);
                 });
                 // 删除云端图片
-                _context8.next = 5;return wx.cloud.deleteFile({
+                _context9.next = 5;return wx.cloud.deleteFile({
                   fileList: fileList }).
                 then(function (res) {
                   console.log(res.fileList, '删除该商品在存储中的照片成功');
                 }).catch(function (error) {
                   console.log(error, '删除该商品在存储中的照片失败');
-                });case 5:case "end":return _context8.stop();}}}, _callee8);}))();
+                });case 5:case "end":return _context9.stop();}}}, _callee9);}))();
 
     },
     // 删除数据库中的对应的商品记录
-    deleteData: function deleteData(item) {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee9() {var _this;return _regenerator.default.wrap(function _callee9$(_context9) {while (1) {switch (_context9.prev = _context9.next) {case 0:
-                _this = _this7;_context9.next = 3;return (
+    deleteData: function deleteData(item) {var _this8 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee10() {var _this;return _regenerator.default.wrap(function _callee10$(_context10) {while (1) {switch (_context10.prev = _context10.next) {case 0:
+                _this = _this8;_context10.next = 3;return (
                   db.collection('goods').doc(item._id).remove({
                     success: function success(res) {
                       console.log(res, '删除数据库中的对应商品记录成功');
                       // 重新请求我的商品数据
                       _this.getMyGoods(_this.openid);
-                    } }));case 3:case "end":return _context9.stop();}}}, _callee9);}))();
+                    } }));case 3:case "end":return _context10.stop();}}}, _callee10);}))();
 
     },
     // 增加‘成交’属性
-    addPropertyDeal: function addPropertyDeal(item) {var _this8 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee10() {var _this;return _regenerator.default.wrap(function _callee10$(_context10) {while (1) {switch (_context10.prev = _context10.next) {case 0:
+    addPropertyDeal: function addPropertyDeal(item) {var _this9 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee11() {var _this;return _regenerator.default.wrap(function _callee11$(_context11) {while (1) {switch (_context11.prev = _context11.next) {case 0:
                 console.log(item._id);
-                _this = _this8;_context10.next = 4;return (
+                _this = _this9;_context11.next = 4;return (
                   db.collection('goods').doc(item._id).update({
                     data: {
                       deal: true } }).
 
                   then(function (res) {
                     console.log(res, 'add the property of deal is success');
-                  }));case 4:case "end":return _context10.stop();}}}, _callee10);}))();
+                  }));case 4:case "end":return _context11.stop();}}}, _callee11);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

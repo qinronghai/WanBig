@@ -210,9 +210,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
 var db = wx.cloud.database();var _default =
 {
   components: { uniBanner: uniBanner, UniProductCatgNav: UniProductCatgNav, UniGoodsCard: UniGoodsCard, uniGoodsCard: uniGoodsCard },

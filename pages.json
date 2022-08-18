@@ -34,7 +34,7 @@
       "path": "pages/my/my",
       "style": {
         "navigationBarTitleText": "我的",
-        "enablePullDownRefresh": false,
+        "enablePullDownRefresh": true,
         "navigationBarBackgroundColor": "#e9e9e9",
         "usingComponents": {
           "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",

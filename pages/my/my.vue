@@ -164,7 +164,7 @@
 import UniBottomExhibit from "./components/uni-bottom-exhibit.vue";
 import UniCenterNav from "./components/uni-center-nav.vue";
 import uniTopCard from "./components/uni-top-card.vue";
-// 我的商品之下的组件
+// 我的商品的子组件
 import uniExhibitMyGoods from "./components/uni-exhibit-my-goods.vue";
 import UniExhibitContactAuthor from "./components/uni-exhibit-contact-author.vue";
 import UniExhibitTip from "./components/uni-exhibit-tip.vue";
@@ -233,6 +233,7 @@ export default {
           type: 'delete',
         },
       ],
+      // 只显示删除按钮
       btns2: [
         {
           text: '删除',
@@ -250,15 +251,22 @@ export default {
     console.log('打印出上个页面传递的参数。', option.showLogin); //打印出上个页面传递的参数。
     // 从缓存中获取openid
     this.openid = await uni.getStorageSync('openid');
-    console.log(this.openid);
-    console.log("获取openid--成功", this.openid);
+    console.log("我的--获取openid--成功", this.openid);
 
     // 请求用户信息
     this.userInfo = uni.getStorageSync('userInfo');
-
+    // 获取我的商品信息
     await this.getMyGoods(this.openid);
   },
   methods: {
+    // 下拉刷新页面
+    async onPullDownRefresh() {
+      // 请求用户信息
+      this.userInfo = uni.getStorageSync('userInfo');
+      // 获取我的商品信息
+      await this.getMyGoods(this.openid);
+      uni.stopPullDownRefresh();
+    },
     // 重新渲染
     chenRender() {
       this.numberkey += 1;
@@ -362,7 +370,7 @@ export default {
     },
     // 更新商品成交数量
     async updateGoodDealNum(noDeal) {
-      console.log(this.userInfo.goodsNum, '成交的商品量');
+      console.log(this.userInfo, '成交的商品量');
       if (noDeal === true) {
 
         await db.collection("user-info").doc(this.userInfo._id).update({
