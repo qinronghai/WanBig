@@ -255,15 +255,7 @@ var _ = db.command;var _default =
 
                 // 
                 userInfo = uni.getStorageSync('userInfo');
-                console.log('object-0-0-0---0-0-0-', item.userInfo);
-                // 更新所在售的商品数量
-                _context5.next = 6;return db.collection("user-info").doc(item.userInfo._id).update({
-                  data: {
-                    goodsNum: _.inc(1) },
-
-                  success: function success(res) {
-                    console.log(res, '更新--商品数--成功');
-                  } });case 6:case "end":return _context5.stop();}}}, _callee5);}))();
+                console.log('object-0-0-0---0-0-0-', item.userInfo);case 4:case "end":return _context5.stop();}}}, _callee5);}))();
 
     },
     sendAuditResultNotice: function sendAuditResultNotice(item, pass, note) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var riseTime, auditTime;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:

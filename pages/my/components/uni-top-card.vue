@@ -69,10 +69,6 @@ export default {
       userInfo: {}
     }
   },
-  onLoad(options) {
-    // TODO 登录这部分有bug
-    console.log(options, '登录卡片埋点');
-  },
   methods: {
     toProjectPage() {
       uni.navigateTo({ url: '/pages/project-info/project-info' })
@@ -90,10 +86,22 @@ export default {
             wx.getUserProfile({
               desc: '登录',
               success: res => {
-                console.log('登录授权，获取用户信息--成功');
-                let userInfo = res.userInfo;
+                // 定义一个新的用户对象
+                let userInfo = {
+                  nickName: '',
+                  avatarUrl: '',
+                  dealNum: 0,
+                  goodsNum: 0,
+                  isAuditor: false,
+                  vip: false
+                };
+                // 取返回的头像和名字
+                userInfo.nickName = res.userInfo.nickName;
+                userInfo.avatarUrl = res.userInfo.avatarUrl;
+
+                console.log('初始化用户信息', userInfo);
                 // 用户信息存入缓存中
-                uni.setStorageSync('userInfo', userInfo);
+                // uni.setStorageSync('userInfo', userInfo);
 
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl)
                 _this.userInfo = userInfo;
@@ -101,13 +109,13 @@ export default {
                 db.collection('user-info')
                   .add({
                     data: {
-                      // 给每个新用户的标签初始化
-
                       nickName: userInfo.nickName,
                       avatarUrl: userInfo.avatarUrl,
+                      // 给每个新用户的标签初始化
                       vip: false,
                       isAuditor: false,
                       dealNum: 0,
+                      // 发布的商品数量
                       goodsNum: 0,
                     }
                   })
@@ -160,7 +168,7 @@ export default {
         })
     },
     // 判断本地中有无用户信息
-    judgeUserInLocal() {
+    /* judgeUserInLocal() {
       let userInfo = uni.getStorageSync('userInfo');
 
       console.log(userInfo.nickName, 'ssss');
@@ -177,7 +185,7 @@ export default {
         console.log('本地缓存中--没有用户的信息')
         this.judgeUserInDatabase(userInfo.openId)
       }
-    },
+    }, */
 
     renderPage(nickName = '未登录', avatarUrl) {
       this.showLogin = false
@@ -186,7 +194,6 @@ export default {
     },
     // 判断当前用户是否是审核员
     isAuditor() {
-      console.log(this.userInfo);
       if (this.userInfo.isAuditor) {
         uni.navigateTo({ url: '/pages/auditor/auditor' })
       } else {
@@ -209,15 +216,12 @@ export default {
     VanIcon,
     UniLogin
   },
-  beforeMount() {
-  },
   mounted() {
-    this.judgeUserInLocal();
-
+    // 1. 获取全局openid
+    let openid = uni.getStorageSync('openid');
+    // 2. 获取数据库中的用户信息
+    this.judgeUserInDatabase(openid);
   },
-  onShow() {
-    this.judgeUserInLocal();
-  }
 
 }
 </script>

@@ -185,10 +185,6 @@ var db = wx.cloud.database();var _default =
       userInfo: {} };
 
   },
-  onLoad: function onLoad(options) {
-    // TODO 登录这部分有bug
-    console.log(options, '登录卡片埋点');
-  },
   methods: {
     toProjectPage: function toProjectPage() {
       uni.navigateTo({ url: '/pages/project-info/project-info' });
@@ -206,10 +202,22 @@ var db = wx.cloud.database();var _default =
             wx.getUserProfile({
               desc: '登录',
               success: function success(res) {
-                console.log('登录授权，获取用户信息--成功');
-                var userInfo = res.userInfo;
+                // 定义一个新的用户对象
+                var userInfo = {
+                  nickName: '',
+                  avatarUrl: '',
+                  dealNum: 0,
+                  goodsNum: 0,
+                  isAuditor: false,
+                  vip: false };
+
+                // 取返回的头像和名字
+                userInfo.nickName = res.userInfo.nickName;
+                userInfo.avatarUrl = res.userInfo.avatarUrl;
+
+                console.log('初始化用户信息', userInfo);
                 // 用户信息存入缓存中
-                uni.setStorageSync('userInfo', userInfo);
+                // uni.setStorageSync('userInfo', userInfo);
 
                 _this.renderPage(userInfo.nickName, userInfo.avatarUrl);
                 _this.userInfo = userInfo;
@@ -217,13 +225,13 @@ var db = wx.cloud.database();var _default =
                 db.collection('user-info').
                 add({
                   data: {
-                    // 给每个新用户的标签初始化
-
                     nickName: userInfo.nickName,
                     avatarUrl: userInfo.avatarUrl,
+                    // 给每个新用户的标签初始化
                     vip: false,
                     isAuditor: false,
                     dealNum: 0,
+                    // 发布的商品数量
                     goodsNum: 0 } }).
 
 
@@ -276,24 +284,24 @@ var db = wx.cloud.database();var _default =
                   }));case 3:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 判断本地中有无用户信息
-    judgeUserInLocal: function judgeUserInLocal() {
-      var userInfo = uni.getStorageSync('userInfo');
-
-      console.log(userInfo.nickName, 'ssss');
+    /* judgeUserInLocal() {
+      let userInfo = uni.getStorageSync('userInfo');
+        console.log(userInfo.nickName, 'ssss');
       if (userInfo.nickName != null) {
-        console.log('本地缓存中--有用户的信息');
+        console.log('本地缓存中--有用户的信息')
         console.log(userInfo, '缓存中的用户信息');
         this.userInfo = userInfo;
-
-        // uni.setStorageSync('userInfo', userInfo);
-
-
-        this.renderPage(userInfo.nickName, userInfo.avatarUrl);
+          // uni.setStorageSync('userInfo', userInfo);
+            this.renderPage(userInfo.nickName, userInfo.avatarUrl)
       } else {
-        console.log('本地缓存中--没有用户的信息');
-        this.judgeUserInDatabase(userInfo.openId);
+        console.log('本地缓存中--没有用户的信息')
+        this.judgeUserInDatabase(userInfo.openId)
       }
-    },
+    }, */
+
+
+
+
 
     renderPage: function renderPage() {var nickName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '未登录';var avatarUrl = arguments.length > 1 ? arguments[1] : undefined;
       this.showLogin = false;
@@ -302,7 +310,6 @@ var db = wx.cloud.database();var _default =
     },
     // 判断当前用户是否是审核员
     isAuditor: function isAuditor() {
-      console.log(this.userInfo);
       if (this.userInfo.isAuditor) {
         uni.navigateTo({ url: '/pages/auditor/auditor' });
       } else {
@@ -325,14 +332,11 @@ var db = wx.cloud.database();var _default =
     VanIcon: VanIcon,
     UniLogin: UniLogin },
 
-  beforeMount: function beforeMount() {
-  },
   mounted: function mounted() {
-    this.judgeUserInLocal();
-
-  },
-  onShow: function onShow() {
-    this.judgeUserInLocal();
+    // 1. 获取全局openid
+    var openid = uni.getStorageSync('openid');
+    // 2. 获取数据库中的用户信息
+    this.judgeUserInDatabase(openid);
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

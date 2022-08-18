@@ -232,21 +232,84 @@ var _ = db.command;var _default =
       // 从主页来的
       this.goodsInfo = uni.getStorageSync('goodsInfo');
     }
-    this.userInfo = uni.getStorageSync('userInfo');
+    // 用户信息
+    var userInfo = uni.getStorageSync('userInfo');
+    this.getUserInfo(userInfo._id);
+    this.userInfo = userInfo;
+    console.log(userInfo, '查看详情页的用户信息');
     // 更新浏览量
-    db.collection('goods').doc(option.goodId).update({
-      data: {
-        views: _.inc(1) },
-
-      success: function success(res) {
-        console.log(res, '更新--浏览量--成功');
-      } });
-
+    this.updateViews(option);
     this.render(option.goodId);
 
 
   },
   methods: {
+    getUserInfo: function getUserInfo(id) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  db.collection('user-info').doc(id).get().then(function (res) {
+                    console.log('详情页面----------获取用户信息', res);
+                  }));case 2:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    updateViews: function updateViews(option) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  db.collection('goods').doc(option.goodId).update({
+                    data: {
+                      views: _.inc(1) },
+
+                    success: function success(res) {
+                      console.log(res, '更新--浏览量--成功');
+                    } }));case 2:case "end":return _context2.stop();}}}, _callee2);}))();
+
+    },
+    sendBookingSuccessMsg: function sendBookingSuccessMsg() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var startingTime, cur, curAdd2, twoDaysLater;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                // 处理时间格式
+                startingTime = util.formatTime(_this2.buyTime);
+
+                // 现在的毫秒数
+                cur = Date.now();
+
+                // 两天后的毫秒数
+                curAdd2 = cur + 86400000 * 2;
+                // 数字化
+                curAdd2 = parseInt(curAdd2);
+                // 
+                twoDaysLater = new Date(curAdd2);
+                twoDaysLater = util.formatTime(twoDaysLater);
+                console.log(twoDaysLater);_context3.next = 9;return (
+                  wx.cloud.
+                  callFunction({
+                    name: "sendBookingSuccessMsg",
+                    data: {
+                      openid: _this2.good.userInfo._openid,
+                      goodId: _this2.goodId,
+                      orderInfo: _this2.good.title,
+                      startingTime: startingTime,
+                      contact: _this2.good.contact,
+                      address: _this2.good.address,
+                      endTime: twoDaysLater } }).
+
+
+                  then(function (res) {
+                    console.log(res);
+                  }).
+                  catch(function (err) {
+                    console.log(err);
+                  }));case 9:case "end":return _context3.stop();}}}, _callee3);}))();
+    },
+    updataBuyTime: function updataBuyTime() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var id;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+                _this3.buyTime = new Date();
+
+                id = _this3.good._id;
+                console.log(_this3.buyTime);_context4.next = 5;return (
+                  db.collection("goods").doc(id).update({
+                    data: {
+                      buyTime: _this3.buyTime,
+                      buy: true },
+
+                    success: function success(res) {
+                      console.log(res);
+                    } }));case 5:case "end":return _context4.stop();}}}, _callee4);}))();
+
+
+    },
     popContact: function popContact() {
       console.log('弹窗联系方式--');var
       contact = this.good.contact;
@@ -279,65 +342,12 @@ var _ = db.command;var _default =
         } });
 
     },
-    sendBookingSuccessMsg: function sendBookingSuccessMsg() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var startingTime, cur, curAdd2, twoDaysLater;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                // 处理时间格式
-                startingTime = util.formatTime(_this2.buyTime);
-
-                // 现在的毫秒数
-                cur = Date.now();
-
-                // 两天后的毫秒数
-                curAdd2 = cur + 86400000 * 2;
-                // 数字化
-                curAdd2 = parseInt(curAdd2);
-                // 
-                twoDaysLater = new Date(curAdd2);
-                twoDaysLater = util.formatTime(twoDaysLater);
-                console.log(twoDaysLater);_context.next = 9;return (
-                  wx.cloud.
-                  callFunction({
-                    name: "sendBookingSuccessMsg",
-                    data: {
-                      openid: _this2.good.userInfo._openid,
-                      goodId: _this2.goodId,
-                      orderInfo: _this2.good.title,
-                      startingTime: startingTime,
-                      contact: _this2.good.contact,
-                      address: _this2.good.address,
-                      endTime: twoDaysLater } }).
-
-
-                  then(function (res) {
-                    console.log(res);
-                  }).
-                  catch(function (err) {
-                    console.log(err);
-                  }));case 9:case "end":return _context.stop();}}}, _callee);}))();
-    },
-    updataBuyTime: function updataBuyTime() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var id;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                _this3.buyTime = new Date();
-
-                id = _this3.good._id;
-                console.log(_this3.buyTime);_context2.next = 5;return (
-                  db.collection("goods").doc(id).update({
-                    data: {
-                      buyTime: _this3.buyTime,
-                      buy: true },
-
-                    success: function success(res) {
-                      console.log(res);
-                    } }));case 5:case "end":return _context2.stop();}}}, _callee2);}))();
-
-
-    },
-
     render: function render(goodId) {var _this4 = this;
       console.log(goodId);
       console.log(this.goodsInfo);
       this.goodsInfo.forEach(function (good) {
         if (good._id === goodId) {
           _this4.good = good;
-          _this4.userInfo = good.userInfo;
           console.log("商品详情--该商品--", good);
           console.log("商品详情--发布该商品的用户--", good.userInfo);
         }

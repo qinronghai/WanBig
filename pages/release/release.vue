@@ -518,6 +518,7 @@ export default {
       })
     },
     async upLoadGoodInfo() {
+
       let userInfo = uni.getStorageSync('userInfo');
       console.log('----------------------', userInfo);
 
@@ -547,8 +548,16 @@ export default {
       let isNotEmpty = this.checkGoodInfo(this.goodInfo);
       console.log('校验商品信息--已填写--', isNotEmpty);
       if (isNotEmpty) {
-
-
+        // 更新所在售的商品数量
+        await db.collection("user-info").doc(userInfo._id).update({
+          data: {
+            goodsNum: _.inc(1),
+          },
+          success: function (res) {
+            console.log(res, '更新--商品数--成功')
+          }
+        })
+        // userInfo.goodsNum++;
         let _this = this;
         await db.collection('goods')
           .add({
@@ -574,6 +583,7 @@ export default {
           })
           .then(res => {
             console.log('上传商品信息--存入数据库--成功', res);
+            // 
             wx.showToast({
               title: '提交审核成功',
               icon: 'success',

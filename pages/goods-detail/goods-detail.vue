@@ -98,50 +98,30 @@ export default {
       // 从主页来的
       this.goodsInfo = uni.getStorageSync('goodsInfo');
     }
-    this.userInfo = uni.getStorageSync('userInfo');
+    // 用户信息
+    let userInfo = uni.getStorageSync('userInfo');
+    this.getUserInfo(userInfo._id);
+    this.userInfo = userInfo;
+    console.log(userInfo, '查看详情页的用户信息');
     // 更新浏览量
-    db.collection('goods').doc(option.goodId).update({
-      data: {
-        views: _.inc(1),
-      },
-      success: function (res) {
-        console.log(res, '更新--浏览量--成功')
-      }
-    })
+    this.updateViews(option);
     this.render(option.goodId);
 
 
   },
   methods: {
-    popContact() {
-      console.log('弹窗联系方式--');
-      let { contact } = this.good;
-      let _this = this;
-      wx.showModal({
-        title: '联系我~',
-        content: contact,
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            // 复制到粘贴板
-            wx.setClipboardData({
-              data: contact,
-              success(res) {
-                wx.getClipboardData({
-                  success(res) {
-                    console.log("已成功复制联系方式", res.data);
-                    // 更新数据库中的数据：预定信息，将其锁定，并上传预定的时间和购买状态。
-                    _this.updataBuyTime();
-                    // 发出订阅消息通知卖家该商品已被某某预定，附带联系方式，请卖家及时主动联系买家进行交货。
-                    _this.sendBookingSuccessMsg();
-                    // TODO 每次有发布过商品的卖家登录该小程序时，如果其有商品是buy，则弹窗提示卖家进行核验该商品是否卖出去，如果是则下架该商品。
-                  },
-                });
-              },
-            });
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
+    async getUserInfo(id) {
+      await db.collection('user-info').doc(id).get().then((res) => {
+        console.log('详情页面----------获取用户信息', res);
+      })
+    },
+    async updateViews(option) {
+      await db.collection('goods').doc(option.goodId).update({
+        data: {
+          views: _.inc(1),
+        },
+        success: function (res) {
+          console.log(res, '更新--浏览量--成功')
         }
       })
     },
@@ -196,14 +176,44 @@ export default {
       })
 
     },
-
+    popContact() {
+      console.log('弹窗联系方式--');
+      let { contact } = this.good;
+      let _this = this;
+      wx.showModal({
+        title: '联系我~',
+        content: contact,
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            // 复制到粘贴板
+            wx.setClipboardData({
+              data: contact,
+              success(res) {
+                wx.getClipboardData({
+                  success(res) {
+                    console.log("已成功复制联系方式", res.data);
+                    // 更新数据库中的数据：预定信息，将其锁定，并上传预定的时间和购买状态。
+                    _this.updataBuyTime();
+                    // 发出订阅消息通知卖家该商品已被某某预定，附带联系方式，请卖家及时主动联系买家进行交货。
+                    _this.sendBookingSuccessMsg();
+                    // TODO 每次有发布过商品的卖家登录该小程序时，如果其有商品是buy，则弹窗提示卖家进行核验该商品是否卖出去，如果是则下架该商品。
+                  },
+                });
+              },
+            });
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    },
     render(goodId) {
       console.log(goodId);
       console.log(this.goodsInfo);
       this.goodsInfo.forEach(good => {
         if (good._id === goodId) {
           this.good = good;
-          this.userInfo = good.userInfo;
           console.log("商品详情--该商品--", good);
           console.log("商品详情--发布该商品的用户--", good.userInfo);
         }

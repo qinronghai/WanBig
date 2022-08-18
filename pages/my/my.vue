@@ -69,7 +69,7 @@
         </div>
         <!-- 商品列表 -->
         <w-swiper-out height="100" v-for="(item, index) in noDealGoodsInfo" :key="index" :swiperOutBtns="btns1"
-          @delete="delete2(item)" @added="deal(item)" buttonWidth="50">
+          @delete="delete2(item, true)" @added="deal(item, true)" buttonWidth="50">
           <view class="example-content" style="">
             <div class="wrap" @click="toGoodDetailPage(item._id)">
               <div class="left">
@@ -112,7 +112,7 @@
           </div>
         </div>
         <!-- 商品列表 -->
-        <w-swiper-out height="100" v-for="(item, index) in dealedGoodsInfo" :key="index" :swiperOutBtns="btns1"
+        <w-swiper-out height="100" v-for="(item, index) in dealedGoodsInfo" :key="index" :swiperOutBtns="btns2"
           @delete="delete2(item)" @added="deal(item)" buttonWidth="50">
           <view class="example-content" style="">
             <div class="wrap" @click="toGoodDetailPage(item._id)">
@@ -321,12 +321,14 @@ export default {
       await db.collection('goods').where({
         _openid: openid,
       }).get().then((res) => {
-        if (res.data.length > 0) {
+        if (res.data.length >= 0) {
           console.log('获取--我的商品信息--成功', res);
 
           _this.goodsInfo = res.data;
-          // 根据 deal属性进行分类
-          _this.sortDataForDeal(res.data);
+          if (res.data.length > 0) {
+            // 根据 deal属性进行分类
+            _this.sortDataForDeal(res.data);
+          }
         } else {
           console.log('获取--我的商品信息--失败');
         }
@@ -359,19 +361,23 @@ export default {
 
     },
     // 更新商品成交数量
-    async updateGoodDealNum() {
-      await db.collection("user-info").doc(this.userInfo._id).update({
-        data: {
-          dealNum: _.inc(1),
-          goodsNum: this.userInfo.goodsNum - 1
-        },
-        success: function (res) {
-          console.log(res, '更新--成交数--成功')
-        }
-      })
+    async updateGoodDealNum(noDeal) {
+      console.log(this.userInfo.goodsNum, '成交的商品量');
+      if (noDeal === true) {
+
+        await db.collection("user-info").doc(this.userInfo._id).update({
+          data: {
+            dealNum: _.inc(1),
+            goodsNum: _.inc(-1)
+          },
+          success: function (res) {
+            console.log(res, '更新--成交数--成功')
+          }
+        })
+      }
     },
     // 处理删除按钮事件
-    delete2(item) {
+    delete2(item, noDeal) {
       let _this = this;
       wx.showModal({
         title: '提示',
@@ -384,14 +390,16 @@ export default {
             // 删除数据库对应的记录
             await _this.deleteData(item);
             // 更新用户的在售商品数量
-            await db.collection('user-info').doc(_this.userInfo._id).update({
-              data: {
-                goodsNum: _this.userInfo.goodsNum - 1
-              },
-              success: function (res) {
-                console.log(res, '更新--商品数量--成功')
-              }
-            })
+            if (noDeal === true) {
+              await db.collection('user-info').doc(_this.userInfo._id).update({
+                data: {
+                  goodsNum: _.inc(-1)
+                },
+                success: function (res) {
+                  console.log(res, '更新--商品数量--成功')
+                }
+              })
+            }
 
             wx.showToast({
               title: '下架该商品成功',
@@ -406,7 +414,7 @@ export default {
       })
     },
     // 处理成交按钮事件
-    deal(item) {
+    deal(item, noDeal) {
       let _this = this;
       wx.showModal({
         title: '提示',
@@ -415,7 +423,7 @@ export default {
           if (res.confirm) {
             console.log('用户确定该商品已成交');
             // 更新已成交商品数量记录
-            await _this.updateGoodDealNum();
+            await _this.updateGoodDealNum(noDeal);
             // 增加deal属性
             await _this.addPropertyDeal(item);
             // 重新获取我的数据

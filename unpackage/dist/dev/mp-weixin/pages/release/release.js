@@ -652,6 +652,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                   }));case 4:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     upLoadGoodInfo: function upLoadGoodInfo() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var userInfo, goodInfo, isNotEmpty, _this;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+
                 userInfo = uni.getStorageSync('userInfo');
                 console.log('----------------------', userInfo);
 
@@ -680,10 +681,18 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                 // 校验数据是否为空
                 isNotEmpty = _this5.checkGoodInfo(_this5.goodInfo);
                 console.log('校验商品信息--已填写--', isNotEmpty);if (!
-                isNotEmpty) {_context5.next = 12;break;}
+                isNotEmpty) {_context5.next = 14;break;}_context5.next = 11;return (
 
+                  db.collection("user-info").doc(userInfo._id).update({
+                    data: {
+                      goodsNum: _.inc(1) },
 
-                _this = _this5;_context5.next = 12;return (
+                    success: function success(res) {
+                      console.log(res, '更新--商品数--成功');
+                    } }));case 11:
+
+                // userInfo.goodsNum++;
+                _this = _this5;_context5.next = 14;return (
                   db.collection('goods').
                   add({
                     data: {
@@ -708,6 +717,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
 
                   then(function (res) {
                     console.log('上传商品信息--存入数据库--成功', res);
+                    // 
                     wx.showToast({
                       title: '提交审核成功',
                       icon: 'success',
@@ -725,7 +735,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                     });
 
 
-                  }));case 12:case "end":return _context5.stop();}}}, _callee5);}))();
+                  }));case 14:case "end":return _context5.stop();}}}, _callee5);}))();
 
 
 

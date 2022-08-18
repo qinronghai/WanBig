@@ -455,12 +455,14 @@ var _ = db.command;var _default =
                   db.collection('goods').where({
                     _openid: openid }).
                   get().then(function (res) {
-                    if (res.data.length > 0) {
+                    if (res.data.length >= 0) {
                       console.log('获取--我的商品信息--成功', res);
 
                       _this.goodsInfo = res.data;
-                      // 根据 deal属性进行分类
-                      _this.sortDataForDeal(res.data);
+                      if (res.data.length > 0) {
+                        // 根据 deal属性进行分类
+                        _this.sortDataForDeal(res.data);
+                      }
                     } else {
                       console.log('获取--我的商品信息--失败');
                     }
@@ -493,54 +495,60 @@ var _ = db.command;var _default =
 
     },
     // 更新商品成交数量
-    updateGoodDealNum: function updateGoodDealNum() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+    updateGoodDealNum: function updateGoodDealNum(noDeal) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+                console.log(_this5.userInfo.goodsNum, '成交的商品量');if (!(
+                noDeal === true)) {_context5.next = 4;break;}_context5.next = 4;return (
+
                   db.collection("user-info").doc(_this5.userInfo._id).update({
                     data: {
                       dealNum: _.inc(1),
-                      goodsNum: _this5.userInfo.goodsNum - 1 },
+                      goodsNum: _.inc(-1) },
 
                     success: function success(res) {
                       console.log(res, '更新--成交数--成功');
-                    } }));case 2:case "end":return _context5.stop();}}}, _callee5);}))();
+                    } }));case 4:case "end":return _context5.stop();}}}, _callee5);}))();
+
 
     },
     // 处理删除按钮事件
-    delete2: function delete2(item) {
+    delete2: function delete2(item, noDeal) {
       var _this = this;
       wx.showModal({
         title: '提示',
         content: '是否确定下架该商品？',
         success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:if (!
-                    res.confirm) {_context6.next = 11;break;}
+                    res.confirm) {_context6.next = 12;break;}
                     console.log('用户点击确定--确定下架该商品');
                     // 删除该用户上传的图片
                     _context6.next = 4;return _this.deleteGoodPicture(item);case 4:_context6.next = 6;return (
 
-                      _this.deleteData(item));case 6:_context6.next = 8;return (
+                      _this.deleteData(item));case 6:if (!(
 
+                    noDeal === true)) {_context6.next = 9;break;}_context6.next = 9;return (
                       db.collection('user-info').doc(_this.userInfo._id).update({
                         data: {
-                          goodsNum: _this.userInfo.goodsNum - 1 },
+                          goodsNum: _.inc(-1) },
 
                         success: function success(res) {
                           console.log(res, '更新--商品数量--成功');
-                        } }));case 8:
+                        } }));case 9:
+
 
 
                     wx.showToast({
                       title: '下架该商品成功',
                       icon: "success",
                       duration: 1500,
-                      mask: true });_context6.next = 12;break;case 11:
+                      mask: true });_context6.next = 13;break;case 12:
 
                     if (res.cancel) {
                       console.log('用户点击取消--取消下架该商品');
-                    }case 12:case "end":return _context6.stop();}}}, _callee6);}))();
+                    }case 13:case "end":return _context6.stop();}}}, _callee6);}))();
         } });
 
     },
     // 处理成交按钮事件
-    deal: function deal(item) {
+    deal: function deal(item, noDeal) {
       var _this = this;
       wx.showModal({
         title: '提示',
@@ -549,7 +557,7 @@ var _ = db.command;var _default =
                     res.confirm) {_context7.next = 10;break;}
                     console.log('用户确定该商品已成交');
                     // 更新已成交商品数量记录
-                    _context7.next = 4;return _this.updateGoodDealNum();case 4:_context7.next = 6;return (
+                    _context7.next = 4;return _this.updateGoodDealNum(noDeal);case 4:_context7.next = 6;return (
 
                       _this.addPropertyDeal(item));case 6:_context7.next = 8;return (
 

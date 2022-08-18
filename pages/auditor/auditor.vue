@@ -122,15 +122,7 @@ export default {
       // 
       let userInfo = uni.getStorageSync('userInfo')
       console.log('object-0-0-0---0-0-0-', item.userInfo);
-      // 更新所在售的商品数量
-      await db.collection("user-info").doc(item.userInfo._id).update({
-        data: {
-          goodsNum: _.inc(1),
-        },
-        success: function (res) {
-          console.log(res, '更新--商品数--成功')
-        }
-      })
+
     },
     async sendAuditResultNotice(item, pass, note) {
       // 处理时间格式
