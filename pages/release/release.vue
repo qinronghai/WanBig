@@ -1,9 +1,7 @@
 <template>
   <view :key="componentKey" class="container">
-
     <!-- 商品描述文本组件 -->
     <uni-goods-desc v-on:getGoodTitle="getGoodTitle"></uni-goods-desc>
-
     <!-- 中间容器 -->
     <div class="center-wrap">
       <div class="goods-pictures">
@@ -11,10 +9,8 @@
           @after-read="afterRead" />
       </div>
     </div>
-
     <!-- 底部容器 -->
     <div class="bottom-wrap">
-
       <div class="top-form">
         <div class="top-form__item price">
           <div class="left ">
@@ -55,12 +51,9 @@
           </div>
         </div>
       </div>
-
       <div class="bottom-options">
-
-        <van-popup duration="1500" :show="showGoodsCategory" round position="bottom" custom-style="height: 40%"
+        <van-popup duration="900" :show="showGoodsCategory" round position="bottom" custom-style="height: 40%"
           @close="onCloseGoodsCategory" closeable>
-
           <div class="goods-category">
             <div class="goods-category__item" v-for="item in navList" :key="item.id">
               <div class="goods-category__item--block" @click="handleCategory(item.id)">
@@ -69,10 +62,7 @@
               </div>
             </div>
           </div>
-
         </van-popup>
-
-
         <div class="bottom-options__item category" @click="showPopup">
           <div class="left">
             <image src="../../static/release/category.svg" class="icon"></image>
@@ -83,7 +73,7 @@
             <div v-show="!showCategoryArrow">{{ category }}</div>
           </div>
         </div>
-        <van-popup duration="1500" :show="showGoodQuality" round position="bottom" custom-style="height: 40%"
+        <van-popup duration="900" :show="showGoodQuality" round position="bottom" custom-style="height: 40%"
           @close="onCloseGoodQuality" closeable>
           <div class="goods-quality">
             <div class="goods-quality__item" v-for="(item, index) in qualityList" :key="index" @click="rightTap(index)">
@@ -95,7 +85,6 @@
             </div>
           </div>
         </van-popup>
-
         <div @click="showGoodQualityPopup" class="bottom-options__item">
           <div class="left">
             <image src="../../static/release/goods-quality.svg" class="icon"></image>
@@ -104,7 +93,6 @@
           <div class="option">
             <van-icon v-show="showQualityArrow" name="arrow" size="18px" />
             <div v-show="!showQualityArrow">{{ quality }}</div>
-
           </div>
         </div>
         <!-- 出/蹲 -->
@@ -124,7 +112,6 @@
             </radio-group>
           </div>
         </div>
-
       </div>
     </div>
     <!-- 送货方式 -->
@@ -156,9 +143,9 @@ import UniBottomOptions from "./components/uni-bottom-options.vue";
 import UniGoodsDesc from "./components/uni-goods-desc.vue";
 import uniHeaderBar from "./components/uni-header-bar.vue";
 import VanIcon from "../../wxcomponents/vant/icon";
-import Toast from "../../wxcomponents/vant/toast";
 import VanPopup from "../../wxcomponents/vant/popup/index";
 import VanPicker from "../../wxcomponents/vant/picker";
+import Toast from "../../wxcomponents/vant/toast";
 import { request } from "../../async/index";
 const db = wx.cloud.database();
 const _ = db.command;
@@ -170,9 +157,7 @@ export default {
     VanIcon,
     VanPicker,
     Toast,
-
   },
-
   data() {
     return {
       navList: [
@@ -225,7 +210,6 @@ export default {
           title: "明显痕迹",
         },
       ],
-
       // 显示控制
       showGoodsCategory: false,
       showGoodQuality: false,
@@ -271,20 +255,15 @@ export default {
     await db.collection('user-info').where({
       _openid: openid
     }).get().then((res) => {
-      console.log(res);
+      console.log('获取最新的用户数据', res);
       this.userInfo = res.data[0];
       uni.setStorageSync('userInfo', this.userInfo)
     })
   },
-  onShow() {
-
-  },
-  // 方法
   methods: {
-
     getGoodTitle: function (title) {
       // title就是子组件传过来的值
-      console.log('des组件传值过来了--', title);
+      console.log('des组件传title值过来了--', title);
       this.title = title
     },
 
@@ -297,12 +276,12 @@ export default {
       fileList.splice(index, 1);
       // 重新放回fileList中
       this.fileList = fileList;
-      console.log("删除图片成功", this.fileList);
+      console.log("删除--图片--成功", this.fileList);
     },
 
     afterRead(event) {
       const { file } = event.detail;
-      console.log(file);
+      console.log("图片列表", file);
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
       let pics = file.map(item => {
         return {
@@ -322,7 +301,7 @@ export default {
 
     transportRadioChange(e) {
       this.transport = e.detail.value;
-      console.log(e.detail.value);
+      console.log("改变--运送方式：", e.detail.value);
     },
 
     handleContact(event) {
@@ -356,6 +335,7 @@ export default {
     handleFloorNum(event) {
       this.floorNum = event.detail.value;
     },
+
     handleCategory(id) {
       let category = this.navList[id - 1].txt;
       console.log('点击了商品分类--', this.navList[id - 1].txt);
@@ -377,6 +357,7 @@ export default {
     onCloseGoodsCategory() {
       this.showGoodsCategory = false;
     },
+
     onCloseGoodQuality() {
       this.showGoodQuality = false;
     },
@@ -389,9 +370,11 @@ export default {
       this.showGoodQuality = false;
       this.showQualityArrow = false;
     },
+
     needRadioChange(e) {
       this.need = e.detail.value;
     },
+
     subscribNews() {
       let tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
       let _this = this;
@@ -405,7 +388,7 @@ export default {
               title: '订阅成功！',
               duration: 1000,
               success() {
-                console.log('订阅成功');
+                console.log('订阅消息--成功');
                 // 点击订阅成功后再去提交审核
                 _this.submitAudit();
               }
@@ -420,7 +403,7 @@ export default {
                   // 重新授权
                   _this.subscribNews();
                 } else {
-                  console.log('用户取消授权...');
+                  console.log('用户取消授权');
                 }
               }
             })
@@ -429,24 +412,22 @@ export default {
         }
       })
     },
+
     async submitAudit() {
       // 先进行文本检测
-      console.log('测试openid，', this.openid);
       await this.checkText(this.title, this.openid);
       console.log("文本检测--ischeckText is --" + this.ischeckText);
       if (this.ischeckText) {
-        await delay(2000);
-
+        await delay(1000);
         // 文本合法，上传图片
         this.upLoadImage();
-        console.log("上传图片中...");
       }
     },
+
     async handleSubmitBtn() {
 
-      // BUG 当前获取不到nickName值
       let userInfo = uni.getStorageSync('userInfo');
-      console.log('发布--最新的信息', userInfo);
+      console.log('----teest---', userInfo);
       let _this = this;
       if (userInfo.nickName == null) {
         console.log("您还未登录，请登录之后，再提交审核。");
@@ -483,9 +464,10 @@ export default {
       }
 
     },
+
     async checkText(text, openid) {
       // 推荐文本内容检测
-      wx.hideLoading();
+      // wx.hideLoading();
       wx.showLoading({
         title: '文本合法性检测中',
         mask: true
@@ -501,7 +483,7 @@ export default {
         if (ckres.result.errCode == 0 && (ckres.result).result.label == 100) {
           wx.hideLoading();
           wx.showToast({
-            title: '检测通过',
+            title: '文本检测通过',
             icon: 'success',
             duration: 1500
           })
@@ -520,18 +502,17 @@ export default {
           wx.hideLoading();
           wx.showModal({
             title: '提示',
-            content: '商品描述含敏感信息',
+            content: '文本检测不通过，可能含敏感信息',
             showCancel: false
           })
           console.log('文本检测--不通过--含敏感信息');
         }
       })
     },
+
     async upLoadGoodInfo() {
 
       let userInfo = this.userInfo;
-      console.log('----------------------', userInfo);
-
       // 提交时间
       this.releaseTime = new Date();
       let goodInfo = {
@@ -591,7 +572,7 @@ export default {
                 goodsNum: _.inc(1),
               },
               success: function (res) {
-                console.log(res, '更新--商品数--成功')
+                console.log('更新--商品数--成功', res)
               }
             })
             wx.showToast({
@@ -607,7 +588,7 @@ export default {
                 uni.switchTab({
                   url: '/pages/index-store/index-store',
                 });
-              }, 2000);
+              }, 1500);
             })
 
 
@@ -616,12 +597,12 @@ export default {
 
 
     },
+
     async upLoadImage() {
       let fileList = this.fileList;
       for (let i = 0; i < fileList.length; i++) {
         console.log(fileList[i].url);
         await request(fileList[i].url).then(result => {
-          console.log(result);
           fileList[i].url = result.fileID;
           if (result.statusCode === 204) {
             console.log('上传图片--' + (i + 1) + '--成功');
@@ -635,8 +616,9 @@ export default {
 
       }
     },
+
     checkGoodInfo(userInfo) {
-      let values = Object.values(userInfo); console.log(values);
+      let values = Object.values(userInfo);
       try {
         values.forEach(item => {
           if (item === '') {

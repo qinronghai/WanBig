@@ -204,8 +204,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var util = __webpack_require__(/*! ../utils/formatTime.js */ 97);
 var db = wx.cloud.database();
 var _ = db.command;var _default =
@@ -220,48 +218,58 @@ var _ = db.command;var _default =
 
   },
   components: { VanButton: VanButton },
-  onLoad: function onLoad(option) {
-    console.log(option.goodId, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
-    console.log(option.flag, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
+  onLoad: function () {var _onLoad = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(option) {var _this2 = this;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+              console.log('//打印出上个页面传递的参数。', option.goodId); //打印出上个页面传递的参数。
+              console.log('//打印出上个页面传递的参数。', option.flag); //打印出上个页面传递的参数。
 
-    this.goodId = option.goodId;
-    if (option.flag === '1') {
-      // 从我的页面--我的商品来的
-      this.goodsInfo = uni.getStorageSync('goodsInfoFlag');
-    } else {
-      // 从主页来的
-      this.goodsInfo = uni.getStorageSync('goodsInfo');
-    }
-    // 用户信息
-    var userInfo = uni.getStorageSync('userInfo');
-    this.getUserInfo(userInfo._id);
-    this.userInfo = userInfo;
-    console.log(userInfo, '查看详情页的用户信息');
-    // 更新浏览量
-    this.updateViews(option);
-    this.render(option.goodId);
+              this.goodId = option.goodId;
+              if (option.flag === '1') {
+                // 从我的页面--我的商品来的
+                this.goodsInfo = uni.getStorageSync('goodsInfoFlag');
+              } else {
+                // 从主页来的
+                this.goodsInfo = uni.getStorageSync('goodsInfo');
+              }
+              // 该商品信息的用户
+              console.log(this.goodsInfo, 'tesdsssssssss');
+              this.goodsInfo.forEach(function (good) {
+                if (good._id === _this2.goodId) {
+                  _this2.good = good;
+                  console.log("找到该商品", good);
+                  console.log("发布该商品的用户--", good.userInfo);
+                  var openid = good.userInfo._openid;
+                  _this2.getUserInfo(openid);
+                }
+              });
+
+              // 更新浏览量
+              this.updateViews(option);
+              this.render(option.goodId);case 8:case "end":return _context.stop();}}}, _callee, this);}));function onLoad(_x) {return _onLoad.apply(this, arguments);}return onLoad;}(),
 
 
-  },
+
   methods: {
-    getUserInfo: function getUserInfo(id) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  db.collection('user-info').doc(id).get().then(function (res) {
+    getUserInfo: function getUserInfo(openid) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  db.collection('user-info').where({
+                    _openid: openid }).
+                  get().then(function (res) {
                     console.log('详情页面----------获取用户信息', res);
-                  }));case 2:case "end":return _context.stop();}}}, _callee);}))();
+                    _this3.userInfo = res.data[0];
+                  }));case 2:case "end":return _context2.stop();}}}, _callee2);}))();
     },
-    updateViews: function updateViews(option) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    updateViews: function updateViews(option) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
                   db.collection('goods').doc(option.goodId).update({
                     data: {
                       views: _.inc(1) },
 
                     success: function success(res) {
-                      console.log(res, '更新--浏览量--成功');
-                    } }));case 2:case "end":return _context2.stop();}}}, _callee2);}))();
+                      console.log('更新--浏览量--成功', res);
+                    } }));case 2:case "end":return _context3.stop();}}}, _callee3);}))();
 
     },
-    sendBookingSuccessMsg: function sendBookingSuccessMsg() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var startingTime, cur, curAdd2, twoDaysLater;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    sendBookingSuccessMsg: function sendBookingSuccessMsg() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var startingTime, cur, curAdd2, twoDaysLater;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
                 // 处理时间格式
-                startingTime = util.formatTime(_this2.buyTime);
+                startingTime = util.formatTime(_this4.buyTime);
 
                 // 现在的毫秒数
                 cur = Date.now();
@@ -273,40 +281,40 @@ var _ = db.command;var _default =
                 // 
                 twoDaysLater = new Date(curAdd2);
                 twoDaysLater = util.formatTime(twoDaysLater);
-                console.log(twoDaysLater);_context3.next = 9;return (
+                console.log('两天后的时间', twoDaysLater);_context4.next = 9;return (
                   wx.cloud.
                   callFunction({
                     name: "sendBookingSuccessMsg",
                     data: {
-                      openid: _this2.good.userInfo._openid,
-                      goodId: _this2.goodId,
-                      orderInfo: _this2.good.title,
+                      openid: _this4.good.userInfo._openid,
+                      goodId: _this4.goodId,
+                      orderInfo: _this4.good.title,
                       startingTime: startingTime,
-                      contact: _this2.good.contact,
-                      address: _this2.good.address,
+                      contact: _this4.good.contact,
+                      address: _this4.good.address,
                       endTime: twoDaysLater } }).
 
 
                   then(function (res) {
-                    console.log(res);
+                    console.log('成功发送预定信息', res);
                   }).
                   catch(function (err) {
-                    console.log(err);
-                  }));case 9:case "end":return _context3.stop();}}}, _callee3);}))();
+                    console.log('失败发送预定信息', err);
+                  }));case 9:case "end":return _context4.stop();}}}, _callee4);}))();
     },
-    updataBuyTime: function updataBuyTime() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var id;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
-                _this3.buyTime = new Date();
+    updataBuyTime: function updataBuyTime() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var id;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+                _this5.buyTime = new Date();
 
-                id = _this3.good._id;
-                console.log(_this3.buyTime);_context4.next = 5;return (
+                id = _this5.good._id;
+                console.log(_this5.buyTime);_context5.next = 5;return (
                   db.collection("goods").doc(id).update({
                     data: {
-                      buyTime: _this3.buyTime,
+                      buyTime: _this5.buyTime,
                       buy: true },
 
                     success: function success(res) {
-                      console.log(res);
-                    } }));case 5:case "end":return _context4.stop();}}}, _callee4);}))();
+                      console.log('更新--预定时间及状态--成功', res);
+                    } }));case 5:case "end":return _context5.stop();}}}, _callee5);}))();
 
 
     },
@@ -342,12 +350,12 @@ var _ = db.command;var _default =
         } });
 
     },
-    render: function render(goodId) {var _this4 = this;
+    render: function render(goodId) {var _this6 = this;
       console.log(goodId);
       console.log(this.goodsInfo);
       this.goodsInfo.forEach(function (good) {
         if (good._id === goodId) {
-          _this4.good = good;
+          _this6.good = good;
           console.log("商品详情--该商品--", good);
           console.log("商品详情--发布该商品的用户--", good.userInfo);
         }

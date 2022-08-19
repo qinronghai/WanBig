@@ -332,10 +332,9 @@ var db = wx.cloud.database();var _default =
                   mark: true });_context4.next = 4;return (
 
                   wx.cloud.callFunction({
-                    name: 'getGoodsInfo' })
+                    name: 'getGoodsInfo' }).
 
-                  // TODO 已审核的数据筛选
-                  .then(function (res) {
+                  then(function (res) {
                     console.log("首页-请求所有数据-成功");
                     _this4.goodsInfo = res.result.data;
                     wx.hideLoading({
@@ -345,6 +344,7 @@ var db = wx.cloud.database();var _default =
                         _this4.filterPics();
                         // 整理数据 -- 全部商品
                         _this.sortData(_this4.goodsInfo);
+                        wx.hideLoading();
                       } });
 
                   }).

@@ -58,7 +58,6 @@
           <div class="browse">
             {{ good.views }} 浏览
           </div>
-
         </div>
       </div>
     </div>
@@ -66,7 +65,6 @@
     <div class="image" v-for="(pic, index) in good.pics" :key="index">
       <image class="detail-card__img" mode="aspectFill" :src="pic.url" />
     </div>
-
   </div>
 </template>
 
@@ -86,9 +84,9 @@ export default {
     };
   },
   components: { VanButton },
-  onLoad: function (option) {
-    console.log(option.goodId, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
-    console.log(option.flag, '//打印出上个页面传递的参数。'); //打印出上个页面传递的参数。
+  onLoad: async function (option) {
+    console.log('//打印出上个页面传递的参数。', option.goodId); //打印出上个页面传递的参数。
+    console.log('//打印出上个页面传递的参数。', option.flag); //打印出上个页面传递的参数。
 
     this.goodId = option.goodId;
     if (option.flag === '1') {
@@ -98,11 +96,18 @@ export default {
       // 从主页来的
       this.goodsInfo = uni.getStorageSync('goodsInfo');
     }
-    // 用户信息
-    let userInfo = uni.getStorageSync('userInfo');
-    this.getUserInfo(userInfo._id);
-    this.userInfo = userInfo;
-    console.log(userInfo, '查看详情页的用户信息');
+    // 该商品信息的用户
+    console.log(this.goodsInfo, 'tesdsssssssss');
+    this.goodsInfo.forEach(good => {
+      if (good._id === this.goodId) {
+        this.good = good;
+        console.log("找到该商品", good);
+        console.log("发布该商品的用户--", good.userInfo);
+        let openid = good.userInfo._openid;
+        this.getUserInfo(openid);
+      }
+    });
+
     // 更新浏览量
     this.updateViews(option);
     this.render(option.goodId);
@@ -110,9 +115,12 @@ export default {
 
   },
   methods: {
-    async getUserInfo(id) {
-      await db.collection('user-info').doc(id).get().then((res) => {
+    async getUserInfo(openid) {
+      await db.collection('user-info').where({
+        _openid: openid
+      }).get().then((res) => {
         console.log('详情页面----------获取用户信息', res);
+        this.userInfo = res.data[0];
       })
     },
     async updateViews(option) {
@@ -121,7 +129,7 @@ export default {
           views: _.inc(1),
         },
         success: function (res) {
-          console.log(res, '更新--浏览量--成功')
+          console.log('更新--浏览量--成功', res)
         }
       })
     },
@@ -139,7 +147,7 @@ export default {
       // 
       let twoDaysLater = new Date(curAdd2);
       twoDaysLater = util.formatTime(twoDaysLater);
-      console.log(twoDaysLater);
+      console.log('两天后的时间', twoDaysLater);
       await wx.cloud
         .callFunction({
           name: "sendBookingSuccessMsg",
@@ -154,10 +162,10 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          console.log('成功发送预定信息', res);
         })
         .catch((err) => {
-          console.log(err);
+          console.log('失败发送预定信息', err);
         });
     },
     async updataBuyTime() {
@@ -171,7 +179,7 @@ export default {
           buy: true
         },
         success: function (res) {
-          console.log(res)
+          console.log('更新--预定时间及状态--成功', res)
         }
       })
 

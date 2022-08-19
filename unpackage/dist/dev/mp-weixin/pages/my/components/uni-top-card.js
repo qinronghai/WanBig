@@ -237,6 +237,8 @@ var db = wx.cloud.database();var _default =
 
                 then(function (res) {
                   console.log('将用户信息--存入数据库--成功');
+                  // 存入nickName到缓存中
+                  uni.setStorageSync('userInfo', userInfo);
                 });
               },
               fail: function fail(res) {
@@ -283,26 +285,6 @@ var db = wx.cloud.database();var _default =
                     }
                   }));case 3:case "end":return _context.stop();}}}, _callee);}))();
     },
-    // 判断本地中有无用户信息
-    /* judgeUserInLocal() {
-      let userInfo = uni.getStorageSync('userInfo');
-        console.log(userInfo.nickName, 'ssss');
-      if (userInfo.nickName != null) {
-        console.log('本地缓存中--有用户的信息')
-        console.log(userInfo, '缓存中的用户信息');
-        this.userInfo = userInfo;
-          // uni.setStorageSync('userInfo', userInfo);
-            this.renderPage(userInfo.nickName, userInfo.avatarUrl)
-      } else {
-        console.log('本地缓存中--没有用户的信息')
-        this.judgeUserInDatabase(userInfo.openId)
-      }
-    }, */
-
-
-
-
-
     renderPage: function renderPage() {var nickName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '未登录';var avatarUrl = arguments.length > 1 ? arguments[1] : undefined;
       this.showLogin = false;
       this.nickName = nickName;

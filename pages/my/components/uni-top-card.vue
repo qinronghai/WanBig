@@ -121,6 +121,8 @@ export default {
                   })
                   .then(res => {
                     console.log('将用户信息--存入数据库--成功');
+                    // 存入nickName到缓存中
+                    uni.setStorageSync('userInfo', userInfo);
                   })
               },
               fail: res => {
@@ -167,26 +169,6 @@ export default {
           }
         })
     },
-    // 判断本地中有无用户信息
-    /* judgeUserInLocal() {
-      let userInfo = uni.getStorageSync('userInfo');
-
-      console.log(userInfo.nickName, 'ssss');
-      if (userInfo.nickName != null) {
-        console.log('本地缓存中--有用户的信息')
-        console.log(userInfo, '缓存中的用户信息');
-        this.userInfo = userInfo;
-
-        // uni.setStorageSync('userInfo', userInfo);
-
-
-        this.renderPage(userInfo.nickName, userInfo.avatarUrl)
-      } else {
-        console.log('本地缓存中--没有用户的信息')
-        this.judgeUserInDatabase(userInfo.openId)
-      }
-    }, */
-
     renderPage(nickName = '未登录', avatarUrl) {
       this.showLogin = false
       this.nickName = nickName

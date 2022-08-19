@@ -267,56 +267,45 @@ export default {
       await this.getMyGoods(this.openid);
       uni.stopPullDownRefresh();
     },
-    // 重新渲染
-    chenRender() {
-      this.numberkey += 1;
-    },
-    // 处理切换导航
-    toggleNav(index) {
-      console.log("点击了--" + this.navIconList[index].title);
-      // 点击切换
-      // 切换之前 激活状态全部为false
-      this.navIconList.forEach(item => {
-        item.active = false;
-      });
-      // 被点击的选项设为true
-      this.navIconList[index].active = true;
-
-      this.index = index;
-
-    },
-    // 去商品详情页
-    toGoodDetailPage(goodId) {
-      let goodsInfo = this.goodsInfo
-      uni.setStorageSync('goodsInfoFlag', goodsInfo);
-      console.log(goodId);
-      uni.navigateTo({
-        url: '/pages/goods-detail/goods-detail?goodId=' + goodId + '&flag=' + 1
-      });
-    },
-    // 获取用户信息
-    async getUserInfo() {
+    // 删除改商品在存储中的照片
+    async deleteGoodPicture(item) {
       let _this = this;
-      await db
-        .collection('user-info')
-        .where({
-          _openid: this.openid
-        })
-        .get()
-        .then(res => {
-          let userInfo = res.data[0];
-          console.log('object', res);
-          // 有用户信息
-          if (res.data.length) {
-            console.log('获取--用户信息--成功', res);
-            uni.setStorageSync('userInfo', userInfo);
-            _this.userInfo = userInfo;
-            _this.openid = userInfo._openid;
-          } else {
-            console.log('获取--用户信息--失败,数据库中没有该用户的信息', res);
+      // 获取商品图片的FileID列表
+      let fileList = [];
+      item.pics.forEach(item => {
+        fileList.push(item.url);
+      });
+      // 删除云端图片
+      await wx.cloud.deleteFile({
+        fileList: fileList
+      }).then(res => {
+        console.log('删除该商品在存储中的照片成功', res.fileList);
+      }).catch(error => {
+        console.log('删除该商品在存储中的照片失败', error);
+      })
 
-          }
-        })
+    },
+    // 删除数据库中的对应的商品记录
+    async deleteData(item) {
+      let _this = this;
+      await db.collection('goods').doc(item._id).remove({
+        success: function (res) {
+          console.log('删除数据库中的对应商品记录成功', res)
+          // 重新请求我的商品数据
+          _this.getMyGoods(_this.openid);
+        }
+      })
+    },
+    // 增加‘成交’属性
+    async addPropertyDeal(item) {
+      let _this = this;
+      await db.collection('goods').doc(item._id).update({
+        data: {
+          deal: true
+        }
+      }).then(res => {
+        console.log('增加--deal--属性', res);
+      })
     },
     // 获取我的商品数据
     async getMyGoods(openid) {
@@ -336,6 +325,10 @@ export default {
           if (res.data.length > 0) {
             // 根据 deal属性进行分类
             _this.sortDataForDeal(res.data);
+          } else if (res.data.length === 0) {
+            this.dealedGoodsInfo = [];
+            this.noDealGoodsInfo = [];
+            this.noAudit = [];
           }
         } else {
           console.log('获取--我的商品信息--失败');
@@ -370,19 +363,43 @@ export default {
     },
     // 更新商品成交数量
     async updateGoodDealNum(noDeal) {
-      console.log(this.userInfo, '成交的商品量');
       if (noDeal === true) {
-
         await db.collection("user-info").doc(this.userInfo._id).update({
           data: {
             dealNum: _.inc(1),
             goodsNum: _.inc(-1)
           },
           success: function (res) {
-            console.log(res, '更新--成交数--成功')
+            console.log('更新--成交数--成功', res)
           }
         })
       }
+    },
+    // 重新渲染
+    chenRender() {
+      this.numberkey += 1;
+    },
+    // 处理切换导航
+    toggleNav(index) {
+      console.log("点击了--" + this.navIconList[index].title);
+      // 点击切换
+      // 切换之前 激活状态全部为false
+      this.navIconList.forEach(item => {
+        item.active = false;
+      });
+      // 被点击的选项设为true
+      this.navIconList[index].active = true;
+
+      this.index = index;
+
+    },
+    // 去商品详情页
+    toGoodDetailPage(goodId) {
+      let goodsInfo = this.goodsInfo
+      uni.setStorageSync('goodsInfoFlag', goodsInfo);
+      uni.navigateTo({
+        url: '/pages/goods-detail/goods-detail?goodId=' + goodId + '&flag=' + 1
+      });
     },
     // 处理删除按钮事件
     delete2(item, noDeal) {
@@ -404,17 +421,19 @@ export default {
                   goodsNum: _.inc(-1)
                 },
                 success: function (res) {
-                  console.log(res, '更新--商品数量--成功')
+                  console.log('更新--商品数量--成功', res);
+                  setTimeout(() => {
+                    wx.showToast({
+                      title: '成功下架该商品',
+                      icon: "success",
+                      duration: 2000,
+                      mask: true
+                    })
+                  }, 1500);
+
                 }
               })
             }
-
-            wx.showToast({
-              title: '下架该商品成功',
-              icon: "success",
-              duration: 1500,
-              mask: true
-            })
           } else if (res.cancel) {
             console.log('用户点击取消--取消下架该商品');
           }
@@ -443,50 +462,8 @@ export default {
         }
       })
     },
-    // 删除改商品在存储中的照片
-    async deleteGoodPicture(item) {
-      let _this = this;
-      // 获取商品图片的FileID列表
-      let fileList = [];
-      item.pics.forEach(item => {
-        fileList.push(item.url);
-      });
-      // 删除云端图片
-      await wx.cloud.deleteFile({
-        fileList: fileList
-      }).then(res => {
-        console.log(res.fileList, '删除该商品在存储中的照片成功');
-      }).catch(error => {
-        console.log(error, '删除该商品在存储中的照片失败');
-      })
-
-    },
-    // 删除数据库中的对应的商品记录
-    async deleteData(item) {
-      let _this = this;
-      await db.collection('goods').doc(item._id).remove({
-        success: function (res) {
-          console.log(res, '删除数据库中的对应商品记录成功')
-          // 重新请求我的商品数据
-          _this.getMyGoods(_this.openid);
-        }
-      })
-    },
-    // 增加‘成交’属性
-    async addPropertyDeal(item) {
-      console.log(item._id);
-      let _this = this;
-      await db.collection('goods').doc(item._id).update({
-        data: {
-          deal: true
-        }
-      }).then(res => {
-        console.log(res, 'add the property of deal is success');
-      })
-    },
 
   },
-
 };
 </script>
 
