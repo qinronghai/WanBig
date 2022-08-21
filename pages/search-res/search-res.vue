@@ -10,7 +10,6 @@
           <van-dropdown-item @change="changeSort" :value="sortDefault" :options="sortOption" />
         </van-dropdown-menu>
       </div>
-
       <div v-for="(item, index) in resArr" :key="index" class="exhibit-goods" @click="toGoodDetailPage(item._id)">
         <div class="wrap">
           <div class="left">
@@ -46,7 +45,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </block>

@@ -11,7 +11,7 @@
       </div>
       <van-popup :show="showLogin" round position="bottom" custom-style="height: 40%" @close="onCloseLogin" closeable>
         <div class="login">
-          <h1 class="title">湾大闲置杂货铺欢迎你~</h1>
+          <h1 class="title">湾大闲置品小铺欢迎你~</h1>
           <div class="btn-login">
             <button class="btn" v-on:click="clickOneLogin">微信一键登录</button>
           </div>

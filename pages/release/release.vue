@@ -574,7 +574,7 @@ export default {
               }
             })
             wx.showToast({
-              title: '提交审核成功',
+              title: '提交成功，审核中...',
               icon: 'success',
               duration: 2000,
               mark: true
