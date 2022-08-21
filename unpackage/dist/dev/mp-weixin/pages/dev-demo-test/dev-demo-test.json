@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
-    "van-dropdown-item": "/wxcomponents/vant/dropdown-item/index",
-    "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
-  }
-}

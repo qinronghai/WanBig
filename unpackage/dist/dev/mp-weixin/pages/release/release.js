@@ -278,20 +278,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var _index = __webpack_require__(/*! ../../async/index */ 73);
 
 
 
-var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 159));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 173));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 176));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 181));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 183));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _ = db.command;var _default =
+var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 117));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 124));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 127));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 132));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 134));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _ = db.command;var towxml = function towxml() {__webpack_require__.e(/*! require.ensure | static/towxml/towxml */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../static/towxml/towxml */ 156));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
 {
   components: {
     UniGoodsDesc: UniGoodsDesc, VanPopup: VanPopup,
     VanIcon: VanIcon,
     VanPicker: VanPicker,
-    Toast: Toast },
+    Toast: Toast,
+    towxml: towxml },
 
   data: function data() {
     return {
+      content: '',
       navList: [
       {
         id: 1,
@@ -342,6 +352,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
         title: "明显痕迹" }],
 
 
+      // 控制真页面切换
+      showPage: true,
       // 显示控制
       showGoodsCategory: false,
       showGoodQuality: false,
@@ -380,17 +392,54 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
       buyTime: '1' };
 
   },
-  onLoad: function onLoad(options) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var openid;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+  onLoad: function onLoad(options) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var curTime, str, openid;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+
+              // 控制页面切换
+              curTime = new Date();
+              db.collection('swiper').doc('f6e08a6463021e9e13f9f87d147833e6').get().then(function (res) {
+                var allowTime = res.data.time;
+                if (curTime < allowTime) {
+                  _this2.showPage = true;
+                } else {
+                  _this2.showPage = false;
+                }
+              });
+
+              str = "# \u9879\u76EE\u4ECB\u7ECD\n\n> \u672C\u9879\u76EE\u7684\u524D\u8EAB\u662F\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B\uFF0C\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B\u91CD\u65B0\u547D\u540D\u4E3A\u300A\u6E7E\u5927\u95F2\u7F6E\u54C1\u5C0F\u94FA\u300B\u3002\n\n## \u4E3B\u8981\u529F\u80FD\n\n\u4E3B\u8981\u529F\u80FD\u5728\u4E4B\u524D\u7684\u57FA\u7840\u4E0A\uFF0C\u5B8C\u6210\u4E86\uFF1A\n\n1. \u5168\u65B0\u7684\u8BBE\u8BA1\u53CA\u91CD\u6784\u3002\n2. \u589E\u52A0\u9884\u5B9A\u6210\u529F\u7684\u901A\u77E5\u3002\n    > \u5373\u6709\u4EBA\u786E\u8BA4\u9884\u5B9A\u4F60\u7684\u5546\u54C1\uFF0C\u5219\u53D8\u4E3A\u9501\u5B9A\u72B6\u6001\uFF0C\u5176\u4ED6\u4EBA\u4E0D\u4F1A\u5728\u770B\u5230\u6B64\u5546\u54C1\uFF0C\u7136\u540E\u672C\u5C0F\u7A0B\u5E8F\u4F1A\u7ED9\u4F60\u53D1\u9001\u9884\u5B9A\u6210\u529F\u7684\u901A\u77E5\uFF0C\u4F60\u4E5F\u53EF\u4EE5\u4E3B\u52A8\u8054\u7CFB\u8D2D\u4E70\u4EBA\u3002\n3. \u589E\u52A0\u5BA1\u6838\u673A\u5236\u3002\n    >\u5373\u5546\u54C1\u4E0A\u67B6\u4E0D\u4F1A\u9A6C\u4E0A\u51FA\u73B0\u5728\u5E02\u573A\u4E2D\uFF0C\u4F1A\u6709\u4E13\u95E8\u7684\u5BA1\u6838\u4EBA\u5458\uFF08\u4E5F\u5C31\u662F\u6211\uFF0C\u5982\u679C\u592A\u4E45\u6CA1\u5BA1\u6838\uFF0C\u8BF7\u8054\u7CFB\u6211\u3002\uFF09\u8FDB\u884C\u5BA1\u6838\u901A\u8FC7\u4E4B\u540E\u624D\u4F1A\u51FA\u73B0\u5728\u5E02\u573A\u4E2D\u3002\n\n## \u6700\u540E\n\n\u76F8\u5F53\u4E8E\u81EA\u5DF1\u91CD\u65B0\u628A\u8FD9\u4E2A\u9879\u76EE\u5199\u4E86\u4E00\u904D\uFF0C\u5199\u4E86\u5F88\u4E45\uFF0C\u8FD8\u6709\u5F88\u591A\u9884\u60F3\u7684\u6CA1\u6709\u5B9E\u73B0\u3002\u5199\u7D2F\u4E86\uFF0C\u5927\u5BB6\u80FD\u7528\u5C31\u7528\u3002\n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              _this2.content = _this2.towxml(
+              str, 'markdown',
+              {
+                base: "../../static" });
+
+
               // 获取openid
               openid = uni.getStorageSync('openid');
               // 获取最新的用户数据
-              _context.next = 3;return db.collection('user-info').where({
+              _context.next = 7;return db.collection('user-info').where({
                 _openid: openid }).
               get().then(function (res) {
                 console.log('获取最新的用户数据', res);
                 _this2.userInfo = res.data[0];
                 uni.setStorageSync('userInfo', _this2.userInfo);
-              });case 3:case "end":return _context.stop();}}}, _callee);}))();
+              });case 7:case "end":return _context.stop();}}}, _callee);}))();
   },
   methods: {
     getGoodTitle: function getGoodTitle(title) {

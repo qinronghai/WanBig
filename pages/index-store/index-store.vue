@@ -25,7 +25,7 @@
     <view class="main">
       <div class="column_item_0">
         <div class="test-style" @click="toBookMarket">
-          <image class="book-icon" src="../../static/icon.png" mode="" />
+          <image class="book-icon" src="../../static/logo.png" mode="" />
           welcome
         </div>
         <view class="item" v-for="(item, index) in columnLeft" :key="index" @click="toGoodDetailPage(item._id)">

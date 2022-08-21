@@ -127,57 +127,9 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/My-Document/projects/WanBig/pages/project-info/project-info.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var towxml = function towxml() {__webpack_require__.e(/*! require.ensure | static/towxml/towxml */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../static/towxml/towxml */ 224));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-{
-  components: {
-    towxml: towxml },
-
-  data: function data() {
-    return {
-      content: '' };
-
-  },
-  onLoad: function onLoad(options) {
-    var str = "# \u9879\u76EE\u4ECB\u7ECD\n\n> \u672C\u9879\u76EE\u7684\u524D\u8EAB\u662F\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B\uFF0C\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B\u91CD\u65B0\u547D\u540D\u4E3A\u300A\u6E7E\u5927\u95F2\u7F6E\u54C1\u5C0F\u94FA\u300B\u3002\n\n## \u4E3B\u8981\u529F\u80FD\n\n\u4E3B\u8981\u529F\u80FD\u5728\u4E4B\u524D\u7684\u57FA\u7840\u4E0A\uFF0C\u6DFB\u52A0\u4E86\uFF1A\n\n1. \u5168\u65B0\u7684\u8BBE\u8BA1\u53CA\u91CD\u6784\u3002\n2. \u589E\u52A0\u9884\u5B9A\u6210\u529F\u7684\u901A\u77E5\u3002\n\n  > \u5373\u6709\u4EBA\u786E\u8BA4\u9884\u5B9A\u4F60\u7684\u5546\u54C1\uFF0C\u5219\u53D8\u4E3A\u9501\u5B9A\u72B6\u6001\uFF0C\u5176\u4ED6\u4EBA\u4E0D\u4F1A\u5728\u770B\u5230\u6B64\u5546\u54C1\uFF0C\u7136\u540E\u672C\u5C0F\u7A0B\u5E8F\u4F1A\u7ED9\u4F60\u53D1\u9001\u9884\u5B9A\u6210\u529F\u7684\u901A\u77E5\uFF0C\u4F60\u4E5F\u53EF\u4EE5\u4E3B\u52A8\u8054\u7CFB\u8D2D\u4E70\u4EBA\u3002\n\n3. \u589E\u52A0\u5BA1\u6838\u673A\u5236\u3002\n\n  >\u5373\u5546\u54C1\u4E0A\u67B6\u4E0D\u4F1A\u9A6C\u4E0A\u51FA\u73B0\u5728\u5E02\u573A\u4E2D\uFF0C\u4F1A\u6709\u4E13\u95E8\u7684\u5BA1\u6838\u4EBA\u5458\uFF08\u4E5F\u5C31\u662F\u6211\uFF0C\u5982\u679C\u592A\u4E45\u6CA1\u5BA1\u6838\uFF0C\u8BF7\u8054\u7CFB\u6211\u3002\uFF09\u8FDB\u884C\u5BA1\u6838\u901A\u8FC7\u4E4B\u540E\u624D\u4F1A\u51FA\u73B0\u5728\u5E02\u573A\u4E2D\u3002\n\n## \u6700\u540E\n\n\u76F8\u5F53\u4E8E\u81EA\u5DF1\u91CD\u65B0\u628A\u8FD9\u4E2A\u9879\u76EE\u5199\u4E86\u4E00\u904D\uFF0C\u5199\u4E86\u5F88\u4E45\uFF0C\u8FD8\u6709\u5F88\u591A\u9884\u60F3\u7684\u6CA1\u6709\u5B9E\u73B0\u3002\u5199\u7D2F\u4E86\uFF0C\u5927\u5BB6\u80FD\u7528\u5C31\u7528\uFF0C\u6211\u54EA\u5929\u611F\u89C9\u4E0D\u7D2F\u4E86\u518D\u6539\u6539\u3002\n";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    this.content = this.towxml(
-    str, 'markdown',
-    {
-      base: "../../static" });
-
-  },
-
-  methods: {} };exports.default = _default;
+throw new Error("Module build failed (from ./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js):\nError: 组件 towxml 引用错误，仅支持 import 方式引入组件\n    at D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@dcloudio\\webpack-uni-mp-loader\\lib\\babel\\util.js:38:13\n    at Array.forEach (<anonymous>)\n    at parseComponents (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@dcloudio\\webpack-uni-mp-loader\\lib\\babel\\util.js:32:9)\n    at handleComponentsObjectExpression (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@dcloudio\\webpack-uni-mp-loader\\lib\\babel\\scoped-component-traverse.js:59:22)\n    at handleObjectExpression (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@dcloudio\\webpack-uni-mp-loader\\lib\\babel\\scoped-component-traverse.js:52:5)\n    at ExportDefaultDeclaration (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@dcloudio\\webpack-uni-mp-loader\\lib\\babel\\scoped-component-traverse.js:154:11)\n    at NodePath._call (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\path\\context.js:55:20)\n    at NodePath.call (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\path\\context.js:42:17)\n    at NodePath.visit (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\path\\context.js:90:31)\n    at TraversalContext.visitQueue (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\context.js:112:16)\n    at TraversalContext.visitMultiple (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\context.js:79:17)\n    at TraversalContext.visit (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\context.js:138:19)\n    at Function.traverse.node (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\index.js:84:17)\n    at NodePath.visit (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\path\\context.js:97:18)\n    at TraversalContext.visitQueue (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\context.js:112:16)\n    at TraversalContext.visitSingle (D:\\uni-app开发工具\\HBuilderX.3.3.13.20220314\\HBuilderX\\plugins\\uniapp-cli\\node_modules\\@babel\\traverse\\lib\\context.js:84:19)");
 
 /***/ })
 

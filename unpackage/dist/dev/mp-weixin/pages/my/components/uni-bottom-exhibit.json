@@ -1,8 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "uni-exhibit-my-goods": "/pages/my/components/uni-exhibit-my-goods",
-    "uni-exhibit-contact-author": "/pages/my/components/uni-exhibit-contact-author",
-    "uni-exhibit-tip": "/pages/my/components/uni-exhibit-tip"
-  }
-}

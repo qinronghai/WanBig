@@ -12,6 +12,7 @@
     "van-popup": "/wxcomponents/vant/popup/index",
     "van-icon": "/wxcomponents/vant/icon/index",
     "van-picker": "/wxcomponents/vant/picker/index",
-    "toast": "/wxcomponents/vant/toast/index"
+    "toast": "/wxcomponents/vant/toast/index",
+    "towxml": "/static/towxml/towxml"
   }
 }
