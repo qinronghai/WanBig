@@ -57,7 +57,6 @@
 
 <script>
 import VanIcon from '../../../wxcomponents/vant/icon'
-import UniLogin from './uni-login.vue'
 const db = wx.cloud.database()
 export default {
   data() {
@@ -196,7 +195,7 @@ export default {
   },
   components: {
     VanIcon,
-    UniLogin
+
   },
   mounted() {
     // 1. 获取全局openid

@@ -7,9 +7,6 @@
     "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index",
     "van-icon": "/wxcomponents/vant/icon/index",
     "uni-top-card": "/pages/my/components/uni-top-card",
-    "uni-center-nav": "/pages/my/components/uni-center-nav",
-    "uni-bottom-exhibit": "/pages/my/components/uni-bottom-exhibit",
-    "uni-exhibit-my-goods": "/pages/my/components/uni-exhibit-my-goods",
     "uni-exhibit-contact-author": "/pages/my/components/uni-exhibit-contact-author",
     "uni-exhibit-tip": "/pages/my/components/uni-exhibit-tip"
   }

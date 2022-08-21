@@ -71,26 +71,6 @@
       }
     },
     {
-      "path": "pages/login/login",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/dev-demo-test/dev-demo-test",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false,
-        "usingComponents": {
-          "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
-          "van-dropdown-item": "/wxcomponents/vant/dropdown-item/index",
-          "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
-        }
-      }
-    },
-
-    {
       "path": "pages/auditor/auditor",
       "style": {
         "navigationBarTitleText": "审核页面",

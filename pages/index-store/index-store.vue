@@ -72,13 +72,10 @@
 </template>
 
 <script>
-import uniGoodsCard from "./components/uni-goods-card.vue";
-import uniBanner from "./components/uni-banner.vue";
-import UniGoodsCard from "./components/uni-goods-card.vue";
-import UniProductCatgNav from "./components/uni-product-catg-nav.vue";
+
 const db = wx.cloud.database()
 export default {
-  components: { uniBanner, UniProductCatgNav, UniGoodsCard, uniGoodsCard },
+
   data() {
     return {
       searchKey: '',

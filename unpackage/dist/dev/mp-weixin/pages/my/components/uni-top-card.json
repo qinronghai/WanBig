@@ -1,7 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-    "van-icon": "/wxcomponents/vant/icon/index",
-    "uni-login": "/pages/my/components/uni-login"
+    "van-icon": "/wxcomponents/vant/icon/index"
   }
 }

@@ -139,9 +139,7 @@
 </template>
 
 <script>
-import UniBottomOptions from "./components/uni-bottom-options.vue";
 import UniGoodsDesc from "./components/uni-goods-desc.vue";
-import uniHeaderBar from "./components/uni-header-bar.vue";
 import VanIcon from "../../wxcomponents/vant/icon";
 import VanPopup from "../../wxcomponents/vant/popup/index";
 import VanPicker from "../../wxcomponents/vant/picker";
@@ -153,7 +151,7 @@ const _ = db.command;
 import { delay } from "../utils/delay";
 export default {
   components: {
-    uniHeaderBar, UniGoodsDesc, UniBottomOptions, VanPopup,
+    UniGoodsDesc, VanPopup,
     VanIcon,
     VanPicker,
     Toast,

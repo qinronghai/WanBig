@@ -161,11 +161,8 @@
 </template>
 
 <script>
-import UniBottomExhibit from "./components/uni-bottom-exhibit.vue";
-import UniCenterNav from "./components/uni-center-nav.vue";
 import uniTopCard from "./components/uni-top-card.vue";
 // 我的商品的子组件
-import uniExhibitMyGoods from "./components/uni-exhibit-my-goods.vue";
 import UniExhibitContactAuthor from "./components/uni-exhibit-contact-author.vue";
 import UniExhibitTip from "./components/uni-exhibit-tip.vue";
 
@@ -175,7 +172,7 @@ const db = wx.cloud.database();
 const _ = db.command;
 
 export default {
-  components: { VanIcon, uniTopCard, UniCenterNav, UniBottomExhibit, uniExhibitMyGoods, UniExhibitContactAuthor, UniExhibitTip },
+  components: { VanIcon, uniTopCard, UniExhibitContactAuthor, UniExhibitTip },
   data() {
     return {
       openid: '',
