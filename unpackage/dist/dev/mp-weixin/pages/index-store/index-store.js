@@ -240,30 +240,36 @@ var db = wx.cloud.database();var _default =
 
     {
       id: 2,
+      img: "../../static/category-nav/books.svg",
+      title: "书籍教材",
+      isActive: false },
+
+    {
+      id: 3,
       img: "../../static/category-nav/iphone.svg",
       title: "电子设备",
       isActive: false },
 
     {
-      id: 3,
+      id: 4,
       img: "../../static/category-nav/fitness.svg",
       title: "健身器材",
       isActive: false },
 
     {
-      id: 4,
+      id: 5,
       img: "../../static/category-nav/brush.svg",
       title: "美妆日化",
       isActive: false },
 
     {
-      id: 5,
+      id: 6,
       img: "../../static/category-nav/clothes.svg",
       title: "服装服饰",
       isActive: false },
 
     {
-      id: 6,
+      id: 7,
       img: "../../static/category-nav/other.svg",
       title: "其他宝贝",
       isActive: false }]), _defineProperty(_ref, "sum",
@@ -286,6 +292,10 @@ var db = wx.cloud.database();var _default =
               uni.stopPullDownRefresh();case 3:case "end":return _context2.stop();}}}, _callee2);}))();
   },
   methods: {
+    toBookMarket: function toBookMarket() {
+      console.log('切换到书籍书籍市场');
+    },
+
     searchOnChange: function searchOnChange(e) {
       console.log(e.detail);
       this.searchKey = e.detail;
@@ -369,30 +379,36 @@ var db = wx.cloud.database();var _default =
           this.sortData(goodsInfo);
           break;
         case 1:
+          var boos = goodsInfo.filter(function (item) {
+            return item.category === '书籍资料';
+          });
+          this.sortData(boos);
+          break;
+        case 2:
           var electronic = goodsInfo.filter(function (item) {
             return item.category === '电子设备';
           });
           this.sortData(electronic);
           break;
-        case 2:
+        case 3:
           var fitness = goodsInfo.filter(function (item) {
             return item.category === '健身器材';
           });
           this.sortData(fitness);
           break;
-        case 3:
+        case 4:
           var makeups = goodsInfo.filter(function (item) {
             return item.category === '美妆日化';
           });
           this.sortData(makeups);
           break;
-        case 4:
+        case 5:
           var clothing = goodsInfo.filter(function (item) {
             return item.category === '服装服饰';
           });
           this.sortData(clothing);
           break;
-        case 5:
+        case 6:
           var other = goodsInfo.filter(function (item) {
             return item.category === '其他宝贝';
           });

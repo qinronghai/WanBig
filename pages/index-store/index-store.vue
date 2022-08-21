@@ -24,9 +24,9 @@
     <!-- 商品卡片展示 -->
     <view class="main">
       <div class="column_item_0">
-        <div class="test-style">
-          <image class="book-icon" src="../../static/category-nav/books.svg" mode="" />
-          书籍市场
+        <div class="test-style" @click="toBookMarket">
+          <image class="book-icon" src="../../static/icon.png" mode="" />
+          welcome
         </div>
         <view class="item" v-for="(item, index) in columnLeft" :key="index" @click="toGoodDetailPage(item._id)">
           <image :src="item.pics" class="column_pic" mode="aspectFill" />
@@ -106,30 +106,36 @@ export default {
 
         {
           id: 2,
+          img: "../../static/category-nav/books.svg",
+          title: "书籍教材",
+          isActive: false,
+        },
+        {
+          id: 3,
           img: "../../static/category-nav/iphone.svg",
           title: "电子设备",
           isActive: false,
         },
         {
-          id: 3,
+          id: 4,
           img: "../../static/category-nav/fitness.svg",
           title: "健身器材",
           isActive: false,
         },
         {
-          id: 4,
+          id: 5,
           img: "../../static/category-nav/brush.svg",
           title: "美妆日化",
           isActive: false,
         },
         {
-          id: 5,
+          id: 6,
           img: "../../static/category-nav/clothes.svg",
           title: "服装服饰",
           isActive: false,
         },
         {
-          id: 6,
+          id: 7,
           img: "../../static/category-nav/other.svg",
           title: "其他宝贝",
           isActive: false,
@@ -152,6 +158,10 @@ export default {
     uni.stopPullDownRefresh();
   },
   methods: {
+    toBookMarket() {
+      console.log('切换到书籍书籍市场');
+    },
+
     searchOnChange(e) {
       console.log(e.detail);
       this.searchKey = e.detail;
@@ -235,30 +245,36 @@ export default {
           this.sortData(goodsInfo);
           break;
         case 1:
+          let boos = goodsInfo.filter(item => {
+            return item.category === '书籍资料'
+          })
+          this.sortData(boos);
+          break;
+        case 2:
           let electronic = goodsInfo.filter(item => {
             return item.category === '电子设备'
           })
           this.sortData(electronic);
           break;
-        case 2:
+        case 3:
           let fitness = goodsInfo.filter(item => {
             return item.category === '健身器材'
           })
           this.sortData(fitness);
           break;
-        case 3:
+        case 4:
           let makeups = goodsInfo.filter(item => {
             return item.category === '美妆日化'
           })
           this.sortData(makeups);
           break;
-        case 4:
+        case 5:
           let clothing = goodsInfo.filter(item => {
             return item.category === '服装服饰'
           })
           this.sortData(clothing);
           break;
-        case 5:
+        case 6:
           let other = goodsInfo.filter(item => {
             return item.category === '其他宝贝'
           })
@@ -283,7 +299,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .index-store-page {
+  display: flex;
+  flex-direction: column;
   height: auto;
+  min-height: 100vh;
   padding: 0 29.79rpx;
   background-color: #f0f0f0;
 
@@ -315,6 +334,7 @@ export default {
   .main {
     display: flex;
     justify-content: space-between;
+    flex: 1;
 
 // 叉轴的起点对齐 align-items: flex-start;
     margin-top: 20rpx;
@@ -331,16 +351,18 @@ export default {
         align-items: center;
         width: 100%;
         height: 120rpx;
-        margin-bottom: 10rpx;
-        font-weight: bold;
+        margin-bottom: 20rpx;
+
+// font-weight: bold;
         text-align: center;
-        background-color: #ffc300;
+        background-color: #fff;
         border-radius: 17.52rpx;
 
         .book-icon {
-          width: 50rpx;
-          height: 50rpx;
-          padding-right: 5px;
+          width: 60rpx;
+          height: 60rpx;
+          margin-right: 5px;
+          border-radius: 10rpx;
         }
       }
 

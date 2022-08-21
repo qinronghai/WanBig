@@ -1430,7 +1430,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8518,7 +8518,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8539,14 +8539,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8632,7 +8632,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -13851,43 +13851,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 /***/ }),
 /* 176 */
 /*!***********************************************************************!*\
-  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-var _component = __webpack_require__(/*! ../common/component */ 174);
-(0, _component.VantComponent)({
-  props: {
-    show: Boolean,
-    mask: Boolean,
-    message: String,
-    forbidClick: Boolean,
-    zIndex: {
-      type: Number,
-      value: 1000 },
-
-    type: {
-      type: String,
-      value: 'text' },
-
-    loadingType: {
-      type: String,
-      value: 'circular' },
-
-    position: {
-      type: String,
-      value: 'middle' } },
-
-
-  methods: {
-    // for prevent touchmove
-    noop: function noop() {} } });
-
-/***/ }),
-/* 177 */
-/*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
   \***********************************************************************/
 /*! no static exports found */
@@ -13895,7 +13858,7 @@ var _component = __webpack_require__(/*! ../common/component */ 174);
 
 "use strict";
 var _component = __webpack_require__(/*! ../common/component */ 174);
-var _transition = __webpack_require__(/*! ../mixins/transition */ 178);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 177);
 (0, _component.VantComponent)({
   classes: [
   'enter-class',
@@ -13983,7 +13946,7 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 178);
     } } });
 
 /***/ }),
-/* 178 */
+/* 177 */
 /*!*****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
   \*****************************************************************************/
@@ -13992,8 +13955,8 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 178);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
-var _utils = __webpack_require__(/*! ../common/utils */ 179);
-var _validator = __webpack_require__(/*! ../common/validator */ 180); // @ts-nocheck
+var _utils = __webpack_require__(/*! ../common/utils */ 178);
+var _validator = __webpack_require__(/*! ../common/validator */ 179); // @ts-nocheck
 var getClassNames = function getClassNames(name) {return {
     enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
     'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
@@ -14108,7 +14071,7 @@ function transition(showDefaultValue) {
 }
 
 /***/ }),
-/* 179 */
+/* 178 */
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
   \************************************************************************/
@@ -14116,8 +14079,8 @@ function transition(showDefaultValue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 180);
-var _version = __webpack_require__(/*! ./version */ 181);
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 179);
+var _version = __webpack_require__(/*! ./version */ 180);
 
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
@@ -14210,7 +14173,7 @@ function getCurrentPage() {
 }
 
 /***/ }),
-/* 180 */
+/* 179 */
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
   \****************************************************************************/
@@ -14251,7 +14214,7 @@ function isVideoUrl(url) {
 }
 
 /***/ }),
-/* 181 */
+/* 180 */
 /*!**************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
   \**************************************************************************/
@@ -14259,7 +14222,7 @@ function isVideoUrl(url) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 179);
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 178);
 function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -14309,7 +14272,7 @@ function canIUseGetUserProfile() {
 }
 
 /***/ }),
-/* 182 */
+/* 181 */
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/index.js ***!
   \************************************************************************/
@@ -14318,7 +14281,7 @@ function canIUseGetUserProfile() {
 
 "use strict";
 var _component = __webpack_require__(/*! ../common/component */ 174);
-var _shared = __webpack_require__(/*! ./shared */ 183);
+var _shared = __webpack_require__(/*! ./shared */ 182);
 (0, _component.VantComponent)({
   classes: ['active-class', 'toolbar-class', 'column-class'],
   props: Object.assign(Object.assign({}, _shared.pickerProps), { valueKey: {
@@ -14453,7 +14416,7 @@ var _shared = __webpack_require__(/*! ./shared */ 183);
     } } });
 
 /***/ }),
-/* 183 */
+/* 182 */
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/shared.js ***!
   \*************************************************************************/
@@ -14480,6 +14443,43 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.pickerProp
   itemHeight: {
     type: Number,
     value: 44 } };exports.pickerProps = pickerProps;
+
+/***/ }),
+/* 183 */
+/*!***********************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 174);
+(0, _component.VantComponent)({
+  props: {
+    show: Boolean,
+    mask: Boolean,
+    message: String,
+    forbidClick: Boolean,
+    zIndex: {
+      type: Number,
+      value: 1000 },
+
+    type: {
+      type: String,
+      value: 'text' },
+
+    loadingType: {
+      type: String,
+      value: 'circular' },
+
+    position: {
+      type: String,
+      value: 'middle' } },
+
+
+  methods: {
+    // for prevent touchmove
+    noop: function noop() {} } });
 
 /***/ }),
 /* 184 */,
@@ -14553,7 +14553,7 @@ Component({
 "use strict";
 var _component = __webpack_require__(/*! ../common/component */ 174);
 var _button = __webpack_require__(/*! ../mixins/button */ 226);
-var _version = __webpack_require__(/*! ../common/version */ 181);
+var _version = __webpack_require__(/*! ../common/version */ 180);
 var mixins = [_button.button];
 if ((0, _version.canIUseFormFieldButton)()) {
   mixins.push('wx://form-field-button');
@@ -14623,7 +14623,7 @@ if ((0, _version.canIUseFormFieldButton)()) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.button = void 0;var _version = __webpack_require__(/*! ../common/version */ 181);
+Object.defineProperty(exports, "__esModule", { value: true });exports.button = void 0;var _version = __webpack_require__(/*! ../common/version */ 180);
 var button = Behavior({
   externalClasses: ['hover-class'],
   properties: {
