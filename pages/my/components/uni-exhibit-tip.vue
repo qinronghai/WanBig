@@ -1,11 +1,19 @@
 <template>
-  <div class="wrap">
-    <towxml :nodes="content" />
+  <div>
+    <div v-if="showPage" class="fake">
+      <towxml :nodes="content" />
+    </div>
+    <div v-else class="wrap">
+      <towxml :nodes="content2" />
+    </div>
   </div>
+
 </template>
 
 <script>
 import towxml from '../../../static/towxml/towxml'
+const db = wx.cloud.database();
+
 export default {
   components: {
     towxml
@@ -13,15 +21,23 @@ export default {
   data() {
     return {
       content: '',
+      content2: '',
+      // 控制真页面切换
+      showPage: false,
     };
   },
-  onLoad(options) {
-    let str = "dasgadsg"
-    console.log(',??????????????????');
-
-    this.content = this.towxml(str, 'markdown', {})
-  },
   mounted() {
+    // 控制页面切换
+    let curTime = new Date();
+    db.collection('swiper').doc('f6e08a6463021e9e13f9f87d147833e6').get().then((res) => {
+      let allowTime = res.data.time;
+      if (curTime < allowTime) {
+        this.showPage = false;
+      } else {
+        this.showPage = true;
+      }
+    })
+
     let str = `# 温馨提示
 
 > 《湾大闲置品小铺》目前是个人开发的小项目，前身是《湾大杂货铺》。
@@ -49,8 +65,27 @@ export default {
 
 
 `
+    let str2 = `# 项目介绍
+
+> 本项目的前身是《湾大杂货铺》，《湾大杂货铺》重新命名为《湾大闲置品小铺》。
+
+## 主要功能
+
+主要功能在之前的基础上，完成了：
+
+1. 全新的设计及重构。
+2. 增加预定成功的通知。
+    > 即有人确认预定你的商品，则变为锁定状态，其他人不会在看到此商品，然后本小程序会给你发送预定成功的通知，你也可以主动联系购买人。
+3. 增加审核机制。
+    >即商品上架不会马上出现在市场中，会有专门的审核人员（也就是我，如果太久没审核，请联系我。）进行审核通过之后才会出现在市场中。
+
+## 最后
+
+相当于自己重新把这个项目写了一遍，写了很久，还有很多预想的没有实现。写累了，大家能用就用。
+`
 
     this.content = this.towxml(str, 'markdown', { base: "../../../static" })
+    this.content2 = this.towxml(str2, 'markdown', { base: "../../../static" })
   },
   methods: {
   },

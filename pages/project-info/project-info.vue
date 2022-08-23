@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import towxml from '../../static/towxml/towxml'
+
 export default {
   components: {
     towxml

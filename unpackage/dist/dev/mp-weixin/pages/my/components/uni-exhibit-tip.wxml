@@ -1,1 +1,1 @@
-<view class="wrap _div data-v-d178feaa"><towxml vue-id="512d15bb-1" nodes="{{content}}" class="data-v-d178feaa" bind:__l="__l"></towxml></view>
+<view class="_div data-v-d178feaa"><block wx:if="{{showPage}}"><view class="fake _div data-v-d178feaa"><towxml vue-id="512d15bb-1" nodes="{{content}}" class="data-v-d178feaa" bind:__l="__l"></towxml></view></block><block wx:else><view class="wrap _div data-v-d178feaa"><towxml vue-id="512d15bb-2" nodes="{{content2}}" class="data-v-d178feaa" bind:__l="__l"></towxml></view></block></view>
