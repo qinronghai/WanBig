@@ -255,6 +255,7 @@ export default {
     // 获取我的商品信息
     await this.getMyGoods(this.openid);
   },
+  onShareAppMessage() { },
   methods: {
     // 下拉刷新页面
     async onPullDownRefresh() {

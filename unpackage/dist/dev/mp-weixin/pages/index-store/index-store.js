@@ -284,6 +284,7 @@ var db = wx.cloud.database();var _default =
               // await this.getGoodsInfo();
             case 2:case "end":return _context.stop();}}}, _callee, this);}));function onShow() {return _onShow.apply(this, arguments);}return onShow;}(),
 
+  onShareAppMessage: function onShareAppMessage() {},
   onPullDownRefresh: function onPullDownRefresh() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                 _this2.getGoodsInfo());case 2:
               uni.stopPullDownRefresh();case 3:case "end":return _context2.stop();}}}, _callee2);}))();

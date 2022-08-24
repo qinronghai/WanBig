@@ -307,6 +307,7 @@ export default {
       uni.setStorageSync('userInfo', this.userInfo)
     })
   },
+  onShareAppMessage() { },
   methods: {
     getGoodTitle: function (title) {
       // title就是子组件传过来的值

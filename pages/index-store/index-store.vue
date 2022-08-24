@@ -150,6 +150,7 @@ export default {
     // await this.getGoodsInfo();
 
   },
+  onShareAppMessage() { },
   async onPullDownRefresh() {
     await this.getGoodsInfo();
     uni.stopPullDownRefresh();

@@ -389,6 +389,7 @@ var _ = db.command;var _default =
               // 获取我的商品信息
               _context.next = 8;return this.getMyGoods(this.openid);case 8:case "end":return _context.stop();}}}, _callee, this);}));function onLoad(_x) {return _onLoad.apply(this, arguments);}return onLoad;}(),
 
+  onShareAppMessage: function onShareAppMessage() {},
   methods: {
     // 下拉刷新页面
     onPullDownRefresh: function onPullDownRefresh() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:

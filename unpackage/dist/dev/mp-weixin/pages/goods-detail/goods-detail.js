@@ -248,6 +248,7 @@ var _ = db.command;var _default =
 
 
 
+  onShareAppMessage: function onShareAppMessage() {},
   methods: {
     getUserInfo: function getUserInfo(openid) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   db.collection('user-info').where({

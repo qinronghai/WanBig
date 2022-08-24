@@ -441,6 +441,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 74);function _interopRequ
                 uni.setStorageSync('userInfo', _this2.userInfo);
               });case 7:case "end":return _context.stop();}}}, _callee);}))();
   },
+  onShareAppMessage: function onShareAppMessage() {},
   methods: {
     getGoodTitle: function getGoodTitle(title) {
       // title就是子组件传过来的值

@@ -114,6 +114,7 @@ export default {
 
 
   },
+  onShareAppMessage() { },
   methods: {
     async getUserInfo(openid) {
       await db.collection('user-info').where({
