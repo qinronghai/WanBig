@@ -46,5 +46,6 @@
     "van-button": "/wxcomponents/vant/button/index",
     "van-search": "/wxcomponents/vant/search/index",
     "van-popup": "/wxcomponents/vant/popup/index"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
