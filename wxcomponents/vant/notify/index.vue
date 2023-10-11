@@ -52,7 +52,7 @@ VantComponent({
         this.setData({ statusBarHeight });
     },
     methods: {
-        show() {
+        showNotify() {
             const { duration, onOpened } = this.data;
             clearTimeout(this.timer);
             this.setData({ show: true });

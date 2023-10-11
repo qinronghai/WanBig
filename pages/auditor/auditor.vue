@@ -92,7 +92,7 @@ export default {
       console.log(this.goodsInfo);
 
     },
-    async AuditedAllPass() {
+    /* async AuditedAllPass() {
       let pass = "通过";
       let note = "快叫上小伙伴来一起发布闲置品吧";
 
@@ -106,24 +106,82 @@ export default {
       // 删除当前数组
       this.goodsInfo = [];
       console.log(this.goodsInfo, '快速审核完毕！');
-    },
-    async updateAudite(item, pass) {
-      // 更新audited属性为true，pass属性为false：表示已经审核，但是审核不通过
+    } */
 
-      await db.collection('goods').doc(item._id).update({
-        data: {
-          audited: true, // 已经审核
-          pass: pass, // 审核状态
-        },
-        success: function (res) {
-          console.log(res, '更新审核状态完毕')
+    async AuditedAllPass() {
+      let pass = "通过";
+      let note = "快叫上小伙伴来一起发布闲置品吧";
+      let recodeFailAudite = [];
+
+      for (let i = 0; i < this.goodsInfo.length; i++) {
+        let item = this.goodsInfo[i];
+
+        // 更新每一项的审核值
+        let itemRes = await this.updateAudite(item, true);
+        // 更新成功
+        if (itemRes) {
+          // 发送审核结果通知
+          await this.sendAuditResultNotice(item, pass, note);
+          // if (noticeRes) {
+          //   console.log("发送审核通过通知失败");
+          // } else {
+          //   console.log(`已发送审核通过通知给用户 ${item.userInfo._openid}`);
+          // }
+        } else {
+          // 记录更新失败的商品
+          recodeFailAudite.push[item];
+          continue;
         }
-      })
-      // 
-      let userInfo = uni.getStorageSync('userInfo')
-      console.log('object-0-0-0---0-0-0-', item.userInfo);
+      }
 
-    },
+      /*  for (const item of this.goodsInfo) {
+         try {
+           // 更新审核状态
+           await this.updateAudite(item, true);
+           console.log(`商品 ${item._id} 审核通过`);
+ 
+           // 发送审核结果通知
+           await this.sendAuditResultNotice(item, pass, note);
+           console.log(`已发送审核通过通知给用户 ${item.userInfo._openid}`);
+         } catch (error) {
+           console.error(`处理商品 ${item._id} 审核时出错: ${error}`);
+           // 处理错误情况，例如数据库更新失败或通知发送失败
+         }
+       } */
+
+      // 清空商品数组
+      this.goodsInfo = recodeFailAudite;
+      // console.log('快速审核完毕！');
+    }
+    ,
+
+
+    async updateAudite(item, pass) {
+      let res = null;
+      try {
+        // 更新audited属性为true，pass属性为false：表示已经审核，但是审核不通过
+        res = await db.collection('goods').doc(item._id).update({
+          data: {
+            audited: true, // 已经审核
+            pass: pass, // 审核状态
+          }
+        });
+
+        if (res.stats.updated > 0) {
+          console.log('更新审核状态成功', res);
+          return true;
+        } else {
+          console.log('更新审核状态失败', res);
+          return false;
+        }
+      } catch (error) {
+        // 处理错误情况，例如数据库更新失败
+        throw (error); // 抛出错误以供调用者处理
+      }
+
+
+    }
+    ,
     async sendAuditResultNotice(item, pass, note) {
       // 处理时间格式
       let riseTime = util.formatTimeToChinese(item.releaseTime);
@@ -134,20 +192,24 @@ export default {
         .callFunction({
           name: "sendAuditedRes",
           data: {
-            openid: item.userInfo._openid,
-            goodId: item._id,
-            goodName: item.title,
-            riseTime: riseTime, // 发起时间
+            openid: item.userInfo._openid, // 字符串
+            goodId: item._id, // 字符串
+            goodName: item.title, // 字符串
+            riseTime: riseTime, // 发起时间    // TODO
             auditTime: auditTime, // 审核时间
-            auditResults: pass,
-            note: note
+            auditResults: pass, // 字符串
+            note: note // 字符串
           },
         })
         .then((res) => {
-          console.log(res);
+          console.log("first response: ", res);
+          if (res.result.errCode === 43101) {
+            console.log("用户拒绝接收，允许接收次数已使用完", res);
+          }
         })
         .catch((err) => {
-          console.log(err);
+          console.log("错误！！！", err);
+          // throw (err);
         });
     }
   }

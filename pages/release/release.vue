@@ -9,8 +9,7 @@
       <!-- 中间容器 -->
       <div class="center-wrap">
         <div class="goods-pictures">
-          <van-uploader class="uploader" max-count="3" multiple="true" :file-list="fileList" @delete="deleteImg"
-            @after-read="afterRead" />
+          <van-uploader class="uploader" max-count="3" multiple="true" :file-list="fileList" @delete="deleteImg" @after-read="afterRead" />
         </div>
       </div>
       <!-- 底部容器 -->
@@ -22,8 +21,7 @@
               <div class="txt">价格</div>
             </div>
             <div class="input">
-              <input :value="price" confirm-type="done" class="price-input" type="number" placeholder="请输入价格"
-                @confirm="handlePrice" @blur="handlePrice" />
+              <input :value="price" confirm-type="done" class="price-input" type="number" placeholder="请输入价格" @confirm="handlePrice" @blur="handlePrice" />
             </div>
           </div>
           <div class="top-form__item contact">
@@ -31,8 +29,7 @@
               <image src="../../static/release/contact.svg" class="icon"></image>
               <div class="txt">联系方式</div>
             </div>
-            <div class="input"> <input :value="contact" class="contact-input" placeholder="QQ / WX"
-                @blur="handleContact" @confirm="handleContact" />
+            <div class="input"> <input :value="contact" class="contact-input" placeholder="QQ / WX" @blur="handleContact" @confirm="handleContact" />
             </div>
           </div>
           <div class="top-form__item address">
@@ -49,15 +46,15 @@
                   <radio style="transform: scale(0.7)" value="东区" />东区
                 </label>
               </radio-group>
-              <div class="input__number"> <input :value="floorNum" confirm-type="done" class="address-input"
-                  type="number" placeholder="请输入楼号" @blur="handleFloorNum" />
+              <div class="input__number"> <input :value="floorNum" confirm-type="done" class="address-input" type="number" placeholder="请输入楼号" @blur="handleFloorNum" />
               </div>
             </div>
           </div>
         </div>
+        <!-- 底部区域 -->
         <div class="bottom-options">
-          <van-popup duration="900" :show="showGoodsCategory" round position="bottom" custom-style="height: 40%"
-            @close="onCloseGoodsCategory" closeable>
+          <!-- 商品分类 -->
+          <van-popup duration="900" :show="showGoodsCategory" round position="bottom" custom-style="height: 40%" @close="onCloseGoodsCategory" closeable>
             <div class="goods-category">
               <div class="goods-category__item" v-for="item in navList" :key="item.id">
                 <div class="goods-category__item--block" @click="handleCategory(item.id)">
@@ -70,18 +67,17 @@
           <div class="bottom-options__item category" @click="showPopup">
             <div class="left">
               <image src="../../static/release/category.svg" class="icon"></image>
-              <div class="txt">商品分类</div>
+              <div class="txt">商品分类 (必选)</div>
             </div>
             <div class="option">
               <van-icon v-show="showCategoryArrow" name="arrow" size="18px" />
               <div v-show="!showCategoryArrow">{{ category }}</div>
             </div>
           </div>
-          <van-popup duration="900" :show="showGoodQuality" round position="bottom" custom-style="height: 40%"
-            @close="onCloseGoodQuality" closeable>
+          <!-- 商品成色 -->
+          <van-popup duration="900" :show="showGoodQuality" round position="bottom" custom-style="height: 40%" @close="onCloseGoodQuality" closeable>
             <div class="goods-quality">
-              <div class="goods-quality__item" v-for="(item, index) in qualityList" :key="index"
-                @click="rightTap(index)">
+              <div class="goods-quality__item" v-for="(item, index) in qualityList" :key="index" @click="rightTap(index)">
                 <div class="goods-quality__item--block">
                   <div class="txt" :class="{ active: index === rightIndex }">
                     {{ item.title }}
@@ -128,10 +124,10 @@
         <div class="options">
           <radio-group @change="transportRadioChange">
             <label class="radio-sell">
-              <radio value="自取" :checked="transportRadio" style="transform: scale(0.7)" />自取
+              <radio value="自提" :checked="transportRadio" style="transform: scale(0.7)" />自提
             </label>
             <label class="radio">
-              <radio value="可送" style="transform: scale(0.7)" />可送
+              <radio value="配送" style="transform: scale(0.7)" />配送
             </label>
           </radio-group>
         </div>
@@ -240,7 +236,7 @@ export default {
 
       // 商品图片信息
       fileList: [],
-      category: '',
+      category: '其他宝贝',
       quality: '全新',
       need: '出',
       title: '',
@@ -250,7 +246,7 @@ export default {
       contact: '',
       views: 0,
       releaseTime: '',
-      transport: '自取',
+      transport: '自提',
       userInfo: {},
 
       audited: false,
@@ -262,8 +258,9 @@ export default {
 
     // 控制页面切换
     let curTime = new Date();
-    db.collection('swiper').doc('f6e08a6463021e9e13f9f87d147833e6').get().then((res) => {
+    db.collection('swiper').doc('8de6ebcc65002a6f017fcdd65698e102').get().then((res) => {
       let allowTime = res.data.time;
+      console.log("服务器时间", allowTime);
       if (curTime < allowTime) {
         this.showPage = true;
       } else {
@@ -273,20 +270,25 @@ export default {
 
     let str = `# 项目介绍
 
-> 本项目的前身是《湾大杂货铺》，《湾大杂货铺》重新命名为《湾大闲置品小铺》。
+本项目的前身是《湾大杂货铺》(于2021年11月份开发完成上线)，上线之后经过小规模的校园推广，注册登录用户后台显示达2500人。由于初次开发，能力有限，代码有诸多的bug且本人时间精力有限，很大程度是我想重新重构这个项目，然后《湾大杂货铺》小程序停止了维护。
 
-## 主要功能
+后面我转入学习vue和uniapp，记不清具体什么时间点才重新重构《湾大杂货铺》了。好在最后也完成了。可是我又觉得是从一座代码屎山到另外一座代码屎山罢了。
+
+当初我的想法是，在原来《湾大杂货铺》的基础上，把书籍部分的逻辑抽离出来做一个二手书市场。后来也不清楚，为什么这部分没做。所以这一版的书籍部分还是混在一起的。
+
+
+## 2023-09-12
+### 重启项目
+
+
+## 2022-08-09
+### 主要功能
 
 主要功能在之前的基础上，添加了：
 
 1. 全新的设计及重构。
 2. 增加成功的通知。
 3. 增加算法机制。
-
-
-## 最后
-
-相当于自己重新把这个项目写了一遍，写了很久，还有很多预想的没有实现。写累了，大家能用就用，我哪天感觉不累了再改改。
 `
 
     this.content = this.towxml(
@@ -298,13 +300,17 @@ export default {
     // 获取openid
     let openid = uni.getStorageSync('openid');
     // 获取最新的用户数据
-    await db.collection('user-info').where({
+    await db.collection('user').where({
       _openid: openid
     }).get().then((res) => {
       console.log('获取最新的用户数据', res);
       this.userInfo = res.data[0];
       uni.setStorageSync('userInfo', this.userInfo)
     })
+  },
+  onShow() {
+    console.log("发布页面显示")
+    this.userInfo = uni.getStorageSync('userInfo');
   },
   onShareAppMessage() { },
   methods: {
@@ -422,7 +428,7 @@ export default {
       this.need = e.detail.value;
     },
 
-    subscribNews() {
+    async subscribNews() {
       let tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
       let _this = this;
       wx.requestSubscribeMessage({
@@ -519,7 +525,9 @@ export default {
         title: '文本合法性检测中',
         mask: true
       })
-      await wx.cloud.callFunction({
+
+      this.ischeckText = true;
+      /* await wx.cloud.callFunction({
         name: 'msgcheck',
         data: {
           content: text,
@@ -554,7 +562,7 @@ export default {
           })
           console.log('文本检测--不通过--含敏感信息');
         }
-      })
+      }) */
     },
 
     async upLoadGoodInfo() {
@@ -614,7 +622,7 @@ export default {
           .then(res => {
             console.log('上传商品信息--存入数据库--成功', res);
             // 更新所在售的商品数量
-            db.collection("user-info").doc(userInfo._id).update({
+            db.collection("user").doc(userInfo._id).update({
               data: {
                 goodsNum: _.inc(1),
               },
@@ -623,7 +631,7 @@ export default {
               }
             })
             wx.showToast({
-              title: '提交成功，审核中...',
+              title: '已提交，审核中',
               icon: 'success',
               duration: 2000,
               mark: true
@@ -727,8 +735,6 @@ export default {
         padding: 25px 15px 0;
         font-size: 12px;
         font-weight: bold;
-
-
 
         .left {
           display: flex;

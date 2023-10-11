@@ -1,6 +1,6 @@
 <template>
 <uni-shadow-root class="vant-image-index"><view :style="computed.rootStyle({ width, height, radius })" :class="'custom-class '+(utils.bem('image', { round }))" @click="onClick">
-  <image v-if="(!error)" :src="src" :mode="computed.mode(fit)" :lazy-load="lazyLoad" class="image-class van-image__img" :show-menu-by-longpress="showMenuByLongpress" @load="onLoad" @error="onError"></image>
+  <image v-if="(!error)" :src="src" :mode="computed.mode(fit)" :lazy-load="lazyLoad" class="image-class van-image__img" :show-menu-by-longpress="showMenuByLongpress" @load="onImageLoad" @error="onImageError"></image>
 
   <view v-if="loading && showLoading" class="loading-class van-image__loading">
     <slot v-if="useLoadingSlot" name="loading"></slot>
@@ -61,13 +61,13 @@ VantComponent({
         viewStyle: '',
     },
     methods: {
-        onLoad(event) {
+        onImageLoad(event) {
             this.setData({
                 loading: false,
             });
             this.$emit('load', event.detail);
         },
-        onError(event) {
+        onImageError(event) {
             this.setData({
                 loading: false,
                 error: true,

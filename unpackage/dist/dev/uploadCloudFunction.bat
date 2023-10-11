@@ -1,1 +1,1 @@
-"C:\Program Files (x86)\Tencent\Î¢ÐÅweb¿ª·¢Õß¹¤¾ß\cli.bat" cloud functions deploy --e wb-dev-test-8g4qxuuj00591c1e --n quickstartFunctions --r --project "D:\My-Document\projects\WanBig\unpackage\dist\dev" --report_first --report
+"C:\Program Files (x86)\Tencent\Î¢ï¿½ï¿½webï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½ï¿½ï¿½\cli.bat" cloud fqrh-database01-5gz9zkuedd28e7fcest-8g4qxuuj00591c1e --n quickstartFunctions --r --project "D:\My-Document\projects\WanBig\unpackage\dist\dev" --report_first --report

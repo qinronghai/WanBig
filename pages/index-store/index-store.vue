@@ -1,8 +1,8 @@
 <template>
   <view class="index-store-page">
+
     <!-- 搜索框 -->
-    <van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @change="searchOnChange" @search="toSearchPage"
-      bind:cancel="onCancel" />
+    <van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @change="searchOnChange" @search="toSearchPage" bind:cancel="onCancel" />
     <!-- 轮播图 -->
     <view class="banner-container">
       <swiper class="swiper" autoplay circular>
@@ -187,7 +187,7 @@ export default {
       // 当数组长度为单数时，造成右列空缺很高，需要补一个
       if (goodsInfo.length % 2 !== 0) {
         columnRight.push({
-          pics: "cloud://wb-dev-test-8g4qxuuj00591c1e.7762-wb-dev-test-8g4qxuuj00591c1e-1313188449/good-pictures/Snipaste_2022-04-23_08-37-48.png",
+          pics: "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/swiper-pictures/books-5937716_640.jpg",
           transport: "不送",
           title: "曾梦想仗剑走天涯，没想到码农过一生",
           price: 100,
@@ -225,8 +225,9 @@ export default {
         .catch(console.error)
     },
     async getswiperList() {
-      await db.collection("swiper").doc('058dfefe62e372210fc0828f369ba54d').get().then((res) => {
-        console.log("首页--请求轮播图数据--成功");
+      await db.collection("swiper").doc("def1da45650023a10182606c71ecd04e").get().then((res) => {
+        console.log("首页--请求轮播图数据--成功", res);
+
         this.swiperList = res.data.swiperList;
       })
     },
@@ -304,7 +305,7 @@ export default {
   padding: 0 29.79rpx;
   background-color: #f0f0f0;
 
-   /deep/ .van-search {
+  /deep/ .van-search {
     padding: 0;
     padding: 10rpx 0 17.52rpx 0;
     background-color: #f0f0f0 !important;
@@ -334,7 +335,7 @@ export default {
     justify-content: space-between;
     flex: 1;
 
-// 叉轴的起点对齐 align-items: flex-start;
+    // 叉轴的起点对齐 align-items: flex-start;
     margin-top: 20rpx;
 
     .column_item_0 {
@@ -351,7 +352,7 @@ export default {
         height: 120rpx;
         margin-bottom: 20rpx;
 
-// font-weight: bold;
+        // font-weight: bold;
         text-align: center;
         background-color: #fff;
         border-radius: 17.52rpx;

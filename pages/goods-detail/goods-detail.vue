@@ -117,7 +117,7 @@ export default {
   onShareAppMessage() { },
   methods: {
     async getUserInfo(openid) {
-      await db.collection('user-info').where({
+      await db.collection('user').where({
         _openid: openid
       }).get().then((res) => {
         console.log('详情页面----------获取用户信息', res);

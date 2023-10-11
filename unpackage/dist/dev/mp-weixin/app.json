@@ -3,10 +3,13 @@
     "pages/index-store/index-store",
     "pages/release/release",
     "pages/my/my",
+    "pages/my-copy/my",
     "pages/project-info/project-info",
     "pages/goods-detail/goods-detail",
     "pages/search-res/search-res",
-    "pages/auditor/auditor"
+    "pages/auditor/auditor",
+    "pages/test/test",
+    "pages/my-goods/my-goods"
   ],
   "subPackages": [],
   "window": {
@@ -46,6 +49,5 @@
     "van-button": "/wxcomponents/vant/button/index",
     "van-search": "/wxcomponents/vant/search/index",
     "van-popup": "/wxcomponents/vant/popup/index"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

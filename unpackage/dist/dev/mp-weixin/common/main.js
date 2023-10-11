@@ -12,12 +12,16 @@
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 6));
 
 
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} // @ts-ignore
-wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;_vue.default.prototype.towxml = __webpack_require__(/*! ./static/towxml/index.js */ 15);_vue.default.config.productionTip = false;
-_App.default.mpType = "app";
-var app = new _vue.default(_objectSpread({},
-_App.default));
 
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./store/index.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} // @ts-ignore
+wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;_vue.default.prototype.towxml = __webpack_require__(/*! ./static/towxml/index.js */ 17);
+_vue.default.config.productionTip = false;
+_App.default.mpType = "app";
+var app = new _vue.default(_objectSpread(_objectSpread({},
+_App.default), {}, {
+  store: _index.default // 把store对象提供给“store”选项，这可以把store的实例注入所有的子组件中
+}));
 // Vue.forceUpdate();
 // Vue.forceUpdate();
 createApp(app).$mount();
@@ -95,52 +99,65 @@ __webpack_require__.r(__webpack_exports__);
 
 
 {
-  onLaunch: function () {var _onLaunch = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var db, getOpenId, openid;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+  onLaunch: function () {var _onLaunch = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var db, openid;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
               if (!wx.cloud) {
                 console.error('请使用 2.2.3 或以上的基础库以使用云能力');
               } else {
                 wx.cloud.init({
-                  env: 'wb-dev-test-8g4qxuuj00591c1e', // 专属测试环境
+                  env: 'qrh-database01-5gz9zkuedd28e7fc',
                   traceUser: true });
 
               }
 
-              db = wx.cloud.database();
+              db = wx.cloud.database();_context.next = 4;return (
+                this.getOpenId());case 4:openid = _context.sent;
+              console.log("App Launch", openid);
+
+              // 根据openid获取用户信息
+              _context.next = 8;return db.collection("user").where({
+                _openid: openid }).
+              get().then(function (res) {
+                if (res.data.length > 0) {
+                  console.log("App Launch--数据库中有该用户的信息", res.data[0]);
+                  uni.setStorageSync('userInfo', res.data[0]);
+                  uni.setStorageSync('isRegister', true);
+                } else {
+                  console.log("没有该用户信息");
+                  uni.setStorageSync('isRegister', false);
+                }
+              });case 8:case "end":return _context.stop();}}}, _callee, this);}));function onLaunch() {return _onLaunch.apply(this, arguments);}return onLaunch;}(),
 
 
 
-              console.log("App Launch");
 
-              getOpenId = new Promise(function (resolve, reject) {
-                wx.cloud.callFunction({
-                  name: "getOpenID" }).
-                then(function (res) {
-                  if (res.result.openId !== "") {var
 
-                    userInfo = res.result.event.userInfo;
-                    uni.setStorageSync('openid', userInfo.openId);
-                    // uni.setStorageSync('userInfo', userInfo);
-                    resolve(userInfo.openId);
-                  }
-                }).catch(console.error);
-              });
-              // 获取openid
-              _context.next = 6;return getOpenId.then(function (res) {
-                console.log("App启动--获取用户的opeid成功，为：" + res);
-                return res;
-              }, function (fail) {
-                console.log("App启动--获取用户的opeid成功，fail", fail);
-              });case 6:openid = _context.sent;_context.next = 9;return (
 
-                db.collection('user-info').where({
-                  _openid: openid }).
-                get().then(function (res) {
-                  if (res.data.length) {
 
-                    console.log("App启动--获取数据库中的用户信息成功", res);
-                    uni.setStorageSync('userInfo', res.data[0]);
-                  }
-                }));case 9:case "end":return _context.stop();}}}, _callee);}));function onLaunch() {return _onLaunch.apply(this, arguments);}return onLaunch;}(),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -150,7 +167,21 @@ __webpack_require__.r(__webpack_exports__);
   },
   onHide: function onHide() {
     console.log("App Hide");
-  } };exports.default = _default;
+  },
+
+  methods: {
+    // 获取云函数openid
+    getCloudOpenid: function () {var _getCloudOpenid = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.t0 =
+                this.openid;if (_context2.t0) {_context2.next = 5;break;}_context2.next = 4;return (
+                  wx.cloud.callFunction({
+                    name: "getOpenID" }));case 4:_context2.t0 = _context2.sent.
+                result.OPENID;case 5:return _context2.abrupt("return", this.openid = _context2.t0);case 6:case "end":return _context2.stop();}}}, _callee2, this);}));function getCloudOpenid() {return _getCloudOpenid.apply(this, arguments);}return getCloudOpenid;}(),
+
+
+    // 获取openid
+    getOpenId: function () {var _getOpenId = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.t0 =
+                this.openid = this.openid || uni.getStorageSync('openid');if (_context3.t0) {_context3.next = 7;break;}_context3.t1 = uni;_context3.next = 5;return this.getCloudOpenid();case 5:_context3.t2 = _context3.sent;_context3.t1.setStorageSync.call(_context3.t1, 'openid', _context3.t2);case 7:return _context3.abrupt("return",
+                this.openid);case 8:case "end":return _context3.stop();}}}, _callee3, this);}));function getOpenId() {return _getOpenId.apply(this, arguments);}return getOpenId;}() } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

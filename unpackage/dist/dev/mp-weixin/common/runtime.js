@@ -105,11 +105,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"pages/release/components/uni-goods-desc":1,"pages/my/components/uni-exhibit-contact-author":1,"pages/my/components/uni-exhibit-tip":1,"pages/my/components/uni-top-card":1};
+/******/ 		var cssChunks = {"pages/release/components/uni-goods-desc":1,"pages/my/components/uni-exhibit-contact-author":1,"pages/my/components/uni-exhibit-tip":1,"pages/my/components/uni-top-card":1,"pages/my-copy/components/uni-exhibit-contact-author":1,"pages/my-copy/components/uni-exhibit-tip":1,"pages/my-copy/components/uni-top-card":1,"pages/my-goods/components/uni-swiper-out":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"pages/release/components/uni-goods-desc":"pages/release/components/uni-goods-desc","pages/my/components/uni-exhibit-contact-author":"pages/my/components/uni-exhibit-contact-author","pages/my/components/uni-exhibit-tip":"pages/my/components/uni-exhibit-tip","pages/my/components/uni-top-card":"pages/my/components/uni-top-card"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"pages/release/components/uni-goods-desc":"pages/release/components/uni-goods-desc","pages/my/components/uni-exhibit-contact-author":"pages/my/components/uni-exhibit-contact-author","pages/my/components/uni-exhibit-tip":"pages/my/components/uni-exhibit-tip","pages/my/components/uni-top-card":"pages/my/components/uni-top-card","pages/my-copy/components/uni-exhibit-contact-author":"pages/my-copy/components/uni-exhibit-contact-author","pages/my-copy/components/uni-exhibit-tip":"pages/my-copy/components/uni-exhibit-tip","pages/my-copy/components/uni-top-card":"pages/my-copy/components/uni-top-card","pages/my-goods/components/uni-swiper-out":"pages/my-goods/components/uni-swiper-out"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {
