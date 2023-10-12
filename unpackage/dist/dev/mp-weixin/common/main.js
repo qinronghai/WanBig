@@ -22,8 +22,15 @@ var app = new _vue.default(_objectSpread(_objectSpread({},
 _App.default), {}, {
   store: _index.default // 把store对象提供给“store”选项，这可以把store的实例注入所有的子组件中
 }));
-// Vue.forceUpdate();
-// Vue.forceUpdate();
+
+// 将wxapp的this.setData语法封装成一个函数，因为uniapp不支持setData语法
+_vue.default.prototype.setData = function (data) {
+  var _this = this;
+  for (var key in data) {
+    _this[key] = data[key];
+  }
+};
+
 createApp(app).$mount();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 

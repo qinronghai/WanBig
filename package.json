@@ -3,6 +3,7 @@
     "@dcloudio/uni-helper-json": "^1.0.13",
     "@vant/weapp": "^1.10.2",
     "dayjs": "^1.11.0",
+    "tcb-router": "^1.1.2",
     "wuss-weapp": "^2.3.3"
   },
   "devDependencies": {

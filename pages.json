@@ -118,6 +118,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/book-index/book-index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

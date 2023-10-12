@@ -132,7 +132,17 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -206,74 +216,80 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+var db = wx.cloud.database();var UniBook = function UniBook() {Promise.all(/*! require.ensure | pages/index-store/components/uni-book */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/index-store/components/uni-book")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-book.vue */ 147));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
-var db = wx.cloud.database();var _default =
+
 {
+  components: {
+    UniBook: UniBook },
 
-  data: function data() {var _ref;
-    return _ref = {
+  data: function data() {
+    return {
       searchKey: '',
-      isShow: 'true',
+      // isShow: 'true',
       pics: [],
       goodsInfo: [],
       jsData: {
         columnsHeight: [0, 0],
         isLoading: false },
 
-      columns: [[], []],
+      columns: [
+      [],
+      []],
+
       indexObj: {},
       tempPics: [],
-      Mode: "Loop" }, _defineProperty(_ref, "isShow",
-    false), _defineProperty(_ref, "columnLeft",
-    []), _defineProperty(_ref, "columnRight",
-    []), _defineProperty(_ref, "catgList",
-    [
-    {
-      id: 1,
-      img: "../../static/category-nav/all.svg",
-      title: "全部商品",
-      isActive: true },
+      Mode: "Loop",
+      isShow: false,
+      showWelcome: true,
+      columnLeft: [],
+      columnRight: [],
+      catgList: [{
+        id: 1,
+        img: "../../static/category-nav/all.svg",
+        title: "全部商品",
+        isActive: true },
 
 
-    {
-      id: 2,
-      img: "../../static/category-nav/books.svg",
-      title: "书籍教材",
-      isActive: false },
+      {
+        id: 2,
+        img: "../../static/category-nav/books.svg",
+        title: "书籍教材",
+        isActive: false },
 
-    {
-      id: 3,
-      img: "../../static/category-nav/iphone.svg",
-      title: "电子设备",
-      isActive: false },
+      {
+        id: 3,
+        img: "../../static/category-nav/iphone.svg",
+        title: "电子设备",
+        isActive: false },
 
-    {
-      id: 4,
-      img: "../../static/category-nav/fitness.svg",
-      title: "健身器材",
-      isActive: false },
+      {
+        id: 4,
+        img: "../../static/category-nav/fitness.svg",
+        title: "健身器材",
+        isActive: false },
 
-    {
-      id: 5,
-      img: "../../static/category-nav/brush.svg",
-      title: "美妆日化",
-      isActive: false },
+      {
+        id: 5,
+        img: "../../static/category-nav/brush.svg",
+        title: "美妆日化",
+        isActive: false },
 
-    {
-      id: 6,
-      img: "../../static/category-nav/clothes.svg",
-      title: "服装服饰",
-      isActive: false },
+      {
+        id: 6,
+        img: "../../static/category-nav/clothes.svg",
+        title: "服装服饰",
+        isActive: false },
 
-    {
-      id: 7,
-      img: "../../static/category-nav/other.svg",
-      title: "其他宝贝",
-      isActive: false }]), _defineProperty(_ref, "sum",
+      {
+        id: 7,
+        img: "../../static/category-nav/other.svg",
+        title: "其他宝贝",
+        isActive: false }],
 
 
-    0), _defineProperty(_ref, "swiperList",
-    []), _ref;
+      sum: 0,
+      swiperList: [] };
 
   },
   onShow: function () {var _onShow = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
@@ -366,6 +382,15 @@ var db = wx.cloud.database();var _default =
                   }));case 2:case "end":return _context5.stop();}}}, _callee5);}))();
     },
     toggleCategory: function toggleCategory(id) {
+
+      // 隐藏欢迎标语
+      if (id === 1) {
+        this.showWelcome = false;
+      } else {
+        this.showWelcome = true;
+      }
+
+
       console.log('切换到了--' + this.catgList[id].title + '--分类' + "--" + id);
       this.catgList.forEach(function (item) {
         item.isActive = false;

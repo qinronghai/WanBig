@@ -9,7 +9,8 @@
     "pages/search-res/search-res",
     "pages/auditor/auditor",
     "pages/test/test",
-    "pages/my-goods/my-goods"
+    "pages/my-goods/my-goods",
+    "pages/book-index/book-index"
   ],
   "subPackages": [],
   "window": {

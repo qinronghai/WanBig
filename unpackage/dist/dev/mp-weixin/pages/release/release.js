@@ -280,16 +280,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _index = __webpack_require__(/*! ../../async/index */ 75);
 
 
 
-var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 141));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 148));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 151));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 156));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 158));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _ = db.command;var towxml = function towxml() {__webpack_require__.e(/*! require.ensure | static/towxml/towxml */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../static/towxml/towxml */ 159));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var UniGoodsDesc = function UniGoodsDesc() {__webpack_require__.e(/*! require.ensure | pages/release/components/uni-goods-desc */ "pages/release/components/uni-goods-desc").then((function () {return resolve(__webpack_require__(/*! ./components/uni-goods-desc.vue */ 157));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var UniBookRelease = function UniBookRelease() {Promise.all(/*! require.ensure | pages/release/components/uni-book-release */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/release/components/uni-book-release")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-book-release.vue */ 164));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanIcon = function VanIcon() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/icon/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/icon */ 174));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPopup = function VanPopup() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/popup/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/popup/index */ 177));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var VanPicker = function VanPicker() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/picker/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/picker */ 182));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Toast = function Toast() {__webpack_require__.e(/*! require.ensure | wxcomponents/vant/toast/index */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../wxcomponents/vant/toast */ 184));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var db = wx.cloud.database();var _ = db.command;var towxml = function towxml() {__webpack_require__.e(/*! require.ensure | static/towxml/towxml */ "common/vendor").then((function () {return resolve(__webpack_require__(/*! ../../static/towxml/towxml */ 185));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
 
 
 {
   components: {
-    UniGoodsDesc: UniGoodsDesc, VanPopup: VanPopup,
+    UniGoodsDesc: UniGoodsDesc,
+    UniBookRelease: UniBookRelease,
+    VanPopup: VanPopup,
     VanIcon: VanIcon,
     VanPicker: VanPicker,
     Toast: Toast,
@@ -298,8 +317,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequ
   data: function data() {
     return {
       content: '',
-      navList: [
-      {
+      navList: [{
         id: 1,
         img: "../../static/category-nav/books.svg",
         txt: "书籍资料" },
@@ -330,8 +348,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequ
         txt: "其他宝贝" }],
 
 
-      qualityList: [
-      {
+      qualityList: [{
         id: 1,
         title: "全新" },
 
@@ -348,8 +365,8 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequ
         title: "明显痕迹" }],
 
 
-      // 控制真页面切换
-      showPage: true,
+      // 控制真页面切换 0：fack页面， 1：商品发布页面，2：图书发布页面
+      showPage: 2,
       // 显示控制
       showGoodsCategory: false,
       showGoodQuality: false,
@@ -392,15 +409,15 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequ
 
               // 控制页面切换
               curTime = new Date();
-              db.collection('swiper').doc('8de6ebcc65002a6f017fcdd65698e102').get().then(function (res) {
-                var allowTime = res.data.time;
-                console.log("服务器时间", allowTime);
-                if (curTime < allowTime) {
-                  _this2.showPage = true;
-                } else {
-                  _this2.showPage = false;
-                }
-              });
+              // db.collection('swiper').doc('8de6ebcc65002a6f017fcdd65698e102').get().then((res) => {
+              // 	let allowTime = res.data.time;
+              // 	console.log("服务器时间", allowTime);
+              // 	if (curTime < allowTime) {
+              // 		this.showPage = 0;
+              // 	} else {
+              // 		this.showPage = 1;
+              // 	}
+              // })
 
               str = "# \u9879\u76EE\u4ECB\u7ECD\n\n\u672C\u9879\u76EE\u7684\u524D\u8EAB\u662F\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B(\u4E8E2021\u5E7411\u6708\u4EFD\u5F00\u53D1\u5B8C\u6210\u4E0A\u7EBF)\uFF0C\u4E0A\u7EBF\u4E4B\u540E\u7ECF\u8FC7\u5C0F\u89C4\u6A21\u7684\u6821\u56ED\u63A8\u5E7F\uFF0C\u6CE8\u518C\u767B\u5F55\u7528\u6237\u540E\u53F0\u663E\u793A\u8FBE2500\u4EBA\u3002\u7531\u4E8E\u521D\u6B21\u5F00\u53D1\uFF0C\u80FD\u529B\u6709\u9650\uFF0C\u4EE3\u7801\u6709\u8BF8\u591A\u7684bug\u4E14\u672C\u4EBA\u65F6\u95F4\u7CBE\u529B\u6709\u9650\uFF0C\u5F88\u5927\u7A0B\u5EA6\u662F\u6211\u60F3\u91CD\u65B0\u91CD\u6784\u8FD9\u4E2A\u9879\u76EE\uFF0C\u7136\u540E\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B\u5C0F\u7A0B\u5E8F\u505C\u6B62\u4E86\u7EF4\u62A4\u3002\n\n\u540E\u9762\u6211\u8F6C\u5165\u5B66\u4E60vue\u548Cuniapp\uFF0C\u8BB0\u4E0D\u6E05\u5177\u4F53\u4EC0\u4E48\u65F6\u95F4\u70B9\u624D\u91CD\u65B0\u91CD\u6784\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B\u4E86\u3002\u597D\u5728\u6700\u540E\u4E5F\u5B8C\u6210\u4E86\u3002\u53EF\u662F\u6211\u53C8\u89C9\u5F97\u662F\u4ECE\u4E00\u5EA7\u4EE3\u7801\u5C4E\u5C71\u5230\u53E6\u5916\u4E00\u5EA7\u4EE3\u7801\u5C4E\u5C71\u7F62\u4E86\u3002\n\n\u5F53\u521D\u6211\u7684\u60F3\u6CD5\u662F\uFF0C\u5728\u539F\u6765\u300A\u6E7E\u5927\u6742\u8D27\u94FA\u300B\u7684\u57FA\u7840\u4E0A\uFF0C\u628A\u4E66\u7C4D\u90E8\u5206\u7684\u903B\u8F91\u62BD\u79BB\u51FA\u6765\u505A\u4E00\u4E2A\u4E8C\u624B\u4E66\u5E02\u573A\u3002\u540E\u6765\u4E5F\u4E0D\u6E05\u695A\uFF0C\u4E3A\u4EC0\u4E48\u8FD9\u90E8\u5206\u6CA1\u505A\u3002\u6240\u4EE5\u8FD9\u4E00\u7248\u7684\u4E66\u7C4D\u90E8\u5206\u8FD8\u662F\u6DF7\u5728\u4E00\u8D77\u7684\u3002\n\n\n## 2023-09-12\n### \u91CD\u542F\u9879\u76EE\n\n\n## 2022-08-09\n### \u4E3B\u8981\u529F\u80FD\n\n\u4E3B\u8981\u529F\u80FD\u5728\u4E4B\u524D\u7684\u57FA\u7840\u4E0A\uFF0C\u6DFB\u52A0\u4E86\uFF1A\n\n1. \u5168\u65B0\u7684\u8BBE\u8BA1\u53CA\u91CD\u6784\u3002\n2. \u589E\u52A0\u6210\u529F\u7684\u901A\u77E5\u3002\n3. \u589E\u52A0\u7B97\u6CD5\u673A\u5236\u3002\n";
 
@@ -426,21 +443,20 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequ
 
 
               _this2.content = _this2.towxml(
-              str, 'markdown',
-              {
+              str, 'markdown', {
                 base: "../../static" });
 
 
               // 获取openid
               openid = uni.getStorageSync('openid');
               // 获取最新的用户数据
-              _context.next = 7;return db.collection('user').where({
+              _context.next = 6;return db.collection('user').where({
                 _openid: openid }).
               get().then(function (res) {
                 console.log('获取最新的用户数据', res);
                 _this2.userInfo = res.data[0];
                 uni.setStorageSync('userInfo', _this2.userInfo);
-              });case 7:case "end":return _context.stop();}}}, _callee);}))();
+              });case 6:case "end":return _context.stop();}}}, _callee);}))();
   },
   onShow: function onShow() {
     console.log("发布页面显示");
@@ -467,7 +483,9 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequ
     },
 
     afterRead: function afterRead(event) {var _this$fileList;var
-      file = event.detail.file;
+
+      file =
+      event.detail.file;
       console.log("图片列表", file);
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
       var pics = file.map(function (item) {
@@ -568,6 +586,7 @@ var _delay = __webpack_require__(/*! ../utils/delay */ 76);function _interopRequ
                 wx.requestSubscribeMessage({
                   tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
                   '9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'],
+
                   success: function success(res) {
                     console.log(res);
                     if (res[tempId] == "accept") {

@@ -58,13 +58,22 @@
 				btnList: {
 					// 未审核-按钮
 					btns1: [{
-						text: '删除',
-						color: '#ffffff',
-						background: '#e42112',
-						disabled: false,
-						size: '14px',
-						type: 'delete',
-					}, ],
+							text: '重新编辑', // TODO 重新编辑页面的逻辑           
+							color: '#ffffff',
+							background: '#e6831b',
+							disabled: false,
+							size: '14px',
+							type: 'operation',
+						},
+						{
+							text: '删除',
+							color: '#ffffff',
+							background: '#e42112',
+							disabled: false,
+							size: '14px',
+							type: 'delete',
+						}
+					],
 					// 未成交-按钮
 					btns2: [{
 							text: '成交',

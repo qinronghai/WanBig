@@ -9,6 +9,7 @@
     "van-cell": "/wxcomponents/vant/cell/index",
     "van-cell-group": "/wxcomponents/vant/cell-group/index",
     "uni-goods-desc": "/pages/release/components/uni-goods-desc",
+    "uni-book-release": "/pages/release/components/uni-book-release",
     "van-popup": "/wxcomponents/vant/popup/index",
     "van-icon": "/wxcomponents/vant/icon/index",
     "van-picker": "/wxcomponents/vant/picker/index",

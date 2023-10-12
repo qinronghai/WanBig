@@ -1430,7 +1430,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8518,7 +8518,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8539,14 +8539,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8632,7 +8632,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"WanBig","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -20547,7 +20547,528 @@ module.exports = {
 /* 145 */,
 /* 146 */,
 /* 147 */,
-/* 148 */
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */
+/*!************************************************!*\
+  !*** D:/My-Document/projects/WanBig/config.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var data = {
+  //云开发环境id
+  env: 'bbgu-cloud1-4g5b9j0m40b72a3d',
+  //分享配置
+  share_title: 'BBGU二手书',
+  share_img: '/static/images/poster.jpg',
+  //可以是网络地址，本地文件路径要填绝对位置
+  share_poster: 'https://mmbiz.qpic.cn/mmbiz_jpg/nJPznPUZbhpA064Cl78xxvzBYTDa6O1Kl7RY1K6TerBaXcUf5AoN6x7s8q7xHgeu0Cl5qarPzE6ibbQZasWRErg/640',
+  //必须为网络地址
+  //客服联系方式
+  kefu: {
+    weixin: 'AHAI_1010',
+    qq: '185043843',
+    gzh: 'https://mmbiz.qpic.cn/mmbiz_png/nJPznPUZbhpKCwnibUUqnt7BQXr3MbNsasCfsBd0ATY8udkWPUtWjBTtiaaib6rTREWHnPYNVRZYgAesG9yjYOG7Q/640',
+    //公众号二维码必须为网络地址
+    phone: '' //如果你不设置电话客服，就留空
+  },
+
+  //默认启动页背景图，防止请求失败完全空白
+  //可以是网络地址，本地文件路径要填绝对位置
+  bgurl: '/static/images/startBg.jpg',
+  //BBGU学院与专业
+  campus: [
+  {
+    id: 1,
+    label: '电信',
+    children: [
+    {
+      id: 2,
+      label: '计算机科学与技术' },
+
+    {
+      id: 3,
+      label: '人工智能' },
+
+    {
+      id: 4,
+      label: '物联网工程' },
+
+    {
+      id: 5,
+      label: '电子信息工程（中波）' },
+
+    {
+      id: 6,
+      label: '电子信息工程（普本）' }] },
+
+
+
+  {
+    id: 7,
+    label: '东密',
+    children: [
+    {
+      id: 8,
+      label: '机械工程' },
+
+    {
+      id: 9,
+      label: '车辆工程' },
+
+    {
+      id: 10,
+      label: '机械设计制造及其自化' },
+
+    {
+      id: 11,
+      label: '物联网工程' },
+
+    {
+      id: 12,
+      label: '工程造价' }] },
+
+
+
+  {
+    id: 13,
+    label: '海洋',
+    children: [
+    {
+      id: 14,
+      label: '海洋科学' },
+
+    {
+      id: 15,
+      label: '水产养殖学' },
+
+    {
+      id: 16,
+      label: '生物制药' }] },
+
+
+
+  {
+    id: 17,
+    label: '海运',
+    children: [
+    {
+      id: 18,
+      label: '航海技术' },
+
+    {
+      id: 19,
+      label: '轮机工程' },
+
+    {
+      id: 20,
+      label: '船舶电子电气工程' }] },
+
+
+
+  {
+    id: 21,
+    label: '机船',
+    children: [
+    {
+      id: 22,
+      label: '自动化' },
+
+    {
+      id: 23,
+      label: '车辆工程' },
+
+    {
+      id: 24,
+      label: '船舶与海洋工程' },
+
+    {
+      id: 25,
+      label: '机械工程 ' }] },
+
+
+
+  {
+    id: 26,
+    label: '石化',
+    children: [
+    {
+      id: 27,
+      label: '油气储运工程' },
+
+    {
+      id: 28,
+      label: '化学工程与工艺' },
+
+    {
+      id: 29,
+      label: '能源化学工程' },
+
+    {
+      id: 30,
+      label: '高分子材料与工程 ' }] },
+
+
+
+  {
+    id: 31,
+    label: '食品',
+    children: [
+    {
+      id: 32,
+      label: '食品质量与安全' },
+
+    {
+      id: 33,
+      label: '食品科学与工程' }] },
+
+
+
+  {
+    id: 34,
+    label: '建筑',
+    children: [
+    {
+      id: 35,
+      label: '港口航道与海岸工程' },
+
+    {
+      id: 36,
+      label: '土木工程' }] },
+
+
+
+  {
+    id: 37,
+    label: '资环',
+    children: [
+    {
+      id: 38,
+      label: '测绘工程' },
+
+    {
+      id: 39,
+      label: '地理信息科学' },
+
+    {
+      id: 40,
+      label: '地理科学' }] },
+
+
+
+  {
+    id: 41,
+    label: '理学',
+    children: [
+    {
+      id: 42,
+      label: '物理学' },
+
+    {
+      id: 43,
+      label: '数学与应用数学' }] },
+
+
+
+  {
+    id: 44,
+    label: '经管',
+    children: [
+    {
+      id: 45,
+      label: '旅游管理' },
+
+    {
+      id: 46,
+      label: '物流管理' },
+
+    {
+      id: 47,
+      label: '市场营销' },
+
+    {
+      id: 48,
+      label: '国际经济与贸易' },
+
+    {
+      id: 49,
+      label: '金融工程' },
+
+    {
+      id: 50,
+      label: '财务管理' },
+
+    {
+      id: 51,
+      label: '城市管理' }] },
+
+
+
+  {
+    id: 52,
+    label: '陶设',
+    children: [
+    {
+      id: 53,
+      label: '美术学' },
+
+    {
+      id: 54,
+      label: '视觉传达设计' },
+
+    {
+      id: 55,
+      label: '环境设计' },
+
+    {
+      id: 56,
+      label: '产品设计' }] },
+
+
+
+  {
+    id: 57,
+    label: '人文',
+    children: [
+    {
+      id: 58,
+      label: '舞蹈表演' },
+
+    {
+      id: 59,
+      label: '音乐表演' },
+
+    {
+      id: 60,
+      label: '音乐学' },
+
+    {
+      id: 61,
+      label: '新闻学' },
+
+    {
+      id: 62,
+      label: '汉语国际教育' },
+
+    {
+      id: 63,
+      label: '汉语言文学' }] },
+
+
+
+  {
+    id: 64,
+    label: '外语',
+    children: [
+    {
+      id: 65,
+      label: '英语' },
+
+    {
+      id: 66,
+      label: '泰语' },
+
+    {
+      id: 67,
+      label: '越南语' }] },
+
+
+
+  {
+    id: 68,
+    label: '教育',
+    children: [
+    {
+      id: 69,
+      label: '学前教育' },
+
+    {
+      id: 70,
+      label: '小学教育' }] },
+
+
+
+  {
+    id: 71,
+    label: '体育',
+    children: [
+    {
+      id: 72,
+      label: '体育教育' }] }],
+
+
+
+
+  //配置学院，建议不要添加太多，不然前端不好看
+  college: [
+  {
+    name: '通用',
+    id: -1 },
+
+  {
+    name: '电信',
+    id: 0 },
+
+  {
+    name: '经管',
+    id: 1 },
+
+  {
+    name: '海运',
+    id: 2 },
+
+  {
+    name: '海洋 ',
+    id: 3 },
+
+  {
+    name: '机船',
+    id: 4 },
+
+  {
+    name: '石化',
+    id: 5 },
+
+  {
+    name: '人文',
+    id: 6 },
+
+  {
+    name: '食品',
+    id: 7 },
+
+  {
+    name: '建筑',
+    id: 8 },
+
+  {
+    name: '资环',
+    id: 9 },
+
+  {
+    name: '理学',
+    id: 10 },
+
+  {
+    name: '陶设',
+    id: 11 },
+
+  {
+    name: '外语',
+    id: 12 },
+
+  {
+    name: '教育',
+    id: 13 },
+
+  {
+    name: '东密',
+    id: 14 },
+
+  {
+    name: '体育',
+    id: 15 },
+
+  {
+    name: '其他',
+    id: 16 }],
+
+
+  //成色
+  condition: [
+  {
+    id: 0,
+    name: '全新' },
+
+  {
+    id: 1,
+    name: '优良' },
+
+  {
+    id: 0,
+    name: '轻微磨损' },
+
+  {
+    id: 0,
+    name: '中等磨损' },
+
+  {
+    id: 0,
+    name: '严重磨损' }] };
+
+
+
+//下面的就别动了
+function formTime(creatTime) {
+  var date = new Date(creatTime);
+  var Y = date.getFullYear();
+  var M = date.getMonth() + 1;
+  var D = date.getDate();
+  var H = date.getHours();
+  var m = date.getMinutes();
+  var s = date.getSeconds();
+  if (M < 10) {
+    M = '0' + M;
+  }
+  if (D < 10) {
+    D = '0' + D;
+  }
+  if (H < 10) {
+    H = '0' + H;
+  }
+  if (m < 10) {
+    m = '0' + m;
+  }
+  if (s < 10) {
+    s = '0' + s;
+  }
+  return Y + '-' + M + '-' + D + ' ' + H + ':' + m + ':' + s;
+}
+function days() {
+  var now = new Date();
+  var year = now.getFullYear();
+  var month = now.getMonth() + 1;
+  var day = now.getDate();
+  if (month < 10) {
+    month = '0' + month;
+  }
+  if (day < 10) {
+    day = '0' + day;
+  }
+  var date = year + '' + month + day;
+  return date;
+}
+module.exports = {
+  data: JSON.stringify(data),
+  formTime: formTime,
+  days: days };
+
+/***/ }),
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */
 /*!**********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/icon/index.js ***!
   \**********************************************************************/
@@ -20555,7 +21076,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 149);
+var _component = __webpack_require__(/*! ../common/component */ 175);
 (0, _component.VantComponent)({
   props: {
     dot: Boolean,
@@ -20575,7 +21096,7 @@ var _component = __webpack_require__(/*! ../common/component */ 149);
     } } });
 
 /***/ }),
-/* 149 */
+/* 175 */
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/component.js ***!
   \****************************************************************************/
@@ -20583,7 +21104,7 @@ var _component = __webpack_require__(/*! ../common/component */ 149);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 150);
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 176);
 function mapKeys(source, target, map) {
   Object.keys(map).forEach(function (key) {
     if (source[key]) {
@@ -20629,7 +21150,7 @@ function VantComponent(vantOptions) {
 }
 
 /***/ }),
-/* 150 */
+/* 176 */
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/basic.js ***!
   \************************************************************************/
@@ -20648,7 +21169,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
     } } });exports.basic = basic;
 
 /***/ }),
-/* 151 */
+/* 177 */
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/popup/index.js ***!
   \***********************************************************************/
@@ -20656,8 +21177,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 149);
-var _transition = __webpack_require__(/*! ../mixins/transition */ 152);
+var _component = __webpack_require__(/*! ../common/component */ 175);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 178);
 (0, _component.VantComponent)({
   classes: [
   'enter-class',
@@ -20745,7 +21266,7 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 152);
     } } });
 
 /***/ }),
-/* 152 */
+/* 178 */
 /*!*****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/transition.js ***!
   \*****************************************************************************/
@@ -20754,8 +21275,8 @@ var _transition = __webpack_require__(/*! ../mixins/transition */ 152);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.transition = transition;
-var _utils = __webpack_require__(/*! ../common/utils */ 153);
-var _validator = __webpack_require__(/*! ../common/validator */ 154); // @ts-nocheck
+var _utils = __webpack_require__(/*! ../common/utils */ 179);
+var _validator = __webpack_require__(/*! ../common/validator */ 180); // @ts-nocheck
 var getClassNames = function getClassNames(name) {return {
     enter: "van-".concat(name, "-enter van-").concat(name, "-enter-active enter-class enter-active-class"),
     'enter-to': "van-".concat(name, "-enter-to van-").concat(name, "-enter-active enter-to-class enter-active-class"),
@@ -20870,7 +21391,7 @@ function transition(showDefaultValue) {
 }
 
 /***/ }),
-/* 153 */
+/* 179 */
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/utils.js ***!
   \************************************************************************/
@@ -20878,8 +21399,8 @@ function transition(showDefaultValue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 154);
-var _version = __webpack_require__(/*! ./version */ 155);
+Object.defineProperty(exports, "__esModule", { value: true });exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;exports.requestAnimationFrame = requestAnimationFrame;exports.pickExclude = pickExclude;exports.getRect = getRect;exports.getAllRect = getAllRect;exports.groupSetData = groupSetData;exports.toPromise = toPromise;exports.getCurrentPage = getCurrentPage;Object.defineProperty(exports, "isDef", { enumerable: true, get: function get() {return _validator.isDef;} });var _validator = __webpack_require__(/*! ./validator */ 180);
+var _version = __webpack_require__(/*! ./version */ 181);
 
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
@@ -20972,7 +21493,7 @@ function getCurrentPage() {
 }
 
 /***/ }),
-/* 154 */
+/* 180 */
 /*!****************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/validator.js ***!
   \****************************************************************************/
@@ -21013,7 +21534,7 @@ function isVideoUrl(url) {
 }
 
 /***/ }),
-/* 155 */
+/* 181 */
 /*!**************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/version.js ***!
   \**************************************************************************/
@@ -21021,7 +21542,7 @@ function isVideoUrl(url) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 153);
+Object.defineProperty(exports, "__esModule", { value: true });exports.canIUseModel = canIUseModel;exports.canIUseFormFieldButton = canIUseFormFieldButton;exports.canIUseAnimate = canIUseAnimate;exports.canIUseGroupSetData = canIUseGroupSetData;exports.canIUseNextTick = canIUseNextTick;exports.canIUseCanvas2d = canIUseCanvas2d;exports.canIUseGetUserProfile = canIUseGetUserProfile;var _utils = __webpack_require__(/*! ./utils */ 179);
 function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -21071,7 +21592,7 @@ function canIUseGetUserProfile() {
 }
 
 /***/ }),
-/* 156 */
+/* 182 */
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/index.js ***!
   \************************************************************************/
@@ -21079,8 +21600,8 @@ function canIUseGetUserProfile() {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 149);
-var _shared = __webpack_require__(/*! ./shared */ 157);
+var _component = __webpack_require__(/*! ../common/component */ 175);
+var _shared = __webpack_require__(/*! ./shared */ 183);
 (0, _component.VantComponent)({
   classes: ['active-class', 'toolbar-class', 'column-class'],
   props: Object.assign(Object.assign({}, _shared.pickerProps), { valueKey: {
@@ -21215,7 +21736,7 @@ var _shared = __webpack_require__(/*! ./shared */ 157);
     } } });
 
 /***/ }),
-/* 157 */
+/* 183 */
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/picker/shared.js ***!
   \*************************************************************************/
@@ -21244,7 +21765,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.pickerProp
     value: 44 } };exports.pickerProps = pickerProps;
 
 /***/ }),
-/* 158 */
+/* 184 */
 /*!***********************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/toast/index.js ***!
   \***********************************************************************/
@@ -21252,7 +21773,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.pickerProp
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 149);
+var _component = __webpack_require__(/*! ../common/component */ 175);
 (0, _component.VantComponent)({
   props: {
     show: Boolean,
@@ -21281,7 +21802,7 @@ var _component = __webpack_require__(/*! ../common/component */ 149);
     noop: function noop() {} } });
 
 /***/ }),
-/* 159 */
+/* 185 */
 /*!**************************************************************!*\
   !*** D:/My-Document/projects/WanBig/static/towxml/towxml.js ***!
   \**************************************************************/
@@ -21302,32 +21823,6 @@ Component({
     someData: {} } });
 
 /***/ }),
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */,
-/* 173 */,
-/* 174 */,
-/* 175 */,
-/* 176 */,
-/* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
 /* 186 */,
 /* 187 */,
 /* 188 */,
@@ -21344,7 +21839,33 @@ Component({
 /* 199 */,
 /* 200 */,
 /* 201 */,
-/* 202 */
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */
 /*!************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/button/index.js ***!
   \************************************************************************/
@@ -21352,9 +21873,9 @@ Component({
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _component = __webpack_require__(/*! ../common/component */ 149);
-var _button = __webpack_require__(/*! ../mixins/button */ 203);
-var _version = __webpack_require__(/*! ../common/version */ 155);
+var _component = __webpack_require__(/*! ../common/component */ 175);
+var _button = __webpack_require__(/*! ../mixins/button */ 229);
+var _version = __webpack_require__(/*! ../common/version */ 181);
 var mixins = [_button.button];
 if ((0, _version.canIUseFormFieldButton)()) {
   mixins.push('wx://form-field-button');
@@ -21416,7 +21937,7 @@ if ((0, _version.canIUseFormFieldButton)()) {
     } } });
 
 /***/ }),
-/* 203 */
+/* 229 */
 /*!*************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/vant/mixins/button.js ***!
   \*************************************************************************/
@@ -21424,7 +21945,7 @@ if ((0, _version.canIUseFormFieldButton)()) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.button = void 0;var _version = __webpack_require__(/*! ../common/version */ 155);
+Object.defineProperty(exports, "__esModule", { value: true });exports.button = void 0;var _version = __webpack_require__(/*! ../common/version */ 181);
 var button = Behavior({
   externalClasses: ['hover-class'],
   properties: {
@@ -21465,14 +21986,287 @@ var button = Behavior({
     } } });exports.button = button;
 
 /***/ }),
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */
+/*!****************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/transition/index.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 175);
+var _transition = __webpack_require__(/*! ../mixins/transition */ 178);
+(0, _component.VantComponent)({
+  classes: [
+  'enter-class',
+  'enter-active-class',
+  'enter-to-class',
+  'leave-class',
+  'leave-active-class',
+  'leave-to-class'],
+
+  mixins: [(0, _transition.transition)(true)] });
+
+/***/ }),
+/* 238 */
+/*!***********************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/steps/index.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 175);
+var _color = __webpack_require__(/*! ../common/color */ 239);
+(0, _component.VantComponent)({
+  classes: ['desc-class'],
+  props: {
+    icon: String,
+    steps: Array,
+    active: Number,
+    direction: {
+      type: String,
+      value: 'horizontal' },
+
+    activeColor: {
+      type: String,
+      value: _color.GREEN },
+
+    inactiveColor: {
+      type: String,
+      value: _color.GRAY_DARK },
+
+    activeIcon: {
+      type: String,
+      value: 'checked' },
+
+    inactiveIcon: String },
+
+  methods: {
+    onClick: function onClick(event) {var
+      index = event.currentTarget.dataset.index;
+      this.$emit('click-step', index);
+    } } });
+
+/***/ }),
+/* 239 */
+/*!************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/common/color.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.GRAY_DARK = exports.GRAY = exports.ORANGE = exports.GREEN = exports.WHITE = exports.BLUE = exports.RED = void 0;var RED = '#ee0a24';exports.RED = RED;
+var BLUE = '#1989fa';exports.BLUE = BLUE;
+var WHITE = '#fff';exports.WHITE = WHITE;
+var GREEN = '#07c160';exports.GREEN = GREEN;
+var ORANGE = '#ff976a';exports.ORANGE = ORANGE;
+var GRAY = '#323233';exports.GRAY = GRAY;
+var GRAY_DARK = '#969799';exports.GRAY_DARK = GRAY_DARK;
+
+/***/ }),
+/* 240 */
+/*!*************************************************************************!*\
+  !*** D:/My-Document/projects/WanBig/wxcomponents/vant/stepper/index.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 175);
+var _validator = __webpack_require__(/*! ../common/validator */ 180);
+var LONG_PRESS_START_TIME = 600;
+var LONG_PRESS_INTERVAL = 200;
+// add num and avoid float number
+function add(num1, num2) {
+  var cardinal = Math.pow(10, 10);
+  return Math.round((num1 + num2) * cardinal) / cardinal;
+}
+function equal(value1, value2) {
+  return String(value1) === String(value2);
+}
+(0, _component.VantComponent)({
+  field: true,
+  classes: ['input-class', 'plus-class', 'minus-class'],
+  props: {
+    value: {
+      type: null,
+      observer: 'observeValue' },
+
+    integer: {
+      type: Boolean,
+      observer: 'check' },
+
+    disabled: Boolean,
+    inputWidth: String,
+    buttonSize: String,
+    asyncChange: Boolean,
+    disableInput: Boolean,
+    decimalLength: {
+      type: Number,
+      value: null,
+      observer: 'check' },
+
+    min: {
+      type: null,
+      value: 1,
+      observer: 'check' },
+
+    max: {
+      type: null,
+      value: Number.MAX_SAFE_INTEGER,
+      observer: 'check' },
+
+    step: {
+      type: null,
+      value: 1 },
+
+    showPlus: {
+      type: Boolean,
+      value: true },
+
+    showMinus: {
+      type: Boolean,
+      value: true },
+
+    disablePlus: Boolean,
+    disableMinus: Boolean,
+    longPress: {
+      type: Boolean,
+      value: true },
+
+    theme: String,
+    alwaysEmbed: Boolean },
+
+  data: {
+    currentValue: '' },
+
+  created: function created() {
+    this.setData({
+      currentValue: this.format(this.data.value) });
+
+  },
+  methods: {
+    observeValue: function observeValue() {var _this$data =
+      this.data,value = _this$data.value,currentValue = _this$data.currentValue;
+      if (!equal(value, currentValue)) {
+        this.setData({ currentValue: this.format(value) });
+      }
+    },
+    check: function check() {
+      var val = this.format(this.data.currentValue);
+      if (!equal(val, this.data.currentValue)) {
+        this.setData({ currentValue: val });
+      }
+    },
+    isDisabled: function isDisabled(type) {var _this$data2 =
+      this.data,disabled = _this$data2.disabled,disablePlus = _this$data2.disablePlus,disableMinus = _this$data2.disableMinus,currentValue = _this$data2.currentValue,max = _this$data2.max,min = _this$data2.min;
+      if (type === 'plus') {
+        return disabled || disablePlus || currentValue >= max;
+      }
+      return disabled || disableMinus || currentValue <= min;
+    },
+    onFocus: function onFocus(event) {
+      this.$emit('focus', event.detail);
+    },
+    onBlur: function onBlur(event) {
+      var value = this.format(event.detail.value);
+      this.emitChange(value);
+      this.$emit('blur', Object.assign(Object.assign({}, event.detail), { value: value }));
+    },
+    // filter illegal characters
+    filter: function filter(value) {
+      value = String(value).replace(/[^0-9.-]/g, '');
+      if (this.data.integer && value.indexOf('.') !== -1) {
+        value = value.split('.')[0];
+      }
+      return value;
+    },
+    // limit value range
+    format: function format(value) {
+      value = this.filter(value);
+      // format range
+      value = value === '' ? 0 : +value;
+      value = Math.max(Math.min(this.data.max, value), this.data.min);
+      // format decimal
+      if ((0, _validator.isDef)(this.data.decimalLength)) {
+        value = value.toFixed(this.data.decimalLength);
+      }
+      return value;
+    },
+    onInput: function onInput(event) {var _ref =
+      event.detail || {},_ref$value = _ref.value,value = _ref$value === void 0 ? '' : _ref$value;
+      // allow input to be empty
+      if (value === '') {
+        return;
+      }
+      var formatted = this.filter(value);
+      // limit max decimal length
+      if ((0, _validator.isDef)(this.data.decimalLength) && formatted.indexOf('.') !== -1) {
+        var pair = formatted.split('.');
+        formatted = "".concat(pair[0], ".").concat(pair[1].slice(0, this.data.decimalLength));
+      }
+      this.emitChange(formatted);
+    },
+    emitChange: function emitChange(value) {
+      if (!this.data.asyncChange) {
+        this.setData({ currentValue: value });
+      }
+      this.$emit('change', value);
+    },
+    onChange: function onChange() {var
+      type = this.type;
+      if (this.isDisabled(type)) {
+        this.$emit('overlimit', type);
+        return;
+      }
+      var diff = type === 'minus' ? -this.data.step : +this.data.step;
+      var value = this.format(add(+this.data.currentValue, diff));
+      this.emitChange(value);
+      this.$emit(type);
+    },
+    longPressStep: function longPressStep() {var _this = this;
+      this.longPressTimer = setTimeout(function () {
+        _this.onChange();
+        _this.longPressStep();
+      }, LONG_PRESS_INTERVAL);
+    },
+    onTap: function onTap(event) {var
+      type = event.currentTarget.dataset.type;
+      this.type = type;
+      this.onChange();
+    },
+    onTouchStart: function onTouchStart(event) {var _this2 = this;
+      if (!this.data.longPress) {
+        return;
+      }
+      clearTimeout(this.longPressTimer);var
+      type = event.currentTarget.dataset.type;
+      this.type = type;
+      this.isLongPress = false;
+      this.longPressTimer = setTimeout(function () {
+        _this2.isLongPress = true;
+        _this2.onChange();
+        _this2.longPressStep();
+      }, LONG_PRESS_START_TIME);
+    },
+    onTouchEnd: function onTouchEnd() {
+      if (!this.data.longPress) {
+        return;
+      }
+      clearTimeout(this.longPressTimer);
+    } } });
+
+/***/ }),
+/* 241 */
 /*!************************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/wuss-weapp/w-swiper-out/index.js ***!
   \************************************************************************************/
@@ -21486,7 +22280,7 @@ var button = Behavior({
 
 
 
-var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ../common/extends/baseComponent */ 212));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /*
+var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ../common/extends/baseComponent */ 242));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /*
                                                                                                                                                                                        * @Author: Github.Caitingwei[https://github.com/Caitingwei]
                                                                                                                                                                                        * @Date: 2018-09-06 16:23:23
                                                                                                                                                                                        * @Last Modified by: Github.Caitingwei[https://github.com/Caitingwei]
@@ -21653,7 +22447,7 @@ var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ../common/ex
   } });
 
 /***/ }),
-/* 212 */
+/* 242 */
 /*!**********************************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/wuss-weapp/common/extends/baseComponent.js ***!
   \**********************************************************************************************/
@@ -21661,7 +22455,7 @@ var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ../common/ex
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _index = _interopRequireDefault(__webpack_require__(/*! ../behavior/index */ 213));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _index = _interopRequireDefault(__webpack_require__(/*! ../behavior/index */ 243));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 
 function _default() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -21685,7 +22479,7 @@ function _default() {var options = arguments.length > 0 && arguments[0] !== unde
 };exports.default = _default;
 
 /***/ }),
-/* 213 */
+/* 243 */
 /*!***************************************************************************************!*\
   !*** D:/My-Document/projects/WanBig/wxcomponents/wuss-weapp/common/behavior/index.js ***!
   \***************************************************************************************/

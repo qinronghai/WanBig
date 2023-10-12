@@ -1,6 +1,7 @@
 {
   "setting": {
-    "compileHotReLoad": false
+    "compileHotReLoad": false,
+    "urlCheck": false
   },
   "condition": {
     "miniprogram": {
@@ -104,6 +105,13 @@
         {
           "name": "",
           "pathName": "pages/my-goods/my-goods",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/book-index/book-index",
           "query": "",
           "launchMode": "default",
           "scene": null
