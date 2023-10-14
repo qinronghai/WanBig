@@ -26,7 +26,6 @@
 .index-store-page.data-v-fe52f258 {
   display: flex;
   flex-direction: column;
-  height: auto;
   min-height: 100vh;
   padding: 0 29.79rpx;
   background-color: #f0f0f0;
@@ -38,6 +37,7 @@
 }
 .index-store-page .banner-container.data-v-fe52f258 {
   border-radius: 26.29rpx;
+  margin-bottom: 20.52rpx;
 }
 .index-store-page .banner-container .swiper.data-v-fe52f258 {
   overflow: hidden;
@@ -55,6 +55,11 @@
   justify-content: space-between;
   flex: 1;
   margin-top: 20rpx;
+}
+.index-store-page .main .book-layout.data-v-fe52f258 {
+  position: relative;
+  z-index: 10;
+  width: 100%;
 }
 .index-store-page .main .column_item_0.data-v-fe52f258 {
   width: 48%;
@@ -76,7 +81,7 @@
 .index-store-page .main .column_item_0 .test-style .book-icon.data-v-fe52f258 {
   width: 60rpx;
   height: 60rpx;
-  margin-right: 5px;
+  margin-right: 10rpx;
   border-radius: 10rpx;
 }
 .index-store-page .main .column_item_0 .item.data-v-fe52f258 {
@@ -101,7 +106,7 @@
   overflow: hidden;
   height: auto;
   padding-bottom: 5rpx;
-  font-size: 12px;
+  font-size: 24rpx;
   font-weight: bold;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
@@ -109,20 +114,20 @@
 }
 .index-store-page .main .column_item_0 .item .column-bottom .bottom-text .label.data-v-fe52f258 {
   width: auto;
-  margin-right: 5px;
-  font-size: 10px;
+  margin-right: 10rpx;
+  font-size: 20rpx;
   font-weight: normal;
   background-color: #0095ff;
-  border-radius: 2px;
+  border-radius: 4rpx;
 }
 .index-store-page .main .column_item_0 .item .column-bottom .bottom-text .label .text.data-v-fe52f258 {
-  padding: 2px 4px;
+  padding: 4rpx 8rpx;
   color: #fff;
-  font-size: 10px;
+  font-size: 20rpx;
 }
 .index-store-page .main .column_item_0 .item .box.data-v-fe52f258 {
   display: flex;
-  padding: 5px 0;
+  padding: 10rpx 0;
 }
 .index-store-page .main .column_item_0 .item .box .bottom-price.data-v-fe52f258 {
   display: flex;
@@ -142,7 +147,7 @@
   display: flex;
   align-items: center;
   height: 40rpx;
-  margin-left: 10px;
+  margin-left: 20rpx;
   font-size: 16.02rpx;
   font-weight: normal;
 }
@@ -155,7 +160,7 @@
   margin-top: 4rpx;
   margin-right: 15rpx;
   color: #ed555c;
-  border: 1px solid #ff6565;
+  border: 2rpx solid #ff6565;
   border-radius: 5rpx;
 }
 .index-store-page .main .column_item_0 .item .box .property-label .quality .text-quality.data-v-fe52f258 {
@@ -196,7 +201,7 @@
   overflow: hidden;
   height: auto;
   padding-bottom: 5rpx;
-  font-size: 12px;
+  font-size: 24rpx;
   font-weight: bold;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
@@ -204,20 +209,20 @@
 }
 .index-store-page .column_item_1 .item .column-bottom .bottom-text .label.data-v-fe52f258 {
   width: auto;
-  margin-right: 5px;
-  font-size: 10px;
+  margin-right: 10rpx;
+  font-size: 20rpx;
   font-weight: normal;
   background-color: #0095ff;
-  border-radius: 2px;
+  border-radius: 4rpx;
 }
 .index-store-page .column_item_1 .item .column-bottom .bottom-text .label .text.data-v-fe52f258 {
-  padding: 2px 4px;
+  padding: 4rpx 8rpx;
   color: #fff;
-  font-size: 10px;
+  font-size: 20rpx;
 }
 .index-store-page .column_item_1 .item .box.data-v-fe52f258 {
   display: flex;
-  padding: 5px 0;
+  padding: 10rpx 0;
 }
 .index-store-page .column_item_1 .item .box .bottom-price.data-v-fe52f258 {
   display: flex;
@@ -237,7 +242,7 @@
   display: flex;
   align-items: center;
   height: 40rpx;
-  margin-left: 10px;
+  margin-left: 20rpx;
   font-size: 16.02rpx;
   font-weight: normal;
 }
@@ -250,18 +255,24 @@
   margin-top: 4rpx;
   margin-right: 15rpx;
   color: #ed555c;
-  border: 1px solid #ff6565;
+  border: 2rpx solid #ff6565;
   border-radius: 5rpx;
 }
 .index-store-page .column_item_1 .item .box .property-label .quality .text-quality.data-v-fe52f258 {
   margin: 10rpx;
+}
+.index-store-page .fixed.data-v-fe52f258 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
 }
 .index-store-page .container.data-v-fe52f258 {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 130.39rpx;
-  margin-top: 20.52rpx;
   background-color: white;
   border-radius: 22.78rpx;
 }
@@ -297,7 +308,7 @@
   width: 55rpx;
   height: 8rpx;
   background-color: #fc9b42;
-  border-radius: 25px;
+  border-radius: 50rpx;
 }
 .index-store-page .container .wrap .item.data-v-fe52f258:nth-child(6) {
   margin-right: 0;

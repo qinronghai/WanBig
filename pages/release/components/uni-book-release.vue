@@ -44,8 +44,10 @@
 				<view class="b_card">
 					<view class="b_bar">
 						<view class="b_name">价格(元)</view>
-						<van-stepper :value="price" integer @change="priceChange" min="1" max="100" />
+						<uni-number-box :value="price" integer @change="priceChange" :min="1" :max="100">
+						</uni-number-box>
 					</view>
+
 					<view class="b_border"></view>
 					<view class="b_bar">
 						<view class="b_name">类别</view>
@@ -147,12 +149,13 @@
 	const config = require('../../../config.js');
 	import VanTransition from "../../../wxcomponents/vant/transition/index";
 	import VanSteps from "../../../wxcomponents/vant/steps/index";
-	import VanStepper from "../../../wxcomponents/vant/stepper";
+
+
 	export default {
 		components: {
 			VanTransition,
 			VanSteps,
-			VanStepper
+
 		},
 		data() {
 			return {
@@ -445,10 +448,12 @@
 						isbn: bn
 					})
 					.get({
-						success(res) {
+						async success(res) {
+							console.log(res, "test");
 							//添加到数据库
 							if (res.data == '') {
-								that.addbooks(bn);
+
+								await that.addBooks(bn);
 							} else {
 								uni.hideLoading();
 								that.setData({
@@ -464,42 +469,76 @@
 			},
 
 			//添加书籍信息到数据库
-			addbooks(bn) {
-				let that = this;
-				wx.cloud.callFunction({
-					name: 'books',
-					data: {
-						$url: 'bookinfo',
-						//云函数路由参数
-						isbn: bn
-					},
-					success: (res1) => {
-						if (res1.result.body.status == 0) {
-							db.collection('books').add({
-								data: res1.result.body.result,
-								success: function(res) {
-									that.setData({
-										bookinfo: res1.result.body.result,
-										show_a: false,
-										show_b: true,
-										show_c: false,
-										active: 1
-									});
-									uni.hideLoading();
-								},
-								fail: console.error
-							});
+			async addBooks(isbn) {
+				try {
+					const res1 = await wx.cloud.callFunction({
+						name: 'books2',
+						data: {
+							$url: 'bookinfo',
+							isbn: isbn
 						}
-					},
-					fail: (err) => {
-						console.error(err);
+					});
+					console.log(res1, "yun res1");
+
+					const bookInfo = res1.result.body && res1.result.body.BookInfoEntityList[0];
+
+					if (bookInfo && bookInfo.length !== 0) {
+						const {
+							AUTHOR_NAME: author,
+							BOOK_COVER: pic,
+							BOOK_PRICE: price,
+							PUBLISH_DATE: pubdate,
+							PUBLISH_NAME: publisher,
+							BOOK_NAME: title,
+							BookIntro: summary,
+							Categoryname: keyword
+
+						} = bookInfo;
+
+						const formattedBookInfo = {
+							author,
+							pic: "http:" + pic,
+							price,
+							isbn,
+							pubdate: pubdate.slice(0, 7),
+							publisher,
+							title,
+							summary,
+							keyword
+						};
+
+						console.log('整理后的值', formattedBookInfo);
+
+						const res = await db.collection("books").add({
+							data: formattedBookInfo
+						});
+
+						this.setData({
+							bookinfo: formattedBookInfo,
+							show_a: false,
+							show_b: true,
+							show_c: false,
+							active: 1
+						});
+
+						uni.hideLoading();
+					} else {
+						throw new Error("请求图书信息失败！");
 					}
-				});
+				} catch (err) {
+					console.log(err);
+					uni.hideLoading();
+					uni.showToast({
+						title: '请求图书信息失败, 请重新输入isbn号重试',
+						icon: 'none',
+						duration: 2000
+					});
+				}
 			},
 
 			//价格输入改变
 			priceChange(e) {
-				this.price = e.detail;
+				this.price = e;
 			},
 
 			//时才输入改变

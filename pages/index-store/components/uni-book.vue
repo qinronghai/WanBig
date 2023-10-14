@@ -1,10 +1,11 @@
 <template>
-	<view style="height: 100%">
+
+	<view class="uni-book">
 
 		<!-- <view class="space"></view> -->
 		<!-- 分类导航 -->
-		<view v-if="iscard" :class="scrollTop > 310 ? 'nofixed' : ''"></view>
-		<view v-if="iscard" :class="'kind_contain ' + (scrollTop > 310 ? 'fixed' : '')">
+		<!-- <view v-if="iscard" :class="scrollTop > 600 ? 'nofixed' : ''"></view>
+		<view v-if="iscard" :class="'kind_contain ' + (scrollTop > 600 ? 'fixed' : '')">
 			<view :class="'nav-item ' + (-2 == collegeCur ? 'tab-on' : '')" @tap="selectAll">
 				<view class="nav-text">全部</view>
 			</view>
@@ -30,9 +31,9 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 宫格显示 -->
-		<view v-if="iscard">
+		<!-- 	<view v-if="iscard">
 			<view class="card_grid" v-if="list.length > 0">
 				<block v-for="(item, index) in list" :key="index">
 					<view class="card_one-wrap">
@@ -50,7 +51,7 @@
 					</view>
 				</block>
 			</view>
-		</view>
+		</view> -->
 		<view v-if="!iscard" class="list-layout">
 			<view class="left_scroll">
 				<scroll-view scroll-y class="scroll_content">
@@ -79,8 +80,15 @@
 				<scroll-view scroll-y v-if="list.length > 0" class="scroll_content">
 					<block>
 						<block v-for="(item1, index) in list" :key="index">
+
 							<view class="list_box" @tap="detail" :data-id="item1._id">
-								<image lazy-load class="list_poster" :src="item1.bookinfo.pic"></image>
+								<view class="image-wrap">
+
+									<image lazy-load class="list_poster" :src="item1.bookinfo.pic" mode="aspectFit">
+									</image>
+								</view>
+
+
 								<view class="list_content">
 									<view class="list_word">
 										<view class="list_title text-cut">
@@ -96,7 +104,7 @@
 										</view>
 									</view>
 									<view class="list_between">
-										<view class="list_price">￥{{ item1.price }}.'00'</view>
+										<view class="list_price">￥{{ item1.price }}.00</view>
 										<view class="list_time">{{ morejs.timelog(item1.creat) }}发布</view>
 									</view>
 								</view>
@@ -112,10 +120,10 @@
 		</view>
 
 		<!-- 无内容显示 -->
-		<view v-if="list.length == 0" class="nocontent">
+		<!-- 	<view v-if="list.length == 0" class="nocontent">
 			<image lazy-load src="/static/images/blank.png"></image>
 			<view class="blank_text">这里空空如也~</view>
-		</view>
+		</view> -->
 		<block v-if="list.length > 10">
 			<!-- parse <template is="loadmore" :data="nomore"/> -->
 			<block name="loadmore">
@@ -125,7 +133,7 @@
 				</view>
 			</block>
 		</block>
-		<van-transition :show="scrollTop > 500" custom-class="block" duration="600">
+		<van-transition v-show="scrollTop > 500" custom-class="block" duration="600">
 			<view class="totop" @tap="gotop">
 				<image lazy-load src="/static/images/top.png"></image>
 			</view>
@@ -133,6 +141,7 @@
 		<!-- 首次进入提示收藏小程序 -->
 		<tips />
 	</view>
+
 </template>
 <script module="morejs" lang="wxs" src="../../../common.wxs"></script>
 <script>
@@ -142,12 +151,18 @@
 
 	const _ = db.command;
 	export default {
+		props: ['scrollTop'],
+		watch: {
+			scrollTop(newVal, oldVal) {
+				this.scrollTop = newVal;
+			}
+		},
 		data() {
 			return {
 				college: JSON.parse(config.data).college,
 				collegeCur: -2,
 				showList: false,
-				scrollTop: 0,
+				// scrollTop: 0,
 				nomore: false,
 				list: [],
 				prevIndex: -2,
@@ -162,26 +177,18 @@
 				iscard: '',
 				scrollLeft: '',
 				page: 0,
-				banner: ''
+				banner: '',
+
+
 			};
 		},
-		onLoad() {
-			this.listkind();
-			this.getbanner();
-			this.getList();
-		},
-		//监测屏幕滚动
-		onPageScroll: function(e) {
-			this.scrollTop = parseInt(e.scrollTop * uni.getSystemInfoSync().pixelRatio);
 
-		},
-		onReachBottom() {
-			this.more();
-		},
-		//下拉刷新
-		onPullDownRefresh() {
+		mounted() {
+
 			this.getList();
+			console.log("传过来的", this.scrollTop);
 		},
+
 		onShareAppMessage() {
 			return {
 				title: JSON.parse(config.data).share_title,
@@ -190,6 +197,8 @@
 			};
 		},
 		methods: {
+
+
 			//获取上次布局记忆
 			listkind() {
 				let that = this;
@@ -428,6 +437,12 @@
 		background-color: #f8f8f8;
 	}
 
+	.uni-book {
+		height: calc(100vh - (20rpx));
+		position: relative;
+		width: 100%;
+	}
+
 	.top_box {
 		display: flex;
 		justify-content: space-between;
@@ -606,17 +621,22 @@
 	.list-layout {
 		display: flex;
 		width: 100%;
-		height: calc(100% - (53px + 92px));
+		/* height: calc(100% - (394rpx + 96rpx));
+		 */
+		height: 100%;
 	}
 
 	.left_scroll {
-		width: 160rpx;
+		width: 140rpx;
 		height: 100%;
 	}
 
 	.right_scroll {
 		flex: 1;
+		width: calc(100vw - 160rpx);
+		border-radius: 20rpx;
 		height: 100%;
+
 	}
 
 	.scroll_content {
@@ -753,23 +773,39 @@
 		justify-content: center;
 		align-items: center;
 		box-sizing: border-box;
-		width: calc(100vw - 160rpx);
+		/* width: calc(100vw - 140rpx); */
 		padding: 15rpx 15rpx 15rpx 0;
+		border-radius: 0 10rpx 10rpx 0;
 		background-color: #fff;
 		border-bottom: 1rpx solid #f8f8f8;
+	}
+
+	.image-wrap {
+
+		width: 200rpx;
+		height: 200rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
 	}
 
 	.list_poster {
 		width: 200rpx;
 		height: 200rpx;
+
 	}
 
+
+
 	.list_content {
+
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		box-sizing: border-box;
-		width: calc(100% - 200rpx);
+		/* width: calc(100% - 200rpx); */
+		/* width: 100%; */
 		height: 200rpx;
 		padding: 0 10rpx;
 	}
@@ -866,6 +902,19 @@
 		width: 100%;
 		height: 91rpx;
 		background: #fff;
+	}
+
+	.totop {
+
+		position: fixed;
+		bottom: 100rpx;
+		right: 60rpx;
+
+	}
+
+	.totop image {
+		width: 100rpx;
+		height: 100rpx
 	}
 
 	@import '@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin';

@@ -13,7 +13,7 @@
 			</swiper>
 		</view>
 		<!-- 分类导航图标 -->
-		<view class="container">
+		<view class="container" :class="{fixed:scrollValue>=723}">
 			<view class="wrap">
 				<view class="item" v-for="(item, id) in catgList" :key="id" @click="toggleCategory(id)">
 					<image class="image" :src="item.img" mode="scaleToFill" />
@@ -24,15 +24,16 @@
 		</view>
 		<!-- 商品卡片展示 -->
 		<view class="main">
+			<view class="book-layout" v-if="!showWelcome">
+				<uni-book :scrollTop="scrollValue"></uni-book>
+			</view>
 			<div class="column_item_0">
 				<div class="test-style" @click="toBookMarket" v-if="showWelcome">
 					<image class="book-icon" src="../../static/logo.png" mode="" />
 					welcome
 				</div>
 
-				<view v-if="!showWelcome">
-					<uni-book></uni-book>
-				</view>
+
 
 				<view class="item" v-for="(item, index) in columnLeft" :key="index" @click="toGoodDetailPage(item._id)">
 					<image :src="item.pics" class="column_pic" mode="aspectFill" />
@@ -91,6 +92,8 @@
 		},
 		data() {
 			return {
+				// 将父组件的scrollValue传给子组件
+				scrollValue: 0,
 				searchKey: '',
 				// isShow: 'true',
 				pics: [],
@@ -165,6 +168,21 @@
 			// 刷新页面，重新请求数据
 			// await this.getGoodsInfo();
 
+		},
+		//监测屏幕滚动
+		onPageScroll: function(e) {
+			const scrollTop = parseInt(e.scrollTop * uni.getSystemInfoSync().pixelRatio)
+			this.scrollValue = scrollTop;
+
+		},
+		onReachBottom() {
+			// this.more();
+			console.log("到底了");
+		},
+		//下拉刷新
+		onPullDownRefresh() {
+			// this.getList();
+			console.log("下拉刷新");
 		},
 		onShareAppMessage() {},
 		async onPullDownRefresh() {
@@ -325,7 +343,7 @@
 	.index-store-page {
 		display: flex;
 		flex-direction: column;
-		height: auto;
+
 		min-height: 100vh;
 		padding: 0 29.79rpx;
 		background-color: #f0f0f0;
@@ -338,6 +356,7 @@
 
 		.banner-container {
 			border-radius: 26.29rpx;
+			margin-bottom: 20.52rpx;
 
 			.swiper {
 				overflow: hidden;
@@ -363,6 +382,12 @@
 			// 叉轴的起点对齐 align-items: flex-start;
 			margin-top: 20rpx;
 
+			.book-layout {
+				position: relative;
+				z-index: 10;
+				width: 100%;
+			}
+
 			.column_item_0 {
 				width: 48%;
 				margin: 0 0 15rpx 0;
@@ -385,7 +410,7 @@
 					.book-icon {
 						width: 60rpx;
 						height: 60rpx;
-						margin-right: 5px;
+						margin-right: 10rpx;
 						border-radius: 10rpx;
 					}
 				}
@@ -413,7 +438,7 @@
 							overflow: hidden;
 							height: auto;
 							padding-bottom: 5rpx;
-							font-size: 12px;
+							font-size: 24rpx;
 							font-weight: bold;
 							text-overflow: ellipsis;
 
@@ -422,16 +447,16 @@
 
 							.label {
 								width: auto;
-								margin-right: 5px;
-								font-size: 10px;
+								margin-right: 10rpx;
+								font-size: 20rpx;
 								font-weight: normal;
 								background-color: #0095ff;
-								border-radius: 2px;
+								border-radius: 4rpx;
 
 								.text {
-									padding: 2px 4px;
+									padding: 4rpx 8rpx;
 									color: #fff;
-									font-size: 10px;
+									font-size: 20rpx;
 								}
 							}
 						}
@@ -439,7 +464,7 @@
 
 					.box {
 						display: flex;
-						padding: 5px 0;
+						padding: 10rpx 0;
 
 						.bottom-price {
 							display: flex;
@@ -462,7 +487,7 @@
 							display: flex;
 							align-items: center;
 							height: 40rpx;
-							margin-left: 10px;
+							margin-left: 20rpx;
 							font-size: 16.02rpx;
 							font-weight: normal;
 
@@ -475,7 +500,7 @@
 								margin-top: 4rpx;
 								margin-right: 15rpx;
 								color: #ed555c;
-								border: 1px solid rgb(255, 101, 101);
+								border: 2rpx solid rgb(255, 101, 101);
 								border-radius: 5rpx;
 
 								.text-quality {
@@ -525,7 +550,7 @@
 						overflow: hidden;
 						height: auto;
 						padding-bottom: 5rpx;
-						font-size: 12px;
+						font-size: 24rpx;
 						font-weight: bold;
 						text-overflow: ellipsis;
 
@@ -534,16 +559,16 @@
 
 						.label {
 							width: auto;
-							margin-right: 5px;
-							font-size: 10px;
+							margin-right: 10rpx;
+							font-size: 20rpx;
 							font-weight: normal;
 							background-color: #0095ff;
-							border-radius: 2px;
+							border-radius: 4rpx;
 
 							.text {
-								padding: 2px 4px;
+								padding: 4rpx 8rpx;
 								color: #fff;
-								font-size: 10px;
+								font-size: 20rpx;
 							}
 						}
 					}
@@ -551,7 +576,7 @@
 
 				.box {
 					display: flex;
-					padding: 5px 0;
+					padding: 10rpx 0;
 
 					.bottom-price {
 						display: flex;
@@ -574,7 +599,7 @@
 						display: flex;
 						align-items: center;
 						height: 40rpx;
-						margin-left: 10px;
+						margin-left: 20rpx;
 						font-size: 16.02rpx;
 						font-weight: normal;
 
@@ -587,7 +612,7 @@
 							margin-top: 4rpx;
 							margin-right: 15rpx;
 							color: #ed555c;
-							border: 1px solid rgb(255, 101, 101);
+							border: 2rpx solid rgb(255, 101, 101);
 							border-radius: 5rpx;
 
 							.text-quality {
@@ -599,12 +624,21 @@
 			}
 		}
 
+		.fixed {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			// margin-top: 0;
+			z-index: 20;
+		}
+
 		.container {
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			height: 130.39rpx;
-			margin-top: 20.52rpx;
+
 			background-color: rgb(255, 255, 255);
 			border-radius: 22.78rpx;
 
@@ -641,7 +675,7 @@
 						width: 55rpx;
 						height: 8rpx;
 						background-color: #fc9b42;
-						border-radius: 25px;
+						border-radius: 50rpx;
 					}
 				}
 
