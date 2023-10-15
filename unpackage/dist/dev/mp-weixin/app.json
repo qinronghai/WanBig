@@ -10,7 +10,8 @@
     "pages/auditor/auditor",
     "pages/test/test",
     "pages/my-goods/my-goods",
-    "pages/book-index/book-index"
+    "pages/book-index/book-index",
+    "pages/book-detail/book-detail"
   ],
   "subPackages": [],
   "window": {
