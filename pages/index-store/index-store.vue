@@ -25,7 +25,7 @@
 		<!-- 商品卡片展示 -->
 		<view class="main">
 			<view class="book-layout" v-if="!showWelcome">
-				<uni-book :scrollTop="scrollValue"></uni-book>
+				<uni-book :scrollTop="scrollValue" ref="bookRef"></uni-book>
 			</view>
 			<div class="column_item_0">
 				<div class="test-style" @click="toBookMarket" v-if="showWelcome">
@@ -179,14 +179,19 @@
 			// this.more();
 			console.log("到底了");
 		},
-		//下拉刷新
-		onPullDownRefresh() {
-			// this.getList();
-			console.log("下拉刷新");
-		},
+		// //下拉刷新
+		// onPullDownRefresh() {
+		// 	// this.getList();
+		// 	console.log("下拉刷新");
+		// },
 		onShareAppMessage() {},
 		async onPullDownRefresh() {
-			await this.getGoodsInfo();
+			// 判断是不是书籍组件的刷新
+			if (!this.showWelcome) {
+				await this.$refs.bookRef.getList();
+			} else {
+				await this.getGoodsInfo();
+			}
 			uni.stopPullDownRefresh();
 		},
 		methods: {

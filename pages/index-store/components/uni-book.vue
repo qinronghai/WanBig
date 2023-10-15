@@ -1,57 +1,6 @@
 <template>
 
 	<view class="uni-book">
-
-		<!-- <view class="space"></view> -->
-		<!-- 分类导航 -->
-		<!-- <view v-if="iscard" :class="scrollTop > 600 ? 'nofixed' : ''"></view>
-		<view v-if="iscard" :class="'kind_contain ' + (scrollTop > 600 ? 'fixed' : '')">
-			<view :class="'nav-item ' + (-2 == collegeCur ? 'tab-on' : '')" @tap="selectAll">
-				<view class="nav-text">全部</view>
-			</view>
-			<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft + 'rpx'">
-				<view class="nav-item" @tap="collegeSelect" :data-id="index" v-for="(item, index) in college"
-					:key="index">
-					<view :class="'nav-text ' + (index == collegeCur + 1 ? 'tab-on' : '')">{{ item.name }}</view>
-				</view>
-			</scroll-view>
-			<view class="kind_img" @tap="showlist">
-				<image lazy-load :src="showList ? '/static/images/l_down.png' : '/static/images/l_right.png'" />
-			</view>
-			<view class="kindlist_box" v-if="showList">
-				<view class="kindlist_card">
-					<view class="list_grid">
-						<block v-for="(item, index) in college" :key="index">
-							<view class="list_one" @tap="collegeSelect" :data-id="index" :data-class="item.id">
-								<view :class="index == collegeCur + 1 ? 'list-on' : ''">
-									{{ item.name }}
-								</view>
-							</view>
-						</block>
-					</view>
-				</view>
-			</view>
-		</view> -->
-		<!-- 宫格显示 -->
-		<!-- 	<view v-if="iscard">
-			<view class="card_grid" v-if="list.length > 0">
-				<block v-for="(item, index) in list" :key="index">
-					<view class="card_one-wrap">
-						<view class="card_one" @tap="detail" :data-id="item._id">
-							<image lazy-load class="card_poster" :src="item.bookinfo.pic"></image>
-							<view class="card_title text-cut">{{ item.bookinfo.title }}</view>
-							<view class="card_author text-cut">{{ item.bookinfo.author }}</view>
-							<view class="card_between">
-								<view class="card_price">￥{{ item.price }}.'00'元</view>
-								<view v-if="item.profession" class="card_profession text-cut">
-									{{ item.profession }}
-								</view>
-							</view>
-						</view>
-					</view>
-				</block>
-			</view>
-		</view> -->
 		<view v-if="!iscard" class="list-layout">
 			<view class="left_scroll">
 				<scroll-view scroll-y class="scroll_content">
@@ -151,10 +100,15 @@
 
 	const _ = db.command;
 	export default {
-		props: ['scrollTop'],
+		props: ['scrollTop', 'isTrigger'],
 		watch: {
 			scrollTop(newVal, oldVal) {
 				this.scrollTop = newVal;
+			},
+			isTrigger(newVal, oldVal) {
+				if (newVal) {
+					this.getList();
+				}
 			}
 		},
 		data() {
@@ -199,47 +153,7 @@
 		methods: {
 
 
-			//获取上次布局记忆
-			listkind() {
-				let that = this;
-				uni.getStorage({
-					key: 'iscard',
-					success: function(res) {
-						that.setData({
-							iscard: res.data
-						});
-					},
-					fail() {
-						that.setData({
-							iscard: true
-						});
-					}
-				});
-			},
 
-
-
-			//布局方式选择
-			changeCard() {
-				let that = this;
-				if (that.iscard) {
-					that.setData({
-						iscard: false
-					});
-					uni.setStorage({
-						key: 'iscard',
-						data: false
-					});
-				} else {
-					that.setData({
-						iscard: true
-					});
-					uni.setStorage({
-						key: 'iscard',
-						data: true
-					});
-				}
-			},
 
 			//跳转搜索
 			search() {
@@ -248,15 +162,7 @@
 				});
 			},
 
-			//横向学院选择
-			collegeSelect(e) {
-				console.log(e.currentTarget.dataset.id, '滚动条');
-				this.collegeCur = e.currentTarget.dataset.id - 1;
-				this.scrollLeft = (e.currentTarget.dataset.id - 3) * 100;
-				this.showList = false;
 
-				this.getList();
-			},
 
 			//竖向学院选择
 			collegeSelectY(e) {
@@ -300,7 +206,11 @@
 			},
 
 			//获取图书列表
-			getList() {
+			async getList() {
+				uni.showLoading({
+					title: "数据加载中",
+					mask: true
+				})
 				let that = this;
 				if (that.collegeCur == -2) {
 					var collegeid = _.neq(-2); //除-2之外所有
@@ -309,7 +219,7 @@
 					var collegeid = that.collegeCur + ''; //小程序搜索必须对应格式
 				}
 
-				db.collection('publish')
+				await db.collection('publish')
 					.where({
 						status: 0,
 						// 过期时间
@@ -320,7 +230,7 @@
 					.limit(20)
 					.get({
 						success: function(res) {
-							uni.stopPullDownRefresh(); //暂停刷新动作
+							uni.hideLoading();
 							if (res.data.length == 0) {
 								that.setData({
 									nomore: true,
@@ -343,6 +253,7 @@
 							}
 						}
 					});
+
 			},
 
 			more() {
