@@ -60,11 +60,21 @@
 							</view>
 						</block>
 					</block>
+					<block v-if="list.length > 10">
+						<!-- parse <template is="loadmore" :data="nomore"/> -->
+						<block name="loadmore">
+							<view class="loadmore">
+								<image v-if="!nomore" src="/static/images/more.gif"></image>
+								<view v-if="nomore">已加载到底</view>
+							</view>
+						</block>
+					</block>
 				</scroll-view>
 				<view v-if="list.length == 0" class="nocontent">
 					<image lazy-load src="/static/images/blank.png"></image>
 					<view class="blank_text">这里空空如也~</view>
 				</view>
+
 			</view>
 		</view>
 
@@ -73,15 +83,7 @@
 			<image lazy-load src="/static/images/blank.png"></image>
 			<view class="blank_text">这里空空如也~</view>
 		</view> -->
-		<block v-if="list.length > 10">
-			<!-- parse <template is="loadmore" :data="nomore"/> -->
-			<block name="loadmore">
-				<view class="loadmore">
-					<image v-if="!nomore" src="/static/images/more.gif"></image>
-					<view v-if="nomore">已加载到底</view>
-				</view>
-			</block>
-		</block>
+
 		<van-transition v-show="scrollTop > 500" custom-class="block" duration="600">
 			<view class="totop" @tap="gotop">
 				<image lazy-load src="/static/images/top.png"></image>
@@ -826,6 +828,27 @@
 	.totop image {
 		width: 100rpx;
 		height: 100rpx
+	}
+
+	.loadmore {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px;
+		background-color: #f5f5f5;
+		border-top: 1px solid #ddd;
+		font-size: 14px;
+		color: #999;
+	}
+
+	.loadmore img {
+		width: 20px;
+		height: 20px;
+		margin-right: 8px;
+	}
+
+	.loadmore .nomore {
+		color: #666;
 	}
 
 	@import '@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin';
