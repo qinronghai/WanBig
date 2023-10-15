@@ -11,7 +11,8 @@
     "pages/test/test",
     "pages/my-goods/my-goods",
     "pages/book-index/book-index",
-    "pages/book-detail/book-detail"
+    "pages/book-detail/book-detail",
+    "pages/register/register"
   ],
   "subPackages": [],
   "window": {
