@@ -36,8 +36,8 @@
   background-color: #f0f0f0 !important;
 }
 .index-store-page .banner-container.data-v-fe52f258 {
-  border-radius: 26.29rpx;
   margin-bottom: 20.52rpx;
+  border-radius: 26.29rpx;
 }
 .index-store-page .banner-container .swiper.data-v-fe52f258 {
   overflow: hidden;
@@ -265,8 +265,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
   z-index: 20;
+  width: 100%;
 }
 .index-store-page .container.data-v-fe52f258 {
   display: flex;
