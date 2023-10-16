@@ -10,9 +10,9 @@
     "pages/auditor/auditor",
     "pages/test/test",
     "pages/my-goods/my-goods",
-    "pages/book-index/book-index",
     "pages/book-detail/book-detail",
-    "pages/register/register"
+    "pages/register/register",
+    "pages/my3/my3"
   ],
   "subPackages": [],
   "window": {

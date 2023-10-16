@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "商品详情页",
-  "enablePullDownRefresh": false,
-  "navigationBarBackgroundColor": "#f0f0f0",
-  "usingComponents": {
-    "van-button": "/wxcomponents/vant/button/index"
-  }
-}

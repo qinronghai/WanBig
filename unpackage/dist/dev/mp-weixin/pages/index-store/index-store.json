@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "杂货铺首页",
-  "navigationBarBackgroundColor": "#f0f0f0",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "uni-book": "/pages/index-store/components/uni-book"
-  }
-}

@@ -118,27 +118,25 @@
 			}
 
 		}, {
-			"path": "pages/book-index/book-index",
+			"path": "pages/book-detail/book-detail",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "图书详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "用户注册",
 				"enablePullDownRefresh": false
 			}
 
 		}
 	    ,{
-            "path" : "pages/book-detail/book-detail",
+            "path" : "pages/my3/my3",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "图书详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/register/register",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "用户注册",
+                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             

@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "审核页面",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "van-radio": "/wxcomponents/vant/radio/index",
-    "van-icon": "/wxcomponents/vant/icon/index"
-  }
-}
