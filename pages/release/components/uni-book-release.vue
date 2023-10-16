@@ -419,14 +419,15 @@
 					});
 					return false;
 				}
-				if (!uni.getStorageSync('isRegister')) {
+				if (!uni.getStorageSync('isRegister') && !uni.getStorageSync('openid')) {
 					uni.showModal({
 						title: '温馨提示',
 						content: '该功能需要注册方可使用，是否马上去注册',
 						success(res) {
 							if (res.confirm) {
-								uni.switchTab({
-									url: '/pages/my/my'
+								console.log("点击确定");
+								uni.navigateTo({
+									url: '/pages/register/register'
 								})
 							}
 						}

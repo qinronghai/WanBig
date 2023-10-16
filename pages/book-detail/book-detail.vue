@@ -36,7 +36,8 @@
 				</view>
 			</view>
 			<view class="time_box">
-				<view class="kind">{{ collegeName.name }}类书</view>
+				<!-- TODO 学院 -->
+				<view class="kind">{{ collegeName.name }}-学院同学发布</view>
 				<view class="time">发布于{{ morejs.timelog(publishinfo.creat) }}</view>
 			</view>
 			<view class="address_box" v-if="publishinfo.deliveryid == 0">
@@ -192,7 +193,7 @@
 			};
 		},
 		onLoad(e) {
-			// this.getuserdetail();
+			this.getuserdetail();
 			this.id = e.scene;
 			this.getPublish(e.scene);
 		},
@@ -239,19 +240,13 @@
 					})
 					.get({
 						success: function(res) {
-							const {
-								avatarUrl,
-								nickName
-							} = res.data[0];
-							const info = {
-								avatarUrl,
-								nickName
-							};
+							console.log("获取卖家信息", res);
+
 
 							that.setData({
 								userinfo: res.data[0]
 							});
-							that.userinfo.info = info;
+
 							that.getBook(n);
 						}
 					});

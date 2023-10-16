@@ -3,17 +3,17 @@
 		<view class="top-bg"></view>
 		<view class="contain">
 			<view class="card">
-				<view class="title">登记注册</view>
+				<view class="title">用户注册</view>
 				<view class="user-wrap">
 					<view class="avatar">
 						<image :src="randomAvatarSrc" class="avatar-image" @load="onImageLoad" @error="onImageError">
 						</image>
 					</view>
 					<view class="input-wrapper">
-						<input @input="phInput" :value="randomNickName" maxlength="30" placeholder-class="pache"
+						<input @input="nickInput" :value="randomNickName" maxlength="30" placeholder-class="pache"
 							placeholder="输入您的昵称" />
 					</view>
-					<button type="default" @click="randomAvatarAndName(true)">随机头像</button>
+					<button @click="randomAvatarAndName(true)">随机</button>
 				</view>
 
 				<!-- 学院与专业 -->
@@ -39,7 +39,7 @@
 						placeholder="输入您的QQ号" />
 				</view>
 				<view class="attention">
-					⚠ ️微信号和QQ号必填一个，以便买家联系您。
+					⚠微信和QQ必填一个，以便买家联系您。
 				</view>
 			</view>
 			<!-- 底部确认 -->
@@ -63,11 +63,19 @@
 	import {
 		getRandomNickname
 	} from '../utils/randomNickName.js';
+	import {
+		request
+	} from "../../async/index";
 	export default {
+		watch: {
+			randomNickName(newVal, oldVal) {
+				this.nickname = newVal;
+			}
+		},
 		data() {
 			return {
 				ids: -1,
-				phone: '',
+				nickname: '',
 				wxnum: '',
 				qqnum: '',
 				email: '',
@@ -122,7 +130,16 @@
 				title: "加载头像中",
 				mask: true
 			})
-			this.randomAvatarSrc = "https://picsum.photos/46";
+
+			uni.getImageInfo({
+				src: "https://picsum.photos/46",
+				success: (res) => {
+					this.randomAvatarSrc = res.path;
+					console.log('加载完成的图片 URL:', this.randomAvatarSrc);
+
+				}
+			});
+			// this.randomAvatarSrc = "";
 			this.randomNickName = getRandomNickname();
 		},
 
@@ -147,6 +164,13 @@
 
 			onImageLoad(e) {
 				console.log("图片加载完成", e);
+				uni.getImageInfo({
+					src: this.randomAvatarSrc,
+					success: (res) => {
+						this.randomAvatarSrc = res.path;
+						console.log('加载完成的图片 URL:', this.randomAvatarSrc);
+					}
+				});
 				uni.hideLoading()
 			},
 			onImageError(e) {
@@ -202,8 +226,8 @@
 
 			},
 
-			phInput(e) {
-				this.phone = e.detail.value;
+			nickInput(e) {
+				this.nickname = e.detail.value;
 			},
 
 			wxInput(e) {
@@ -218,7 +242,7 @@
 				this.email = e.detail.value;
 			},
 
-			getUserInfo(e) {
+			async getUserInfo(e) {
 				let that = this;
 				console.log(e);
 				let test = e.detail.errMsg.indexOf('ok');
@@ -229,50 +253,60 @@
 						duration: 2000
 					});
 				} else {
-					that.setData({
+					console.log("first", this.userInfo);
+					await that.setData({
 						userInfo: e.detail.userInfo
 					});
+
 					that.check();
 				}
 			},
 
 			//校检
-			check() {
+			async check() {
 				let that = this;
-				//校检手机
-				let phone = that.phone;
-				if (phone == '') {
+				// 校验用户昵称
+				let nickname = that.nickname;
+				console.log("校验昵称", nickname);
+				if (nickname === '') {
 					uni.showToast({
-						title: '请先获取您的电话',
+						title: "请先输入您的昵称",
+						icon: 'none',
+						duration: 2000
+					})
+					return false;
+				}
+
+				// 处理头像和昵称
+				this.userInfo.avatarUrl = this.randomAvatarSrc;
+				this.userInfo.nickName = this.nickname;
+
+				//校检学院与专业
+				let multiIds = that.multiIds;
+				if (multiIds.length === 0) {
+					uni.showToast({
+						title: '请先选择您的学院与专业',
 						icon: 'none',
 						duration: 2000
 					});
 					return false;
 				}
-				//校检校区
-				let ids = that.ids;
-				let campus = that.campus;
-				if (ids == -1) {
-					uni.showToast({
-						title: '请先获取您的校区',
-						icon: 'none',
-						duration: 2000
-					});
-				}
-				//校检邮箱
-				let email = that.email;
-				if (!/^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/.test(email)) {
-					uni.showToast({
-						title: '请输入常用邮箱',
-						icon: 'none',
-						duration: 2000
-					});
-					return false;
-				}
-				//校检QQ号
+
+				// qq和微信号必填其一检查
 				let qqnum = that.qqnum;
+				let wxnum = that.wxnum;
+
+				if (qqnum === '' && wxnum === '') {
+					uni.showToast({
+						title: 'QQ和微信必填一个哦',
+						icon: 'none',
+						duration: 2000
+					});
+					return false;
+				}
+
 				if (qqnum !== '') {
-					if (!/^\s*[.0-9]{5,11}\s*$/.test(qqnum)) {
+					if (!/^[1-9][0-9]{4,9}$/.test(qqnum)) {
 						uni.showToast({
 							title: '请输入正确QQ号',
 							icon: 'none',
@@ -281,8 +315,7 @@
 						return false;
 					}
 				}
-				//校检微信号
-				let wxnum = that.wxnum;
+
 				if (wxnum !== '') {
 					if (!/^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/.test(wxnum)) {
 						uni.showToast({
@@ -293,52 +326,70 @@
 						return false;
 					}
 				}
+				console.log("检查完毕，提交---", this.randomAvatarSrc)
 				uni.showLoading({
 					title: '正在提交'
 				});
-				db.collection('user').add({
-					data: {
-						phone: that.phone,
-						qqnum: that.qqnum,
-						email: that.email,
-						wxnum: that.wxnum,
-						stamp: new Date().getTime(),
-						info: that.userInfo,
-						useful: true,
-						parse: 0,
-						// 添加字段 学院与专业
-						college: {
-							id: that.multiIds[0].id,
-							name: that.multiIds[0].label
-						},
-						profession: {
-							id: that.multiIds[1].id,
-							name: that.multiIds[1].label
-						}
-					},
-					success: function(res) {
-						console.log(res);
-						db.collection('user')
-							.doc(res._id)
-							.get({
-								success: function(res) {
-									app.globalData.userinfo = res.data;
-									app.globalData.openid = res.data._openid;
-									uni.navigateBack({
-										delta: 1 // 返回的页面数，1表示返回上一个页面
+				// 上传头像到数据库
+				await request(this.randomAvatarSrc, "avatar/").then(result => {
+					if (result.statusCode === 204) {
+						console.log("上传头像成功", result);
+						// 将头像的临时路径替换成服务器存储链接
+						that.userInfo.avatarUrl = result.fileID;
+						// 进行注册用户
+						db.collection('user').add({
+							data: {
+								qqnum: that.qqnum,
+								wxnum: that.wxnum,
+								stamp: new Date().getTime(),
+								info: that.userInfo,
+								useful: true,
+								parse: 0,
+								// 添加字段 学院与专业
+								college: {
+									id: that.multiIds[0].id,
+									name: that.multiIds[0].label
+								},
+								profession: {
+									id: that.multiIds[1].id,
+									name: that.multiIds[1].label
+								},
+								// 添加商品字段
+								dealNum: 0,
+								goodsNum: 0,
+								isAuditor: false,
+								vip: false
+							},
+							success: function(res) {
+								console.log(res);
+								db.collection('user')
+									.doc(res._id)
+									.get({
+										success: function(res) {
+											uni.setStorageSync("userInfo", res.data);
+											uni.setStorageSync("openid", res.data._openid);
+											uni.setStorageSync("isRegister", true);
+											console.log("注册成功")
+											uni.navigateBack({
+												delta: 1 // 返回的页面数，1表示返回上一个页面
+											});
+										}
 									});
-								}
-							});
-					},
+							},
 
-					fail() {
-						uni.hideLoading();
-						uni.showToast({
-							title: '注册失败，请重新提交',
-							icon: 'none'
+							fail() {
+								uni.hideLoading();
+								uni.showToast({
+									title: '注册失败，请重新提交',
+									icon: 'none'
+								});
+							}
 						});
 					}
-				});
+
+
+				})
+
 			}
 		}
 	};
@@ -354,53 +405,53 @@
 		left: 0rpx;
 		width: 100%;
 		height: 500rpx;
+		background-image: linear-gradient(to bottom, #ffc300, transparent);
 		background-repeat: no-repeat;
 		background-size: 100%;
-		background-image: linear-gradient(to bottom, #ffc300, transparent);
 	}
 
 	.contain {
 		position: absolute;
 		top: 140rpx;
 		left: 0rpx;
+		box-sizing: border-box;
 		width: 100%;
 		padding: 0rpx 40rpx 0rpx 40rpx;
-		box-sizing: border-box;
 	}
 
 	.card {
-		border-radius: 32rpx;
-		width: 100%;
-		background: #fff;
-		padding: 50rpx 60rpx;
 		box-sizing: border-box;
+		width: 100%;
+		padding: 50rpx 60rpx;
+		background: #fff;
 		box-shadow: 0 0 20rpx #eee;
+		border-radius: 32rpx;
 	}
 
 	.title {
 		width: 100%;
-		text-align: center;
+		margin-bottom: 30rpx;
 		font-size: 40rpx;
 		font-weight: 600;
 		letter-spacing: 6rpx;
-		margin-bottom: 30rpx;
+		text-align: center;
 	}
 
 	.phone {
+		display: flex;
 		justify-content: space-between;
-		margin-top: 45rpx;
+		align-items: center;
+		box-sizing: border-box;
 		width: 100%;
 		height: 92rpx;
-		background: #f1f3f8;
-		border-radius: 10rpx;
-		text-align: left;
 		padding: 0 20rpx 0 36rpx;
-		box-sizing: border-box;
-		font-size: 32rpx;
-		display: flex;
-		align-items: center;
+		margin-top: 45rpx;
 		color: #8c9aa8;
+		font-size: 32rpx;
+		text-align: left;
+		background: #f1f3f8;
 		border: none;
+		border-radius: 10rpx;
 	}
 
 	.phone::after {
@@ -408,19 +459,19 @@
 	}
 
 	.campus {
-		margin-top: 24rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		box-sizing: border-box;
 		width: 100%;
 		height: 92rpx;
+		padding: 0 20rpx 0 36rpx;
+		margin-top: 24rpx;
+		color: #8c9aa8;
+		font-size: 32rpx;
+		text-align: left;
 		background: #f1f3f8;
 		border-radius: 10rpx;
-		text-align: left;
-		padding: 0 20rpx 0 36rpx;
-		box-sizing: border-box;
-		font-size: 32rpx;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		color: #8c9aa8;
 	}
 
 	.right {
@@ -429,41 +480,46 @@
 	}
 
 	.contact {
-		margin-top: 24rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		box-sizing: border-box;
 		width: 100%;
 		height: 92rpx;
+		padding: 0 36rpx;
+		margin-top: 24rpx;
+		color: #8c9aa8;
+		font-size: 32rpx;
+		text-align: left;
 		background: #f1f3f8;
 		border-radius: 10rpx;
-		text-align: left;
-		padding: 0 36rpx;
-		box-sizing: border-box;
-		font-size: 32rpx;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		color: #8c9aa8;
 	}
 
 	.user-wrap {
 		display: flex;
 		align-items: center;
+
 	}
 
 	.user-wrap button {
-		background-color: #f1f3f8;
-		border: 0px;
 		width: 64px;
 		height: 46px;
+		background-color: #f1f3f8;
+
+		font-size: 32rpx;
+		line-height: 46px;
+
+
 	}
 
 	.avatar {
+		overflow: hidden;
 		width: 45.5px;
 		height: 45.5px;
-		border-radius: 10rpx;
-		overflow: hidden;
 		margin-right: 10px;
-		background-color: #f1f3f8;
 		margin-right: 25rpx;
+		background-color: #f1f3f8;
+		border-radius: 10rpx;
 	}
 
 	.avatar-image {
@@ -473,9 +529,9 @@
 
 	.input-wrapper {
 		width: 285rpx;
-		color: #8c9aa8;
-		background: #f1f3f8;
 		height: 96rpx;
+
+		background: #f1f3f8;
 		border-radius: 10rpx;
 	}
 
@@ -490,24 +546,24 @@
 	}
 
 	.pache {
-		font-size: 32rpx;
 		color: #8c9aa8;
+		font-size: 32rpx;
 	}
 
 	.confirm {
-		margin-top: 50rpx;
-		width: 100%;
-		height: 100rpx;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background: linear-gradient(#fae74e, #ffc300);
-		border-radius: 60rpx;
+		width: 100%;
+		height: 100rpx;
+		margin-top: 50rpx;
 		color: #fff;
 		font-size: 40rpx;
 		letter-spacing: 4rpx;
+		background: linear-gradient(#fae74e, #ffc300);
 		box-shadow: 0 0 20rpx #eee;
 		border: none;
+		border-radius: 60rpx;
 	}
 
 	.confirm::after {
@@ -515,12 +571,12 @@
 	}
 
 	.shen_title {
-		margin-top: 40rpx;
-		font-size: 32rpx;
-		letter-spacing: 2rpx;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		margin-top: 40rpx;
+		font-size: 32rpx;
+		letter-spacing: 2rpx;
 	}
 
 	.about {
@@ -530,22 +586,21 @@
 	}
 
 	.des {
-		padding-left: 30rpx;
 		padding-top: 20rpx;
-		font-size: 26rpx;
+		padding-left: 30rpx;
 		color: #acacac;
-		letter-spacing: 2rpx;
+		font-size: 26rpx;
 		line-height: 42rpx;
+		letter-spacing: 2rpx;
 	}
 
 	/* 新增 */
 	.attention {
-		margin-top: 10px;
 		display: flex;
 		align-items: top;
+		margin-top: 10px;
 		font-size: 26rpx;
 		/* color: #f9f9f9; */
-
 	}
 
 	.attention .about {}
