@@ -1,165 +1,55 @@
 <template>
 	<view class="container">
 		<!-- 背景图 -->
-		<!-- <image class="img-bg" src="../../static/my/bg-img.jpg" mode="widthFix" /> -->
-		<!-- 资料卡片 -->
-		<uni-top-card></uni-top-card>
-		<!-- 菜单导航栏 -->
-		<div class="wrap-nav">
-			<div class="nav-items">
-				<div class="nav-item" v-for="(item, index) in navIconList" :key="index" @click="toggleNav(index)">
-					<image :src="item.url" class="icon"></image>
-					<div class="title">{{ item.title }}</div>
-					<div :class="{ active: item.active === true }"></div>
-				</div>
-			</div>
-			<button class="share-btn" open-type="share"></button>
-		</div>
-		<!-- 我的商品 不采用组件的方式的原因是有bug无法避免 -->
-		<div class="wrap-out-side">
-			<div class="my-goods" :key="numberkey" v-if="index === 0">
-				<!-- 我的商品--未审核 -->
-				<div class="bar">
-					<div class="bar-text">
-						未审核
+		<image class="img-bg" src="../../static/my/bg-img.jpg" mode="widthFix" />
+		<view class="top-card">
+			<!-- 资料卡片 -->
+			<uni-top-card ref="topCardRef"></uni-top-card>
+			<!-- 菜单导航栏 -->
+			<div class="wrap-nav">
+				<div class="nav-items">
+					<div class="nav-item" v-for="(item, index) in navIconList" :key="index" @click="toggleNav(index)">
+						<image :src="item.url" class="icon"></image>
+						<div class="title">{{ item.title }}</div>
+						<div :class="{ active: item.active === true }"></div>
 					</div>
 				</div>
-				<w-swiper-out height="100" v-for="(item, index) in noAudit" :key="index" :swiperOutBtns="btns2"
-					@delete="delete2(item)" buttonWidth="50">
-					<view class="example-content" style="">
-						<div class="wrap">
-							<div class="left">
-								<image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
-							</div>
-							<div class="center">
-								<div class="top">
-									<div class="desc">
-										{{ item.title }}
-									</div>
-									<div class="price">{{ item.price }}</div>
-								</div>
-								<div class="bottom">
-									<div class="label">
-										<div class="transport">
-											<image class="icon-transport" src="../../static/label/transport.svg"
-												mode="" />
-											<span class="text-transport">{{ item.transport }}</span>
-										</div>
-										<div class="address">
-											<image class="icon-address" src="../../static/label/address.svg" mode="" />
-											<span class="text-address">{{ item.address }}</span>
-										</div>
-										<div class="quality">
-											<image class="icon-quality" src="../../static/label/quality.svg" mode="" />
-											<span class="text-quality">{{ item.quality }}</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="right">
-								<van-icon name="arrow-left" />
-							</div>
-						</div>
-					</view>
-				</w-swiper-out>
-				<!-- 我的商品--未成交 -->
-				<div class="bar">
-					<div class="bar-text">
-						未成交
-					</div>
-				</div>
-				<!-- 商品列表 -->
-				<w-swiper-out height="100" v-for="(item, index) in noDealGoodsInfo" :key="index" :swiperOutBtns="btns1"
-					@delete="delete2(item, true)" @added="deal(item, true)" buttonWidth="50">
-					<view class="example-content" style="">
-						<div class="wrap" @click="toGoodDetailPage(item._id)">
-							<div class="left">
-								<image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
-							</div>
-							<div class="center">
-								<div class="top">
-									<div class="desc">
-										{{ item.title }}
-									</div>
-									<div class="price">{{ item.price }}</div>
-								</div>
-								<div class="bottom">
-									<div class="label">
-										<div class="transport">
-											<image class="icon-transport" src="../../static/label/transport.svg"
-												mode="" />
-											<span class="text-transport">{{ item.transport }}</span>
-										</div>
-										<div class="address">
-											<image class="icon-address" src="../../static/label/address.svg" mode="" />
-											<span class="text-address">{{ item.address }}</span>
-										</div>
-										<div class="quality">
-											<image class="icon-quality" src="../../static/label/quality.svg" mode="" />
-											<span class="text-quality">{{ item.quality }}</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="right">
-								<van-icon name="arrow-left" />
-							</div>
-						</div>
-					</view>
-				</w-swiper-out>
-				<!-- 我的商品--已成交 -->
-				<div class="bar">
-					<div class="bar-text">
-						已成交
-					</div>
-				</div>
-				<!-- 商品列表 -->
-				<w-swiper-out height="100" v-for="(item, index) in dealedGoodsInfo" :key="index" :swiperOutBtns="btns2"
-					@delete="delete2(item)" @added="deal(item)" buttonWidth="50">
-					<view class="example-content" style="">
-						<div class="wrap" @click="toGoodDetailPage(item._id)">
-							<div class="left">
-								<image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
-							</div>
-							<div class="center">
-								<div class="top">
-									<div class="desc">
-										{{ item.title }}
-									</div>
-									<div class="price">{{ item.price }}</div>
-								</div>
-								<div class="bottom">
-									<div class="label">
-										<div class="transport">
-											<image class="icon-transport" src="../../static/label/transport.svg"
-												mode="" />
-											<span class="text-transport">{{ item.transport }}</span>
-										</div>
-										<div class="address">
-											<image class="icon-address" src="../../static/label/address.svg" mode="" />
-											<span class="text-address">{{ item.address }}</span>
-										</div>
-										<div class="quality">
-											<image class="icon-quality" src="../../static/label/quality.svg" mode="" />
-											<span class="text-quality">{{ item.quality }}</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="right">
-								<van-icon name="arrow-left" />
-							</div>
-						</div>
-					</view>
-				</w-swiper-out>
+				<button class="share-btn" open-type="share"></button>
 			</div>
-			<div class="tip" v-if="index === 1">
-				<uni-exhibit-tip></uni-exhibit-tip>
-			</div>
-			<div class="contact-author" v-if="index === 2">
-				<uni-exhibit-contact-author></uni-exhibit-contact-author>
-			</div>
-		</div>
+		</view>
+
+		<view class="bottom_box">
+			<view class="bottom_card" @tap="go" data-go="/pages/auditor/auditor" data-status="1">
+				<view class="bottom_1">
+					<image src="/static/images/parse.png"></image>
+					<view>审核管理</view>
+				</view>
+				<image src="/static/images/go.png"></image>
+			</view>
+			<view class="bottom_card" @tap="go" data-go="/pages/kefu/kefu" data-status="2">
+				<view class="bottom_1">
+					<image src="/static/images/kefu.png"></image>
+					<view>联系客服</view>
+				</view>
+				<image src="/static/images/go.png"></image>
+			</view>
+			<view class="bottom_card">
+				<view class="bottom_1">
+					<image src="/static/images/feedback.png"></image>
+					<view>问题反馈</view>
+				</view>
+				<image src="/static/images/go.png"></image>
+				<button open-type="feedback"></button>
+			</view>
+
+			<view class="bottom_card" @tap="go" data-go="/pages/about/about">
+				<view class="bottom_1">
+					<image src="/static/images/guanyu.png"></image>
+					<view>关于程序</view>
+				</view>
+				<image src="/static/images/go.png"></image>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -204,12 +94,12 @@
 					},
 					{
 						url: "../../static/my/tip.svg",
-						title: "使用提示",
-						active: true
+						title: "我的订单",
+						active: false
 					},
 					{
 						url: "../../static/my/contact-author.svg",
-						title: "联系作者",
+						title: "编辑资料",
 						active: false
 					},
 					{
@@ -250,12 +140,18 @@
 		onLoad: async function(option) {
 			// 处理登录请求
 			console.log('打印出上个页面传递的参数。', option.showLogin); //打印出上个页面传递的参数。
+
+
+			// 请求用户信息
+			//this.userInfo = uni.getStorageSync('userInfo');
+
+		},
+		onShow: async function() {
 			// 从缓存中获取openid
 			this.openid = await uni.getStorageSync('openid');
 			console.log("我的--获取openid--成功", this.openid);
-
-			// 请求用户信息
 			this.userInfo = uni.getStorageSync('userInfo');
+			this.$refs.topCardRef.renderPage(this.userInfo.info.nickName, this.userInfo.info.avatarUrl);
 			// 获取我的商品信息
 			await this.getMyGoods(this.openid);
 		},
@@ -381,6 +277,63 @@
 			chenRender() {
 				this.numberkey += 1;
 			},
+			// 判断当前用户是否是审核员
+			async isAuditor() {
+				try {
+					const userInfo = uni.getStorageSync("userInfo");
+					if (userInfo.isAuditor) {
+						uni.navigateTo({
+							url: '/pages/auditor/auditor'
+						})
+					} else {
+						wx.showModal({
+							title: '提示',
+							content: '您还不是审核员，请联系作者申请',
+							success(res) {
+								if (res.confirm) {
+									console.log('用户点击确定')
+									//  TODO跳转到联系作者页面
+								} else if (res.cancel) {
+									console.log('用户点击取消')
+								}
+							}
+						})
+					}
+				} catch (error) {
+					console.log('检查审核员状态失败', error)
+				}
+
+
+			},
+			go(e) {
+				const status = e.currentTarget.dataset.status;
+				if (status == '1' || status == '2') {
+					if (!uni.getStorageSync('isRegister') && !uni.getStorageSync('openid')) {
+						uni.showModal({
+							title: '温馨提示',
+							content: '该功能需要注册方可使用，是否马上去注册',
+							success(res) {
+								if (res.confirm) {
+									uni.navigateTo({
+										url: '/pages/register/register'
+									});
+								}
+							}
+						});
+						return false;
+					}
+				}
+
+				if (status == '1') {
+					this.isAuditor();
+				} else {
+					uni.navigateTo({
+						url: e.currentTarget.dataset.go
+					});
+					console.log("点击了", e.currentTarget.dataset.go)
+				}
+
+			},
 			// 处理切换导航
 			toggleNav(index) {
 
@@ -388,13 +341,24 @@
 				const {
 					title
 				} = this.navIconList[index];
-				console.log("点击了--" + title);
-				if (title === "我的商品") {
+				console.log("点击了--" + title, index);
+				if (index === 0) {
 					uni.navigateTo({
 						url: "/pages/my-goods/my-goods",
 					})
 				}
-				// 点击切换
+				if (index === 1) {
+					uni.navigateTo({
+						url: "/pages/my-orders/my-orders"
+					})
+				}
+				if (index === 2) {
+					uni.navigateTo({
+						url: "/pages/my-edit/my-edit"
+					})
+				}
+
+				/* // 点击切换
 				// 切换之前 激活状态全部为false
 				this.navIconList.forEach(item => {
 					item.active = false;
@@ -402,7 +366,7 @@
 				// 被点击的选项设为true
 				this.navIconList[index].active = true;
 
-				this.index = index;
+				this.index = index; */
 
 			},
 			// 去商品详情页
@@ -485,22 +449,34 @@
 	}
 
 	.container {
+		position: relative;
 		min-height: 100vh;
-		padding: 0 29.79rpx 20px;
+
+		// padding: 0 29.79rpx 20px;
 		background-color: $uni-bg-color-grey;
 
 		.img-bg {
-			width: 100%;
-			border-radius: 10px;
+			width: 100vw;
+			// border-radius: 10px;
+		}
+
+		.top-card {
+			position: absolute;
+			top: 125px;
+			left: 0;
+			width: 100vw;
 		}
 
 		.wrap-nav {
 			position: relative;
+
+			// width: 100vw;
 			height: 70px;
-			padding: 0 25px;
-			margin-top: 10px;
+			padding: 5px 21px 10px 21px;
 			background-color: #fff;
-			border-radius: 10px;
+			border-bottom: 1px solid #e9e9e9;
+
+			// border-radius: 10px;
 
 			.nav-items {
 				display: flex;
@@ -556,181 +532,61 @@
 			}
 		}
 
-		.wrap-out-side {
-			margin-top: 10px;
-			background-color: #e9e9e9;
-
-			.my-goods {
-				background-color: #e9e9e9;
-
-				.bar {
-					display: flex;
-					align-items: center;
-					width: 100%;
-					height: 20px;
-					margin-bottom: 5px;
-					background-color: #ffc300;
-					box-shadow: 1px 1.5px 5px 1px rgb(180, 179, 179);
-					border-radius: 3px;
 
 
-					.bar-text {
-						padding-left: 10px;
-						font-size: 10px;
-						font-weight: bold;
-					}
-				}
 
-				.wrap {
-					display: flex;
-					width: 92.5%;
-					height: 100px;
-					background-color: #fff;
-					box-shadow: 1px 1.5px 5px 1px rgb(180, 179, 179);
-					border-radius: 10px;
+		.bottom_box {
+			display: flex;
+			flex-direction: column;
+			box-sizing: border-box;
+			width: 100%;
+			padding: 0 40rpx;
 
-					.left {
-						padding: 10px;
+			// position: relative;
+			margin-top: 150px;
+			background-color: #fff;
+		}
 
-						.img-good {
-							width: 80px;
-							height: 80px;
-							border-radius: 5px;
-						}
-					}
+		.bottom_card {
+			position: relative;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+			height: 124rpx;
+			background: #fff;
+			border-bottom: 1rpx solid #eee;
+		}
 
-					;
+		.bottom_card button {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			opacity: .01;
+		}
 
-					.center {
-						flex: 1;
+		.bottom_card image {
+			width: 14rpx;
+			height: 25rpx;
+		}
 
-						.top {
-							margin-top: 10px;
+		.bottom_1 {
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
 
-							.desc {
-								display: -webkit-box;
-								overflow: hidden;
-								min-height: 33px;
-								font-size: 13px;
-								font-weight: 500;
-								text-overflow: ellipsis;
+		.bottom_1 image {
+			width: 40rpx;
+			height: 40rpx;
+		}
 
-								-webkit-box-orient: vertical;
-								-webkit-line-clamp: 2;
-							}
-
-							.price {
-								padding: 5px 0 0;
-								color: #d43f3f;
-								font-weight: bold;
-							}
-						}
-
-						.bottom {
-							display: flex;
-							justify-content: space-between;
-
-							.label {
-								position: relative;
-								display: flex;
-								align-items: center;
-								height: 40rpx;
-								font-size: 16.02rpx;
-								font-weight: bolder;
-
-								.transport {
-									display: flex;
-									justify-content: center;
-									align-items: center;
-									height: 30rpx;
-									margin-top: 4rpx;
-									margin-right: 15rpx;
-									background-color: #4da4e2;
-									border-radius: 5rpx;
-
-									.text-transport {
-										margin: 10rpx;
-									}
-
-									.icon-transport {
-										width: 19.28rpx;
-										height: 19.28rpx;
-										margin-left: 10rpx;
-									}
-								}
-
-								.address {
-									display: flex;
-									justify-content: center;
-									align-items: center;
-									height: 30rpx;
-									margin-top: 4rpx;
-									margin-right: 15rpx;
-									background-color: #ffc300;
-									border-radius: 5rpx;
-
-									.text-address {
-										margin: 10rpx;
-									}
-
-									.icon-address {
-										width: 19.28rpx;
-										height: 19.28rpx;
-										margin-left: 10rpx;
-									}
-								}
-
-								.quality {
-									display: flex;
-									justify-content: center;
-									align-items: center;
-									height: 30rpx;
-									margin-top: 4rpx;
-									margin-right: 15rpx;
-									background-color: #ffc300;
-									border-radius: 5rpx;
-
-									.text-quality {
-										margin: 10rpx;
-									}
-
-									.icon-quality {
-										width: 17.52rpx;
-										height: 17.52rpx;
-										margin-left: 10rpx;
-									}
-								}
-							}
-
-							.browse {
-								display: flex;
-								align-items: center;
-								padding-right: 20px;
-
-								.icon-eye {
-									padding-right: 5px;
-								}
-
-								.num {
-									font-size: 10px;
-									text-align: center;
-								}
-							}
-						}
-					}
-
-					.right {
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						width: 25px;
-						background-color: #eee;
-						border-radius: 0 10px 10px 0;
-					}
-				}
-			}
-
-			.contact-author {}
+		.bottom_1 view {
+			padding-left: 30rpx;
+			font-size: 30rpx;
+			letter-spacing: 3rpx;
 		}
 	}
 </style>
