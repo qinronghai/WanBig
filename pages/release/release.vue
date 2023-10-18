@@ -1,154 +1,157 @@
 <template>
-	<div>
+	<div id="page">
 		<div v-if="showPage === 0" class="fake">
 			<towxml :nodes="content" />
 		</div>
-		<view v-else-if="showPage ===1" :key="componentKey" class="container">
-			<!-- 商品描述文本组件 -->
-			<uni-goods-desc v-on:getGoodTitle="getGoodTitle"></uni-goods-desc>
-			<!-- 中间容器 -->
-			<div class="center-wrap">
-				<div class="goods-pictures">
-					<van-uploader class="uploader" max-count="3" multiple="true" :file-list="fileList"
-						@delete="deleteImg" @after-read="afterRead" />
+		<VanTabs :activePage="activePage" animated class="van-tabs" color="#ffc300" swipeable>
+			<VanTab title="商品发布" class="container" color="#ffc300">
+				<!-- <view v-if="showPage ===1" :key="componentKey" class="container"> -->
+				<!-- 商品描述文本组件 -->
+				<uni-goods-desc v-on:getGoodTitle="getGoodTitle" class="uni-goods-desc"></uni-goods-desc>
+				<!-- 中间容器 -->
+				<div class="center-wrap">
+					<div class="goods-pictures">
+						<van-uploader class="uploader" max-count="3" multiple="true" :file-list="fileList" @delete="deleteImg"
+							@after-read="afterRead" />
+					</div>
 				</div>
-			</div>
-			<!-- 底部容器 -->
-			<div class="bottom-wrap">
-				<div class="top-form">
-					<div class="top-form__item price">
-						<div class="left ">
-							<image src="../../static/release/price.svg" class="icon"></image>
-							<div class="txt">价格</div>
-						</div>
-						<div class="input">
-							<input :value="price" confirm-type="done" class="price-input" type="number"
-								placeholder="请输入价格" @confirm="handlePrice" @blur="handlePrice" />
-						</div>
-					</div>
-					<div class="top-form__item contact">
-						<div class="left">
-							<image src="../../static/release/contact.svg" class="icon"></image>
-							<div class="txt">联系方式</div>
-						</div>
-						<div class="input"> <input :value="contact" class="contact-input" placeholder="QQ / WX"
-								@blur="handleContact" @confirm="handleContact" />
-						</div>
-					</div>
-					<div class="top-form__item address">
-						<div class="left">
-							<image src="../../static/release/floor-num.svg" class="icon"></image>
-							<div class="txt">楼号</div>
-						</div>
-						<div class="input">
-							<radio-group class="radio" @change="areaRadioChange">
-								<label class="radio-west">
-									<radio style="transform: scale(0.7)" value="西区" :checked="areaRadio" />西区
-								</label>
-								<label class="radio-west">
-									<radio style="transform: scale(0.7)" value="东区" />东区
-								</label>
-							</radio-group>
-							<div class="input__number"> <input :value="floorNum" confirm-type="done"
-									class="address-input" type="number" placeholder="请输入楼号" @blur="handleFloorNum" />
+				<!-- 底部容器 -->
+				<div class="bottom-wrap">
+					<div class="top-form">
+						<div class="top-form__item price">
+							<div class="left ">
+								<image src="../../static/release/price.svg" class="icon"></image>
+								<div class="txt">价格</div>
+							</div>
+							<div class="input">
+								<input :value="price" confirm-type="done" class="price-input" type="number" placeholder="请输入价格"
+									@confirm="handlePrice" @blur="handlePrice" />
 							</div>
 						</div>
-					</div>
-				</div>
-				<!-- 底部区域 -->
-				<div class="bottom-options">
-					<!-- 商品分类 -->
-					<van-popup duration="900" :show="showGoodsCategory" round position="bottom"
-						custom-style="height: 40%" @close="onCloseGoodsCategory" closeable>
-						<div class="goods-category">
-							<div class="goods-category__item" v-for="item in navList" :key="item.id">
-								<div class="goods-category__item--block" @click="handleCategory(item.id)">
-									<image class="icon" :src="item.img" />
-									<div class="txt" :class="{ active: item.id === clickCateIndex }">{{ item.txt }}
-									</div>
+						<div class="top-form__item contact">
+							<div class="left">
+								<image src="../../static/release/contact.svg" class="icon"></image>
+								<div class="txt">联系方式</div>
+							</div>
+							<div class="input"> <input :value="contact" class="contact-input" placeholder="QQ / WX"
+									@blur="handleContact" @confirm="handleContact" />
+							</div>
+						</div>
+						<div class="top-form__item address">
+							<div class="left">
+								<image src="../../static/release/floor-num.svg" class="icon"></image>
+								<div class="txt">楼号</div>
+							</div>
+							<div class="input">
+								<radio-group class="radio" @change="areaRadioChange">
+									<label class="radio-west">
+										<radio style="transform: scale(0.7)" value="西区" :checked="areaRadio" />西区
+									</label>
+									<label class="radio-west">
+										<radio style="transform: scale(0.7)" value="东区" />东区
+									</label>
+								</radio-group>
+								<div class="input__number"> <input :value="floorNum" confirm-type="done" class="address-input"
+										type="number" placeholder="请输入楼号" @blur="handleFloorNum" />
 								</div>
 							</div>
 						</div>
-					</van-popup>
-					<div class="bottom-options__item category" @click="showPopup">
-						<div class="left">
-							<image src="../../static/release/category.svg" class="icon"></image>
-							<div class="txt">商品分类 (必选)</div>
-						</div>
-						<div class="option">
-							<van-icon v-show="showCategoryArrow" name="arrow" size="18px" />
-							<div v-show="!showCategoryArrow">{{ category }}</div>
-						</div>
 					</div>
-					<!-- 商品成色 -->
-					<van-popup duration="900" :show="showGoodQuality" round position="bottom" custom-style="height: 40%"
-						@close="onCloseGoodQuality" closeable>
-						<div class="goods-quality">
-							<div class="goods-quality__item" v-for="(item, index) in qualityList" :key="index"
-								@click="rightTap(index)">
-								<div class="goods-quality__item--block">
-									<div class="txt" :class="{ active: index === rightIndex }">
-										{{ item.title }}
+					<!-- 底部区域 -->
+					<div class="bottom-options">
+						<!-- 商品分类 -->
+						<van-popup duration="900" :show="showGoodsCategory" round position="bottom" custom-style="height: 40%"
+							@close="onCloseGoodsCategory" closeable>
+							<div class="goods-category">
+								<div class="goods-category__item" v-for="item in navList" :key="item.id">
+									<div class="goods-category__item--block" @click="handleCategory(item.id)">
+										<image class="icon" :src="item.img" />
+										<div class="txt" :class="{ active: item.id === clickCateIndex }">{{ item.txt }}
+										</div>
 									</div>
 								</div>
 							</div>
+						</van-popup>
+						<div class="bottom-options__item category" @click="showPopup">
+							<div class="left">
+								<image src="../../static/release/category.svg" class="icon"></image>
+								<div class="txt">商品分类 (必选)</div>
+							</div>
+							<div class="option">
+								<van-icon v-show="showCategoryArrow" name="arrow" size="18px" />
+								<div v-show="!showCategoryArrow">{{ category }}</div>
+							</div>
 						</div>
-					</van-popup>
-					<div @click="showGoodQualityPopup" class="bottom-options__item">
-						<div class="left">
-							<image src="../../static/release/goods-quality.svg" class="icon"></image>
-							<div class="txt">商品成色</div>
+						<!-- 商品成色 -->
+						<van-popup duration="900" :show="showGoodQuality" round position="bottom" custom-style="height: 40%"
+							@close="onCloseGoodQuality" closeable>
+							<div class="goods-quality">
+								<div class="goods-quality__item" v-for="(item, index) in qualityList" :key="index"
+									@click="rightTap(index)">
+									<div class="goods-quality__item--block">
+										<div class="txt" :class="{ active: index === rightIndex }">
+											{{ item.title }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</van-popup>
+						<div @click="showGoodQualityPopup" class="bottom-options__item">
+							<div class="left">
+								<image src="../../static/release/goods-quality.svg" class="icon"></image>
+								<div class="txt">商品成色</div>
+							</div>
+							<div class="option">
+								<van-icon v-show="showQualityArrow" name="arrow" size="18px" />
+								<div v-show="!showQualityArrow">{{ quality }}</div>
+							</div>
 						</div>
-						<div class="option">
-							<van-icon v-show="showQualityArrow" name="arrow" size="18px" />
-							<div v-show="!showQualityArrow">{{ quality }}</div>
+						<!-- 出/蹲 -->
+						<div class="bottom-options__item need">
+							<div class="left">
+								<image src="../../static/release/goods-need.svg" class="icon"></image>
+								<div class="txt">出/蹲</div>
+							</div>
+							<div class="options">
+								<radio-group class="radio-group__need" @change="needRadioChange">
+									<label class="radio-sell">
+										<radio value="出" :checked="needRadio" style="transform: scale(0.7)" />出
+									</label>
+									<label class="radio">
+										<radio value="蹲" style="transform: scale(0.7)" />蹲
+									</label>
+								</radio-group>
+							</div>
 						</div>
 					</div>
-					<!-- 出/蹲 -->
-					<div class="bottom-options__item need">
-						<div class="left">
-							<image src="../../static/release/goods-need.svg" class="icon"></image>
-							<div class="txt">出/蹲</div>
-						</div>
-						<div class="options">
-							<radio-group class="radio-group__need" @change="needRadioChange">
-								<label class="radio-sell">
-									<radio value="出" :checked="needRadio" style="transform: scale(0.7)" />出
-								</label>
-								<label class="radio">
-									<radio value="蹲" style="transform: scale(0.7)" />蹲
-								</label>
-							</radio-group>
-						</div>
+				</div>
+				<!-- 送货方式 -->
+				<div class="transport">
+					<div class="left">
+						<image src="../../static/release/transport.svg" class="icon"></image>
+						<div class="txt">送货</div>
+					</div>
+					<div class="options">
+						<radio-group @change="transportRadioChange">
+							<label class="radio-sell">
+								<radio value="自提" :checked="transportRadio" style="transform: scale(0.7)" />自提
+							</label>
+							<label class="radio">
+								<radio value="配送" style="transform: scale(0.7)" />配送
+							</label>
+						</radio-group>
 					</div>
 				</div>
-			</div>
-			<!-- 送货方式 -->
-			<div class="transport">
-				<div class="left">
-					<image src="../../static/release/transport.svg" class="icon"></image>
-					<div class="txt">送货</div>
-				</div>
-				<div class="options">
-					<radio-group @change="transportRadioChange">
-						<label class="radio-sell">
-							<radio value="自提" :checked="transportRadio" style="transform: scale(0.7)" />自提
-						</label>
-						<label class="radio">
-							<radio value="配送" style="transform: scale(0.7)" />配送
-						</label>
-					</radio-group>
-				</div>
-			</div>
-			<!-- 提交按钮 -->
-			<view class="submit_btn">
-				<button class="btn" type="primary" @click="handleSubmitBtn">提交审核</button>
-			</view>
-		</view>
-		<!-- 图书上架  -->
-		<view v-else-if="showPage === 2" class="">
-			<uni-book-release></uni-book-release>
-		</view>
+				<!-- 提交按钮 -->
+				<view class="submit_btn">
+					<button class="btn" type="primary" @click="handleSubmitBtn">提交审核</button>
+				</view>
+			</VanTab>
+			<VanTab title="图书发布"><!-- 图书上架  -->
+				<!-- <view v-else-if="showPage === 2" class=""> -->
+				<uni-book-release></uni-book-release>
+			</VanTab>
+		</VanTabs>
 	</div>
 </template>
 
@@ -158,6 +161,8 @@
 	import VanIcon from "../../wxcomponents/vant/icon";
 	import VanPopup from "../../wxcomponents/vant/popup/index";
 	import VanPicker from "../../wxcomponents/vant/picker";
+	import VanTab from "../../wxcomponents/vant/tab/index.js";
+	import VanTabs from "../../wxcomponents/vant/tabs/index.js";
 	import Toast from "../../wxcomponents/vant/toast";
 	import {
 		request
@@ -177,12 +182,16 @@
 			VanPopup,
 			VanIcon,
 			VanPicker,
+			VanTab,
+			VanTabs,
 			Toast,
 			towxml
 		},
 		data() {
 			return {
 				content: '',
+				activePage: 1,
+				current: 0,
 				navList: [{
 						id: 1,
 						img: "../../static/category-nav/books.svg",
@@ -330,6 +339,11 @@
 		},
 		onShareAppMessage() {},
 		methods: {
+			onClickItem(e) {
+				if (this.current != e.currentIndex) {
+					this.current = e.currentIndex;
+				}
+			},
 			getGoodTitle: function(title) {
 				// title就是子组件传过来的值
 				console.log('des组件传title值过来了--', title);
@@ -630,7 +644,10 @@
 								need: this.need,
 								views: this.views,
 								releaseTime: this.releaseTime,
-								userInfo: userInfo,
+								user: {
+									id: userInfo._id,
+									openid: userInfo._openid
+								},
 								audited: this.audited,
 								buy: false,
 								buyTime: this.buyTime,
@@ -724,12 +741,30 @@
 </script>
 
 <style lang="scss" scoped>
+	#page {
+		background-color: #fff;
+	}
+
+	.uni-goods-desc {
+		padding: 0;
+		width: 100vw;
+	}
+
+	.tabs-index--wan-tabs__wrap {
+		background-color: #fff !important;
+	}
+
 	.container {
 		min-height: 100%;
-		padding: 0 29.79rpx;
-		background-color: $uni-bg-color-grey;
+		// padding: 0 29.79rpx;
+		// padding: 0 30rpx;
+		// background-color: $uni-bg-color-grey;
+		box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
+		background: #f6f7fa;
 
 		.center-wrap {
+			padding: 0 30rpx;
+
 			.goods-pictures {
 				display: flex;
 				justify-content: center;
@@ -743,6 +778,8 @@
 		}
 
 		.bottom-wrap {
+			padding: 0 30rpx;
+
 			.top-form {
 				margin-top: 10px;
 				background-color: rgb(255, 255, 255);
@@ -952,6 +989,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			margin: 0 30rpx;
 			padding: 15px 15px;
 			margin-top: 10px;
 			font-size: 12px;
@@ -981,11 +1019,18 @@
 			padding: 20px 0;
 
 			.btn {
-				color: #000;
-				font-style: italic;
-				font-weight: bold;
-				background-color: #ffc300;
-				border-radius: 10px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: calc(100vw - 60rpx);
+				height: 80rpx;
+				color: #fff;
+				font-size: 32rpx;
+				font-weight: 500;
+				letter-spacing: 4rpx;
+				background: #ffc300;
+				border: none;
+				border-radius: 40rpx;
 			}
 		}
 	}

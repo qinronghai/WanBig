@@ -3,7 +3,6 @@
 		<view class="top_steps">
 			<van-steps :steps="steps" :active="active" active-color="#000000" />
 		</view>
-		<view style="height: 66.8px"></view>
 		<!-- 步骤一 -->
 		<van-transition :show="show_a" name="fade-right" custom-class="block" :duration="entime">
 			<view class="a_contain">
@@ -64,8 +63,8 @@
 						<view class="b_border"></view>
 						<view class="b_bar">
 							<view class="b_name">选择学院</view>
-							<picker mode="multiSelector" @change="bindMultiPickerChange"
-								@columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="newArr">
+							<picker mode="multiSelector" @change="bindMultiPickerChange" @columnchange="bindMultiPickerColumnChange"
+								:value="multiIndex" :range="newArr">
 								<view class="b_picker">
 									<block v-if="multiIndex[0] !== -1">
 										当前选择：{{ newArr[0][multiIndex[0]] }}--{{ newArr[1][multiIndex[1]] }}</block>
@@ -113,8 +112,7 @@
 					</view>
 					<view class="b_notes">
 						<view class="b_text">
-							<textarea :value="notes" @input="noteInput" maxlength="50"
-								placeholder="请随便说点相关的"></textarea>
+							<textarea :value="notes" @input="noteInput" maxlength="50" placeholder="请随便说点相关的"></textarea>
 							<view class="b_less">{{ note_counts }}/50</view>
 						</view>
 					</view>
@@ -737,10 +735,10 @@
 	}
 
 	.top_steps {
-		position: fixed;
+		position: relative;
 		top: 0rpx;
 		left: 0rpx;
-		z-index: 9;
+		/* z-index: 9; */
 		width: 100%;
 	}
 
@@ -750,7 +748,7 @@
 		align-items: center;
 		box-sizing: border-box;
 		width: 100%;
-		padding: 32rpx;
+		padding: 20rpx 32rpx;
 		background: #fff;
 		box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
 	}
@@ -824,7 +822,8 @@
 		display: flex;
 		justify-content: center;
 		width: 100%;
-		padding-top: 50rpx;
+		background-color: #f6f7fa;
+		/* padding-top: 30rpx; */
 	}
 
 	.a_sao button {
@@ -837,7 +836,7 @@
 		font-size: 32rpx;
 		font-weight: 500;
 		letter-spacing: 4rpx;
-		background: #fbbd08;
+		background: #ffc300;
 		border: none;
 		border-radius: 40rpx;
 	}

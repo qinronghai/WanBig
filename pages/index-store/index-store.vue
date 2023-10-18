@@ -1,8 +1,8 @@
 <template>
 	<view class="index-store-page">
 		<!-- 搜索框 -->
-		<van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @change="searchOnChange"
-			@search="toSearchPage" bind:cancel="onCancel" />
+		<van-search :value="searchKey" placeholder="请输入搜索关键词" show-action @change="searchOnChange" @search="toSearchPage"
+			bind:cancel="onCancel" />
 		<!-- 轮播图 -->
 		<view class="banner-container">
 			<swiper class="swiper" autoplay circular>
@@ -51,8 +51,7 @@
 				</view>
 			</div>
 			<div class="column_item_1">
-				<view class="item" v-for="(item, index) in columnRight" :key="index"
-					@click="toGoodDetailPage(item._id)">
+				<view class="item" v-for="(item, index) in columnRight" :key="index" @click="toGoodDetailPage(item._id)">
 					<image :src="item.pics" class="column_pic" mode="aspectFill" />
 					<div class="column-bottom">
 						<div class="bottom-text">
@@ -323,7 +322,8 @@
 			toGoodDetailPage(goodId) {
 				console.log(goodId);
 				uni.navigateTo({
-					url: '/pages/goods-detail/goods-detail?goodId=' + goodId
+					url: `/pages/goods-detail/goods-detail?goodId=${goodId}&from=index`
+
 				});
 			}
 		},
