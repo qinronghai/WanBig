@@ -837,9 +837,9 @@
 						}
 
 						.input {
-							width: 80px;
-							text-align: right;
-							font-weight: 500;
+							// width: 80px;
+							// text-align: right;
+							// font-weight: 500;
 						}
 					}
 

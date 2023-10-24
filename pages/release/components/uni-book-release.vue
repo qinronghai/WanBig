@@ -46,8 +46,11 @@
 							<image src="../../../static/release/price.svg" class="icon"></image>
 							<view class="b_name price">价格</view>
 						</view>
-						<uni-number-box :value="price" integer @change="priceChange" :min="1" :max="100">
-						</uni-number-box>
+						<view class="b_input">
+
+							<uni-number-box :value="price" integer @change="priceChange" :min="1" :max="100">
+							</uni-number-box>
+						</view>
 					</view>
 					<view class="b_border"></view>
 					<view class="b_bar">
@@ -997,6 +1000,10 @@
 		font-size: 30rpx;
 	}
 
+	.b_input {
+		font-weight: bold;
+	}
+
 	.kind-group {
 		display: flex;
 	}
@@ -1018,8 +1025,10 @@
 		font-weight: 700;
 	}
 
-	.b_name.price {
-		font-weight: 700;
+	/* 价格的粗体显示 */
+	/deep/.uni-numbox__value {
+		font-weight: bold;
+
 	}
 
 	.b_picker {
