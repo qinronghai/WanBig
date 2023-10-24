@@ -14,6 +14,9 @@
 
 /* 主题颜色变量 */
 // $uni-zt-color-store: #ffc300; //杂货铺主题颜色
+$global-color: #ffc300; // 全局主题色
+$global-bg-color: #f6f6f6; // 全局背景色
+$global-price-color: rgb(255, 0, 0); // 价格字体颜色
 
 /* 文字基本颜色 */
 // $uni-text-color: #000; //基本色
@@ -35,7 +38,7 @@ $uni-border-color: #c8c7cc;
 /* 文字尺寸 */
 $uni-font-size-sm: 12px;
 $uni-font-size-base: 14px;
-$uni-font-size-lg: 16;
+$uni-font-size-lg: 16px;
 
 /* 图片尺寸 */
 $uni-img-size-sm: 20px;
@@ -68,3 +71,10 @@ $uni-color-subtitle: #555; // 二级标题颜色
 $uni-font-size-subtitle: 26px;
 $uni-color-paragraph: #3f536e; // 文章段落颜色
 $uni-font-size-paragraph: 15px;
+
+
+/* 发布页面相关 */
+$fb-box-shadow: 0 0 20rpx #ebebeb;  // 盒子块阴影
+$fb-box-radius: 20rpx; // 盒子块圆角
+$fb-box-padding: 0 30rpx; // 盒子左右边距
+

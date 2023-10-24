@@ -339,12 +339,12 @@
 		flex-direction: column;
 		min-height: 100vh;
 		padding: 0 29.79rpx;
-		background-color: #f0f0f0;
+		background-color: $global-bg-color;
 
 		/deep/ .van-search {
 			padding: 0;
 			padding: 10rpx 0 17.52rpx 0;
-			background-color: #f0f0f0 !important;
+			background-color: $global-bg-color !important;
 		}
 
 		.banner-container {
