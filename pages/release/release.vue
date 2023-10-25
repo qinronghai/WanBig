@@ -9,7 +9,7 @@
 			<!-- 商品发布 -->
 			<VanTab title="商品发布" class="good-container" color="#ffc300">
 				<!-- 商品描述文本组件 -->
-				<uni-goods-desc v-on:getGoodTitle="getGoodTitle" class="uni-goods-desc"></uni-goods-desc>
+				<uni-goods-desc ref="descRef" v-on:getGoodTitle="getGoodTitle" class="uni-goods-desc"></uni-goods-desc>
 				<!-- 照片部分 -->
 				<div class="center-wrap">
 					<div class="goods-pictures shadow">
@@ -83,7 +83,6 @@
 								</div>
 							</div>
 						</van-popup>
-
 					</div>
 				</div>
 				<!-- 配送相关 -->
@@ -100,34 +99,16 @@
 									<radio color="#ffc300" value="自提" :checked="deliveryRadio" style="transform: scale(0.7);" />自提
 								</label>
 								<label class="radio">
-									<radio color="#ffc300" value="配送" style="transform: scale(0.7);" />配送
+									<radio color="#ffc300" value="配送" :checked="!deliveryRadio" style="transform: scale(0.7);" />配送
 								</label>
 							</radio-group>
 						</div>
 					</div>
-					<!-- 楼号 -->
+					<!-- 详细地址 -->
 					<div class="floor-num" v-if="delivery == '自提'">
-						<!-- <div class="left">
-							<image src="../../static/release/floor-num.svg" class="icon"></image>
-							<div class="txt">楼号</div>
-						</div> -->
 						<view class="input-place">
 							<input maxlength="20" placeholder="请输入您的详细地址" :value="place" @input="placeInput" />
 						</view>
-						<!-- <div class="input">
-							<radio-group class="radio" @change="areaRadioChange">
-								<label class="radio-west">
-									<radio color="#ffc300" style="transform: scale(0.7);" value="西区" :checked="areaRadio" />西区
-								</label>
-								<label class="radio-west">
-									<radio color="#ffc300" style="transform: scale(0.7);" value="东区" />东区
-								</label>
-							</radio-group>
-							<div class="input__number"> <input :value="floorNum" confirm-type="done" class="place-input" type="number"
-									placeholder="请输入楼号" @blur="handleFloorNum" />
-							</div>
-							
-						</div> -->
 					</div>
 				</div>
 				<!-- 商品备注 和 提示 -->
@@ -199,10 +180,9 @@
 		},
 		data() {
 			return {
-				dura: 14, // 发布时长
-				content: '',
+				content: '', //towxml内容
 				activePage: 1, // 切换发布
-				current: 0,
+				// current: 0,
 				navList: [{
 						id: 1,
 						img: "../../static/category-nav/books.svg",
@@ -251,46 +231,42 @@
 						title: "明显痕迹",
 					},
 				],
-				// 控制真页面切换 0：fack页面， 1：商品发布页面，2：图书发布页面
-				showPage: 2,
-				// 显示控制
+
+				// 显示控制-show
+				showPage: 2, // 控制真页面切换 0：fack页面， 1：商品发布页面，2：图书发布页面
 				showGoodsCategory: false,
 				showGoodQuality: false,
 				showCategoryArrow: true,
 				showQualityArrow: true,
 
-				// 索引判断
+				// 索引判断-index
 				rightIndex: 0,
 				clickCateIndex: 0,
 
-				// 复选框控制
+				// 复选框控制-radio
 				areaRadio: true,
-				// needRadio: true,
 				deliveryRadio: true,
 
 				// 文本检测通过反馈
 				ischeckText: false,
 
-				// 商品图片信息
-				fileList: [],
-				category: '其他宝贝',
-				condition: '全新',
-				// need: '出',
-				title: '',
-				price: 15,
-				area: '西区',
+				// 商品信息相关
+				fileList: [], // 图片
+				category: '', // 分类
+				condition: '全新', // 成色
+				title: '', // 商品描述
+				price: 15, // 加噶
 				place: "", // 自提地址
-				floorNum: '',
-				// contact: '',
-				// views: 0,
-				creat: '',
-				delivery: '自提',
-				userInfo: {},
-
-				audited: false,
+				creat: '', // 发布时间
+				delivery: '自提', // 取货方式
+				audited: false, // 是否审核
+				notes: '', // 备注
 				note_counts: 0, // 备注字数
-				// buy: false,
-				// buyTime: '1',
+				dura: 14, // 发布时长(天)
+
+
+				// 用户信息
+				userInfo: {},
 			};
 		},
 		async onLoad(options) {
@@ -373,17 +349,17 @@
 					notes: e.detail.value
 				});
 			},
-			onClickItem(e) {
+			/* onClickItem(e) {
 				if (this.current != e.currentIndex) {
 					this.current = e.currentIndex;
 				}
-			},
+			}, */
+			// 获取子组件的商品描述
 			getGoodTitle: function(title) {
-				// title就是子组件传过来的值
-				console.log('des组件传title值过来了--', title);
+				// 子组件传过来的title
 				this.title = title
 			},
-
+			// 删除图片
 			deleteImg(event) {
 				// 获取点击图片的下标：
 				const index = event.detail.index;
@@ -420,6 +396,7 @@
 
 			deliveryRadioChange(e) {
 				this.delivery = e.detail.value;
+				this.deliveryRadio = !this.deliveryRadio;
 				console.log("改变--运送方式：", e.detail.value);
 			},
 
@@ -494,43 +471,54 @@
 			// 	this.need = e.detail.value;
 			// },
 
+			// 订阅审核通知的消息
 			async subscribNews() {
+				console.log('检查');
 				let tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
 				let _this = this;
-				wx.requestSubscribeMessage({
-					tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
-						'9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'
-					],
-					success: res => {
-						console.log(res);
-						if (res[tempId] == "accept") {
-							wx.showToast({
-								title: '订阅成功！',
-								duration: 1000,
-								success() {
-									console.log('订阅消息--成功');
-									// 点击订阅成功后再去提交审核
-									_this.submitAudit();
-								}
-							})
-						} else {
-							wx.showModal({
-								content: '未授权发送通知，您将收不到通知！',
-								confirmText: '重新授权',
-								cancelText: '取消授权',
-								success: (res) => {
-									if (res.confirm) {
-										// 重新授权
-										_this.subscribNews();
-									} else {
-										console.log('用户取消授权');
+				return new Promise((resolve, rej) => {
+					wx.requestSubscribeMessage({
+						tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
+							'9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'
+						],
+						success: res => {
+							console.log(res);
+							if (res[tempId] == "accept") {
+								wx.showToast({
+									title: '订阅成功！',
+									duration: 1000,
+									success() {
+										console.log('订阅消息--成功');
+										// 点击订阅成功后再去提交审核
+										resolve();
+										// return true;
+										// _this.submitAudit();
 									}
-								}
-							})
+								})
 
+							} else {
+								wx.showModal({
+									content: '未授权发送通知，您将收不到通知！',
+									confirmText: '重新授权',
+									cancelText: '取消授权',
+									success: (res) => {
+										if (res.confirm) {
+											// 重新授权
+											_this.subscribNews();
+										} else {
+											console.log('用户取消授权');
+										}
+									}
+								})
+
+							}
+						},
+						fail: err => {
+							console.log(err);
 						}
-					}
+					})
 				})
+
 			},
 
 			async submitAudit() {
@@ -543,57 +531,218 @@
 					this.upLoadImage();
 				}
 			},
-
-			async handleSubmitBtn() {
-
+			// 检查登录状态
+			async checkLoginStatus() {
+				// 1. 获取用户信息
 				let userInfo = uni.getStorageSync('userInfo');
-				console.log('----teest---', userInfo);
 				let _this = this;
-				if (userInfo.nickName == null) {
-					console.log("您还未登录，请登录之后，再提交审核。");
-					wx.showModal({
-						title: '提示',
-						content: '您还未登录，请登录之后，再提交审核',
-						success(res) {
-							if (res.confirm) {
-								console.log('用户点击确定')
-								uni.switchTab({
-									url: '/pages/my/my'
-								});
-							} else if (res.cancel) {
-								console.log('用户点击取消')
-							}
+				// 2. 判断用户是否存在
+				try {
+					if (userInfo.info.nickName == null) {
+						const showModalRes = await this.$uniAsync.showModal({
+							title: '提示',
+							content: '您还未登录，请登录之后，再提交审核',
+						})
+						if (showModalRes.confirm) {
+							uni.switchTab({
+								url: '/pages/my-copy/my'
+							});
+						} else if (showModalRes.cancel) {
+							console.log('用户点击取消')
+							return false;
 						}
-					})
-				} else {
-					this.openid = uni.getStorageSync('openid');
-					wx.showModal({
-						title: '提示',
-						content: '确定要提交审核吗？',
-						async success(res) {
-							if (res.confirm) {
-								console.log('用户点击确定')
-								// 让卖家订阅消息
-								await _this.subscribNews();
+					} else {
+						console.log("用户已注册");
+						return true;
 
-							} else if (res.cancel) {
-								console.log('用户点击取消')
+						/* uni.showModal({
+							title: '提示',
+							content: '确定要提交审核吗？',
+							async success(res) {
+								if (res.confirm) {
+									console.log('用户点击确定')
+									// 让卖家订阅消息
+									await _this.subscribNews();
+
+								} else if (res.cancel) {
+									console.log('用户点击取消')
+								}
+							}
+						}) */
+					}
+				} catch (e) {
+					//TODO handle the exception
+					console.log(e, "错误！！！");
+				}
+
+			},
+			// TODO 
+			// 处理点击提交审核按钮事件
+			async handleSubmitBtn() {
+				let that = this;
+
+				// 1. 验证用户是否登录
+				const isRegister = await this.checkLoginStatus();
+				if (!isRegister) {
+					// 用户未登录，直接返回
+					return;
+				}
+
+				this.openid = uni.getStorageSync('openid');
+
+				// 2. 检查信息是否填写完整
+				const errors = await this.checkData();
+				if (!errors) {
+					// 信息不完整，提示用户修改
+					console.log("信息填写不完整");
+					return;
+				}
+				// 3. 确认是否提交
+				const isSubmit = await this.$uniAsync.showModal({
+					title: '提示',
+					content: '确定要提交审核吗？',
+				});
+
+				if (!isSubmit.confirm) {
+					console.log('用户取消提交审核');
+					// 用户取消提交，直接返回
+					return;
+				}
+
+				// 4. 提交前准备操作
+				// 4.1 文本检查
+				const textCheckResult = await this.checkText(this.title, this.openid);
+				if (!textCheckResult) {
+					console.log('文本检查失败');
+					uni.showToast({
+						title: "文本检测不通过",
+						icon: "error"
+					})
+					// 文本检查失败，直接返回
+					return;
+				}
+				// 4.2 调用订阅消息
+				const yd = await this.$uniAsync.showModal({
+					title: "温馨提示",
+					content: '为了能给您发送审核通知和预定通知',
+					confirmText: "同意",
+					cancelText: "拒绝",
+					/* success: function(res) {
+						if (res.confirm) {
+							//调用订阅消息
+							console.log('用户点击确定');
+							//调用订阅
+							that.subscribNews();
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+							///显示第二个弹说明一下
+							wx.showModal({
+								title: '温馨提示',
+								content: '拒绝后您将无法获取实时的与卖家（买家）的交易消息',
+								confirmText: "知道了",
+								showCancel: false,
+							});
+						}
+					} */
+				})
+				if (yd.confirm) {
+					//调用订阅消息
+					console.log('用户点击确定');
+					//调用订阅
+					await that.subscribNews();
+					console.log('buzoulm');
+				} else {
+					console.log('用户点击取消');
+					///显示第二个弹说明一下
+					wx.showModal({
+						title: '温馨提示',
+						content: '拒绝后您将无法获取实时的与卖家（买家）的交易消息',
+						confirmText: "知道了",
+						showCancel: false,
+					});
+				}
+
+				// 4.3 上传图片
+				const imageUploadResult = await this.upLoadImage();
+				if (!imageUploadResult) { // false
+					// 图片上传失败，直接返回
+					console.log('图片上传失败', imageUploadResult);
+					return;
+				}
+
+				// 5. 上传商品信息
+				await this.upLoadGoodInfo();
+
+
+				/* const isSubmit = null;
+				// 1. 验证用户是否登录
+				const isRegister = await this.checkLoginStatus();
+				if (isRegister) {
+					
+					// 2. 检查信息是否填写完整
+					if (this.checkData()) {
+						// 3. 确认是否提交
+						const isSubmit = await this.$uniAsync.showModal({
+							title: '提示',
+							content: '确定要提交审核吗？',
+						})
+
+						if (isSubmit.confirm) {
+							// 4. 让卖家订阅消息
+
+							if (await this.subscribNews()) {
+								// 提交前准备操作
+								// 5. 文本检查
+
+								if (await this.checkText(this.title, this.openid)) {
+									// 6. 上传图片
+									if (await this.upLoadImage()) {
+										// 7. 上传商品信息
+										// await this.upLoadGoodInfo();
+									}
+								} else {
+									console.log("文本检查失败");
+								}
+
+								// }
+							} else {
+								console.log('用户取消提交审核操作');
 							}
 						}
-					})
-				}
+
+
+					} else {
+						return;
+					}
+
+
+
+
+
+					// 5. 进行文本检测
+
+
+
+					// 7. 上传商品信息
+					// this.upLoadGoodInfo();
+
+				} */
 
 			},
 
 			async checkText(text, openid) {
+				console.log("啊啊啊啊");
 				// 推荐文本内容检测
 				// wx.hideLoading();
-				wx.showLoading({
+				uni.showLoading({
 					title: '文本合法性检测中',
+
 					mask: true
 				})
-
+				await delay(1000);
 				this.ischeckText = true;
+				uni.hideLoading();
+				return true;
 				/* await wx.cloud.callFunction({
 					name: 'msgcheck',
 					data: {
@@ -634,87 +783,109 @@
 
 			async upLoadGoodInfo() {
 
-				let userInfo = this.userInfo;
+				// let userInfo = this.userInfo;
 				// 提交时间
-				this.creat = new Date();
-				let goodInfo = {
-					title: this.title,
-					pics: this.fileList,
-					price: this.price,
-					// contact: this.contact,
-					place: this.place,
-					category: this.category,
-					condition: this.condition,
-					// need: this.need,
-					// views: this.views,
-					delivery: this.delivery,
-					creat: this.creat,
-					// userInfo: userInfo,
-					audited: this.audited,
-					// buy: false,
-					// buyTime: this.buyTime,
-					pass: false
-				}
-				this.goodInfo = goodInfo;
-				console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
-				// 校验数据是否为空
-				let isNotEmpty = this.checkGoodInfo(this.goodInfo);
-				console.log('校验商品信息--已填写--', isNotEmpty);
-				if (isNotEmpty) {
+				// this.creat = 
+				// let goodInfo = {
+				// 	title: this.title,
+				// 	pics: this.fileList,
+				// 	price: this.price,
+				// 	// contact: this.contact,
+				// 	place: this.place,
+				// 	category: this.category,
+				// 	condition: this.condition,
+				// 	// need: this.need,
+				// 	// views: this.views,
+				// 	delivery: this.delivery,
+				// 	note: this.note, // 备注
+				// 	creat: this.creat,
+				// 	// userInfo: userInfo,
+				// 	audited: this.audited,
+				// 	// buy: false,
+				// 	// buyTime: this.buyTime,
+				// 	pass: false
+				// }
+				// this.goodInfo = goodInfo;
+				// console.log("上传商品信息之前--合成后的商品数据：", goodInfo);
+				// // 校验数据是否为空
+				// let isNotEmpty = this.checkGoodInfo(this.goodInfo);
+				// console.log('校验商品信息--已填写--', isNotEmpty);
+				// if (isNotEmpty) {
 
-					// userInfo.goodsNum++;
-					let _this = this;
-					await db.collection('goods')
-						.add({
-							data: {
-								title: this.title, // 商品描述
-								pics: this.fileList, // 商品图片
-								price: this.price, // 价格
-								place: this.place, // 地址	
-								category: this.category, // 商品分类
-								condition: this.condition, // 品质
-								delivery: this.delivery, // 配送
-								note: this.note, // 备注
-								creat: this.creat, // 发布时间
-								audited: this.audited, // 是否审核
-								pass: false // 是否通过审核
-							}
+				// userInfo.goodsNum++;
+				let that = this;
+				await db.collection('goods')
+					.add({
+						data: {
+							title: this.title, // 商品描述
+							pics: this.fileList, // 商品图片
+							price: this.price, // 价格
+							place: this.place, // 地址	
+							category: this.category, // 商品分类
+							condition: this.condition, // 品质
+							delivery: this.delivery, // 配送
+							notes: this.notes, // 备注
+							creat: new Date().getTime(), // 发布时间
+							audited: this.audited, // 是否审核
+							pass: false, // 是否通过审核
+							status: -1, // 交易状态，-1：不可售
+							dura: new Date().getTime() + that.dura * (86400 * 1000), // 保留时间
+
+						}
+					})
+					.then(async res => {
+						console.log('上传商品信息--存入数据库--成功', res);
+						// 更新所在售的商品数量
+						// db.collection("user").doc(userInfo._id).update({
+						// 	data: {
+						// 		goodsNum: _.inc(1),
+						// 	},
+						// 	success: function(res) {
+						// 		console.log('更新--商品数--成功', res)
+						// 	}
+						// })
+
+						const mRes = await that.$uniAsync.showModal({
+							title: "提交成功",
+							content: "审核中，请关注我们给您发送的审核通知结果",
+							confirmText: "返回首页",
+							cancelText: "再来一个",
 						})
-						.then(res => {
-							console.log('上传商品信息--存入数据库--成功', res);
-							// 更新所在售的商品数量
-							db.collection("user").doc(userInfo._id).update({
-								data: {
-									goodsNum: _.inc(1),
-								},
-								success: function(res) {
-									console.log('更新--商品数--成功', res)
-								}
-							})
-							wx.showToast({
-								title: '已提交，审核中',
-								icon: 'success',
-								duration: 2000,
-								mark: true
-							}).then(res => {
+						if (mRes.confirm) {
+							console.log('跳转到首页');
+							uni.switchTab({
+								url: '/pages/index-store/index-store',
+							});
+						}
+						if (mRes.cancel) {
+							console.log('清空表单');
+							// 清空表单
+							Object.assign(this.$data, this.$options.data());
+							// 清空子组件描述文本
+							this.$refs.descRef.title = '';
+						}
 
-								setTimeout(() => {
-									// 清空表单
-									Object.assign(this.$data, this.$options.data());
-									uni.switchTab({
-										url: '/pages/index-store/index-store',
-									});
-								}, 1500);
-							})
+						/* wx.showToast({
+							title: '已提交，审核中',
+							icon: 'success',
+							duration: 2000,
+							mark: true
+						}).then(res => {
+							setTimeout(() => {
+								
+								
+							}, 1500);
+						}) */
 
 
-						})
-				}
+					})
+				// }
 
 
 			},
 
 			async upLoadImage() {
+				console.log("test");
 				let fileList = this.fileList;
 				for (let i = 0; i < fileList.length; i++) {
 					console.log(fileList[i].url);
@@ -726,13 +897,76 @@
 
 						if ((i === fileList.length - 1) && result.statusCode === 204) {
 							console.log('上传图片--全部图片--上传完毕');
-							this.upLoadGoodInfo();
+							return true;
+
+						} else {
+							console.log('上传图片失败');
+							return false;
 						}
 					})
 
 				}
+				return true;
 			},
+			// 重新实现检查商品字段的合法性
+			async checkData() {
+				// 定义一个错误信息对象
+				const errors = {};
 
+				// 检查标题
+				if (!this.title) {
+					errors.title = '标题不能为空';
+				} else if (this.title.length > 140) {
+					errors.title = '标题长度不能超过 140 个字符';
+				}
+
+				// 检查图片
+				if (!this.fileList || this.fileList.length === 0) {
+					errors.pics = '至少需要上传一张图片';
+				}
+
+				// 检查价格
+				if (!this.price) {
+					errors.price = '价格不能为空';
+				} else if (isNaN(this.price)) {
+					errors.price = '价格必须是数字';
+				}
+
+				// 检查地址
+				if (this.delivery === '自提' && !this.place) {
+					errors.place = '地址不能为空';
+				}
+
+				// 检查商品分类
+				if (!this.category) {
+					errors.category = '商品分类不能为空';
+				}
+
+				// 检查商品成色
+				if (!this.condition) {
+					errors.condition = '商品成色不能为空';
+				}
+
+				// 检查取货方式
+				if (!this.delivery) {
+					errors.delivery = '取货方式不能为空';
+				}
+
+				// 检查备注
+				if (this.note && this.note.length > 50) {
+					errors.note = '备注长度不能超过 50 个字符';
+				}
+
+				for (let prop in errors) {
+					uni.showToast({
+						title: errors[prop],
+						icon: 'error',
+						duration: 2500
+					})
+				}
+				// 如果存在错误信息，则返回 false
+				return !Object.keys(errors).length;
+			},
 			// TODO 检查
 			checkGoodInfo(userInfo) {
 				let values = Object.values(userInfo);

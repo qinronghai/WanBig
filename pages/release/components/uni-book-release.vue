@@ -697,25 +697,17 @@
 								data: {
 									creat: new Date().getTime(),
 									dura: new Date().getTime() + that.dura * (86400 * 1000),
-									status: 0,
-									//0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
-									price: that.price,
-									//售价
+									status: 0, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
+									price: that.price, //售价
 									//分类
-									kindid: that.kindid,
-									//区别通用还是专业
-									collegeid: that.cids,
-									//学院id，-1表示通用类
-									profession: that.profession,
-									//专业，0表示通用类
-									conditionid: that.c_id,
-									//成色
+									kindid: that.kindid, //区别通用还是专业
+									collegeid: that.cids, //学院id，-1表示通用类
+									profession: that.profession, //专业，0表示通用类
+									conditionid: that.c_id, //成色
 									deliveryid: that.chooseDelivery,
 									//配送方式：0自1配
-									place: that.place,
-									//自提地址
-									notes: that.notes,
-									//备注
+									place: that.place, //自提地址
+									notes: that.notes, //备注
 									bookinfo: {
 										_id: that.bookinfo._id,
 										author: that.bookinfo.author,

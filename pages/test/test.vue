@@ -8,6 +8,8 @@
 
 		<van-stepper :value="price" integer @change="priceChange" min="1" max="100" />
 
+		<button @click="test">测试uni异步化</button>
+
 	</view>
 </template>
 
@@ -35,6 +37,51 @@
 				db.collection("user-info").get().then(res => {
 					console.log("最新用户数据", res);
 				})
+			},
+
+
+			async test() {
+				// 1. 获取用户信息
+				let userInfo = uni.getStorageSync('userInfo');
+				let _this = this;
+				// 2. 判断用户是否存在
+				try {
+					if (!userInfo.info) {
+						const showModalRes = await this.$uniAsync.showModal({
+							title: '提示',
+							content: '您还未登录，请登录之后，再提交审核',
+						})
+
+						if (showModalRes.confirm) {
+							console.log('用户点击确定')
+							uni.switchTab({
+								url: '/pages/my-copy/my'
+							});
+						} else if (showModalRes.cancel) {
+							console.log('用户点击取消')
+						}
+					} else {
+						console.log("用户已注册");
+						// this.openid = uni.getStorageSync('openid');
+						// await this.$uniAsync.showModal({
+						// 	title: '提示',
+						// 	content: '确定要提交审核吗？',
+						// 	async success(res) {
+						// 		if (res.confirm) {
+						// 			console.log('用户点击确定')
+						// 			// 让卖家订阅消息
+						// 			await _this.subscribNews();
+
+						// 		} else if (res.cancel) {
+						// 			console.log('用户点击取消')
+						// 		}
+						// 	}
+						// })
+					}
+				} catch (e) {
+					//TODO handle the exception
+					console.log(e, "错误！！！");
+				}
 			},
 
 			async getBookData(isbn) {
