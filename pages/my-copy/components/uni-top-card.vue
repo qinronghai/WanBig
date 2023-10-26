@@ -109,12 +109,8 @@ export default {
 			})
 		},
 		login() {
-			// console.log('弹窗一键登录')
-			// this.showLogin = true
-
 			// 判断是否注册过
-			if (!uni.getStorageSync('isRegister')) {
-
+			if (!this.$checkRegisterStatus()) {
 				uni.navigateTo({
 					url: '/pages/register/register'
 				})

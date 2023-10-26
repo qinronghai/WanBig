@@ -75,14 +75,16 @@ export default {
   methods: {
     // 获取云函数openid
     getCloudOpenid: async function () {
+      console.log('云函数获取openid')
       return this.openid = this.openid ||
         (await wx.cloud.callFunction({
           name: "getOpenID"
-        })).result.OPENID
+        })).result.openid
     },
 
     // 获取openid
     getOpenId: async function () {
+      console.log('正常获取openid');
       (this.openid = this.openid || uni.getStorageSync('openid')) || uni.setStorageSync('openid', await this.getCloudOpenid())
       return this.openid;
     },
