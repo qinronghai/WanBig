@@ -150,15 +150,12 @@ import VanPicker from "../../wxcomponents/vant/picker";
 import VanTab from "../../wxcomponents/vant/tab/index.js";
 import VanTabs from "../../wxcomponents/vant/tabs/index.js";
 import Toast from "../../wxcomponents/vant/toast";
-import {
-	request
-} from "../../async/index";
+
 const db = wx.cloud.database();
 const _ = db.command;
+const MessageSubscriber = require('../../js_sdk/utils/subscrib-news.js');
+const ImageUploader = require('../../js_sdk/utils/upload-image.js');
 
-import {
-	delay
-} from "../utils/delay";
 import towxml from '../../static/towxml/towxml'
 
 export default {
@@ -453,8 +450,8 @@ export default {
 			// 4. 提交前准备操作
 			// 4.1 调用订阅消息
 			const yd = await this.$uniAsync.showModal({
-				title: "温馨提示",
-				content: '为了能给您发送审核通知和预定通知',
+				title: "授权提示",
+				content: '是否允许给您发送审核通知和预定通知',
 				confirmText: "同意",
 				cancelText: "拒绝",
 			})
@@ -463,7 +460,6 @@ export default {
 				console.log('用户点击确定');
 				//调用订阅
 				await that.subscribNews();
-				console.log('buzoulm');
 			} else {
 				console.log('用户点击取消');
 				///显示第二个弹说明一下
@@ -476,7 +472,8 @@ export default {
 			}
 
 			// 4.3 上传图片
-			const imageUploadResult = await this.upLoadImage();
+			const uploader = new ImageUploader(this.fileList);
+			const imageUploadResult = await uploader.upLoadImage();
 			if (!imageUploadResult) { // false
 				// 图片上传失败，直接返回
 				console.log('图片上传失败', imageUploadResult);
@@ -529,64 +526,11 @@ export default {
 					}
 				})
 		},
-		// 上传商品图片
-		async upLoadImage() {
-			try {
-				const results = await Promise.all(this.fileList.map((file) => request(file.url)));
-				results.forEach((res, index) => {
-					this.fileList[index].url = res.fileID;
-				});
-				console.log('图片全部上传成功', results);
-				return true;
-			} catch (error) {
-				console.log('图片上传失败', err)
-				return false;
-			}
-		},
 		// 订阅审核通知的消息
 		async subscribNews() {
-			let tempId = 'W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag';
-			let _this = this;
-			return new Promise((resolve, rej) => {
-				wx.requestSubscribeMessage({
-					tmplIds: ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag',
-						'9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'
-					],
-
-					success: res => {
-						console.log(res);
-						if (res[tempId] == "accept") {
-							wx.showToast({
-								title: '订阅成功！',
-								duration: 1000,
-								success() {
-									console.log('订阅消息--成功');
-									// 点击订阅成功后再去提交审核
-									resolve();
-
-								}
-							})
-						} else {
-							wx.showModal({
-								content: '未授权发送通知，您将收不到通知！',
-								confirmText: '重新授权',
-								cancelText: '取消授权',
-								success: (res) => {
-									if (res.confirm) {
-										// 重新授权
-										_this.subscribNews();
-									} else {
-										console.log('用户取消授权');
-									}
-								}
-							})
-						}
-					},
-					fail: err => {
-						console.log(err);
-					}
-				})
-			})
+			const subscriber = new MessageSubscriber();
+			const tmplIdsArray = ['W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag', '9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4'];
+			await subscriber.subscribeNews(tmplIdsArray);
 		},
 		// 检查商品字段的合法性
 		async checkData() {
@@ -656,8 +600,8 @@ $primary-radius: 20rpx;
 
 // 导航tabs 
 /deep/ .van-ellipsis {
-	font-size: 30rpx;
 	font-weight: 700;
+	font-size: 30rpx;
 }
 
 #page {
@@ -665,8 +609,8 @@ $primary-radius: 20rpx;
 
 	// 商品描述组件
 	.uni-goods-desc {
-		width: 100vw;
 		padding: 0;
+		width: 100vw;
 	}
 
 	// 商品发布容器
@@ -679,13 +623,13 @@ $primary-radius: 20rpx;
 
 			.goods-pictures {
 				display: flex;
-				justify-content: center;
 				align-items: center;
-				height: auto;
-				padding: 8px 13px 0;
+				justify-content: center;
 				margin: 8px 0 5px 0;
-				background-color: #fff;
+				padding: 8px 13px 0;
+				height: auto;
 				border-radius: $primary-radius;
+				background-color: #fff;
 			}
 		}
 
@@ -695,14 +639,15 @@ $primary-radius: 20rpx;
 
 			// 顶部-价格
 			.top {
-				background-color: #fff;
 				border-radius: $primary-radius;
+				background-color: #fff;
 
 				.top__item {
 					display: flex;
 					justify-content: space-between;
 					padding: 25px 15px;
 					font-weight: bold;
+
 					// font-size: 12px;
 
 					.left {
@@ -710,9 +655,9 @@ $primary-radius: 20rpx;
 						align-items: center;
 
 						.icon {
+							margin-right: 15px;
 							width: 24px;
 							height: 24px;
-							margin-right: 15px;
 						}
 
 						.txt {
@@ -729,17 +674,17 @@ $primary-radius: 20rpx;
 				}
 
 				.top__item.price {
-					padding: 15px 15px;
 					margin-top: 10px;
+					padding: 15px 15px;
 				}
 			}
 
 			// 底部-分类和成色
 			.bottom {
 				margin-top: 10px;
-				font-size: 28rpx;
-				background-color: rgb(255, 255, 255);
 				border-radius: $primary-radius;
+				background-color: rgb(255, 255, 255);
+				font-size: 28rpx;
 
 				.goods-category {
 					display: flex;
@@ -751,17 +696,17 @@ $primary-radius: 20rpx;
 
 						&--block {
 							display: flex;
-							flex-direction: column;
 							align-items: center;
+							flex-direction: column;
 							padding: 30px 25px 20px;
 
 							.active {
 								padding: 5px 5px;
-								color: #000;
-								font-size: 16px;
-								font-weight: bold;
-								background-color: #ffc300;
 								border-radius: $primary-radius;
+								background-color: #ffc300;
+								color: #000;
+								font-weight: bold;
+								font-size: 16px;
 							}
 
 							.icon {
@@ -771,8 +716,8 @@ $primary-radius: 20rpx;
 
 							.txt {
 								margin-top: 10px;
-								font-size: 14px;
 								font-weight: bold;
+								font-size: 14px;
 							}
 						}
 					}
@@ -780,11 +725,11 @@ $primary-radius: 20rpx;
 
 				.goods-condition {
 					display: flex;
+					align-items: center;
 					flex-direction: column;
 					justify-content: center;
-					align-items: center;
-					height: 100%;
 					margin-top: 40px;
+					height: 100%;
 
 					&__item {
 						flex-grow: 1;
@@ -792,11 +737,11 @@ $primary-radius: 20rpx;
 						&--block {
 							.active {
 								padding: 5px 10px;
-								color: #000;
-								font-size: 16px;
-								font-weight: bold;
-								background-color: #ffc300;
 								border-radius: $primary-radius;
+								background-color: #ffc300;
+								color: #000;
+								font-weight: bold;
+								font-size: 16px;
 							}
 						}
 					}
@@ -804,10 +749,11 @@ $primary-radius: 20rpx;
 
 				&__item {
 					display: flex;
-					justify-content: space-between;
 					align-items: center;
+					justify-content: space-between;
 					padding: 20px 15px;
 					font-weight: bold;
+
 					// font-size: 12px;
 
 					.left {
@@ -815,9 +761,9 @@ $primary-radius: 20rpx;
 						align-items: center;
 
 						.icon {
+							margin-right: 15px;
 							width: 23px;
 							height: 23px;
-							margin-right: 15px;
 						}
 
 						.txt {
@@ -828,9 +774,9 @@ $primary-radius: 20rpx;
 
 				&__item.category {
 					.icon {
+						margin-right: 15px;
 						width: 24px;
 						height: 24px;
-						margin-right: 15px;
 					}
 
 					.option {
@@ -842,19 +788,19 @@ $primary-radius: 20rpx;
 
 		// 配送相关
 		.send-wrap {
-			padding: 15px 15px;
 			margin: 0 30rpx;
 			margin-top: 10px;
-			font-size: 28rpx;
-			font-weight: bold;
-			background-color: #fff;
+			padding: 15px 15px;
 			border-radius: $primary-radius;
+			background-color: #fff;
+			font-weight: bold;
+			font-size: 28rpx;
 
 			// 送货
 			.delivery {
 				display: flex;
-				justify-content: space-between;
 				align-items: center;
+				justify-content: space-between;
 
 				// padding-bottom: 10px;
 
@@ -863,9 +809,9 @@ $primary-radius: 20rpx;
 					align-items: center;
 
 					.icon {
+						margin-right: 15px;
 						width: 23px;
 						height: 23px;
-						margin-right: 15px;
 					}
 
 					.txt {
@@ -889,12 +835,12 @@ $primary-radius: 20rpx;
 					display: flex;
 					align-items: center;
 					box-sizing: border-box;
+					padding: 0 20rpx;
 					width: 100%;
 					height: 80rpx;
-					padding: 0 20rpx;
-					font-weight: normal;
-					background: rgb(238, 238, 238);
 					border-radius: 10rpx;
+					background: rgb(238, 238, 238);
+					font-weight: normal;
 				}
 
 				// .left {
@@ -939,11 +885,11 @@ $primary-radius: 20rpx;
 
 		// 备注和提示
 		.note-tips-wrap {
-			padding: 15px 15px;
 			margin: 0 30rpx;
 			margin-top: 10px;
-			background-color: #fff;
+			padding: 15px 15px;
 			border-radius: $primary-radius;
+			background-color: #fff;
 
 			// font-weight: bold;
 			// font-size: 12px;
@@ -957,14 +903,14 @@ $primary-radius: 20rpx;
 				// flex-direction: column;
 				box-sizing: border-box;
 				width: 100%;
-				background: #fff;
 				border-radius: 18rpx;
+				background: #fff;
 
 				// box-shadow: 0 0 20rpx #ebebeb;
 
 				.name {
-					font-size: 30rpx;
 					letter-spacing: 2rpx;
+					font-size: 30rpx;
 				}
 
 				.b_nobi {
@@ -976,36 +922,35 @@ $primary-radius: 20rpx;
 			.b_notes {
 				display: flex;
 				box-sizing: border-box;
-				width: 100%;
-
 				// padding: 10rpx;
 				padding: 20rpx 0;
+				width: 100%;
 
 				.b_text {
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
 					box-sizing: border-box;
+					padding: 20rpx;
 					width: 100%;
 					height: 200rpx;
-					padding: 20rpx;
-					background: rgb(238, 238, 238);
 					border-radius: 10rpx;
+					background: rgb(238, 238, 238);
 
 					textarea {
 						width: 100%;
 						height: 130rpx;
+						border-spacing: 2rpx;
 						color: #8c9aa8;
 						font-size: 28rpx;
-						border-spacing: 2rpx;
 					}
 
 					.b_less {
 						display: flex;
 						justify-content: flex-end;
 						color: #8c9aa8;
-						font-size: 28rpx;
 						letter-spacing: 2rpx;
+						font-size: 28rpx;
 					}
 				}
 			}
@@ -1028,17 +973,17 @@ $primary-radius: 20rpx;
 
 			.btn {
 				display: flex;
-				justify-content: center;
 				align-items: center;
+				justify-content: center;
 				width: calc(100vw - 60rpx);
 				height: 80rpx;
-				color: #fff;
-				font-size: 32rpx;
-				font-weight: 500;
-				letter-spacing: 4rpx;
-				background: #fbbd08;
 				border: none;
 				border-radius: 40rpx;
+				background: #fbbd08;
+				color: #fff;
+				letter-spacing: 4rpx;
+				font-weight: 500;
+				font-size: 32rpx;
 			}
 		}
 	}
