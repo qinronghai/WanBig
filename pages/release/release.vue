@@ -600,17 +600,18 @@ $primary-radius: 20rpx;
 
 // 导航tabs 
 /deep/ .van-ellipsis {
-	font-weight: 700;
 	font-size: 30rpx;
+	font-weight: 700;
 }
 
 #page {
+	min-height: 100vh;
 	background-color: $global-bg-color;
 
 	// 商品描述组件
 	.uni-goods-desc {
-		padding: 0;
 		width: 100vw;
+		padding: 0;
 	}
 
 	// 商品发布容器
@@ -623,13 +624,13 @@ $primary-radius: 20rpx;
 
 			.goods-pictures {
 				display: flex;
-				align-items: center;
 				justify-content: center;
-				margin: 8px 0 5px 0;
-				padding: 8px 13px 0;
+				align-items: center;
 				height: auto;
-				border-radius: $primary-radius;
+				padding: 8px 13px 0;
+				margin: 8px 0 5px 0;
 				background-color: #fff;
+				border-radius: $primary-radius;
 			}
 		}
 
@@ -639,8 +640,8 @@ $primary-radius: 20rpx;
 
 			// 顶部-价格
 			.top {
-				border-radius: $primary-radius;
 				background-color: #fff;
+				border-radius: $primary-radius;
 
 				.top__item {
 					display: flex;
@@ -655,9 +656,9 @@ $primary-radius: 20rpx;
 						align-items: center;
 
 						.icon {
-							margin-right: 15px;
 							width: 24px;
 							height: 24px;
+							margin-right: 15px;
 						}
 
 						.txt {
@@ -674,17 +675,17 @@ $primary-radius: 20rpx;
 				}
 
 				.top__item.price {
-					margin-top: 10px;
 					padding: 15px 15px;
+					margin-top: 10px;
 				}
 			}
 
 			// 底部-分类和成色
 			.bottom {
 				margin-top: 10px;
-				border-radius: $primary-radius;
-				background-color: rgb(255, 255, 255);
 				font-size: 28rpx;
+				background-color: rgb(255, 255, 255);
+				border-radius: $primary-radius;
 
 				.goods-category {
 					display: flex;
@@ -696,17 +697,17 @@ $primary-radius: 20rpx;
 
 						&--block {
 							display: flex;
-							align-items: center;
 							flex-direction: column;
+							align-items: center;
 							padding: 30px 25px 20px;
 
 							.active {
 								padding: 5px 5px;
-								border-radius: $primary-radius;
-								background-color: #ffc300;
 								color: #000;
-								font-weight: bold;
 								font-size: 16px;
+								font-weight: bold;
+								background-color: #ffc300;
+								border-radius: $primary-radius;
 							}
 
 							.icon {
@@ -716,8 +717,8 @@ $primary-radius: 20rpx;
 
 							.txt {
 								margin-top: 10px;
-								font-weight: bold;
 								font-size: 14px;
+								font-weight: bold;
 							}
 						}
 					}
@@ -725,11 +726,11 @@ $primary-radius: 20rpx;
 
 				.goods-condition {
 					display: flex;
-					align-items: center;
 					flex-direction: column;
 					justify-content: center;
-					margin-top: 40px;
+					align-items: center;
 					height: 100%;
+					margin-top: 40px;
 
 					&__item {
 						flex-grow: 1;
@@ -737,11 +738,11 @@ $primary-radius: 20rpx;
 						&--block {
 							.active {
 								padding: 5px 10px;
-								border-radius: $primary-radius;
-								background-color: #ffc300;
 								color: #000;
-								font-weight: bold;
 								font-size: 16px;
+								font-weight: bold;
+								background-color: #ffc300;
+								border-radius: $primary-radius;
 							}
 						}
 					}
@@ -749,8 +750,8 @@ $primary-radius: 20rpx;
 
 				&__item {
 					display: flex;
-					align-items: center;
 					justify-content: space-between;
+					align-items: center;
 					padding: 20px 15px;
 					font-weight: bold;
 
@@ -761,9 +762,9 @@ $primary-radius: 20rpx;
 						align-items: center;
 
 						.icon {
-							margin-right: 15px;
 							width: 23px;
 							height: 23px;
+							margin-right: 15px;
 						}
 
 						.txt {
@@ -774,9 +775,9 @@ $primary-radius: 20rpx;
 
 				&__item.category {
 					.icon {
-						margin-right: 15px;
 						width: 24px;
 						height: 24px;
+						margin-right: 15px;
 					}
 
 					.option {
@@ -788,19 +789,19 @@ $primary-radius: 20rpx;
 
 		// 配送相关
 		.send-wrap {
+			padding: 15px 15px;
 			margin: 0 30rpx;
 			margin-top: 10px;
-			padding: 15px 15px;
-			border-radius: $primary-radius;
-			background-color: #fff;
-			font-weight: bold;
 			font-size: 28rpx;
+			font-weight: bold;
+			background-color: #fff;
+			border-radius: $primary-radius;
 
 			// 送货
 			.delivery {
 				display: flex;
-				align-items: center;
 				justify-content: space-between;
+				align-items: center;
 
 				// padding-bottom: 10px;
 
@@ -809,9 +810,9 @@ $primary-radius: 20rpx;
 					align-items: center;
 
 					.icon {
-						margin-right: 15px;
 						width: 23px;
 						height: 23px;
+						margin-right: 15px;
 					}
 
 					.txt {
@@ -835,12 +836,16 @@ $primary-radius: 20rpx;
 					display: flex;
 					align-items: center;
 					box-sizing: border-box;
-					padding: 0 20rpx;
 					width: 100%;
 					height: 80rpx;
-					border-radius: 10rpx;
-					background: rgb(238, 238, 238);
+					padding: 0 20rpx;
 					font-weight: normal;
+					background: rgb(238, 238, 238);
+					border-radius: 10rpx;
+				}
+
+				.input-place input {
+					width: 100%;
 				}
 
 				// .left {
@@ -885,11 +890,11 @@ $primary-radius: 20rpx;
 
 		// 备注和提示
 		.note-tips-wrap {
+			padding: 15px 15px;
 			margin: 0 30rpx;
 			margin-top: 10px;
-			padding: 15px 15px;
-			border-radius: $primary-radius;
 			background-color: #fff;
+			border-radius: $primary-radius;
 
 			// font-weight: bold;
 			// font-size: 12px;
@@ -903,14 +908,14 @@ $primary-radius: 20rpx;
 				// flex-direction: column;
 				box-sizing: border-box;
 				width: 100%;
-				border-radius: 18rpx;
 				background: #fff;
+				border-radius: 18rpx;
 
 				// box-shadow: 0 0 20rpx #ebebeb;
 
 				.name {
-					letter-spacing: 2rpx;
 					font-size: 30rpx;
+					letter-spacing: 2rpx;
 				}
 
 				.b_nobi {
@@ -922,35 +927,36 @@ $primary-radius: 20rpx;
 			.b_notes {
 				display: flex;
 				box-sizing: border-box;
+				width: 100%;
+
 				// padding: 10rpx;
 				padding: 20rpx 0;
-				width: 100%;
 
 				.b_text {
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
 					box-sizing: border-box;
-					padding: 20rpx;
 					width: 100%;
 					height: 200rpx;
-					border-radius: 10rpx;
+					padding: 20rpx;
 					background: rgb(238, 238, 238);
+					border-radius: 10rpx;
 
 					textarea {
 						width: 100%;
 						height: 130rpx;
-						border-spacing: 2rpx;
 						color: #8c9aa8;
 						font-size: 28rpx;
+						border-spacing: 2rpx;
 					}
 
 					.b_less {
 						display: flex;
 						justify-content: flex-end;
 						color: #8c9aa8;
-						letter-spacing: 2rpx;
 						font-size: 28rpx;
+						letter-spacing: 2rpx;
 					}
 				}
 			}
@@ -973,17 +979,17 @@ $primary-radius: 20rpx;
 
 			.btn {
 				display: flex;
-				align-items: center;
 				justify-content: center;
+				align-items: center;
 				width: calc(100vw - 60rpx);
 				height: 80rpx;
+				color: #fff;
+				font-size: 32rpx;
+				font-weight: 500;
+				letter-spacing: 4rpx;
+				background: #fbbd08;
 				border: none;
 				border-radius: 40rpx;
-				background: #fbbd08;
-				color: #fff;
-				letter-spacing: 4rpx;
-				font-weight: 500;
-				font-size: 32rpx;
 			}
 		}
 	}
