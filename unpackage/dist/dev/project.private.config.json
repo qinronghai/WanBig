@@ -78,8 +78,8 @@
         },
         {
           "name": "",
-          "pathName": "pages/goods-detail/goods-detail",
-          "query": "058dfefe62fcf7251587629408993160",
+          "pathName": "pages/good-detail/good-detail",
+          "query": "",
           "launchMode": "default",
           "scene": null
         },
@@ -114,6 +114,13 @@
         {
           "name": "",
           "pathName": "pages/book-index/book-index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/book-detail/book-detail",
           "query": "",
           "launchMode": "default",
           "scene": null

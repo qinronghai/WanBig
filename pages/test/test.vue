@@ -12,6 +12,23 @@
 		<button @click="check">测试检测登录</button>
 		<input v-model="text" placeholder="请输入文本" placeholder-class="input-placeholder" @blur="onChangeInput" />
 
+		<!-- 轮播图+点击预览图片 -->
+		<swiper class="swiper" circular indicator-dots autoplay interval="3000" :duration="800">
+			<swiper-item v-for="(pic, index) in goodpics" :key="index" @tap="previewImage(goodpics)">
+				<view class="swiper-item uni-bg-red">
+					<image :src="pic.url" mode="widthFix" />
+				</view>
+			</swiper-item>
+
+		</swiper>
+
+		<!-- 成色和品质标签 -->
+		<view class="tags">
+			<uni-tag text="全新" type="success"></uni-tag>
+			<uni-tag text="健身器材" type="warning"></uni-tag>
+
+		</view>
+
 	</view>
 </template>
 
@@ -19,6 +36,7 @@
 const db = wx.cloud.database();
 const _ = db.command;
 import VanStepper from "../../wxcomponents/vant/stepper/index";
+
 export default {
 	components: {
 
@@ -28,9 +46,19 @@ export default {
 		return {
 			price: 15,
 			text: '',
+			background: ['color1', 'color2', 'color3'],
+
+			goodpics: [{ url: 'cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/good-pictures/1698301471557-764' }, { url: 'cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/good-pictures/1698301471560-97' }]
 		}
 	},
 	methods: {
+		// 预览图片
+		previewImage(goodpics) {
+			const urls = goodpics.map(pic => pic.url);
+			uni.previewImage({
+				urls: urls,
+			})
+		},
 		// 文本测试检测
 		async onChangeInput(e) {
 

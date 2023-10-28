@@ -13,7 +13,9 @@
     "pages/book-detail/book-detail",
     "pages/register/register",
     "pages/my3/my3",
-    "pages/my-edit/my-edit"
+    "pages/my-edit/my-edit",
+    "pages/good-detail/good-detail",
+    "pages/poster/poster"
   ],
   "subPackages": [],
   "window": {

@@ -1,13 +1,17 @@
 <template>
-	<view style="height: 100%">
+	<view id="page">
 		<view class="top_contain">
-			<view class="top_img">
-				<image lazy-load :src="publishinfo.bookinfo.pic"></image>
-			</view>
-			<view class="title text-cut">{{ publishinfo.bookinfo.title }}【第{{ publishinfo.bookinfo.edition }}】</view>
+			<swiper indicator-color="#e9e9e9" indicator-active-color="#ffc300" circular indicator-dots interval="3000" :duration="800">
+				<swiper-item v-for="(pic, index) in publishinfo.pics" :key="index" @tap="previewImage(publishinfo.pics, index)">
+					<view class="top_img">
+						<image lazy-load :src="pic.url" />
+					</view>
+				</swiper-item>
+			</swiper>
+			<view class="title text-cut">{{ publishinfo.bookinfo.title }}</view>
 			<view class="author text-cut">{{ publishinfo.bookinfo.author }}</view>
 			<view class="price_box">
-				<view class="now_price">￥{{ publishinfo.price }}.'00'</view>
+				<view class="now_price">￥{{ publishinfo.price }}.00</view>
 				<view class="pre_price">定价：￥{{ publishinfo.bookinfo.price }}元</view>
 			</view>
 		</view>
@@ -17,7 +21,7 @@
 			<view @tap="changeTitle" :data-id="false" :class="'c_title ' + (first_title ? '' : 'title_on')">图书详情</view>
 		</view>
 		<!-- 发布信息 -->
-		<view v-if="first_title">
+		<view class="publish_wrap" v-if="first_title">
 			<view class="user_box">
 				<image lazy-load :src="userinfo.info.avatarUrl"></image>
 				<view class="des_box">
@@ -36,8 +40,11 @@
 				</view>
 			</view>
 			<view class="time_box">
-				<!-- TODO 学院 -->
-				<view class="kind">{{ collegeName.name }}-学院同学发布</view>
+				<view class="left">
+					<view class="kind" v-if="collegeName.name === '通用'">通用类</view>
+					<view class="kind" v-else-if="collegeName.name === '其他'">课外书</view>
+					<view class="kind" v-else>{{ collegeName.name }}-学院同学发布</view>
+				</view>
 				<view class="time">发布于{{ morejs.timelog(publishinfo.creat) }}</view>
 			</view>
 			<view class="address_box" v-if="publishinfo.deliveryid == 0">
@@ -47,7 +54,7 @@
 			<view class="deliver_box">
 				<view class="deliver_first">
 					<view class="deliver_title">取货方式：</view>
-					<view class="deliver_kind">{{ publishinfo.deliveryid == 0 ? '自提' : '帮送' }}</view>
+					<view class="deliver_kind">{{ publishinfo.deliveryid == 0 ? '自提' : '配送' }}</view>
 				</view>
 			</view>
 			<view class="palceInput_box" v-if="publishinfo.deliveryid == 1">
@@ -71,7 +78,7 @@
 					<view class="detail_title">出版社</view>
 					<view class="detail_content">{{ bookinfo.publisher }}</view>
 				</view>
-				<view class="detail_card detail_border">
+				<view v-if="bookinfo.pubplace" class="detail_card detail_border">
 					<view class="detail_title">出版地</view>
 					<view class="detail_content">{{ bookinfo.pubplace }}</view>
 				</view>
@@ -79,15 +86,15 @@
 					<view class="detail_title">出版时间</view>
 					<view class="detail_content">{{ bookinfo.pubdate }}</view>
 				</view>
-				<view class="detail_card detail_border">
+				<view v-if="bookinfo.binding" class="detail_card detail_border">
 					<view class="detail_title">装帧方式</view>
 					<view class="detail_content">{{ bookinfo.binding }}</view>
 				</view>
-				<view class="detail_card detail_border">
+				<view v-if="bookinfo.format" class="detail_card detail_border">
 					<view class="detail_title">开本</view>
 					<view class="detail_content">{{ bookinfo.format }}</view>
 				</view>
-				<view class="detail_card detail_border">
+				<view v-if="bookinfo.class" class="detail_card detail_border">
 					<view class="detail_title">中图法分类</view>
 					<view class="detail_content">{{ bookinfo.class }}</view>
 				</view>
@@ -100,17 +107,13 @@
 		<view style="height: 96rpx"></view>
 		<!-- 底部导航 -->
 		<view class="tabbar">
-			<view class="t_card">
+			<!-- <view class="t_card">
 				<image src="/static/images/home.png"></image>
 				<text>首页</text>
 				<button class="t_button" @tap="home"></button>
 			</view>
-			<!-- >
-      <view class="t_card">
-            <image src="/images/contact.png"></image>
-            <text>反馈</text>
-            <button class="t_button" bindtap="go" data-go="/pages/kefu/kefu"></button>
-      </view> -->
+			> -->
+
 			<view class="t_card">
 				<image src="/static/images/share.png"></image>
 				<text>分享</text>
@@ -120,15 +123,21 @@
 				<image src="/static/images/pyq.png"></image>
 				<text>海报</text>
 			</view>
+			<view class="t_card">
+				<image src="/static/images/contact.png"></image>
+				<text>聊天</text>
+				<button class="t_button" bindtap="go" data-go="/pages/kefu/kefu"></button>
+			</view>
 			<view class="buy_box">
 				<view class="buy shadow" @tap="buy">{{ publishinfo.status == 0 ? '立即购买' : '刚刚被抢光了' }}</view>
 			</view>
+
 		</view>
 		<!-- 悬浮客服功能 -->
-		<view class="contact_box" @tap="go" data-go="/pages/kefu/kefu" :animation="animationKefuData">
+		<!-- <view class="contact_box" @tap="go" data-go="/pages/kefu/kefu" :animation="animationKefuData">
 			<image src="/static/images/ww.jpg"></image>
 			<view>反馈</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 <script module="morejs" lang="wxs" src="@/common.wxs"></script>
@@ -195,7 +204,9 @@
 		onLoad(e) {
 			this.getuserdetail();
 			this.id = e.scene;
-			this.getPublish(e.scene);
+			// this.getPublish(e.scene);
+			this.getPublish('233d1379653a3867086063051093e440');
+			
 		},
 		onShareAppMessage() {
 			return {
@@ -204,9 +215,18 @@
 			};
 		},
 		onReady() {
-			this.kefuani();
+			// this.kefuani();
 		},
 		methods: {
+	// 预览图片
+	previewImage(goodpics,i) {
+			const urls = goodpics.map(pic => pic.url);
+			uni.previewImage({
+				urls: urls,
+				current: urls[i],
+			})
+		},
+
 			changeTitle(e) {
 				let that = this;
 				that.setData({
@@ -261,7 +281,10 @@
 						success: function(res) {
 							that.setData({
 								bookinfo: res.data
+
 							});
+							// 整合官方图和用户实拍图
+							that.publishinfo.pics=[{url:that.bookinfo.pic},...that.publishinfo.pics];
 						}
 					});
 			},
@@ -519,26 +542,24 @@
 			},
 
 			//为了数据安全可靠，每次进入获取一次用户信息
-			getuserdetail() {
-				if (!app.globalData.openid) {
-					uniCloud.callFunction({
-						name: 'regist',
-						// 对应云函数名
-						data: {
-							$url: 'getid' //云函数路由参数
-						},
-
-						success: (re) => {
-							db.collection('user')
+			async getuserdetail() {
+				console.log('first user detail')
+				if (uni.getStorageSync('openid')) {
+					console.log('first user detailgeneric---')
+					await wx.cloud.callFunction({
+						name: 'getOpenID', // 对应云函数名
+						 success: async (re) => {
+							await db.collection('user')
 								.where({
-									_openid: re.result
+									_openid: re.result.openid
 								})
 								.get({
 									success: function(res) {
 										if (res.data.length !== 0) {
-											app.globalData.openid = re.result;
-											app.globalData.userinfo = res.data[0];
-											console.log(app);
+											console.log('openid',re.result.openid);
+											console.log('userInfo',res.data[0]);
+											uni.setStorageSync('openid',re.result.openid);
+											uni.setStorageSync('userInfo', res.data[0]);
 										}
 										console.log(res);
 									}
@@ -558,8 +579,9 @@
 					origin: that.publishinfo.bookinfo.price,
 					now: that.publishinfo.price
 				};
+				console.log(pubInfo,'publish info')
 				uni.navigateTo({
-					url: '/pages/poster/poster?bookinfo=' + JSON.stringify(pubInfo)
+					url: `/pages/poster/poster?info=${JSON.stringify(pubInfo)}&from=bookDetail`,
 				});
 			},
 
@@ -603,408 +625,436 @@
 					1800
 				);
 			}
+		},
+		computed: {
+			// 整合图片数组
+			/* integratePictures:{
+				get(){
+				
+					return [{
+						url:this.publishinfo.bookInfo.pic
+					},...this.publishinfo.pics];
+				}
+			} */
 		}
 	};
 </script>
 <style>
-	.top_contain {
-		display: flex;
-		flex-direction: column;
-		box-sizing: border-box;
-		padding: 24rpx;
-	}
+#page {
+	min-height: 100vh;
+}
 
-	.top_img {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-	}
+.top_contain {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	padding: 24rpx;
+}
 
-	.top_img image {
-		width: 440rpx;
-		height: 440rpx;
-	}
+swiper {
+	display: block;
+	height: 440rpx;
+}
 
-	.title {
-		padding-top: 60rpx;
-		font-size: 30rpx;
-		font-weight: 600;
-		letter-spacing: 2rpx;
-	}
+.top_img {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
 
-	.author {
-		padding-top: 30rpx;
-		color: rgb(224, 138, 8);
-		font-size: 25rpx;
-		letter-spacing: 2rpx;
-	}
+.top_img image {
+	width: 440rpx;
+	height: 440rpx;
+}
 
-	.price_box {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: 30rpx;
-	}
+.title {
+	padding-top: 60rpx;
+	letter-spacing: 2rpx;
+	font-weight: 600;
+	font-size: 30rpx;
+}
 
-	.now_price {
-		color: #f30;
-		font-size: 34rpx;
-		font-weight: 600;
-	}
+.author {
+	padding-top: 30rpx;
+	color: rgb(224, 138, 8);
+	letter-spacing: 2rpx;
+	font-size: 25rpx;
+}
 
-	.pre_price {
-		padding-left: 30rpx;
-		color: rgb(172, 171, 171);
-		font-size: 25rpx;
-		text-decoration: line-through;
-	}
+.price_box {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30rpx;
+}
 
-	.blank {
-		width: 100%;
-		height: 10rpx;
-		background: #f8f8f8;
-	}
+.now_price {
+	color: #f30;
+	font-weight: 600;
+	font-size: 34rpx;
+}
 
-	.center_contain {
-		display: flex;
-		justify-content: space-around;
-		box-sizing: border-box;
-		width: 100%;
-		height: 80rpx;
-		padding: 0 100rpx;
-	}
+.pre_price {
+	padding-left: 30rpx;
+	color: rgb(172, 171, 171);
+	text-decoration: line-through;
+	font-size: 25rpx;
+}
 
-	.c_title {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 140rpx;
-		height: 100%;
-		font-size: 28rpx;
-		letter-spacing: 2rpx;
-	}
+.blank {
+	width: 100%;
+	height: 10rpx;
+	background: #f8f8f8;
+}
 
-	.title_on {
-		color: #000;
-		font-size: 32rpx;
-		font-weight: 600;
-		border-bottom: 8rpx solid #fbbd08;
-	}
+.center_contain {
+	display: flex;
+	justify-content: space-around;
+	box-sizing: border-box;
+	padding: 0 100rpx;
+	width: 100%;
+	height: 80rpx;
+}
 
-	.user_box {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		box-sizing: border-box;
-		width: 100%;
-		height: 148rpx;
-		padding: 24rpx 24rpx;
-		margin-top: 20rpx;
-		/* background-color: #666; */
-	}
+.c_title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 140rpx;
+	height: 100%;
+	letter-spacing: 2rpx;
+	font-size: 28rpx;
+}
 
-	.user_box image {
-		width: 100rpx;
-		height: 100rpx;
-		border-radius: 50%;
-	}
+.title_on {
+	border-bottom: 8rpx solid #fbbd08;
+	color: #000;
+	font-weight: 600;
+	font-size: 32rpx;
+}
 
-	.des_box {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		align-items: flex-start;
-		/* width: 450rpx;
+.publish_wrap {
+	margin-bottom: 60rpx;
+}
+
+.user_box {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	margin-top: 20rpx;
+	padding: 24rpx 24rpx;
+	width: 100%;
+	height: 148rpx;
+	/* background-color: #666; */
+}
+
+.user_box image {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+}
+
+.des_box {
+	display: flex;
+	align-items: flex-start;
+
+	/* width: 450rpx;
    */
-		flex: 1;
-		height: 100%;
-		margin-left: 40rpx;
-		/* padding: 10rpx 0; */
-	}
+	flex: 1;
+	flex-direction: column;
+	justify-content: space-around;
+	margin-left: 40rpx;
+	height: 100%;
 
-	.user_name {
-		margin-bottom: 15rpx;
-		font-size: 32rpx;
-		letter-spacing: 2rpx;
-	}
+	/* padding: 10rpx 0; */
+}
 
-	.local_box {
-		display: flex;
-		/* flex-direction: column; */
-		align-items: center;
-	}
+.user_name {
+	margin-bottom: 15rpx;
+	letter-spacing: 2rpx;
+	font-size: 32rpx;
+}
 
-	.local_box-in {
-		display: flex;
-	}
+.local_box {
+	display: flex;
 
-	.local_box image {
-		width: 30rpx;
-		height: 30rpx;
-	}
+	/* flex-direction: column; */
+	align-items: center;
+}
 
-	.local_box view {
-		padding-left: 5rpx;
-		color: rgb(150, 150, 150);
-		font-size: 28rpx;
-		letter-spacing: 2rpx;
-	}
+.local_box-in {
+	display: flex;
+}
 
-	.sex {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100rpx;
-		height: 100%;
-	}
+.local_box image {
+	width: 30rpx;
+	height: 30rpx;
+}
 
-	.sex image {
-		width: 50rpx;
-		height: 50rpx;
-		border-radius: 50%;
-	}
+.local_box view {
+	padding-left: 5rpx;
+	color: rgb(150, 150, 150);
+	letter-spacing: 2rpx;
+	font-size: 28rpx;
+}
 
-	.notes_box {
-		display: flex;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 24rpx 24rpx 0 24rpx;
-	}
+.sex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100rpx;
+	height: 100%;
+}
 
-	.notes {
-		display: flex;
-		flex-direction: column;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 20rpx 20rpx 10rpx 20rpx;
-		color: #aaa;
-		background: rgb(238, 238, 238);
-		border-radius: 10rpx;
-	}
+.sex image {
+	width: 50rpx;
+	height: 50rpx;
+	border-radius: 50%;
+}
 
-	.notes_text {
-		padding-bottom: 10rpx;
-		font-size: 28rpx;
-		line-height: 45rpx;
-		letter-spacing: 2rpx;
-	}
+.notes_box {
+	display: flex;
+	box-sizing: border-box;
+	padding: 24rpx 24rpx 0 24rpx;
+	width: 100%;
+}
 
-	.time_box {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 24rpx 24rpx 0 24rpx;
-	}
+.notes {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	padding: 20rpx 20rpx 10rpx 20rpx;
+	width: 100%;
+	border-radius: 10rpx;
+	background: rgb(238, 238, 238);
+	color: #aaa;
+}
 
-	.kind {
-		font-size: 28rpx;
-		letter-spacing: 2rpx;
-	}
+.notes_text {
+	padding-bottom: 10rpx;
+	letter-spacing: 2rpx;
+	font-size: 28rpx;
+	line-height: 45rpx;
+}
 
-	.time {
-		color: #8c9aa8;
-		font-size: 26rpx;
-		letter-spacing: 2rpx;
-	}
+.time_box {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	padding: 24rpx 24rpx 0 24rpx;
+	width: 100%;
+}
 
-	.address_box {
-		display: flex;
-		/* justify-content: space-between; */
-		align-items: center;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 24rpx 24rpx 0 24rpx;
-	}
+.kind {
+	letter-spacing: 2rpx;
+	font-size: 28rpx;
+}
 
-	.deliver_box {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 24rpx 24rpx 0 24rpx;
-	}
+.time {
+	color: #8c9aa8;
+	letter-spacing: 2rpx;
+	font-size: 26rpx;
+}
 
-	.deliver_first {
-		display: flex;
-		align-items: center;
-	}
+.address_box {
+	display: flex;
 
-	.deliver_title {
-		font-size: 28rpx;
-		letter-spacing: 2rpx;
-	}
+	/* justify-content: space-between; */
+	align-items: center;
+	box-sizing: border-box;
+	padding: 24rpx 24rpx 0 24rpx;
+	width: 100%;
+}
 
-	.deliver_kind {
-		padding: 4rpx 12rpx;
-		color: #fff;
-		font-size: 26rpx;
-		letter-spacing: 2rpx;
-		background-color: #256ff7;
-		border-radius: 8rpx;
-	}
+.deliver_box {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	padding: 24rpx 24rpx 0 24rpx;
+	width: 100%;
+}
 
-	.deliver_place {
-		font-size: 28rpx;
-		letter-spacing: 2rpx;
-	}
+.deliver_first {
+	display: flex;
+	align-items: center;
+}
 
-	.palceInput_box {
-		display: flex;
-		justify-content: center;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 24rpx 24rpx 0 24rpx;
-	}
+.deliver_title {
+	letter-spacing: 2rpx;
+	font-size: 28rpx;
+}
 
-	.palceInput_box input {
-		width: 100%;
-		height: 66rpx;
-		padding: 0 20rpx;
-		font-size: 26rpx;
-		letter-spacing: 2rpx;
-		border: 1rpx solid #eee;
-		border-radius: 10rpx;
-	}
+.deliver_kind {
+	padding: 4rpx 12rpx;
+	border-radius: 8rpx;
+	background-color: #256ff7;
+	color: #fff;
+	letter-spacing: 2rpx;
+	font-size: 26rpx;
+}
 
-	.detail_contain {
-		display: flex;
-		flex-direction: column;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 24rpx;
-	}
+.deliver_place {
+	letter-spacing: 2rpx;
+	font-size: 28rpx;
+}
 
-	.detail_card {
-		display: flex;
-		justify-content: space-between;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 30rpx 0;
-	}
+.palceInput_box {
+	display: flex;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 24rpx 24rpx 0 24rpx;
+	width: 100%;
+}
 
-	.detail_border {
-		border-bottom: 1rpx solid #eee;
-	}
+.palceInput_box input {
+	padding: 0 20rpx;
+	width: 100%;
+	height: 66rpx;
+	border: 1rpx solid #eee;
+	border-radius: 10rpx;
+	letter-spacing: 2rpx;
+	font-size: 26rpx;
+}
 
-	.detail_title {
-		width: 20%;
-		font-size: 28rpx;
-		line-height: 45rpx;
-		letter-spacing: 2rpx;
-	}
+.detail_contain {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	padding: 24rpx;
+	width: 100%;
+}
 
-	.detail_content {
-		width: 78%;
-		color: #616161;
-		font-size: 27rpx;
-		line-height: 44rpx;
-		letter-spacing: 2rpx;
-	}
+.detail_card {
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	padding: 30rpx 0;
+	width: 100%;
+}
 
-	/*底部导航*/
+.detail_border {
+	border-bottom: 1rpx solid #eee;
+}
 
-	.tabbar {
-		position: fixed;
-		bottom: 30rpx;
-		left: 0rpx;
-		z-index: 8;
-		display: flex;
-		align-items: center;
-		box-sizing: border-box;
-		width: 100%;
-		height: 96rpx;
-		padding: 10rpx;
-		background: #fff;
-		border-top: 1rpx solid #ddd;
-		opacity: 1;
-	}
+.detail_title {
+	width: 20%;
+	letter-spacing: 2rpx;
+	font-size: 28rpx;
+	line-height: 45rpx;
+}
 
-	.t_card {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		box-sizing: border-box;
-		width: 20%;
-		height: 80rpx;
-	}
+.detail_content {
+	width: 78%;
+	color: #616161;
+	letter-spacing: 2rpx;
+	font-size: 27rpx;
+	line-height: 44rpx;
+}
 
-	.t_card image {
-		width: 40rpx;
-		height: 40rpx;
-	}
+/*底部导航*/
 
-	.t_card text {
-		display: flex;
-		justify-content: center;
-		align-items: flex-start;
-		width: 100%;
-		height: calc(100% - 50rpx);
-		padding-top: 4rpx;
-		font-size: 24rpx;
-		text-align: center;
-		white-space: nowrap;
-	}
+.tabbar {
+	position: fixed;
+	bottom: 30rpx;
+	left: 0rpx;
+	z-index: 8;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 10rpx;
+	width: 100%;
+	height: 96rpx;
+	border-top: 1rpx solid #ddd;
+	background: #fff;
+	opacity: 1;
+}
 
-	.t_button {
-		position: absolute;
-		top: 0rpx;
-		left: 0rpx;
-		z-index: 9;
-		width: 100%;
-		height: 100%;
-		opacity: 0.01;
-	}
+.t_card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 20%;
+	height: 80rpx;
+}
 
-	.buy_box {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		box-sizing: border-box;
-		width: 40%;
-		height: 100%;
-	}
+.t_card image {
+	width: 40rpx;
+	height: 40rpx;
+}
 
-	.buy {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 90%;
-		height: 70rpx;
-		color: #000;
-		font-size: 28rpx;
-		letter-spacing: 4rpx;
-		background: #fbbd08;
-		border-radius: 35rpx;
-	}
+.t_card text {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding-top: 4rpx;
+	width: 100%;
+	height: calc(100% - 50rpx);
+	text-align: center;
+	white-space: nowrap;
+	font-size: 24rpx;
+}
 
-	.contact_box {
-		position: fixed;
-		right: 40rpx;
-		bottom: 200rpx;
-		z-index: 9;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 100rpx;
-		padding: 20rpx 0;
-		background: rgba(255, 255, 255, 0.8);
-		box-shadow: 0 0 20rpx #f0f0f0 !important;
-		border-radius: 50rpx 50rpx 20rpx 20rpx;
-	}
+.t_button {
+	position: absolute;
+	top: 0rpx;
+	left: 0rpx;
+	z-index: 9;
+	width: 100%;
+	height: 100%;
+	opacity: .01;
+}
 
-	.contact_box image {
-		width: 75rpx;
-		height: 75rpx;
-	}
+.buy_box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 40%;
+	height: 100%;
+}
 
-	.contact_box view {
-		margin-top: 10rpx;
-		font-size: 26rpx;
-		letter-spacing: 2rpx;
-	}
+.buy {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 90%;
+	height: 70rpx;
+	border-radius: 35rpx;
+	background: #fbbd08;
+	color: #000;
+	letter-spacing: 4rpx;
+	font-size: 28rpx;
+}
+
+.contact_box {
+	position: fixed;
+	right: 40rpx;
+	bottom: 200rpx;
+	z-index: 9;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 20rpx 0;
+	width: 100rpx;
+	border-radius: 50rpx 50rpx 20rpx 20rpx;
+	background: rgba(255, 255, 255, .8);
+	box-shadow: 0 0 20rpx #f0f0f0 !important;
+}
+
+.contact_box image {
+	width: 75rpx;
+	height: 75rpx;
+}
+
+.contact_box view {
+	margin-top: 10rpx;
+	letter-spacing: 2rpx;
+	font-size: 26rpx;
+}
 </style>

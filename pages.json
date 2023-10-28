@@ -148,6 +148,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/good-detail/good-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品详情",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/poster/poster",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "海报卡片",
+                "enablePullDownRefresh": true
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

@@ -322,7 +322,7 @@
 			toGoodDetailPage(goodId) {
 				console.log(goodId);
 				uni.navigateTo({
-					url: `/pages/goods-detail/goods-detail?goodId=${goodId}&from=index`
+					url: `/pages/good-detail/good-detail?goodId=${goodId}&from=index`
 
 				});
 			}
