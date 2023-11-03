@@ -1015,6 +1015,7 @@ export default {
             avatar: this.userInfo.info.avatarUrl,
             nickName: this.userInfo.info.nickName,
             msgType: "image",
+            textContent: "[图片]",
             sendTime: util.formatTime(new Date()),
             sendTimeTS: Date.now(), // fallback
           };
