@@ -90,7 +90,7 @@
                 <view class="text-content">{{ item.textContent }}</view>
               </view>
             </block>
-            <block v-if="item.msgType === 'record'">
+            <!-- <block v-if="item.msgType === 'record'">
               <view
                 class="text-wrapper"
                 :data-file="item.recordID"
@@ -105,8 +105,8 @@
                   class="image-content2"
                   mode="scallToFill"></image>
               </view>
-            </block>
-            <block v-if="item.msgType === 'file'">
+            </block> -->
+            <!-- <block v-if="item.msgType === 'file'">
               <view
                 class="text-wrapper"
                 :data-file="item.FileID"
@@ -128,7 +128,7 @@
                   {{ item.filename }}
                 </view>
               </view>
-            </block>
+            </block> -->
             <block v-if="item.msgType === 'card'">
               <van-card
                 :thumb-link="thumblink + item.goodInfo._id"
@@ -157,41 +157,10 @@
             class="text-input"
             type="text"
             confirm-type="send"
+            @input="textInputOnChange"
             @confirm="onConfirmSendText"
             cursor-spacing="20"
-            :value="textInputValue"
-            @blur="clearInputValue" />
-
-          <image
-            v-if="!recording"
-            src="/static/images/chat/record.png"
-            class="btn-send-image"
-            mode="scaleToFill"
-            @tap="yuyin"></image>
-          <image
-            v-if="recording"
-            src="/static/images/chat/record.gif"
-            class="btn-send-image"
-            mode="scaleToFill"
-            @tap="stop">
-          </image>
-
-          <image
-            src="/static/images/chat/filelogo.png"
-            class="btn-send-image"
-            mode="scaleToFill"
-            @tap="file"></image>
-        </view>
-
-        <view
-          class="message-sender"
-          v-if="!userInfo">
-          <button
-            open-type="getUserInfo"
-            @getuserinfo="onGetUserInfoFun"
-            class="userinfo">
-            请先登录后参与办公
-          </button>
+            :value="textInputValue" />
         </view>
       </view>
     </view>
@@ -200,13 +169,11 @@
 
 <script>
 var util = require("../../../../util.js");
-const innerAudioContext = uni.createInnerAudioContext();
 const FATAL_REBUILD_TOLERANCE = 10;
 const SETDATA_SCROLL_TO_BOTTOM = {
   scrollTop: 100000,
   scrollWithAnimation: true,
 };
-const recorderManager = uni.getRecorderManager();
 const db = wx.cloud.database();
 import VanCard from "../../../../wxcomponents/vant/card";
 import VanTag from "../../../../wxcomponents/vant/tag";
@@ -223,17 +190,13 @@ export default {
       thumblink: `/pages/good-detail/good-detail?goodId=`,
       isShowThisGood: false,
       listening: false,
-      recording: false,
       chats: [],
       textInputValue: "",
       openId: "",
       scrollTop: 0,
       scrollToMessage: "",
       hasKeyboard: false,
-      record: false,
       tempFilePathrecord: "",
-      filename: "",
-      fileUrl: "",
       flag: 0,
       scrollWithAnimation: false,
       goodInfo: {
@@ -250,24 +213,37 @@ export default {
     groupName: String,
     userInfo: Object, // 买家，当前登录用户
     sellerInfo: Object, // 卖家
-    // onGetUserInfo: {
-    // 	type: Function
-    // },
-    // getOpenID: {
-    // 	type: Function
-    // },
     backgroundimage: String,
     haoyou_openid: String,
     from: String,
     goodId: String,
   },
   methods: {
+    async ready() {
+      global.chatroom = this;
+      uni.showLoading({
+        title: "加载中",
+        mask: true,
+      });
+      await this.getGoodInfo(this.from, this.goodId);
+      await this.initRoom(this.from);
+      console.log("goodid :>> ", this.goodId);
+      this.fatalRebuildCount = 0;
+    },
+    // 监听文本输入框改变
+    textInputOnChange(e) {
+      // 增加textInputValue的响应式
+      this.textInputValue = e.target.value;
+    },
+    // 跳转详情页面
     toDetail() {
       uni.navigateBack({ delta: 1 });
     },
+    // 关闭商品卡片
     closeThisGood() {
       this.isShowThisGood = false;
     },
+    // 发送商品卡片
     sendThisGood() {
       // 点击发送该商品
       // 从商品详情页面来的
@@ -326,40 +302,7 @@ export default {
         });
       }
     },
-    getOpenID: async function () {
-      if (this.openid) {
-        return this.openid;
-      }
-      const { result } = await wx.cloud.callFunction({
-        name: "yunrouter",
-        data: {
-          $url: "openid",
-        },
-      });
-      return result;
-    },
-    onGetUserInfo: function (e) {
-      console.log(e, "onGetUserInfo");
-      if (!uni.getStorageSync("isRegister") && e.detail.userInfo) {
-        this.setData({
-          logged: true,
-          avatarUrl: e.detail.userInfo.avatarUrl,
-          userInfo: e.detail.userInfo,
-        });
-      }
-    },
-    async ready() {
-      global.chatroom = this;
-      uni.showLoading({
-        title: "加载中",
-        mask: true,
-      });
-      await this.getGoodInfo(this.from, this.goodId);
-      await this.initRoom(this.from);
-      console.log("goodid :>> ", this.goodId);
-      this.fatalRebuildCount = 0;
-    },
-
+    // 获取商品信息
     async getGoodInfo(from, goodId) {
       const collectionName = from === "good-detail" ? "goods" : from === "book-detail" ? "books" : null;
 
@@ -385,17 +328,30 @@ export default {
           this.isShowThisGood = true;
         });
     },
-
-    onGetUserInfoFun(e) {
-      this.onGetUserInfo(e);
+    // 获取用户openid
+    getOpenID: async function () {
+      if (this.openid) {
+        return this.openid;
+      }
+      const { result } = await wx.cloud.callFunction({
+        name: "yunrouter",
+        data: {
+          $url: "openid",
+        },
+      });
+      return result;
     },
-
-    getOpenIDFun() {
-      console.log(this.getOpenID);
-      return this.getOpenID();
-      // return uni.getStorageSync('openid');
+    // 初始化用户openid
+    async initOpenID() {
+      return this.tryFun(async () => {
+        const openId = await this.getOpenID();
+        this.setData({
+          openId,
+        });
+        console.log("初始化openId :>> ", this.openId);
+      }, "初始化 openId 失败");
     },
-
+    // 整合查询条件
     mergeCommonCriteria(criteria) {
       console.log("mergeCommonCriteria", criteria, this.groupId);
       return {
@@ -408,7 +364,7 @@ export default {
         ...criteria,
       };
     },
-
+    // 初始化聊天室
     async initRoom(from) {
       this.tryFun(async () => {
         await this.initOpenID();
@@ -437,16 +393,6 @@ export default {
             : {}
         );
       }, "初始化失败");
-    },
-
-    async initOpenID() {
-      return this.tryFun(async () => {
-        const openId = await this.getOpenIDFun();
-        this.setData({
-          openId,
-        });
-        console.log("初始化openId :>> ", this.openId);
-      }, "初始化 openId 失败");
     },
 
     // 初始化监听
@@ -694,8 +640,8 @@ export default {
           ],
         });
         this.$nextTick(() => {
-          // this.scrollToBottom(true);
-          this.scrollTop = 10000;
+          this.scrollTop = this.scrollTop + 1;
+          this.textInputValue = "";
         });
 
         await db.collection(collection).add({
@@ -715,291 +661,6 @@ export default {
         });
         this.send_tixing();
       }, "发送文字失败");
-    },
-
-    //发送语音
-    async yuyin(e) {
-      this.setData({
-        recording: true,
-      });
-      const options = {
-        duration: 5000,
-        //指定录音的时长，单位 ms，最大为10分钟（600000），默认为1分钟（60000）
-        sampleRate: 16000,
-        //采样率
-        numberOfChannels: 1,
-        //录音通道数
-        encodeBitRate: 96000,
-        //编码码率
-        format: "mp3",
-        //音频格式，有效值 aac/mp3
-        frameSize: 50, //指定帧大小，单位 KB
-      };
-      //开始录音
-      recorderManager.start(options);
-      recorderManager.onStart(() => {
-        console.log("。。。开始录音。。。");
-      });
-    },
-
-    async stop() {
-      this.setData({
-        recording: false,
-      });
-      console.log("。。。停止录音了。。。");
-      recorderManager.stop();
-      recorderManager.onStop((res) => {
-        console.log("录音文件", res.tempFilePath);
-        this.setData({
-          tempFilePathrecord: res.tempFilePath,
-        });
-        this.sendrecord();
-      });
-    },
-
-    async sendrecord(e) {
-      const { envId, collection } = this;
-      const doc = {
-        _id: `${Math.random()}_${Date.now()}`,
-        groupId: this.groupId,
-        avatar: this.userInfo.info.avatarUrl,
-        nickName: this.userInfo.info.nickName,
-        msgType: "record",
-        sendTime: util.formatTime(new Date()),
-        sendTimeTS: Date.now(), // fallback
-      };
-
-      this.setData({
-        chats: [
-          ...this.chats,
-          {
-            ...doc,
-            _openid: this.openId,
-            tempFilePath: this.tempFilePathrecord,
-            writeStatus: 0,
-          },
-        ],
-      });
-      this.scrollToBottom(true);
-      const uploadTask = wx.cloud.uploadFile({
-        cloudPath: `录音/${this.groupId}/${this.userInfo.info.nickName}/${Math.random()}_${Date.now()}.${this.tempFilePathrecord.match(/\.(\w+)$/)[1]}`,
-        // cloudPath: 'record.mp3',
-        filePath: this.tempFilePathrecord,
-        config: {
-          env: envId,
-        },
-        success: (res) => {
-          this.tryFun(async () => {
-            await this.db.collection(collection).add({
-              data: {
-                ...doc,
-                recordID: res.fileID,
-              },
-            });
-          }, "发送录音失败");
-        },
-        fail: (e) => {
-          this.showError("发送录音失败", e, "", "");
-        },
-      });
-      uploadTask.onProgressUpdate(({ progress }) => {
-        this.setData({
-          chats: this.chats.map((chat) => {
-            if (chat._id === doc._id) {
-              return {
-                ...chat,
-                writeStatus: progress,
-              };
-            } else {
-              return chat;
-            }
-          }),
-        });
-      });
-    },
-
-    async play(e) {
-      if (this.listening) {
-        this.setData({
-          listening: false,
-        });
-        innerAudioContext.pause();
-      } else {
-        this.setData({
-          listening: true,
-        });
-        console.log("点击了播放");
-        var tempsound = e.currentTarget.dataset.file;
-        var arr = [];
-        arr.push(tempsound);
-        console.log(arr);
-        wx.cloud.downloadFile({
-          fileID: tempsound,
-          //音频文件url
-          success: (res) => {
-            wx.cloud.getTempFileURL({
-              fileList: arr,
-              success: (res) => {
-                console.log(res);
-                innerAudioContext.autoplay = true;
-                innerAudioContext.src = res.fileList[0].tempFileURL;
-                innerAudioContext.onPlay(() => {
-                  console.log("开始播放1");
-                });
-              },
-              fail: (err) => {
-                console.log("播放错误", err);
-              },
-            });
-            console.log(res.tempFilePath);
-            /*
-						if (res.statusCode === 200) {                
-									wx.playVoice({              
-											 filePath: res.tempFilePath,                      
-												complete: (e) => {    
-													console.log('完成',e) 
-													wx.getFileSystemManager().saveFile({
-														tempFilePath: res.tempFilePath,
-														success: function(res) {
-															console.log(res)
-															console.log('保存到本地')
-														}
-													})         
-												}
-									});
-						 }
-						 */
-          },
-
-          fail(e) {
-            console.log(e);
-          },
-        });
-      } //else组件的反括号
-    },
-
-    // 发送文件
-    async file(e) {
-      uni.chooseMessageFile({
-        count: 1,
-        type: "file",
-        success: async (res) => {
-          console.log("文件：", res);
-          this.setData({
-            filename: res.tempFiles[0].name,
-          });
-          const { envId, collection } = this;
-          const doc = {
-            _id: `${Math.random()}_${Date.now()}`,
-            groupId: this.groupId,
-            avatar: this.userInfo.info.avatarUrl,
-            nickName: this.userInfo.info.nickName,
-            msgType: "file",
-            sendTime: util.formatTime(new Date()),
-            sendTimeTS: Date.now(), // fallback
-          };
-
-          this.setData({
-            chats: [
-              ...this.chats,
-              {
-                ...doc,
-                _openid: this.openId,
-                tempFilePath: res.tempFiles[0].path,
-                writeStatus: 0,
-              },
-            ],
-          });
-          this.scrollToBottom(true);
-          console.log("文件的信息:", res.tempFiles[0].path);
-          console.log("文件的名字:", res.tempFiles[0].name);
-          const uploadTask = wx.cloud.uploadFile({
-            cloudPath: `文件传输/${this.groupId}/${this.userInfo.info.nickName}/${Math.random()}_${Date.now()}.${res.tempFiles[0].path.match(/\.(\w+)$/)[1]}`,
-            filePath: res.tempFiles[0].path,
-            config: {
-              env: envId,
-            },
-            success: (res) => {
-              this.tryFun(async () => {
-                console.log(this.filename);
-                await this.db.collection(collection).add({
-                  data: {
-                    ...doc,
-                    FileID: res.fileID,
-                    filename: this.filename,
-                  },
-                });
-              }, "发送文件失败");
-            },
-            fail: (e) => {
-              this.showError("发送文件失败", e, "", "");
-            },
-          });
-          uploadTask.onProgressUpdate(({ progress }) => {
-            this.setData({
-              chats: this.chats.map((chat) => {
-                if (chat._id === doc._id) {
-                  return {
-                    ...chat,
-                    writeStatus: progress,
-                  };
-                } else {
-                  return chat;
-                }
-              }),
-            });
-          });
-        },
-      });
-    },
-
-    async downloadfile(e) {
-      var fileID = e.currentTarget.dataset.file;
-      let that = this;
-      wx.cloud.getTempFileURL({
-        fileList: [fileID],
-        success: (res) => {
-          // get temp file URL
-          console.log("文件下载链接", res.fileList[0].tempFileURL);
-          that.setData({
-            fileUrl: res.fileList[0].tempFileURL,
-            flag: 1,
-          });
-          that.downloadFile();
-        },
-        fail: (err) => {
-          // handle error
-        },
-      });
-    },
-
-    async downloadFile() {
-      let that = this;
-      let url = that.fileUrl;
-      uni.downloadFile({
-        url: url,
-        header: {},
-        success: function (res) {
-          var filePath = res.tempFilePath;
-          console.log(filePath);
-          uni.openDocument({
-            filePath: filePath,
-            success: function (res) {
-              console.log("打开文档成功");
-            },
-            fail: function (res) {
-              console.log(res);
-            },
-            complete: function (res) {
-              console.log(res);
-            },
-          });
-        },
-        fail: function (res) {
-          console.log("文件下载失败");
-        },
-        complete: function (res) {},
-      });
     },
 
     // 发送图片
@@ -1032,8 +693,7 @@ export default {
             ],
           });
           this.$nextTick(() => {
-            // this.scrollToBottom(true);
-            this.scrollTop = 10000;
+            this.scrollTop = this.scrollTop + 1;
           });
           const uploadTask = wx.cloud.uploadFile({
             cloudPath: `办公交流/${this.groupId}/${this.userInfo.info.nickName}/${Math.random()}_${Date.now()}.${res.tempFilePaths[0].match(/\.(\w+)$/)[1]}`,
@@ -1073,12 +733,13 @@ export default {
       });
     },
 
+    // 图片预览
     onMessageImageTap(e) {
       uni.previewImage({
         urls: [e.target.dataset.fileid],
       });
     },
-
+    // 滚到底部
     scrollToBottom(force) {
       if (force) {
         console.log("force scroll to bottom");
@@ -1104,7 +765,7 @@ export default {
         })
         .exec();
     },
-
+    // 滚到顶部触发的事件
     async onScrollToUpper() {
       // 检查数据库是否初始化并且聊天记录数组不为空
       if (this.db && this.chats.length) {
@@ -1137,7 +798,7 @@ export default {
         this.scrollWithAnimation = false;
       }
     },
-
+    // 异步操作函数
     async tryFun(fn, title) {
       try {
         await fn();
@@ -1147,7 +808,7 @@ export default {
         this.showError(title, e, "", "");
       }
     },
-
+    // 显示错误
     showError(title, content, confirmText, confirmCallback) {
       console.error(title, content);
       uni.showModal({
@@ -1176,15 +837,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .good-card-wrap {
-  // padding: 20rpx 20rpx 0 20rpx;
   background-color: #f7f8fa;
   border-bottom: 1rpx solid #e9e9e9;
 
   view.good-card {
     display: flex;
     padding: 20rpx 30rpx;
-
-    // background-color: #fff;
 
     div.left {
       margin-right: 30rpx;
@@ -1262,8 +920,6 @@ export default {
   padding: 20rpx 0 30rpx;
   font-size: 30rpx;
   border-bottom: 1px solid #ddd;
-  /* background: rgb(34, 187, 47);
-  color: rgba(255, 255, 255, 1) */
 }
 
 .chatroom .header .left {
@@ -1381,8 +1037,6 @@ export default {
   padding: 20rpx 30rpx;
   font-size: 10rpx;
   background: #e9e9e9;
-
-  /* background-color: rgb(152, 225, 101); */
   border-top: 1px solid #ddd;
 }
 
@@ -1390,7 +1044,6 @@ export default {
   display: flex;
   flex-direction: row;
   flex: 1;
-  background-color: rgb(246, 246, 246);
 }
 
 .message-sender .text-input {
