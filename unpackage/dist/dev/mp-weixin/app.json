@@ -15,7 +15,10 @@
     "pages/my3/my3",
     "pages/my-edit/my-edit",
     "pages/good-detail/good-detail",
-    "pages/poster/poster"
+    "pages/poster/poster",
+    "pages/chat-room/chat-room",
+    "pages/chat-room/haoyoupage/haoyoupage",
+    "pages/chat-list/chat-list"
   ],
   "subPackages": [],
   "window": {
@@ -41,6 +44,12 @@
         "text": "上架",
         "iconPath": "static/tarbar/加号.png",
         "selectedIconPath": "static/tarbar/加号(1).png"
+      },
+      {
+        "pagePath": "pages/chat-list/chat-list",
+        "text": "会话",
+        "iconPath": "static/tarbar/未读消息(1).png",
+        "selectedIconPath": "static/tarbar/未读消息.png"
       },
       {
         "pagePath": "pages/my-copy/my",

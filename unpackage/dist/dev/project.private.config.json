@@ -124,6 +124,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/chat-list/chat-list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

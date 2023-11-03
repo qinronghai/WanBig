@@ -22,6 +22,8 @@
 
 		</swiper>
 
+
+
 		<!-- 成色和品质标签 -->
 		<view class="tags">
 			<uni-tag text="全新" type="success"></uni-tag>
@@ -29,6 +31,69 @@
 
 		</view>
 
+		<button @click="goToChatRoom">去聊天室</button>
+		<view style="width:100vw" class="kind-list">
+			<view class="kind-list">
+				<view class="kind-list_item">
+					<view class="tui-flex kind-list_item-hd }}">
+						<view class="tui-flex_item">好友列表</view>
+
+						<view v-for="(item, index) in peoplelist" :key="index">
+							<uni-list :data-info="item" @click="peoplepage(item)">
+								<view class="tui-msg-box">
+									<uni-image :src="item.userInfo.avatarUrl" class="tui-msg-pic" mode="widthFix"></uni-image>
+									<view class="tui-msg-item">
+										<view class="tui-msg-name">昵称：{{ item.userInfo.nickName }}</view>
+										<view class="tui-msg-content">country:：{{ item.userInfo.country }}</view>
+									</view>
+								</view>
+								<view :class="'tui-msg-right ' + (item.level === 3 ? 'tui-right-dot' : '')">
+									<view class="tui-msg-time">性别：{{ item.userInfo.gender === 1 ? '男' : '女' }}</view>
+								</view>
+							</uni-list>
+						</view>
+
+						<view class="tui-safearea-bottom"></view>
+					</view>
+				</view>
+			</view>
+
+
+			<uni-list>
+				<uni-list v-for="(item, index) in peoplelist" :key='index' :border="true">
+
+					<!-- 右侧带角标 -->
+					<uni-list-chat :title="item.userInfo.info.nickName" @click="peoplepage(item)" :clickable="true" :avatar="item.userInfo.info.avatarUrl" :note="item.note" :time="item.time"
+																																																																																															:badge-text="item.badgeText"></uni-list-chat>
+
+				</uni-list>
+			</uni-list>
+
+
+		</view>
+
+		<button @click="handleStartChat">消息</button>
+
+		<van-card num="2" price="2.00" desc="描述信息" title="商品标题" thumb="https://img01.yzcdn.cn/vant/ipad.jpeg" />
+
+		<view class='good-card'>
+			<div class="left">
+				<image src="http://doc.bufanui.com/static/images/logo.jpg" mode="scaleToFill" />
+			</div>
+			<div class="right">
+				<div class="right-top">
+					<div class="title">测试组件</div>
+					<uni-icons type="closeempty" size="24" color="#f6f8fa"></uni-icons>
+
+				</div>
+				<div class="right-bottom">
+					<div class="price">138.00</div>
+					<button open-type="" hover-class="button-hover" @click="">
+						发送商品
+					</button>
+				</div>
+			</div>
+		</view>
 	</view>
 </template>
 
@@ -36,11 +101,14 @@
 const db = wx.cloud.database();
 const _ = db.command;
 import VanStepper from "../../wxcomponents/vant/stepper/index";
+import VanCard from "../../wxcomponents/vant/card";
+
 
 export default {
 	components: {
 
-		VanStepper
+		VanStepper,
+		VanCard
 	},
 	data() {
 		return {
@@ -48,10 +116,197 @@ export default {
 			text: '',
 			background: ['color1', 'color2', 'color3'],
 
-			goodpics: [{ url: 'cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/good-pictures/1698301471557-764' }, { url: 'cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/good-pictures/1698301471560-97' }]
+			goodpics: [{
+				url: 'cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/good-pictures/1698301471557-764'
+			}, {
+				url: 'cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/good-pictures/1698301471560-97'
+			}],
+			peoplelist: [{
+				userInfo: {
+					avatarUrl: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png",
+					nickName: "John",
+					country: "USA",
+					gender: 1
+				},
+				level: 2
+			},
+			{
+				userInfo: {
+					avatarUrl: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png",
+					nickName: "Emily",
+					country: "Canada",
+					gender: 2
+				},
+				level: 3
+			},
+				// 添加更多的模拟数据...
+			]
 		}
 	},
+	onLoad(options) {
+
+	},
+	onShow: function (options) {
+		this.onShowClone3389(options);
+
+	},
 	methods: {
+		mergeCommonCriteria(criteria) {
+			console.log('mergeCommonCriteria', criteria, this.groupId);
+			return {
+				//groupId是你这个聊天室的名字，
+				//自己可以利用Id给每个卖家创建一下之类的，用id当名字
+				//同一个卖家的大家都进到这个聊天室中
+
+				//或者商品一开始上传的时候给他带一个属性就是聊太的属性就行，正好也可以当作评论的属性
+				groupId: this.groupId,
+				...criteria
+			};
+		},
+		async getUnreadedMsg(openid) {
+			// 获取未读消息
+			let res = await db.collection('chatroom_example').where(
+				this.mergeCommonCriteria({
+					readed: 0,
+					_openid: openid
+				})
+			).get();
+
+			let unreadedList = res.data;
+
+			console.log('未读消息列表 :>> ', unreadedList);
+			return {
+				note: unreadedList[unreadedList.length - 1].textContent,
+				time: unreadedList[unreadedList.length - 1].sendTime,
+				badgeText: unreadedList.length
+			}
+		},
+		async tryFun(fn, title) {
+			try {
+				await fn();
+			} catch (e) {
+				console.log('CatchClause', e);
+				console.log('CatchClause', e);
+				this.showError(title, e, '', '');
+			}
+		},
+		async initOpenID() {
+			return this.tryFun(async () => {
+				const openId = await this.getOpenIDFun();
+				this.setData({
+					openId
+				});
+			}, '初始化 openId 失败');
+		},
+		handleStartChat() {
+			const buyerUserInfo = uni.getStorageSync('userInfo'); // 买家信息
+			const buyerOpenid = buyerUserInfo._openid; // 买家
+			const sellerOpenid = that.addpeopledetail._openid // 卖家信息
+			// 检查买家的friends是否有卖家
+			let that = this;
+			//先判断是否有该好友，本地判断也好，数据库判断都行
+			// 1. 正反两个openid结合
+			var chatid1 = sellerOpenid + buyerOpenid;
+			var chatid2 = buyerOpenid + sellerOpenid;
+			// 2. 遍历当前登录用户的好友列表
+			for (let i = 0; i < buyerUserInfo.friends.length; i++) {
+				// 3. 获取好友列表中每一项的id房间号
+				let fid = buyerUserInfo.friends[i].id;
+				// 4. 判断如果与其中之一相等
+				if (fid === chatid1 || fid === chatid2) {
+					// 5. 代表着已经添加此好友
+					that.setData({
+						chachong: 1
+					});
+				}
+			}
+
+		},
+		onShowClone3389: async function (options) {
+			//重新更新好友列表
+			wx.cloud.callFunction({
+				name: "yunrouter",
+
+				data: {
+					$url: "HuoquFriends",
+
+					//云函数路由参数
+					openid: uni.getStorageSync('openid')
+				},
+
+				success: async res2 => {
+					let that = this;
+					const friends = res2.result.data[0].friends;
+					// friends.forEach(item => {
+					// 	// 将头像替换成本地地址
+					// 	uni.getImageInfo({
+					// 		src: item.userInfo.info.avatarUrl,
+					// 		async success(res) {
+					// 			item.userInfo.info.avatarUrl = res.path;
+					// 			const { note, time, badgeText } = await that.getUnreadedMsg(uni.getStorageSync('openid'));
+					// 			console.log('note :>> ', note);
+					// 			console.log('time :>> ', time);
+					// 			console.log('badgeText :>> ', badgeText);
+					// 			item.note = note;
+					// 			item.time = time;
+					// 			item.badgeText = badgeText;
+					// 		}
+					// 	})
+					// 	// 获取未读的消息数量
+
+					// })
+					for (const item of friends) {
+						try {
+							const res = await uni.getImageInfo({ src: item.userInfo.info.avatarUrl });
+							item.userInfo.info.avatarUrl = res.path;
+							const { note, time, badgeText } = await that.getUnreadedMsg(uni.getStorageSync('openid'));
+							item.note = note;
+							item.time = time;
+							item.badgeText = badgeText;
+						} catch (error) {
+							console.error('Error occurred:', error);
+						}
+					}
+					// console.log(res2);
+					// this.setData({
+					// 	peoplelist: friends
+					// });
+					this.peoplelist = friends;
+
+					uni.setStorageSync('friend', this.peoplelists);
+				},
+
+				fail() { }
+			});
+			// if (app.globalData.openid) {
+			// 	this.setData({
+			// 		openid: app.globalData.openid,
+			// 		peoplelist: app.globalData.friends
+			// 	});
+			// }
+			// this.checkpeopleadd();
+		},
+		peoplepage(e) {
+			console.log(e);
+			/* ---处理dataset begin--- */
+			this.setData(e)
+			/* ---处理dataset end--- */
+
+			e = JSON.stringify(e);
+			uni.navigateTo({
+				url: '/pages/chat-room/haoyoupage/haoyoupage?haoyouinfo=' + e,
+				fail: function (e) {
+					console.log("跳转失败", e);
+
+				}
+			});
+		},
+		// 去聊天室
+		goToChatRoom() {
+			uni.navigateTo({
+				url: '/pages/chat-room/chat-room'
+			})
+		},
 		// 预览图片
 		previewImage(goodpics) {
 			const urls = goodpics.map(pic => pic.url);
@@ -389,4 +644,136 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+view.good-card {
+	display: flex;
+	margin: 0 20rpx;
+	padding: 20rpx;
+	border-radius: 25rpx;
+	background-color: #999;
+
+	div.left {
+		margin-right: 30rpx;
+
+		image {
+			width: 125rpx;
+			height: 125rpx;
+		}
+	}
+
+	div.right {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		justify-content: space-between;
+
+		div.right-top {
+			display: flex;
+			justify-content: space-between;
+
+			div.title {
+				font-size: 28rpx;
+			}
+
+			icon {
+				width: 50rpx;
+				height: 50rpx;
+			}
+		}
+
+		div.right-bottom {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			div.price {
+				color: orange;
+				font-size: 30rpx;
+			}
+
+			button {
+				margin: 0;
+				width: auto;
+				height: 55rpx;
+				border-radius: 50rpx;
+				background-color: #ffc300;
+				color: #fff;
+				font-size: 28rpx;
+				line-height: 55rpx;
+			}
+		}
+	}
+}
+
+.kind-list {
+	padding: 20rpx;
+}
+
+.kind-list_item {
+	overflow: hidden;
+	border-radius: 10rpx;
+	background-color: #fff;
+	box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, .1);
+}
+
+.kind-list_item-hd {
+	padding: 20rpx;
+	color: #333;
+	font-weight: bold;
+	font-size: 32rpx;
+}
+
+.tui-msg-box {
+	display: flex;
+	align-items: center;
+	padding: 20rpx;
+	border-bottom: 1rpx solid #eee;
+}
+
+.tui-msg-pic {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 50%;
+}
+
+.tui-msg-item {
+	flex-grow: 1;
+	margin-left: 20rpx;
+}
+
+.tui-msg-name {
+	color: #333;
+	font-size: 28rpx;
+}
+
+.tui-msg-content {
+	color: #999;
+	font-size: 26rpx;
+}
+
+.tui-msg-right {
+	display: flex;
+	align-items: center;
+	padding-right: 20rpx;
+}
+
+.tui-msg-time {
+	color: #999;
+	font-size: 26rpx;
+}
+
+.tui-right-dot::after {
+	display: block;
+	margin-left: 10rpx;
+	width: 8rpx;
+	height: 8rpx;
+	border-radius: 50%;
+	background-color: #f00;
+	content: '';
+}
+
+.tui-safearea-bottom {
+	height: 20rpx;
+	background-color: #f8f8f8;
+}
+</style>
