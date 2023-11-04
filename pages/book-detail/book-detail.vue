@@ -291,6 +291,10 @@ export default {
 
     //获取发布信息
     getPublish(e) {
+      uni.showLoading({
+        title: "加载中",
+        mask: true,
+      });
       let that = this;
       db.collection("publish")
         .doc(e)
@@ -344,6 +348,7 @@ export default {
             ];
           },
         });
+      uni.hideLoading();
     },
 
     //回到首页
@@ -757,17 +762,6 @@ export default {
         1800
       );
     },
-  },
-  computed: {
-    // 整合图片数组
-    /* integratePictures:{
-				get(){
-				
-					return [{
-						url:this.publishinfo.bookInfo.pic
-					},...this.publishinfo.pics];
-				}
-			} */
   },
 };
 </script>
