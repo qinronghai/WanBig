@@ -17,10 +17,10 @@ exports.main = async (event, context) => {
           value: event.goodName
         },
         time11: {
-          value: event.riseTime.toString()
+          value: event.riseTime
         },
         time4: {
-          value: event.auditTime.toString()
+          value: event.auditTime
         },
         phrase2: {
           value: event.auditResults
