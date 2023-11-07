@@ -180,6 +180,10 @@ export default {
     },
     // 单个不过审操作
     async AuditedNoPass(item, reason = "") {
+      uni.showLoading({
+        title: "正在操作",
+        mask: true,
+      });
       console.log("item :>> ", item);
       console.log("reason :>> ", reason);
       await this.updateAudite(item, false, reason);
@@ -198,6 +202,7 @@ export default {
       });
 
       console.log(this.goodsInfo);
+      uni.hideLoading();
     },
     // 加载更多
     clickLoadMore(e) {

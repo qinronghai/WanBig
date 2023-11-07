@@ -25,6 +25,7 @@ class ImageUploader {
       });
 
       console.log("图片全部上传成功", results);
+
       return this.fileList;
     } catch (error) {
       console.error("图片上传失败", error);

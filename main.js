@@ -24,6 +24,8 @@ Vue.prototype.$uniAsync = uniAsync;
 
 // 检查用户是否注册
 Vue.prototype.$checkRegisterStatus = checkRegisterStatus;
+// 重新编辑传递的值
+Vue.prototype.$reEditItem = {};
 
 app.$mount();
 // #endif
