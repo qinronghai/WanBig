@@ -6,6 +6,7 @@
       <view class="left_scroll">
         <scroll-view
           scroll-y
+          @scrolltolower="more"
           class="scroll_content">
           <view
             :class="
@@ -809,7 +810,7 @@ page {
   border-top: 1px solid #ddd;
 }
 
-.loadmore img {
+.loadmore image {
   width: 20px;
   height: 20px;
   margin-right: 8px;

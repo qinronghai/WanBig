@@ -213,9 +213,25 @@ export default {
 
         success: async (res2) => {
           let that = this;
+          // 获取好友列表
           const friends = res2.result.data[0].friends;
-          for (const item of friends) {
+          // 获取最新的好友信息
+          /* for (const item of friends) {
             try {
+              // 获取最新的好友信息
+              const { data } = await db.collection("user").doc(item.userInfo._id).get();
+              console.log("获取最新的好友信息data :>> ", data);
+
+              const friendInfo = data;
+
+              // 比对头像和昵称是否有变化
+              if (friendInfo.info.avatarUrl !== item.userInfo.info.avatarUrl && friendInfo.info.nickName !== item.userInfo.info.nickName) {
+                console.log("头像或昵称有变化");
+              }
+              // 更新好友信息
+              item.userInfo = friendInfo;
+
+              console.log(friendInfo, "frinedInfo");
               // 将头像云地址替换成本地临时地址，否则无法显示
               const res = await uni.getImageInfo({ src: item.userInfo.info.avatarUrl });
               item.userInfo.info.avatarUrl = res[1].path;
@@ -227,7 +243,38 @@ export default {
             } catch (error) {
               console.error("For Friends Error occurred:", error);
             }
-          }
+          } */
+          // TODO 优化
+          const promises = friends.map(async (item, index) => {
+            try {
+              // 获取最新的好友信息
+              const { data } = await db.collection("user").doc(item.userInfo._id).get();
+              const friendInfo = data;
+              console.log("data,index :>> ", data, index);
+              // 比对头像和昵称是否有变化
+              if (friendInfo.info.avatarUrl !== item.userInfo.info.avatarUrl || friendInfo.info.nickName !== item.userInfo.info.nickName) {
+                console.log("头像或昵称有变化");
+              }
+              // 更新好友信息
+              item.userInfo = friendInfo;
+              console.log("test1 :>> ");
+              // 将头像云地址替换成本地临时地址，否则无法显示
+              const res = await uni.getImageInfo({ src: item.userInfo.info.avatarUrl });
+              console.log("res :>> ", res);
+              item.userInfo.info.avatarUrl = res[1].path;
+              console.log("test2 :>> ");
+              // 处理未读消息相关信息
+              const { note, time, badgeText } = await that.getUnreadedMsg(item.userInfo._openid);
+              console.log("note :>> ", note);
+              item.note = note;
+              item.time = time;
+              item.badgeText = badgeText;
+            } catch (error) {
+              console.error("For Friends Error occurred:", error);
+            }
+          });
+
+          await Promise.all(promises);
           // 将聊天列表按时间进行排序
           friends.sort((a, b) => b.time - a.time);
           this.friendList = friends;
