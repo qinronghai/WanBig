@@ -49,7 +49,9 @@
       <view
         class="book-layout"
         v-if="!showWelcome">
-        <uni-book ref="bookRef"></uni-book>
+        <uni-book
+          ref="bookRef"
+          :scrollValue="scrollValue"></uni-book>
       </view>
       <div class="column_item_0">
         <div
@@ -387,7 +389,7 @@ export default {
   padding: 0 29.79rpx;
   background-color: $global-bg-color;
 
-  /deep/ .van-search {
+   /deep/ .van-search {
     padding: 0;
     padding: 10rpx 0 17.52rpx 0;
     background-color: $global-bg-color !important;
@@ -418,7 +420,7 @@ export default {
     justify-content: space-between;
     flex: 1;
 
-    // 叉轴的起点对齐 align-items: flex-start;
+// 叉轴的起点对齐 align-items: flex-start;
     margin-top: 20rpx;
 
     .book-layout {
@@ -441,7 +443,7 @@ export default {
         height: 120rpx;
         margin-bottom: 20rpx;
 
-        // font-weight: bold;
+// font-weight: bold;
         text-align: center;
         background-color: #fff;
         border-radius: 17.52rpx;
@@ -668,7 +670,7 @@ export default {
     top: 0;
     left: 0;
 
-    // margin-top: 0;
+// margin-top: 0;
     z-index: 20;
     width: 100%;
   }

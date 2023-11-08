@@ -3,10 +3,11 @@
     <view
       v-if="!iscard"
       class="list-layout">
-      <view class="left_scroll">
+      <view
+        class="left_scroll"
+        :class="{ fixed: localScrollTop >= 750 }">
         <scroll-view
           scroll-y
-          @scrolltolower="more"
           class="scroll_content">
           <view
             :class="
@@ -34,12 +35,16 @@
           </view>
         </scroll-view>
       </view>
+      <view
+        v-if="localScrollTop >= 750"
+        class="zhandi">
+      </view>
       <view class="right_scroll">
-        <scroll-view
+        <view
           scroll-y
           v-if="list.length > 0"
           :scroll-top="localScrollTop"
-          class="scroll_content"
+          @scrolltolower="more"
           @scroll="onContentScroll">
           <block>
             <block
@@ -91,7 +96,7 @@
               </view>
             </block>
           </block>
-        </scroll-view>
+        </view>
         <view
           v-if="list.length == 0"
           class="nocontent">
@@ -126,6 +131,7 @@ const config = require("../../../config.js");
 const db = wx.cloud.database();
 const _ = db.command;
 export default {
+  props: ["scrollValue"],
   data() {
     return {
       college: JSON.parse(config.data).college,
@@ -148,11 +154,16 @@ export default {
       page: 0,
       banner: "",
       // 滚动
-      localScrollTop: this.scrollTop,
+      localScrollTop: 0,
     };
   },
   mounted() {
     this.getList();
+  },
+  watch: {
+    scrollValue(newVal, oldVal) {
+      this.localScrollTop = newVal;
+    },
   },
   methods: {
     // 监测内容的滚动
@@ -435,8 +446,8 @@ page {
 }
 
 .nav-item-Y {
-  display: inline-block;
-  width: 160rpx;
+  /* display: inline-block; */
+  width: 140rpx;
   height: 70rpx;
   font-size: 30rpx;
   background-color: #eee;
@@ -510,15 +521,15 @@ page {
 }
 
 .right_scroll {
-  flex: 1;
-  width: calc(100vw - 160rpx);
+  /* flex: 1; */
+  width: calc(100vw - 140rpx);
   height: 100%;
   border-radius: 20rpx;
 }
 
 .scroll_content {
-  width: 100%;
-  height: 100%;
+  width: 140rpx;
+  height: 1100rpx;
 }
 
 .list_grid {
@@ -819,6 +830,18 @@ page {
 
 .loadmore .nomore {
   color: #666;
+}
+.fixed {
+  position: fixed;
+  top: 130rpx;
+  left: 28rpx;
+  z-index: 20;
+  /* width: 100%; */
+}
+
+.zhandi {
+  width: 140rpx;
+  height: 100%;
 }
 
 @import "@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin";
