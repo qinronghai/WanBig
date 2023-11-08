@@ -36,7 +36,7 @@
         data-go="/pages/auditor/auditor"
         data-status="1">
         <view class="bottom_1">
-          <image src="/static/images/parse.png"></image>
+          <image src="../../static/my/tabs/audit.svg"></image>
           <view>审核管理</view>
         </view>
         <image src="/static/images/go.png"></image>
@@ -47,14 +47,14 @@
         data-go="/pages/kefu/kefu"
         data-status="2">
         <view class="bottom_1">
-          <image src="/static/images/kefu.png"></image>
+          <image src="../../static/my/tabs/kefu.svg"></image>
           <view>联系客服</view>
         </view>
         <image src="/static/images/go.png"></image>
       </view>
       <view class="bottom_card">
         <view class="bottom_1">
-          <image src="/static/images/feedback.png"></image>
+          <image src="../../static/my/tabs/edit.svg"></image>
           <view>问题反馈</view>
         </view>
         <image src="/static/images/go.png"></image>
@@ -66,7 +66,7 @@
         @tap="go"
         data-go="/pages/about/about">
         <view class="bottom_1">
-          <image src="/static/images/guanyu.png"></image>
+          <image src="../../static/my/tabs/about.svg"></image>
           <view>关于程序</view>
         </view>
         <image src="/static/images/go.png"></image>
@@ -111,22 +111,22 @@ export default {
       // 导航图标
       navIconList: [
         {
-          url: "../../static/my/my-goods.svg",
+          url: "../../static/my/my_commodity.svg",
           title: "我的商品",
           active: false,
         },
         {
-          url: "../../static/my/tip.svg",
+          url: "../../static/my/order.svg",
           title: "我的订单",
           active: false,
         },
         {
-          url: "../../static/my/contact-author.svg",
+          url: "../../static/my/my_edit.svg",
           title: "编辑资料",
           active: false,
         },
         {
-          url: "../../static/my/share.svg",
+          url: "../../static/my/share2.svg",
           title: "分享软件",
           active: false,
         },
