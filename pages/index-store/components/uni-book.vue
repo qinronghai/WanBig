@@ -241,8 +241,8 @@ export default {
           },
         });
     },
-
-    more() {
+    // 到底加载更多
+    async more() {
       let that = this;
       if (that.nomore || that.list.length < 20) {
         return false;
@@ -254,7 +254,8 @@ export default {
         var collegeid = that.collegeCur + ""; //小程序搜索必须对应格式
       }
 
-      db.collection("publish")
+      await db
+        .collection("publish")
         .where({
           status: 0,
           dura: _.gt(new Date().getTime()),

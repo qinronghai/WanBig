@@ -204,6 +204,7 @@ export default {
         price: 0,
         pic: "",
       },
+      recordMsgCount: 0,
     };
   },
   props: {
@@ -534,13 +535,13 @@ export default {
         console.log("personal_chat");
         // 这是私人聊天的话，就可以发送订阅消息的提醒了
         const item = {
-          name1: {
+          thing1: {
             value: this.groupName,
           },
-          time3: {
+          time2: {
             value: util.formatTime(new Date()),
           },
-          thing7: {
+          thing3: {
             value: "您有新的消息提醒，请尽快查看",
           },
         };
@@ -659,7 +660,9 @@ export default {
             }
           }),
         });
-        this.send_tixing();
+        // 记录发送消息的数量
+        this.recordMsgCount++;
+        // this.send_tixing();
       }, "发送文字失败");
     },
 
@@ -728,6 +731,8 @@ export default {
                 }
               }),
             });
+            // 记录发送消息的数量
+            this.recordMsgCount++;
           });
         },
       });
@@ -830,6 +835,10 @@ export default {
   },
   created: function () {},
   destroyed: function () {
+    if (this.recordMsgCount > 0) {
+      // 发送订阅消息的提醒
+      this.send_tixing();
+    }
     console.warn("关闭监听", this.messageListener);
     this.messageListener.close();
   },

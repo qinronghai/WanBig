@@ -151,6 +151,7 @@
 const app = getApp();
 const db = wx.cloud.database();
 const config = require("../../config.js");
+const MessageSubscriber = require("../../js_sdk/utils/subscrib-news.js");
 const _ = db.command;
 export default {
   data() {
@@ -469,9 +470,19 @@ export default {
         },
       });
     },
+    // 订阅审核通知的消息
+    async subscribNews() {
+      const subscriber = new MessageSubscriber();
+      const tmplIdsArray = [
+        "W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag",
+        "9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4",
+        "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234",
+      ];
 
+      await subscriber.subscribeNews(tmplIdsArray);
+    },
     //路由
-    go(e) {
+    async go(e) {
       let that = this;
 
       const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
@@ -506,7 +517,25 @@ export default {
         });
         return;
       }
-
+      // 8. 订阅消息
+      const dy = await this.$uniAsync.showModal({
+        title: "温馨提示",
+        content: "是否订阅未读消息提醒",
+        showCancel: true,
+        confirmText: "同意",
+        cancelText: "拒绝",
+      });
+      if (dy.confirm) {
+        // 调用订阅消息
+        await this.subscribNews();
+      } else {
+        uni.showModal({
+          title: "提示",
+          content: "您已拒绝订阅消息，将无法收到未读消息提醒",
+          showCancel: true,
+          success: ({ confirm, cancel }) => {},
+        });
+      }
       // 检查买家的friends是否有卖家
       //先判断是否有该好友，本地判断
       // 1. 正反两个openid结合
