@@ -477,8 +477,8 @@ export default {
       const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
       const sellerInfo = this.userinfo; // 卖家信息
 
-      const buyerOpenid = buyerInfo._openid;
-      const sellerOpenid = sellerInfo._openid;
+      const buyerOpenid = buyerInfo?._openid;
+      const sellerOpenid = sellerInfo?._openid;
       // 6. 本人不能与本人聊天
       console.log("buyandseller :>> ", buyerOpenid, sellerOpenid);
       if (buyerOpenid === sellerOpenid) {
@@ -487,6 +487,22 @@ export default {
           content: "不能与自己聊天",
           showCancel: true,
           success: ({ confirm, cancel }) => {},
+        });
+        return;
+      }
+      // 7.未登录不能聊天
+      if (!buyerOpenid && !uni.getStorageSync("isRegister")) {
+        uni.showModal({
+          title: "温馨提示",
+          content: "请先注册",
+          showCancel: true,
+          success: ({ confirm, cancel }) => {
+            if (confirm) {
+              uni.navigateTo({
+                url: "/pages/register/register",
+              });
+            }
+          },
         });
         return;
       }
