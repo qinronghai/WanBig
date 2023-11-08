@@ -57,12 +57,12 @@
           :key="index">
           <image
             class="avatar"
-            :src="item.avatar"
+            :src="userInfo.info.avatarUrl"
             mode="scaleToFill"></image>
 
           <view class="main">
             <!-- <view class="nickname">{{item.sendTime}}</view> -->
-            <view class="nickname">{{ item.nickName }}</view>
+            <view class="nickname">{{ userInfo.info.nickName }}</view>
             <block v-if="item.msgType === 'image'">
               <view class="image-wrapper">
                 <view
