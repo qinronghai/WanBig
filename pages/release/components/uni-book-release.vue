@@ -835,7 +835,7 @@ export default {
     async subscribNews() {
       // 订阅预定通知
       const subscriber = new MessageSubscriber();
-      const tmplIdsArray = ["Ilo99ZTw6DoohkCTaLRMhTegzom5-Wf3tLDdgxAHLv4"];
+      const tmplIdsArray = ["Ilo99ZTw6DoohkCTaLRMhTegzom5-Wf3tLDdgxAHLv4", "V76QqsleOiTKnU4pMfEtSd9zXE_oV_rZrp9lnxifoZQ"];
       await subscriber.subscribeNews(tmplIdsArray);
     },
     // 发布前准备

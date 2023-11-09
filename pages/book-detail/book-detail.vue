@@ -555,7 +555,11 @@ export default {
         data: {
           creat: new Date().getTime(),
           status: 1,
-          //0在售；1买家已预定，生成待确认订单，卖家未确认；2卖家确认订单；3面交开始，订单完成；4取消交易，交易作废
+          /*  0在售；
+          1买家已预定，生成待确认订单，卖家未确认；
+          2卖家确认订单；
+          3面交开始，订单完成；
+          4取消交易，交易作废 */
           price: that.publishinfo.price,
           //售价
           deliveryid: that.publishinfo.deliveryid,
@@ -578,7 +582,7 @@ export default {
           console.log("订单创建成功 :>> ", e);
           const orderId = e._id;
           const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
-          // 发送预定通知
+          // 给卖家发送商品被预定的通知
           await wx.cloud
             .callFunction({
               name: "sendNewOrder",

@@ -170,13 +170,24 @@
 		{
 			"path": "pages/chat-room/haoyoupage/haoyoupage",
 			"style": {}
-		}, {
+		},
+		{
 			"path": "pages/chat-list/chat-list",
 			"style": {
 				"navigationBarTitleText": "会话",
 				"enablePullDownRefresh": true
 			}
 
+		}, {
+			"path": "pages/order/detail/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/order/list/list",
+			"style": {
+				"navigationBarTitleText": "我的购买",
+				"enablePullDownRefresh": true
+			}
 		}
 	],
 	"globalStyle": {

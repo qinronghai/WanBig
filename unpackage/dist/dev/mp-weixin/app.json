@@ -18,7 +18,9 @@
     "pages/poster/poster",
     "pages/chat-room/chat-room",
     "pages/chat-room/haoyoupage/haoyoupage",
-    "pages/chat-list/chat-list"
+    "pages/chat-list/chat-list",
+    "pages/order/detail/detail",
+    "pages/order/list/list"
   ],
   "subPackages": [],
   "window": {
