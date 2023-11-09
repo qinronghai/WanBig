@@ -101,7 +101,8 @@
         v-if="publishinfo.deliveryid == 1">
         <input
           @input="placeInput"
-          placeholder="卖家可以帮送，请填写您的收货地址" />
+          placeholder="卖家可以帮送，请填写您的收货地址"
+          maxlength="20" />
       </view>
       <view
         class="notes_box"
@@ -185,7 +186,7 @@
         <view
           class="buy shadow"
           @tap="buy"
-          >{{ publishinfo.status == 0 ? "立即购买" : "刚刚被抢光了" }}</view
+          >{{ publishinfo.status == 0 ? "立即预定" : "刚刚被抢光了" }}</view
         >
       </view>
     </view>
@@ -201,6 +202,10 @@
 const app = getApp();
 const db = wx.cloud.database();
 const config = require("../../config.js");
+const MessageSubscriber = require("../../js_sdk/utils/subscrib-news.js");
+var util = require("../../util.js");
+import truncatedString from "../utils/truncatedString";
+
 const _ = db.command;
 export default {
   data() {
@@ -257,10 +262,10 @@ export default {
       animationKefuData: "",
     };
   },
-  onLoad(e) {
-    this.getuserdetail();
+  async onLoad(e) {
+    await this.getuserdetail();
     this.id = e.scene;
-    this.getPublish(e.scene);
+    await this.getPublish(e.scene);
     // this.getPublish('233d1379653a3867086063051093e440');
   },
   onShareAppMessage() {
@@ -290,7 +295,7 @@ export default {
     },
 
     //获取发布信息
-    getPublish(e) {
+    async getPublish(e) {
       uni.showLoading({
         title: "加载中",
         mask: true,
@@ -304,13 +309,14 @@ export default {
               collegeName: JSON.parse(config.data).college[parseInt(res.data.collegeid) + 1],
               publishinfo: res.data,
             });
+            console.log("获取发布信息", res.data);
             that.getSeller(res.data._openid, res.data.bookinfo._id);
           },
         });
     },
 
     //获取卖家信息
-    getSeller(m, n) {
+    async getSeller(m, n) {
       let that = this;
       db.collection("user")
         .where({
@@ -331,6 +337,7 @@ export default {
 
     //获取书本信息
     getBook(e) {
+      console.log("bookid", e);
       let that = this;
       db.collection("books")
         .doc(e)
@@ -339,6 +346,7 @@ export default {
             that.setData({
               bookinfo: res.data,
             });
+            console.log("获取书本信息", res.data);
             // 整合官方图和用户实拍图
             that.publishinfo.pics = [
               {
@@ -346,6 +354,7 @@ export default {
               },
               ...that.publishinfo.pics,
             ];
+            console.log("publishinfo", that.publishinfo);
           },
         });
       uni.hideLoading();
@@ -357,24 +366,75 @@ export default {
         url: "/pages/index/index",
       });
     },
+    // 自我检测
+    checkMySelf(title) {
+      const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
+      const sellerInfo = this.userinfo; // 卖家信息
 
+      const buyerOpenid = buyerInfo._openid;
+      const sellerOpenid = sellerInfo._openid;
+
+      console.log("buyandseller :>> ", buyerOpenid, sellerOpenid);
+      if (buyerOpenid === sellerOpenid) {
+        uni.showModal({
+          title: "温馨提示",
+          content: title,
+          showCancel: true,
+          success: ({ confirm, cancel }) => {},
+        });
+        return false;
+      }
+      return true;
+    },
+    // 订阅订单确认的消息
+    async subscribNews() {
+      const subscriber = new MessageSubscriber();
+      const tmplIdsArray = ["IdkZQ2uAdedZT-JpXURiGTYwV1h9qrn2YMO-pAwPfqk"];
+      await subscriber.subscribeNews(tmplIdsArray);
+    },
     //购买检测
-    buy() {
+    async buy() {
       let that = this;
-      if (!app.globalData.openid) {
+      // 1. 注册检测
+      const isRegister = uni.getStorageSync("isRegister");
+      const userInfo = uni.getStorageSync("userInfo");
+      if (!isRegister && !userInfo) {
         uni.showModal({
           title: "温馨提示",
           content: "该功能需要注册方可使用，是否马上去注册",
           success(res) {
             if (res.confirm) {
               uni.navigateTo({
-                url: "/pages/login/login",
+                url: "/pages/register/register",
               });
             }
           },
         });
         return false;
       }
+      // 2. 自我检测
+      if (!this.checkMySelf("不能预定自己的商品")) {
+        console.log("不能预定自己的商品");
+        return;
+      }
+      // 3.弹窗确认并订阅确认订单通知
+      // 4.1 调用订阅消息
+      const yd = await this.$uniAsync.showModal({
+        title: "确认提示",
+        content: "是否确定预定此商品",
+        confirmText: "确定",
+        cancelText: "取消",
+      });
+      if (yd.confirm) {
+        //调用订阅消息
+        console.log("用户点击确定");
+        //调用订阅
+        await that.subscribNews();
+      } else {
+        console.log("用户点击取消");
+        return;
+      }
+
       if (that.publishinfo.deliveryid == 1) {
         if (that.place == "") {
           uni.showToast({
@@ -384,8 +444,9 @@ export default {
           return false;
         }
         that.getStatus();
+      } else {
+        that.getStatus();
       }
-      that.getStatus();
     },
 
     //获取订单状态
@@ -396,6 +457,7 @@ export default {
         .doc(_id)
         .get({
           success(e) {
+            console.log("e订单状态 :>> ", e);
             if (e.data.status == 0) {
               that.paypost();
             } else {
@@ -414,27 +476,8 @@ export default {
       uni.showLoading({
         title: "正在下单",
       });
-      // 利用云开发接口，调用云函数发起订单
-      uniCloud.callFunction({
-        name: "pay",
-        data: {
-          $url: "pay",
-          //云函数路由参数
-          goodId: that.publishinfo._id,
-        },
-        success: (res) => {
-          uni.hideLoading();
-          that.pay(res.result);
-        },
-        fail(e) {
-          console.log(e, "支付erro");
-          uni.hideLoading();
-          uni.showToast({
-            title: "支付失败，请及时反馈或稍后再试",
-            icon: "none",
-          });
-        },
-      });
+      // 修改卖家在售状态
+      that.setStatus();
     },
 
     //实现小程序支付
@@ -456,13 +499,34 @@ export default {
     },
 
     //修改卖家在售状态
-    setStatus() {
+    async setStatus() {
       let that = this;
       uni.showLoading({
         title: "正在处理",
       });
+
+      await db
+        .collection("publish")
+        .doc(that.publishinfo._id)
+        .update({
+          data: {
+            status: 1,
+          },
+          success: function (res) {
+            console.log("修改卖家在售状态成功");
+            that.creatOrder();
+          },
+          fail(e) {
+            uni.hideLoading();
+            uni.showToast({
+              title: "发生异常，请及时和管理人员联系处理",
+              icon: "none",
+            });
+          },
+        });
+
       // 利用云开发接口，调用云函数发起订单
-      uniCloud.callFunction({
+      /*  uniCloud.callFunction({
         name: "pay",
         data: {
           $url: "changeP",
@@ -481,17 +545,17 @@ export default {
             icon: "none",
           });
         },
-      });
+      }); */
     },
 
     //创建订单
-    creatOrder() {
+    async creatOrder() {
       let that = this;
-      db.collection("order").add({
+      await db.collection("order").add({
         data: {
           creat: new Date().getTime(),
           status: 1,
-          //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
+          //0在售；1买家已预定，生成待确认订单，卖家未确认；2卖家确认订单；3面交开始，订单完成；4取消交易，交易作废
           price: that.publishinfo.price,
           //售价
           deliveryid: that.publishinfo.deliveryid,
@@ -510,11 +574,49 @@ export default {
           seller: that.publishinfo._openid,
           sellid: that.publishinfo._id,
         },
-        success(e) {
-          that.history("购买书籍", that.publishinfo.price, 2, e._id);
+        async success(e) {
+          console.log("订单创建成功 :>> ", e);
+          const orderId = e._id;
+          const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
+          // 发送预定通知
+          await wx.cloud
+            .callFunction({
+              name: "sendNewOrder",
+              data: {
+                openid: that.userinfo._openid, // 卖家openid
+                orderId: orderId, // 订单号
+                goodInfo: truncatedString(that.bookinfo.title, 19), // 商品信息（标题）
+                place: that.place || "自提商品", // 取货地址
+                buyerInfo: buyerInfo.info.nickName, // 买家信息
+                time: util.formatTime(new Date()), // 下单时间
+              },
+            })
+            .then((res) => {
+              console.log("发送模板消息成功", res);
+              uni.hideLoading();
+              uni.showModal({
+                title: "成功提示",
+                content: "订单创建成功，等待卖家确认",
+                showCancel: true,
+                success: ({ confirm, cancel }) => {
+                  if (confirm) {
+                    /* uni.redirectTo({
+                  url: "/pages/order/order",
+                }); */
+                    console.log("跳转去订单详情页 :>> ");
+                  }
+                },
+              });
+            })
+            .catch((err) => {
+              console.log("发送模板消息失败", err);
+              uni.hideLoading();
+            });
         },
-        fail() {
+        fail(error) {
           uni.hideLoading();
+
+          console.log("订单创建失败 :>> ", error);
           uni.showToast({
             title: "发生异常，请及时和管理人员联系处理",
             icon: "none",
@@ -526,23 +628,14 @@ export default {
     //路由
     go(e) {
       let that = this;
-
+      if (!this.checkMySelf("不能和自己聊天")) {
+        return;
+      }
       const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
       const sellerInfo = this.userinfo; // 卖家信息
 
       const buyerOpenid = buyerInfo._openid;
       const sellerOpenid = sellerInfo._openid;
-      // 本人不能与本人聊天
-      console.log("buyandseller :>> ", buyerOpenid, sellerOpenid);
-      if (buyerOpenid === sellerOpenid) {
-        uni.showModal({
-          title: "温馨提示",
-          content: "不能与自己聊天",
-          showCancel: true,
-          success: ({ confirm, cancel }) => {},
-        });
-        return;
-      }
 
       // 检查买家的friends是否有卖家
       //先判断是否有该好友，本地判断

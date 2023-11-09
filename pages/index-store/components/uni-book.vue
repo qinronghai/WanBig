@@ -332,11 +332,11 @@ page {
 
 .top_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
   padding: 20rpx 30rpx;
+  width: 100%;
   background: #fbbd08;
 }
 
@@ -350,21 +350,21 @@ page {
   align-items: center;
   width: 620rpx;
   height: 66rpx;
-  background: #fff;
   border-radius: 33rpx;
+  background: #fff;
 }
 
 .search_ico {
+  padding-left: 30rpx;
   width: 32rpx;
   height: 32rpx;
-  padding-left: 30rpx;
 }
 
 .search_text {
   padding-left: 10rpx;
   color: rgb(167, 167, 167);
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .banner {
@@ -372,11 +372,6 @@ page {
   box-sizing: border-box;
   width: 100%;
   height: 184rpx;
-  border-radius: 22rpx;
-}
-
-.image-wrap {
-  padding: 10rpx 15rpx;
   border-radius: 22rpx;
 }
 
@@ -406,10 +401,10 @@ page {
   align-items: center;
   width: 100%;
   height: 90rpx;
+  border-bottom: 1rpx solid #eee;
 
   /* margin: 0 20rpx; */
   background: #fff;
-  border-bottom: 1rpx solid #eee;
 }
 
 .nav {
@@ -429,8 +424,8 @@ page {
 
 .nav-text {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -439,26 +434,26 @@ page {
 }
 
 .tab-on {
-  color: #fbbd08;
-  font-size: 32rpx !important;
-  font-weight: 600;
   border-bottom: 4rpx solid #fbbd08 !important;
+  color: #fbbd08;
+  font-weight: 600;
+  font-size: 32rpx !important;
 }
 
 .nav-item-Y {
   /* display: inline-block; */
   width: 140rpx;
   height: 70rpx;
-  font-size: 30rpx;
-  background-color: #eee;
   border-radius: 10rpx 0 0 0;
+  background-color: #eee;
+  font-size: 30rpx;
 }
 
 .tab-on-Y {
-  color: #000;
-  font-size: 30rpx !important;
-  font-weight: 600;
   background-color: #fff;
+  color: #000;
+  font-weight: 600;
+  font-size: 30rpx !important;
 }
 
 .prev-radius-all-1 {
@@ -479,8 +474,8 @@ page {
 
 .kind_img {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 60rpx;
   height: 60rpx;
 }
@@ -501,8 +496,8 @@ page {
 .kindlist_card {
   display: flex;
   box-sizing: border-box;
-  width: 100%;
   padding: 20rpx 20rpx 0 20rpx;
+  width: 100%;
   background: #fff;
 }
 
@@ -541,26 +536,26 @@ page {
 .list_one {
   display: flex;
   box-sizing: border-box;
-  width: 25%;
   padding: 0 10rpx 20rpx 10rpx;
+  width: 25%;
 }
 
 .list_one view {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 60rpx;
-  font-size: 28rpx;
-  letter-spacing: 2rpx;
   border: 1rpx solid #eee;
   border-radius: 10rpx;
+  letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .list-on {
-  color: #fff;
-  background: #fbbd08;
   border: none !important;
+  background: #fbbd08;
+  color: #fff;
 }
 
 .list_profession-wrap {
@@ -571,37 +566,37 @@ page {
 
 .list_profession {
   display: inline-block;
-  max-width: 100%;
   padding: 4rpx 10rpx;
-  color: #fff;
-  font-size: 22rpx;
-  letter-spacing: 3rpx;
-  background-color: #fbbd08;
+  max-width: 100%;
   border-radius: 10rpx;
+  background-color: #fbbd08;
+  color: #fff;
+  letter-spacing: 3rpx;
+  font-size: 22rpx;
 }
 
 .card_grid {
   display: flex;
   flex-wrap: wrap;
   box-sizing: border-box;
-  width: 100%;
   padding: 10rpx 5rpx 20rpx;
+  width: 100%;
   background-color: #f8f8f8;
 }
 
 .card_one-wrap {
-  width: calc(50% - 15rpx);
   padding: 7.5rpx;
+  width: calc(50% - 15rpx);
 }
 
 .card_one {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
   box-sizing: border-box;
   padding: 20rpx 20rpx 10rpx;
-  background-color: #fff;
   border-radius: 15rpx;
+  background-color: #fff;
 }
 
 .card_poster {
@@ -610,71 +605,73 @@ page {
 }
 
 .card_title {
-  width: 100%;
   margin-top: 20rpx;
+  width: 100%;
+  letter-spacing: 3rpx;
   font-size: 30rpx;
   line-height: 45rpx;
-  letter-spacing: 3rpx;
 }
 
 .card_author {
   width: 100%;
   color: rgb(129, 129, 129);
+  letter-spacing: 3rpx;
   font-size: 25rpx;
   line-height: 35rpx;
-  letter-spacing: 3rpx;
 }
 
 .card_between {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
   margin-top: 5rpx;
+  width: 100%;
 }
 
 .card_price {
   color: #f30;
-  font-size: 27rpx;
   font-weight: 600;
+  font-size: 27rpx;
 }
 
 .card_buy {
+  padding-right: 10rpx;
   width: 40rpx;
   height: 40rpx;
-  padding-right: 10rpx;
 }
 
 .card_profession {
   display: inline-block;
-  max-width: 40%;
   padding: 4rpx 10rpx;
-  color: #fff;
-  font-size: 22rpx;
-  letter-spacing: 3rpx;
-  background-color: #fbbd08;
+  max-width: 40%;
   border-radius: 10rpx;
+  background-color: #fbbd08;
+  color: #fff;
+  letter-spacing: 3rpx;
+  font-size: 22rpx;
 }
 
 .list_box {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 
   /* width: calc(100vw - 140rpx); */
   padding: 15rpx 15rpx 15rpx 0;
-  background-color: #fff;
   border-bottom: 1rpx solid #f8f8f8;
   border-radius: 0 10rpx 10rpx 0;
+  background-color: #fff;
 }
 
 .image-wrap {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  padding: 10rpx 15rpx;
   width: 200rpx;
   height: 200rpx;
+  border-radius: 15rpx;
 }
 
 .list_poster {
@@ -687,11 +684,11 @@ page {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
+  padding: 0 10rpx;
 
   /* width: calc(100% - 200rpx); */
   /* width: 100%; */
   height: 200rpx;
-  padding: 0 10rpx;
 }
 
 .list_word {
@@ -704,56 +701,56 @@ page {
 .list_title {
   display: -webkit-box;
   overflow: hidden;
+  -webkit-box-orient: vertical;
   width: 100%;
+  text-overflow: ellipsis;
+  letter-spacing: 3rpx;
   font-size: 32rpx;
   line-height: 45rpx;
-  letter-spacing: 3rpx;
-  text-overflow: ellipsis;
 
-  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
 .list_author {
   display: -webkit-box;
   overflow: hidden;
-  width: 100%;
+  -webkit-box-orient: vertical;
   padding-top: 10rpx;
+  width: 100%;
   color: rgb(129, 129, 129);
+  text-overflow: ellipsis;
+  letter-spacing: 3rpx;
   font-size: 25rpx;
   line-height: 35rpx;
-  letter-spacing: 3rpx;
-  text-overflow: ellipsis;
 
-  -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
 
 .list_between {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
   padding-bottom: 10rpx;
+  width: 100%;
 }
 
 .list_price {
   color: #f30;
-  font-size: 27rpx;
   font-weight: 600;
+  font-size: 27rpx;
 }
 
 .list_time {
   color: #8c8c8e;
-  font-size: 22rpx;
   letter-spacing: 2rpx;
+  font-size: 22rpx;
 }
 
 .nocontent {
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   width: 100%;
   height: calc(100% - 400rpx);
@@ -761,31 +758,31 @@ page {
 
 .nocontent-Y {
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
 }
 
 .nocontent-Y image {
+  padding-left: 80rpx;
   width: 340rpx;
   height: 272rpx;
-  padding-left: 80rpx;
 }
 
 .nocontent image {
+  padding-left: 80rpx;
   width: 340rpx;
   height: 272rpx;
-  padding-left: 80rpx;
 }
 
 .blank_text {
   padding-top: 40rpx;
   color: #c6c6c8;
-  font-size: 32rpx;
   letter-spacing: 2rpx;
+  font-size: 32rpx;
 }
 
 .fixed {
@@ -813,24 +810,25 @@ page {
 
 .loadmore {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #f5f5f5;
   color: #999;
   font-size: 14px;
-  background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
 }
 
 .loadmore image {
+  margin-right: 8px;
   width: 20px;
   height: 20px;
-  margin-right: 8px;
 }
 
 .loadmore .nomore {
   color: #666;
 }
+
 .fixed {
   position: fixed;
   top: 130rpx;
@@ -840,7 +838,7 @@ page {
 }
 
 .zhandi {
-  width: 140rpx;
+  width: 156rpx;
   height: 100%;
 }
 

@@ -57,12 +57,12 @@
           :key="index">
           <image
             class="avatar"
-            :src="userInfo.info.avatarUrl"
+            :src="item.avatar"
             mode="scaleToFill"></image>
 
           <view class="main">
             <!-- <view class="nickname">{{item.sendTime}}</view> -->
-            <view class="nickname">{{ userInfo.info.nickName }}</view>
+            <view class="nickname">{{ item.nickName }}</view>
             <block v-if="item.msgType === 'image'">
               <view class="image-wrapper">
                 <view
@@ -846,8 +846,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .good-card-wrap {
-  background-color: #f7f8fa;
   border-bottom: 1rpx solid #e9e9e9;
+  background-color: #f7f8fa;
 
   view.good-card {
     display: flex;
@@ -865,9 +865,9 @@ export default {
 
     div.right {
       display: flex;
+      flex: 1;
       flex-direction: column;
       justify-content: space-between;
-      flex: 1;
 
       div.right-top {
         display: flex;
@@ -875,16 +875,16 @@ export default {
 
         div.title {
           overflow: hidden;
-          font-size: 28rpx;
           text-overflow: ellipsis;
           white-space: nowrap;
+          font-size: 28rpx;
         }
       }
 
       div.right-bottom {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
 
         div.price {
           color: #f30;
@@ -892,14 +892,14 @@ export default {
         }
 
         button {
+          margin: 0;
           width: auto;
           height: 52rpx;
-          margin: 0;
+          border-radius: 50rpx;
+          background-color: orange;
           color: #fff;
           font-size: 28rpx;
           line-height: 52rpx;
-          background-color: orange;
-          border-radius: 50rpx;
         }
       }
     }
@@ -924,11 +924,11 @@ export default {
 
 .chatroom .header {
   display: flex;
-  flex-direction: row;
   flex-basis: fit-content;
+  flex-direction: row;
   padding: 20rpx 0 30rpx;
-  font-size: 30rpx;
   border-bottom: 1px solid #ddd;
+  font-size: 30rpx;
 }
 
 .chatroom .header .left {
@@ -965,17 +965,17 @@ export default {
 .body .message .avatar {
   position: relative;
   top: 5rpx;
+  margin: 15rpx;
   width: 80rpx;
   height: 80rpx;
-  margin: 15rpx;
   border-radius: 5rpx;
 }
 
 .body .message .main {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   flex: 1;
+  flex-direction: column;
 }
 
 .body .message.message__self .main {
@@ -989,12 +989,12 @@ export default {
 
 .body .message .text-content {
   display: inline-block;
-  padding: 4px 10px;
   margin: 2px 0 0 0;
-  font-size: 30rpx;
-  background-color: #fff;
+  padding: 4px 10px;
   border: 1px solid transparent;
   border-radius: 3px;
+  background-color: #fff;
+  font-size: 30rpx;
 }
 
 .body .message.message__self .text-content {
@@ -1003,8 +1003,8 @@ export default {
 
 .body .message .text-wrapper {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  flex-direction: row;
   max-width: 80%;
 }
 
@@ -1015,8 +1015,8 @@ export default {
 
 .body .message .image-wrapper {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  flex-direction: row;
 }
 
 .body .message .image-content {
@@ -1041,36 +1041,36 @@ export default {
 
 .chatroom .footer {
   display: flex;
-  flex-direction: row;
   flex-basis: fit-content;
+  flex-direction: row;
   padding: 20rpx 30rpx;
-  font-size: 10rpx;
-  background: #e9e9e9;
   border-top: 1px solid #ddd;
+  background: #e9e9e9;
+  font-size: 10rpx;
 }
 
 .chatroom .footer .message-sender {
   display: flex;
-  flex-direction: row;
   flex: 1;
+  flex-direction: row;
 }
 
 .message-sender .text-input {
   flex: 1;
-  height: 60rpx;
-  padding: 3px 6px;
   margin: 0 5px 0 10px;
-  font-size: 16px;
-  background: rgb(255, 255, 255);
+  padding: 3px 6px;
+  height: 60rpx;
   border: 1px solid transparent;
   border-radius: 10px;
+  background: rgb(255, 255, 255);
+  font-size: 16px;
 }
 
 .message-sender .btn-send-image {
   align-self: center;
+  margin-left: 10px;
   width: 30px;
   height: 30px;
-  margin-left: 10px;
 }
 
 button {
@@ -1079,9 +1079,9 @@ button {
 
 button.userinfo {
   padding: 0 100rpx;
-  color: aliceblue;
-  background: darkturquoise;
   border: 1px solid #ddd;
   border-radius: 20px;
+  background: darkturquoise;
+  color: aliceblue;
 }
 </style>

@@ -773,9 +773,9 @@ export default {
     async subscribNews() {
       const subscriber = new MessageSubscriber();
       const tmplIdsArray = [
-        "W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag",
-        "9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4",
-        "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234",
+        "Ilo99ZTw6DoohkCTaLRMhTegzom5-Wf3tLDdgxAHLv4", // 预定成功通知
+        "9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4", // 审核结果通知
+        "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234", // 未读消息通知
       ];
       await subscriber.subscribeNews(tmplIdsArray);
     },
