@@ -381,7 +381,7 @@ export default {
       }
       if (index === 1) {
         uni.navigateTo({
-          url: "/pages/my-orders/my-orders",
+          url: "/pages/order/list/list",
         });
       }
       if (index === 2) {
