@@ -442,6 +442,7 @@ export default {
           .where({
             status: 2,
             seller: _.neq(this.openid), // 卖家不是本人的
+            _openid: this.openid, // 买家是本人的
           })
           .orderBy("creat", "desc")
           .get();
