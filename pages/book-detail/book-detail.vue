@@ -393,7 +393,8 @@ export default {
 
       const id1 = "IdkZQ2uAdedZT-JpXURiGScv8hmBtKlH92eaCLz6zHs"; //订单确认通知-1.卖家确认预定订单，2.卖家拒绝预定订单
       const id2 = "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234"; //未读消息通知
-      const tmplIdsArray = [id1, id2];
+      const id3 = "V76QqsleOiTKnU4pMfEtSWMC5c58WvQ2yANcEJJNe5c"; //订单状态变更通知 买家接受确认发货和取消交易的通知
+      const tmplIdsArray = [id1, id2, id3];
       await subscriber.subscribeNews(tmplIdsArray);
     },
     //购买检测
@@ -562,8 +563,10 @@ export default {
           /*  0在售；
           1买家已预定，生成待确认订单，卖家未确认；
           2卖家确认订单；
-          3面交开始，订单完成；
-          4取消交易，交易作废 */
+          
+          3面交开始，（收货与发货）订单完成；
+          4取消交易，交易作废
+          5卖家拒绝预定； */
           price: that.publishinfo.price,
           //售价
           deliveryid: that.publishinfo.deliveryid,
@@ -913,36 +916,36 @@ swiper {
 
 .title {
   padding-top: 60rpx;
-  letter-spacing: 2rpx;
-  font-weight: 600;
   font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
 }
 
 .author {
   padding-top: 30rpx;
   color: rgb(224, 138, 8);
-  letter-spacing: 2rpx;
   font-size: 25rpx;
+  letter-spacing: 2rpx;
 }
 
 .price_box {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-top: 30rpx;
 }
 
 .now_price {
   color: #f30;
-  font-weight: 600;
   font-size: 34rpx;
+  font-weight: 600;
 }
 
 .pre_price {
   padding-left: 30rpx;
   color: rgb(172, 171, 171);
-  text-decoration: line-through;
   font-size: 25rpx;
+  text-decoration: line-through;
 }
 
 .blank {
@@ -955,26 +958,26 @@ swiper {
   display: flex;
   justify-content: space-around;
   box-sizing: border-box;
-  padding: 0 100rpx;
   width: 100%;
   height: 80rpx;
+  padding: 0 100rpx;
 }
 
 .c_title {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 140rpx;
   height: 100%;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .title_on {
-  border-bottom: 8rpx solid #fbbd08;
   color: #000;
-  font-weight: 600;
   font-size: 32rpx;
+  font-weight: 600;
+  border-bottom: 8rpx solid #fbbd08;
 }
 
 .publish_wrap {
@@ -983,13 +986,13 @@ swiper {
 
 .user_box {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
-  margin-top: 20rpx;
-  padding: 24rpx 24rpx;
   width: 100%;
   height: 148rpx;
+  padding: 24rpx 24rpx;
+  margin-top: 20rpx;
   /* background-color: #666; */
 }
 
@@ -1001,23 +1004,23 @@ swiper {
 
 .des_box {
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: flex-start;
 
   /* width: 450rpx;
    */
   flex: 1;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-left: 40rpx;
   height: 100%;
+  margin-left: 40rpx;
 
   /* padding: 10rpx 0; */
 }
 
 .user_name {
   margin-bottom: 15rpx;
-  letter-spacing: 2rpx;
   font-size: 32rpx;
+  letter-spacing: 2rpx;
 }
 
 .local_box {
@@ -1039,14 +1042,14 @@ swiper {
 .local_box view {
   padding-left: 5rpx;
   color: rgb(150, 150, 150);
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .sex {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 100rpx;
   height: 100%;
 }
@@ -1060,46 +1063,46 @@ swiper {
 .notes_box {
   display: flex;
   box-sizing: border-box;
-  padding: 24rpx 24rpx 0 24rpx;
   width: 100%;
+  padding: 24rpx 24rpx 0 24rpx;
 }
 
 .notes {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 20rpx 20rpx 10rpx 20rpx;
   width: 100%;
-  border-radius: 10rpx;
-  background: rgb(238, 238, 238);
+  padding: 20rpx 20rpx 10rpx 20rpx;
   color: #aaa;
+  background: rgb(238, 238, 238);
+  border-radius: 10rpx;
 }
 
 .notes_text {
   padding-bottom: 10rpx;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
   line-height: 45rpx;
+  letter-spacing: 2rpx;
 }
 
 .time_box {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
-  padding: 24rpx 24rpx 0 24rpx;
   width: 100%;
+  padding: 24rpx 24rpx 0 24rpx;
 }
 
 .kind {
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .time {
   color: #8c9aa8;
-  letter-spacing: 2rpx;
   font-size: 26rpx;
+  letter-spacing: 2rpx;
 }
 
 .address_box {
@@ -1108,17 +1111,17 @@ swiper {
   /* justify-content: space-between; */
   align-items: center;
   box-sizing: border-box;
-  padding: 24rpx 24rpx 0 24rpx;
   width: 100%;
+  padding: 24rpx 24rpx 0 24rpx;
 }
 
 .deliver_box {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
-  padding: 24rpx 24rpx 0 24rpx;
   width: 100%;
+  padding: 24rpx 24rpx 0 24rpx;
 }
 
 .deliver_first {
@@ -1127,56 +1130,56 @@ swiper {
 }
 
 .deliver_title {
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .deliver_kind {
   padding: 4rpx 12rpx;
-  border-radius: 8rpx;
-  background-color: #256ff7;
   color: #fff;
-  letter-spacing: 2rpx;
   font-size: 26rpx;
+  letter-spacing: 2rpx;
+  background-color: #256ff7;
+  border-radius: 8rpx;
 }
 
 .deliver_place {
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .palceInput_box {
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  padding: 24rpx 24rpx 0 24rpx;
   width: 100%;
+  padding: 24rpx 24rpx 0 24rpx;
 }
 
 .palceInput_box input {
-  padding: 0 20rpx;
   width: 100%;
   height: 66rpx;
+  padding: 0 20rpx;
+  font-size: 26rpx;
+  letter-spacing: 2rpx;
   border: 1rpx solid #eee;
   border-radius: 10rpx;
-  letter-spacing: 2rpx;
-  font-size: 26rpx;
 }
 
 .detail_contain {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 24rpx;
   width: 100%;
+  padding: 24rpx;
 }
 
 .detail_card {
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 30rpx 0;
   width: 100%;
+  padding: 30rpx 0;
 }
 
 .detail_border {
@@ -1185,17 +1188,17 @@ swiper {
 
 .detail_title {
   width: 20%;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
   line-height: 45rpx;
+  letter-spacing: 2rpx;
 }
 
 .detail_content {
   width: 78%;
   color: #616161;
-  letter-spacing: 2rpx;
   font-size: 27rpx;
   line-height: 44rpx;
+  letter-spacing: 2rpx;
 }
 
 /*底部导航*/
@@ -1208,20 +1211,20 @@ swiper {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  padding: 10rpx;
   width: 100%;
   height: 96rpx;
-  border-top: 1rpx solid #ddd;
+  padding: 10rpx;
   background: #fff;
+  border-top: 1rpx solid #ddd;
   opacity: 1;
 }
 
 .t_card {
   position: relative;
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 20%;
   height: 80rpx;
@@ -1234,14 +1237,14 @@ swiper {
 
 .t_card text {
   display: flex;
-  align-items: flex-start;
   justify-content: center;
-  padding-top: 4rpx;
+  align-items: flex-start;
   width: 100%;
   height: calc(100% - 50rpx);
+  padding-top: 4rpx;
+  font-size: 24rpx;
   text-align: center;
   white-space: nowrap;
-  font-size: 24rpx;
 }
 
 .t_button {
@@ -1256,8 +1259,8 @@ swiper {
 
 .buy_box {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 40%;
   height: 100%;
@@ -1265,15 +1268,15 @@ swiper {
 
 .buy {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 90%;
   height: 70rpx;
-  border-radius: 35rpx;
-  background: #fbbd08;
   color: #000;
-  letter-spacing: 4rpx;
   font-size: 28rpx;
+  letter-spacing: 4rpx;
+  background: #fbbd08;
+  border-radius: 35rpx;
 }
 
 .contact_box {
@@ -1282,13 +1285,13 @@ swiper {
   bottom: 200rpx;
   z-index: 9;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  padding: 20rpx 0;
+  align-items: center;
   width: 100rpx;
-  border-radius: 50rpx 50rpx 20rpx 20rpx;
+  padding: 20rpx 0;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20rpx #f0f0f0 !important;
+  border-radius: 50rpx 50rpx 20rpx 20rpx;
 }
 
 .contact_box image {
@@ -1298,7 +1301,7 @@ swiper {
 
 .contact_box view {
   margin-top: 10rpx;
-  letter-spacing: 2rpx;
   font-size: 26rpx;
+  letter-spacing: 2rpx;
 }
 </style>

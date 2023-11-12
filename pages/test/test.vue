@@ -145,6 +145,13 @@
         </div>
       </div>
     </view>
+
+    <!-- 二维码 -->
+    <QrContainer
+      text="{{qrTxt}}"
+      size="750"
+      @load="onLoadQr"
+      @error="onErrorQr"></QrContainer>
   </view>
 </template>
 
@@ -153,14 +160,17 @@ const db = wx.cloud.database();
 const _ = db.command;
 import VanStepper from "../../wxcomponents/vant/stepper/index";
 import VanCard from "../../wxcomponents/vant/card";
+import QrContainer from "../../wxcomponents/wx-qr/index";
 
 export default {
   components: {
     VanStepper,
     VanCard,
+    QrContainer,
   },
   data() {
     return {
+      qrTxt: "https://github.com/liuxdi/wx-qr",
       price: 15,
       text: "",
       background: ["color1", "color2", "color3"],
@@ -201,6 +211,13 @@ export default {
     this.onShowClone3389(options);
   },
   methods: {
+    // 二维码加载完成时
+    onLoadQr() {
+      console.log("二维码加载完成拉 :>> ");
+    },
+    onErrorQr() {
+      console.log("二维码加载完成拉 :>> ");
+    },
     mergeCommonCriteria(criteria) {
       console.log("mergeCommonCriteria", criteria, this.groupId);
       return {
@@ -693,10 +710,10 @@ export default {
 <style lang="scss" scoped>
 view.good-card {
   display: flex;
-  padding: 20rpx;
   margin: 0 20rpx;
-  background-color: #999;
+  padding: 20rpx;
   border-radius: 25rpx;
+  background-color: #999;
 
   div.left {
     margin-right: 30rpx;
@@ -709,9 +726,9 @@ view.good-card {
 
   div.right {
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    flex: 1;
 
     div.right-top {
       display: flex;
@@ -729,8 +746,8 @@ view.good-card {
 
     div.right-bottom {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
 
       div.price {
         color: orange;
@@ -738,14 +755,14 @@ view.good-card {
       }
 
       button {
+        margin: 0;
         width: auto;
         height: 55rpx;
-        margin: 0;
+        border-radius: 50rpx;
+        background-color: #ffc300;
         color: #fff;
         font-size: 28rpx;
         line-height: 55rpx;
-        background-color: #ffc300;
-        border-radius: 50rpx;
       }
     }
   }
@@ -757,16 +774,16 @@ view.good-card {
 
 .kind-list_item {
   overflow: hidden;
+  border-radius: 10rpx;
   background-color: #fff;
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-  border-radius: 10rpx;
 }
 
 .kind-list_item-hd {
   padding: 20rpx;
   color: #333;
-  font-size: 32rpx;
   font-weight: bold;
+  font-size: 32rpx;
 }
 
 .tui-msg-box {
@@ -809,13 +826,13 @@ view.good-card {
 }
 
 .tui-right-dot::after {
-  content: "";
   display: block;
+  margin-left: 10rpx;
   width: 8rpx;
   height: 8rpx;
-  margin-left: 10rpx;
-  background-color: #f00;
   border-radius: 50%;
+  background-color: #f00;
+  content: "";
 }
 
 .tui-safearea-bottom {

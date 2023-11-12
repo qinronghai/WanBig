@@ -12,31 +12,36 @@
         </view>
       </block>
     </view>
-
+    <VanTabs
+      v-show="tabid == 1 || tabid == 2 || tabid == 4"
+      :activePage="activePage"
+      type="card"
+      class="van-tabs"
+      @click="onChangeVanTab"
+      color="#ffc300"
+      background="#e9e9e9">
+      <VanTab
+        :title="tabid == 1 ? '确认预定订单' : tabid == 2 ? '待收货' : '已取消预定'"
+        class="good-container"
+        color="#ffc300">
+        <view class="text-tip">{{ tabid == 1 ? "有买家预定您的商品，是否同意此预定？" : "" }}</view>
+      </VanTab>
+      <VanTab
+        :title="tabid == 1 ? '等待卖家确认' : tabid == 2 ? '待发货' : '已取消交易'"
+        class="want-container"
+        color="#ffc300">
+        <view class="text-tip">{{ tabid == 1 ? "您预定的商品，需要等待卖家确认预定，您可以主动联系卖家。" : "" }}</view>
+      </VanTab>
+      <VanTab
+        v-if="tabid == 4"
+        title="已拒绝预定"
+        class="want-container"
+        color="#ffc300">
+      </VanTab>
+    </VanTabs>
     <view
       class="contain"
       v-if="list.length !== 0">
-      <VanTabs
-        v-show="tabid == 1 || tabid == 2"
-        :activePage="activePage"
-        type="card"
-        class="van-tabs"
-        @click="onChangeVanTab"
-        color="#ffc300"
-        background="#e9e9e9">
-        <VanTab
-          :title="tabid == 1 ? '确认预定订单' : '待收货'"
-          class="good-container"
-          color="#ffc300">
-          <view class="text-tip">{{ tabid == 1 ? "有买家预定您的商品，是否同意此预定？" : "" }}</view>
-        </VanTab>
-        <VanTab
-          :title="tabid == 1 ? '等待卖家确认' : '待发货'"
-          class="want-container"
-          color="#ffc300">
-          <view class="text-tip">{{ tabid == 1 ? "您预定的商品，需要等待卖家确认预定，您可以主动联系卖家。" : "" }}</view>
-        </VanTab>
-      </VanTabs>
       <block
         v-for="(item, index) in list"
         :key="index">
@@ -46,31 +51,39 @@
           :data-id="item._id">
           <view class="top">
             <view class="top1">
-              <view :class="'title ' + (item.status == 1 ? 'text-red' : '')">
+              <view
+                v-if="tabid === 0 || tabid === 3"
+                :class="'title ' + (item.status == 1 ? 'text-red' : '')">
                 <image src="../../../static/order/road-sign.svg"></image>
                 <view>{{
-                  tabid == 0 && item.status == 1
+                  /* tabid == 0 && item.status == 1
                     ? "待确认"
                     : tabid == 0 && item.status == 2
                     ? "交易中"
                     : tabid == 0 && item.status == 3
                     ? "交易完成"
                     : tabid == 0 && item.status == 4
-                    ? "已取消"
-                    : item.status == 1 && activePage == 0
+                    ? "已取消预定"
+                    : tabid == 0 && item.status == 42
+                    ? "已取消交易"
+                    : tabid == 0 && item.status == 43
+                    ? "已拒绝预定"
+                    : */ item.status == 1 && item.seller == openid
                     ? "买家的预定订单"
-                    : item.status == 1 && activePage == 1
+                    : item.status == 1 && item._openid == openid
                     ? "等待卖家确认订单"
-                    : item.status == 2 && activePage == 0
+                    : item.status == 2 && item._openid == openid
                     ? "待收货"
-                    : item.status == 2 && activePage == 1
+                    : item.status == 2 && item.seller == openid
                     ? "待发货"
                     : item.status == 3
                     ? "交易完成"
-                    : item.status == 1 && tabid == 0
-                    ? "待确认"
-                    : item.status == 2 && tabid == 0
-                    ? "交易中"
+                    : item.status == 4
+                    ? "已取消预定"
+                    : item.status == 42
+                    ? "已取消交易"
+                    : item.status == 43
+                    ? "已拒绝预定"
                     : "已取消"
                 }}</view>
               </view>
@@ -88,28 +101,25 @@
             </view>
           </view>
           <view class="bottom">
-            <!-- 待确认-确认预定订单部分 -->
-            <block>
-              <!-- 拒绝预定：卖家拒绝买家的预定请求 -->
-              <view
-                v-if="item.status == 1 && activePage == 0"
-                class="cancel"
-                @tap.stop.prevent="rejectReserve"
-                :data-ord="item"
-                >拒绝预定</view
-              >
-              <!-- 确认预定：向买家发送确认订单的通知，表明卖家确认了买家的预定申请 -->
-              <view
-                v-if="item.status == 1 && activePage == 0"
-                class="confirm"
-                @tap.stop.prevent="confirmReserve"
-                :data-ord="item">
-                确认订单
-              </view>
-            </block>
+            <!-- 拒绝预定：卖家拒绝买家的预定请求 -->
+            <view
+              v-if="item.status == 1 && item.seller == openid"
+              class="cancel"
+              @tap.stop.prevent="rejectReserve"
+              :data-ord="item"
+              >拒绝预定</view
+            >
+            <!-- 确认预定：向买家发送确认订单的通知，表明卖家确认了买家的预定申请 -->
+            <view
+              v-if="item.status == 1 && item.seller == openid"
+              class="confirm"
+              @tap.stop.prevent="confirmReserve"
+              :data-ord="item">
+              确认订单
+            </view>
             <!-- 待确认-等待买家确认 -->
             <view
-              v-if="item.status == 1 && activePage == 1"
+              v-if="item.status == 1 && item._openid == openid"
               class="cancel"
               @tap.stop.prevent="cancelReserve"
               :data-ord="item"
@@ -120,28 +130,30 @@
               <view
                 v-if="item.status == 2"
                 class="cancel"
-                @tap.stop.prevent="confirm"
+                @tap.stop.prevent="cancelTransaction"
                 :data-ord="item"
                 >取消交易</view
               >
               <view
-                v-if="item.status == 2 && activePage == 0"
+                v-if="item.status == 2 && item._openid == openid"
                 class="confirm"
                 @tap.stop.prevent="confirm"
                 :data-ord="item"
+                :data-issend="false"
                 >确认收货</view
               >
               <view
-                v-if="item.status == 2 && activePage == 1"
+                v-if="item.status == 2 && item.seller == openid"
                 class="confirm"
                 @tap.stop.prevent="confirm"
                 :data-ord="item"
+                :data-issend="true"
                 >确认发货</view
               >
             </block>
             <!-- 完成交易和已取消 -->
             <view
-              v-if="item.status == 3 || item.status == 4"
+              v-if="item.status == 3 || item.status == 4 || item.status == 42 || item.status == 43"
               class="cancel"
               @tap.stop.prevent="deleteFun"
               :data-ord="item"
@@ -243,6 +255,7 @@ export default {
     this.getAllList();
   },
   //下拉刷新
+  // TODO 修改
   onPullDownRefresh() {
     if (this.tabid === 0) {
       this.getAllList();
@@ -262,20 +275,6 @@ export default {
     this.more();
   },
   methods: {
-    // 待确认子级导航栏切换
-    onChangeVanTab(e) {
-      this.activePage = e.index;
-      uni.showLoading({
-        title: "加载中",
-        mask: true,
-      });
-      /*  if (this.activePage === 0) {
-        this.getlist1();
-      } else {
-        this.getlist();
-      } */
-      this.tabOperate();
-    },
     //导航栏切换
     async changeTab(e) {
       let that = this;
@@ -289,59 +288,98 @@ export default {
       });
       this.tabOperate();
     },
-    //判断在哪个tabid下的操作,执行对应的getlist
-    tabOperate() {
-      // 全部
-      if (this.tabid === 0) {
-        this.getAllList();
-      }
-      // 待确认&&确认预定订单
-      if (this.tabid === 1 && this.activePage === 0) {
-        this.getlist1();
-      } else if (this.tabid === 2 && this.activePage === 0) {
-        // 交易中-待收货
-        /*
-          seller: q4
-          _openid: NQ
-          status:2
-        */
-        this.getlist2();
-      } else if (this.tabid === 2 && this.activePage === 1) {
-        this.getlist3();
-      } else {
-        this.getlist();
-      }
-    },
-    //获取全部列表
-    async getAllList() {
+    // 待确认子级导航栏切换
+    onChangeVanTab(e) {
+      this.activePage = e.index;
       uni.showLoading({
         title: "加载中",
         mask: true,
       });
-      const list = await this.getlist();
-      const list1 = await this.getlist1();
-      const list2 = await this.getlist2();
-      const list3 = await this.getlist3();
-      console.log("list :>> ", list);
-      console.log("list1 :>> ", list1);
-      console.log("list2 :>> ", list2);
-      console.log("list3 :>> ", list3);
 
-      // 链接四个数组，并按照creat排序
-      this.list = [...list, ...list1, ...list2, ...list3].sort((a, b) => b.creat - a.creat);
-
-      // uni.hideLoading();
+      this.tabOperate();
     },
-
-    //跳转详情页
-    godetail(e) {
-      uni.navigateTo({
-        url: "/pages/order/detail/detail?id=" + e.currentTarget.dataset.id,
-      });
+    //判断在哪个tabid下的操作,执行对应的getlist
+    async tabOperate() {
+      console.log("tabid :>> ", this.tabid);
+      console.log("activePage :>> ", this.activePage);
+      // 全部
+      if (this.tabid === 0) {
+        this.getAllList();
+      } else if (this.tabid === 1 && this.activePage === 0) {
+        // 待确认&&确认预定订单
+        this.list = await this.getlist1();
+      } else if (this.tabid === 2 && this.activePage === 0) {
+        // 交易中-待收货
+        this.list = await this.getlist2(2);
+      } else if (this.tabid === 2 && this.activePage === 1) {
+        // 交易中-待发货
+        this.list = await this.getlist3(2);
+      } else if (this.tabid === 4 && this.activePage === 1) {
+        // 已取消交易
+        this.list = await this.getlist42();
+      } else if (this.tabid === 4 && this.activePage === 2) {
+        // 已拒绝预定
+        this.list = await this.getlist43();
+      } else {
+        // 1.等待卖家确认
+        // 2.已取消预定
+        this.list = await this.getlist();
+      }
     },
+    //获取全部列表
+    async getAllList() {
+      try {
+        // 显示加载中提示
+        uni.showLoading({
+          title: "加载中",
+          mask: true,
+        });
+
+        /* // 并行获取所有列表数据
+        const [list, list1, list2, list3, list42] = await Promise.all([
+          this.getlist(true),
+          this.getlist1(true),
+          this.getlist2(2, true),
+          this.getlist3(2, true),
+          this.getlist42(true),
+        ]); */
+        // 并行获取所有列表数据
+        const [list, list1, list3, list42] = await Promise.all([this.getlist(true), this.getlist1(true), this.getlist3(2, true), this.getlist42(true)]);
+
+        // 输出各个列表数据
+        console.log("list :>> ", list);
+        console.log("list1 :>> ", list1);
+        // console.log("list2 :>> ", list2);
+        console.log("list3 :>> ", list3);
+        console.log("list42 :>> ", list42);
+
+        // 合并并按创建时间排序所有列表数据
+        const allList = [...list, ...list1, ...list3, ...list42].sort((a, b) => b.creat - a.creat);
+
+        // 按状态筛选列表数据
+        const list2Arr = allList.filter((item) => item.status === 2);
+        const list1Arr = allList.filter((item) => item.status === 1);
+        const OtherArr = allList.filter((item) => item.status !== 2 && item.status !== 1);
+
+        // 合并按状态排序后的列表数据:交易中-待确认-其他
+        const listAll = [...list2Arr, ...list1Arr, ...OtherArr];
+
+        this.list = listAll;
+
+        console.log("listAll :>> ", listAll);
+      } catch (error) {
+        // 处理异步操作中的错误
+        console.error("在 getAllList 中发生错误: ", error);
+      } finally {
+        // 隐藏加载提示，确保无论异步操作成功或失败都执行
+        uni.hideLoading();
+      }
+    },
+    //获取已取消和已拒绝的列表
 
     //获取列表(确认预定的订单之外的)
-    async getlist() {
+    async getlist(isAll = false) {
+      console.log("getlist :>> ");
       let that = this;
 
       let status = that.tabid;
@@ -350,7 +388,6 @@ export default {
       } else {
         var statusid = parseInt(status); //小程序搜索必须对应格式
       }
-      console.log("this.openid :>> ", this.openid);
       try {
         const re = await db
           .collection("order")
@@ -364,21 +401,23 @@ export default {
         that.setData({
           nomore: false,
           page: 0,
-          list: that.tabid == 0 ? that.list : re.data,
+          // list: that.tabid == 0 ? that.list : re.data,
         });
 
-        uni.hideLoading();
-        console.log("re.data :>> ", re.data);
+        if (!isAll) {
+          uni.hideLoading();
+        }
         return re.data;
       } catch (error) {
-        console.log("error :>> ", error);
+        console.log("getlist error :>> ", error);
         uni.hideLoading();
-
         return [];
       }
     },
     //获取列表(确认预定的订单)
-    async getlist1() {
+    async getlist1(isAll = false) {
+      console.log("getlist1 :>> ");
+
       let that = this;
       try {
         const re = await db
@@ -390,15 +429,16 @@ export default {
           .orderBy("creat", "desc")
           .get();
 
-        console.log("re :>> ", re);
         uni.stopPullDownRefresh(); //暂停刷新动作
         that.setData({
           nomore: false,
           page: 0,
-          list: that.tabid == 0 ? that.list : re.data,
+          // list: that.tabid == 0 ? that.list : re.data,
         });
 
-        uni.hideLoading();
+        if (!isAll) {
+          uni.hideLoading();
+        }
         return re.data;
       } catch (error) {
         console.log("error :>> ", error);
@@ -406,29 +446,9 @@ export default {
 
         return [];
       }
-      /* const re=await db
-        .collection("order")
-        .where({
-          status: 1,
-          seller: this.openid,
-        })
-        .orderBy("creat", "desc")
-        .get({
-          success(re) {
-            console.log("re :>> ", re);
-            uni.stopPullDownRefresh(); //暂停刷新动作
-            that.setData({
-              nomore: false,
-              page: 0,
-              list: re.data,
-            });
-            uni.hideLoading();
-            return re.data;
-          },
-        }); */
     },
     //获取列表(交易中-待收货)
-    async getlist2() {
+    async getlist2(status, isAll = false) {
       console.log("getlist2 :>> ");
       /*
           seller: q4
@@ -440,22 +460,23 @@ export default {
         const re = await db
           .collection("order")
           .where({
-            status: 2,
+            status: status,
             seller: _.neq(this.openid), // 卖家不是本人的
             _openid: this.openid, // 买家是本人的
           })
           .orderBy("creat", "desc")
           .get();
 
-        console.log("re :>> ", re);
         uni.stopPullDownRefresh(); //暂停刷新动作
         that.setData({
           nomore: false,
           page: 0,
-          list: re.data,
+          // list: re.data,
         });
 
-        uni.hideLoading();
+        if (!isAll) {
+          uni.hideLoading();
+        }
         return re.data;
       } catch (error) {
         console.log("error :>> ", error);
@@ -465,31 +486,91 @@ export default {
       }
     },
     //获取列表(交易中-待发货)
-    async getlist3() {
+    async getlist3(status, isAll = false) {
       /*
       1. seller: 本人
       2. status：2
        */
+      console.log("getlist3 :>> ");
+
       let that = this;
       try {
         const re = await db
           .collection("order")
           .where({
-            status: 2,
+            status: status,
             seller: this.openid, // 卖家是本人的
           })
           .orderBy("creat", "desc")
           .get();
 
-        console.log("re :>> ", re);
         uni.stopPullDownRefresh(); //暂停刷新动作
         that.setData({
           nomore: false,
           page: 0,
-          list: re.data,
+          // list: re.data,
         });
 
+        if (!isAll) {
+          uni.hideLoading();
+        }
+        return re.data;
+      } catch (error) {
+        console.log("error :>> ", error);
         uni.hideLoading();
+
+        return [];
+      }
+    },
+    //获取列表(已取消-已取消交易)
+    async getlist42(isAll = false) {
+      console.log("getlist42 :>> ");
+      /*
+        status：42
+        seller：this.openid
+        or _openid: this.openid
+      */
+      const pendingReceipt = await this.getlist2(42);
+      const toBeShipped = await this.getlist3(42);
+
+      return [...pendingReceipt, ...toBeShipped].sort((a, b) => b.creat - a.creat);
+
+      if (!isAll) {
+        uni.hideLoading();
+      }
+    },
+    //获取列表(已取消-已拒绝)
+    async getlist43(isAll = false) {
+      /*
+        status：43
+        seller：this.openid
+
+      */
+      console.log("getlist43 :>> ");
+
+      console.log("已拒绝 :>> ");
+
+      let that = this;
+      try {
+        const re = await db
+          .collection("order")
+          .where({
+            status: 43,
+            seller: this.openid, // 卖家是本人的
+          })
+          .orderBy("creat", "desc")
+          .get();
+
+        uni.stopPullDownRefresh(); //暂停刷新动作
+        that.setData({
+          nomore: false,
+          page: 0,
+          // list: re.data,
+        });
+
+        if (!isAll) {
+          uni.hideLoading();
+        }
         return re.data;
       } catch (error) {
         console.log("error :>> ", error);
@@ -569,7 +650,7 @@ export default {
                     .doc(detail._id)
                     .update({
                       data: {
-                        status: 4,
+                        status: 41, // 4表示交易取消，1表示：买家已取消预定
                       },
                       success: function (res) {
                         console.log("修改订单状态成功", res.data);
@@ -580,6 +661,7 @@ export default {
                           goodName: detail.bookinfo.title,
                           status: "取消预定",
                           time: util.formatTime(new Date()),
+                          note: "买家取消预定该商品",
                         });
                         // that.canceltip(detail.seller, detail.bookinfo.title);
                         that.getlist();
@@ -703,63 +785,255 @@ export default {
         },
       });
     },
-
-    //确认收货
-    confirm(ord) {
+    //卖家拒绝预定(订单确认通知)
+    rejectReserve(ord) {
+      console.log("卖家点击了拒绝预定", ord);
       let that = this;
       let detail = ord.currentTarget.dataset.ord;
       uni.showModal({
         title: "温馨提示",
-        content: "您确认已收货吗",
-        success(res) {
-          if (res.confirm) {
+        content: "您确认要拒绝该预定吗？拒绝后，系统默认将该商品下架",
+        showCancel: true,
+        success: ({ confirm, cancel }) => {
+          if (confirm) {
             uni.showLoading({
               title: "正在处理",
+              mask: true,
             });
-            uniCloud.callFunction({
-              name: "pay",
-              data: {
-                $url: "changeP",
-                //云函数路由参数
-                _id: detail.sellid,
-                status: 2, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
-              },
-
-              success: (res) => {
-                console.log("修改订单状态成功");
-                uniCloud.callFunction({
-                  name: "pay",
-                  data: {
-                    $url: "changeO",
-                    //云函数路由参数
-                    _id: detail._id,
-                    status: 2, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
-                  },
-
-                  success: (res) => {
-                    uniCloud.callFunction({
-                      name: "his",
-                      data: {
-                        $url: "toseller",
-                        //云函数路由参数
-                        seller: detail.seller,
-                        num: detail.price,
-                      },
-                      success() {
-                        uni.hideLoading();
-                        that.confirmtip(detail.seller, detail.bookinfo.title);
-                        that.getlist();
-                      },
-                    });
-                  },
-                });
-              },
-            });
+            // 1.修改卖家在售状态
+            db.collection("publish")
+              .doc(detail.sellid)
+              .update({
+                data: {
+                  status: 43, //4表示交易取消，3表示：卖家拒绝预定
+                },
+                success: function (res) {
+                  console.log("修改卖家在售状态成功", res);
+                },
+              });
+            // 2.修改订单状态
+            db.collection("order")
+              .doc(detail._id)
+              .update({
+                data: {
+                  status: 43,
+                },
+                success: function (res) {
+                  console.log("修改订单状态成功", res);
+                  // 3.给买家发送订单确认通知
+                  that.sendOrderConfirmMsg(detail._openid, {
+                    orderId: detail._id,
+                    goodName: detail.bookinfo.title,
+                    time: util.formatTime(new Date()),
+                    content: "卖家拒绝了您的预定请求",
+                    note: "您可以再看看其他卖家的商品",
+                  });
+                  // 3.判断在哪个tabid下的操作,执行对应的getlist
+                  that.tabOperate();
+                },
+                fail(e) {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "发生异常，请及时和管理人员联系处理",
+                    icon: "none",
+                  });
+                },
+              });
           }
         },
       });
     },
+    //取消交易
+    cancelTransaction(ord) {
+      console.log("ord :>> ", ord);
+      let that = this;
+      let detail = ord.currentTarget.dataset.ord;
 
+      // 分辨用户
+      if (detail.seller === this.openid && detail.status === 2) {
+        console.log("卖家点击 :>> ");
+        // 取消交易-卖方
+        this.cTForSeller(detail);
+      } else if (detail._openid === this.openid && detail.status === 2) {
+        console.log("买家点击 :>> ");
+        // 取消交易-买方
+        this.cTForBuyer(detail);
+      }
+    },
+    // 卖家取消交易
+    cTForSeller(detail) {
+      let that = this;
+      console.log("卖家取消交易 :>> ");
+      uni.showModal({
+        title: "提示",
+        content: "您确认要取消该交易吗？取消后，系统默认将该商品下架",
+        showCancel: true,
+        success: ({ confirm, cancel }) => {
+          if (confirm) {
+            uni.showLoading({
+              title: "加载中",
+              mask: true,
+            });
+            // 1. 修改卖家在售状态
+            db.collection("publish")
+              .doc(detail.sellid)
+              .update({
+                data: {
+                  status: 42, //4表示交易取消，2表示：卖家取消交易
+                },
+                success: function (res) {
+                  console.log("修改卖家在售状态成功", res);
+                },
+              });
+            // 2. 修改订单状态
+            db.collection("order")
+              .doc(detail._id)
+              .update({
+                data: {
+                  status: 42, //4表示交易取消，2表示：卖家取消交易
+                },
+                success: function (res) {
+                  console.log("修改订单状态成功", res);
+                  // 3. 给买家发送订单状态变更通知
+                  that.sendOrderChangeMsg(detail._openid, {
+                    orderId: detail._id,
+                    goodName: detail.bookinfo.title,
+                    status: "取消交易",
+                    time: util.formatTime(new Date()),
+                    note: "卖家取消交易，交易作废。",
+                  });
+                  // 4. 判断在哪个tabid下的操作,执行对应的getlist
+                  that.tabOperate();
+                },
+                fail(e) {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "发生异常，请及时和管理人员联系处理",
+                    icon: "none",
+                  });
+                },
+              });
+          }
+        },
+      });
+    },
+    // 买家取消交易
+    cTForBuyer(detail) {
+      let that = this;
+
+      console.log("买家取消交易 :>> ");
+      uni.showModal({
+        title: "提示",
+        content: "您确认要取消该交易吗？",
+        showCancel: true,
+        success: ({ confirm, cancel }) => {
+          if (confirm) {
+            uni.showLoading({
+              title: "加载中",
+              mask: true,
+            });
+            // 1.修改卖家在售状态
+            db.collection("publish")
+              .doc(detail.sellid)
+              .update({
+                data: {
+                  status: 0,
+                },
+                success: function (res) {
+                  console.log("修改卖家在售状态成功", res);
+                },
+              });
+            // 2.修改订单状态
+            db.collection("order")
+              .doc(detail._id)
+              .update({
+                data: {
+                  status: 42,
+                },
+                success: function (res) {
+                  console.log("修改订单状态成功", res);
+                  // 3.给卖家发送订单状态变更通知
+                  that.sendOrderChangeMsg(detail.seller, {
+                    orderId: detail._id,
+                    goodName: detail.bookinfo.title,
+                    status: "取消交易",
+                    time: util.formatTime(new Date()),
+                    note: "买家取消交易，商品将重新回归市场。",
+                  });
+                  // 4.判断在哪个tabid下的操作,执行对应的getlist
+                  that.tabOperate();
+                },
+                fail(e) {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "发生异常，请及时和管理人员联系处理",
+                    icon: "none",
+                  });
+                },
+              });
+          }
+        },
+      });
+    },
+    //确认收货/确认发货
+    confirm(ord) {
+      let that = this;
+      let detail = ord.currentTarget.dataset.ord;
+      let isSend = ord.currentTarget.dataset.issend;
+      console.log(ord, isSend);
+      uni.showModal({
+        title: "提示",
+        content: isSend ? "您确认已经发货了吗？" : "您确认已经收货了吗？",
+        showCancel: true,
+        success: ({ confirm, cancel }) => {
+          if (confirm) {
+            uni.showLoading({
+              title: "加载中",
+              mask: true,
+            });
+            //1. 修改卖家在售状态
+            db.collection("publish")
+              .doc(detail.sellid)
+              .update({
+                data: {
+                  status: 3,
+                },
+                success: function (res) {
+                  console.log("修改卖家在售状态成功", res);
+                },
+              });
+            //2. 修改订单状态
+            db.collection("order")
+              .doc(detail._id)
+              .update({
+                data: {
+                  status: 3,
+                },
+                success: function (res) {
+                  console.log("修改订单状态成功", res);
+                  //3. 给卖家发送订单状态变更通知
+                  that.sendOrderChangeMsg(isSend ? detail._openid : detail.seller, {
+                    orderId: detail._id,
+                    goodName: detail.bookinfo.title,
+                    status: "交易完成",
+                    time: util.formatTime(new Date()),
+                    note: (isSend ? "卖家已确认发货，" : "买家已确认收货，") + "交易完成。",
+                  });
+                  //4. 判断在哪个tabid下的操作,执行对应的getlist
+                  that.tabOperate();
+                },
+                fail(e) {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "发生异常，请及时和管理人员联系处理",
+                    icon: "none",
+                  });
+                },
+              });
+          }
+        },
+      });
+    },
     //删除订单
     deleteFun(ord) {
       let that = this;
@@ -776,7 +1050,8 @@ export default {
               .doc(detail._id)
               .remove({
                 success() {
-                  that.getlist();
+                  //4. 判断在哪个tabid下的操作,执行对应的getlist
+                  that.tabOperate();
                 },
                 fail: console.error,
               });
@@ -784,7 +1059,12 @@ export default {
         },
       });
     },
-
+    //跳转详情页
+    godetail(e) {
+      uni.navigateTo({
+        url: "/pages/order/detail/detail?id=" + e.currentTarget.dataset.id,
+      });
+    },
     //余额计算
     up(num) {
       let that = this;
@@ -949,13 +1229,14 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 90rpx;
+  margin-bottom: 15rpx;
   border-bottom: 1rpx solid #eee;
 }
 
 .tab_one {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 25%;
   height: 100%;
@@ -965,40 +1246,41 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
-  letter-spacing: 2rpx;
   font-size: 30rpx;
+  letter-spacing: 2rpx;
 }
 
 .tab_on {
-  border-bottom: 4rpx solid #fbbd08;
-  font-weight: 600;
   font-size: 32rpx;
+  font-weight: 600;
+  border-bottom: 4rpx solid #fbbd08;
 }
 
 .contain {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 24rpx;
   width: 100%;
+  padding: 24rpx;
+  padding-top: 10rpx;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  margin-bottom: 30rpx;
-  padding: 15rpx 30rpx;
   width: 100%;
+  padding: 15rpx 30rpx;
+  margin-bottom: 30rpx;
   border-radius: 15rpx;
 }
 
 .top {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding-bottom: 20rpx;
+  align-items: center;
   width: 100%;
+  padding-bottom: 20rpx;
   border-bottom: 1rpx solid #eee;
 }
 
@@ -1008,15 +1290,15 @@ export default {
 
 .top1 {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
 .date {
   color: #b2b2b2;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .title {
@@ -1031,17 +1313,17 @@ export default {
 
 .title view {
   padding-left: 10rpx;
+  font-size: 28rpx;
   /* font-weight: 600; */
   letter-spacing: 3rpx;
-  font-size: 28rpx;
 }
 
 .del {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  padding: 0 10rpx;
   height: 40rpx;
+  padding: 0 10rpx;
   border: 1rpx solid #c2c2c2;
   border-radius: 20rpx;
 }
@@ -1053,16 +1335,16 @@ export default {
 
 .del view {
   color: #c2c2c2;
-  letter-spacing: 3rpx;
   font-size: 26rpx;
+  letter-spacing: 3rpx;
 }
 
 .center {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  padding: 20rpx 0;
   width: 100%;
+  padding: 20rpx 0;
   border-bottom: 1rpx solid #eee;
 }
 
@@ -1076,9 +1358,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 0 20rpx;
   width: calc(100% - 150rpx);
   height: 150rpx;
+  padding: 0 20rpx;
 }
 
 .book {
@@ -1091,10 +1373,10 @@ export default {
   /* 2行文本溢出显示省略号 */
   display: -webkit-box;
   overflow: hidden;
-  -webkit-box-orient: vertical;
-  letter-spacing: 2rpx;
   font-size: 30rpx;
+  letter-spacing: 2rpx;
 
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
@@ -1102,10 +1384,10 @@ export default {
   overflow: hidden;
   padding-top: 10rpx;
   color: #c2c2c2;
+  font-size: 26rpx;
+  letter-spacing: 3rpx;
   text-overflow: ellipsis;
   white-space: nowrap;
-  letter-spacing: 3rpx;
-  font-size: 26rpx;
 }
 
 .price {
@@ -1118,59 +1400,59 @@ export default {
 .bottom {
   display: flex;
   justify-content: flex-end;
-  padding: 20rpx 0 0 0;
   width: 100%;
+  padding: 20rpx 0 0 0;
 }
 
 .cancel {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-left: 20rpx;
-  padding: 0 20rpx;
+  align-items: center;
   width: 110rpx;
   height: 50rpx;
-  border: 1rpx solid #c2c2c2;
-  border-radius: 30rpx;
+  padding: 0 20rpx;
+  margin-left: 20rpx;
   color: #333;
   font-size: 26rpx;
+  border: 1rpx solid #c2c2c2;
+  border-radius: 30rpx;
 }
 
 .confirm {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-left: 20rpx;
-  padding: 0 20rpx;
+  align-items: center;
   width: 110rpx;
   height: 50rpx;
-  border: 1rpx solid #f60;
-  border-radius: 30rpx;
+  padding: 0 20rpx;
+  margin-left: 20rpx;
   color: #f60;
   font-size: 26rpx;
+  border: 1rpx solid #f60;
+  border-radius: 30rpx;
 }
 
 .nocontent {
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 100%;
   height: calc(100vh - 90rpx);
 }
 
 .nocontent image {
-  padding-left: 80rpx;
   width: 340rpx;
   height: 272rpx;
+  padding-left: 80rpx;
 }
 
 .blank_text {
   padding-top: 40rpx;
   color: #c6c6c8;
-  letter-spacing: 2rpx;
   font-size: 32rpx;
+  letter-spacing: 2rpx;
 }
 
 .totop {
@@ -1187,8 +1469,8 @@ export default {
 .text-tip {
   padding-top: 15rpx;
   color: #666;
-  text-indent: 40rpx;
   font-size: 28rpx;
+  text-indent: 40rpx;
 }
 
 @import "@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin";
