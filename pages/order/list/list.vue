@@ -90,7 +90,7 @@
               <view class="date">{{ morejs.timelog(item.creat) }}</view>
             </view>
           </view>
-          <view class="center">
+          <view class="centerui">
             <image :src="item.bookinfo.pic"></image>
             <view class="content">
               <view class="book">
@@ -195,6 +195,47 @@
         <image src="/static/images/top.png"></image>
       </view>
     </van-transition>
+    <!-- 确认订单-弹窗提示 -->
+    <uni-popup
+      ref="popup"
+      @change="change">
+      <view class="popup-container">
+        <view
+          class="popup-content"
+          :class="{ 'popup-height': type === 'left' || type === 'right' }">
+          <view class="trade-code">
+            <view class="trade-code-label">交易码</view>
+            <view class="code-number">{{ code }}</view>
+          </view>
+          <view class="reminder">
+            <view class="reminder-title">温馨提示：</view>
+            <view class="reminder-text">1、为了顺利完成本次交易，请在交付货品时出示此交易码。</view>
+            <view class="reminder-text">2、请提醒买家在收到商品后输入此交易码以确认交易完成。</view>
+          </view>
+          <view class="attention">
+            <view class="attention-title">注意：</view>
+            <view class="attention-text">1、未在72小时内输入交易码可能影响您的信誉分。</view>
+            <view class="attention-text">2、信誉分将决定您是否能够继续使用本平台。</view>
+          </view>
+          <view class="checkbox-label">
+            <checkbox-group @change="onChangeAgree">
+              <label>
+                <checkbox
+                  :value="isAgree"
+                  :checked="isAgree"
+                  color="#1890ff"
+                  style="transform: scale(0.7)" />我已认真读完上面的提示，并同意遵守相关规定。
+              </label>
+            </checkbox-group>
+            <button
+              class="detail-button"
+              @click="goToOrderDetail">
+              去订单详情
+            </button>
+          </view>
+        </view>
+      </view>
+    </uni-popup>
   </view>
 </template>
 <script module="morejs" lang="wxs" src="@/common.wxs"></script>
@@ -245,6 +286,9 @@ export default {
       page: 0,
       list: "",
       openid: "",
+      isAgree: false,
+      code: 0,
+      itemid: "",
     };
   },
   onLoad() {
@@ -275,6 +319,18 @@ export default {
     this.more();
   },
   methods: {
+    onChangeAgree(e) {
+      console.log("e :>> ", e);
+      this.isAgree = !this.isAgree;
+    },
+    change(e) {
+      console.log("当前模式：" + e.type + ",状态：" + e.show);
+    },
+    toggle(type) {
+      this.type = type;
+      // open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
+      this.$refs.popup.open(type);
+    },
     //导航栏切换
     async changeTab(e) {
       let that = this;
@@ -742,6 +798,7 @@ export default {
       console.log("ord :>> ", ord);
       let that = this;
       let detail = ord.currentTarget.dataset.ord;
+      this.isAgree = false;
 
       uni.showModal({
         title: "温馨提示",
@@ -772,6 +829,8 @@ export default {
                   });
                   // 3.判断在哪个tabid下的操作,执行对应的getlist
                   that.tabOperate();
+                  // 4.生成随机交易码
+                  that.createCode(detail._id);
                 },
                 fail(e) {
                   uni.hideLoading();
@@ -1059,11 +1118,84 @@ export default {
         },
       });
     },
+    //生成交易码
+    async createCode(id) {
+      let that = this;
+
+      // 判断该订单是否有交易码
+      await db
+        .collection("order")
+        .doc(id)
+        .get({
+          success: async function (res) {
+            console.log("获取订单成功", res);
+            console.log("res :>> ", res);
+            if (res.data.code) {
+              // 有交易码
+              that.code = res.data.code;
+            } else {
+              // 无交易码
+              let code = Math.floor(Math.random() * 1000000);
+              that.code = code;
+              db.collection("order")
+                .doc(id)
+                .update({
+                  data: {
+                    code: code,
+                  },
+                  success: function (res) {
+                    console.log("生成交易码成功", res);
+                    uni.hideLoading();
+                    /*  uni.showToast({
+                      title: "确认成功",
+                      icon: "success",
+                      mask: true,
+                      duration: 1500,
+                      success: function () {
+                        setTimeout(() => {
+                          uni.navigateTo({ url: "/pages/order/detail/detail?id=" + id });
+                        }, 1500);
+                      },
+                    }); */
+                  },
+                  fail(e) {
+                    uni.hideLoading();
+                    uni.showToast({
+                      title: "发生异常，请及时和管理人员联系处理",
+                      icon: "none",
+                    });
+                  },
+                });
+            }
+            that.itemid = id;
+            that.toggle("center");
+          },
+          fail: console.error,
+        });
+    },
     //跳转详情页
     godetail(e) {
       uni.navigateTo({
         url: "/pages/order/detail/detail?id=" + e.currentTarget.dataset.id,
       });
+    },
+    goToOrderDetail(e) {
+      console.log("itemid :>> ", this.itemid);
+      // 点击确认订单的详情页tiaozhuan
+      if (!this.isAgree) {
+        uni.showModal({
+          title: "提示",
+          content: "请先阅读并勾选同意《湾大闲置品平台交易规则》",
+          showCancel: true,
+          success: ({ confirm, cancel }) => {},
+        });
+        return;
+      }
+      if (this.isAgree) {
+        uni.navigateTo({
+          url: "/pages/order/detail/detail?id=" + this.itemid,
+        });
+      }
     },
     //余额计算
     up(num) {
@@ -1339,7 +1471,7 @@ export default {
   letter-spacing: 3rpx;
 }
 
-.center {
+.centerui {
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -1348,7 +1480,7 @@ export default {
   border-bottom: 1rpx solid #eee;
 }
 
-.center image {
+.centerui image {
   width: 150rpx;
   height: 150rpx;
 }
@@ -1471,6 +1603,102 @@ export default {
   color: #666;
   font-size: 28rpx;
   text-indent: 40rpx;
+}
+
+/* 弹窗容器 */
+.popup-container {
+  margin: 20px;
+}
+
+/* 弹窗内容 */
+.popup-content {
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* 交易码样式 */
+.trade-code {
+  /* padding: 15px 0; */
+  text-align: center;
+}
+
+.trade-code-label {
+  padding: 30rpx 0;
+  color: #333;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 5rpx;
+  background-color: #f0f0f0;
+}
+
+.code-number {
+  margin-top: 20rpx;
+  color: #1890ff;
+  font-size: 50rpx;
+  font-weight: bold;
+}
+
+/* 提示信息样式 */
+.reminder {
+  padding: 30rpx;
+}
+
+.reminder-title {
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.reminder-text {
+  color: #666;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* 注意事项样式 */
+.attention {
+  padding: 30rpx;
+}
+
+.attention-title {
+  margin-bottom: 8px;
+  color: #ff4d4f;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.attention-text {
+  color: #ff4d4f;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* 按钮样式 */
+.detail-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  background-color: #1890ff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.detail-button:hover {
+  background-color: #40a9ff;
+}
+
+.checkbox-label {
+  padding: 0 30rpx;
+  color: #666;
+  font-size: 28rpx;
 }
 
 @import "@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin";
