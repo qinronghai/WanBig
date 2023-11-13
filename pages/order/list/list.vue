@@ -56,19 +56,7 @@
                 :class="'title ' + (item.status == 1 ? 'text-red' : '')">
                 <image src="../../../static/order/road-sign.svg"></image>
                 <view>{{
-                  /* tabid == 0 && item.status == 1
-                    ? "待确认"
-                    : tabid == 0 && item.status == 2
-                    ? "交易中"
-                    : tabid == 0 && item.status == 3
-                    ? "交易完成"
-                    : tabid == 0 && item.status == 4
-                    ? "已取消预定"
-                    : tabid == 0 && item.status == 42
-                    ? "已取消交易"
-                    : tabid == 0 && item.status == 43
-                    ? "已拒绝预定"
-                    : */ item.status == 1 && item.seller == openid
+                  item.status == 1 && item.seller == openid
                     ? "买家的预定订单"
                     : item.status == 1 && item._openid == openid
                     ? "等待卖家确认订单"
@@ -195,47 +183,6 @@
         <image src="/static/images/top.png"></image>
       </view>
     </van-transition>
-    <!-- 确认订单-弹窗提示 -->
-    <uni-popup
-      ref="popup"
-      @change="change">
-      <view class="popup-container">
-        <view
-          class="popup-content"
-          :class="{ 'popup-height': type === 'left' || type === 'right' }">
-          <view class="trade-code">
-            <view class="trade-code-label">交易码</view>
-            <view class="code-number">{{ code }}</view>
-          </view>
-          <view class="reminder">
-            <view class="reminder-title">温馨提示：</view>
-            <view class="reminder-text">1、为了顺利完成本次交易，请在交付货品时出示此交易码。</view>
-            <view class="reminder-text">2、请提醒买家在收到商品后输入此交易码以确认交易完成。</view>
-          </view>
-          <view class="attention">
-            <view class="attention-title">注意：</view>
-            <view class="attention-text">1、未在72小时内输入交易码可能影响您的信誉分。</view>
-            <view class="attention-text">2、信誉分将决定您是否能够继续使用本平台。</view>
-          </view>
-          <view class="checkbox-label">
-            <checkbox-group @change="onChangeAgree">
-              <label>
-                <checkbox
-                  :value="isAgree"
-                  :checked="isAgree"
-                  color="#1890ff"
-                  style="transform: scale(0.7)" />我已认真读完上面的提示，并同意遵守相关规定。
-              </label>
-            </checkbox-group>
-            <button
-              class="detail-button"
-              @click="goToOrderDetail">
-              去订单详情
-            </button>
-          </view>
-        </view>
-      </view>
-    </uni-popup>
   </view>
 </template>
 <script module="morejs" lang="wxs" src="@/common.wxs"></script>
@@ -284,7 +231,7 @@ export default {
 
       tabid: 0,
       page: 0,
-      list: "",
+      list: [],
       openid: "",
       isAgree: false,
       code: 0,
@@ -296,18 +243,15 @@ export default {
       title: "加载中",
     });
     this.openid = uni.getStorageSync("openid");
-    this.getAllList();
+    // this.getAllList();
+  },
+  onShow() {
+    this.tabOperate();
   },
   //下拉刷新
   // TODO 修改
   onPullDownRefresh() {
-    if (this.tabid === 0) {
-      this.getAllList();
-    } else if (this.tabid === 1 && this.activePage === 0) {
-      this.getlist1();
-    } else {
-      this.getlist();
-    }
+    this.tabOperate();
   },
   //监测屏幕滚动
   onPageScroll: function (e) {
@@ -316,21 +260,10 @@ export default {
     });
   },
   onReachBottom() {
+    console.log("到底拉 :>> ");
     this.more();
   },
   methods: {
-    onChangeAgree(e) {
-      console.log("e :>> ", e);
-      this.isAgree = !this.isAgree;
-    },
-    change(e) {
-      console.log("当前模式：" + e.type + ",状态：" + e.show);
-    },
-    toggle(type) {
-      this.type = type;
-      // open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-      this.$refs.popup.open(type);
-    },
     //导航栏切换
     async changeTab(e) {
       let that = this;
@@ -370,6 +303,9 @@ export default {
       } else if (this.tabid === 2 && this.activePage === 1) {
         // 交易中-待发货
         this.list = await this.getlist3(2);
+      } else if (this.tabid === 3) {
+        // 交易完成
+        this.list = await this.getlist30();
       } else if (this.tabid === 4 && this.activePage === 1) {
         // 已取消交易
         this.list = await this.getlist42();
@@ -384,48 +320,45 @@ export default {
     },
     //获取全部列表
     async getAllList() {
+      let that = this;
+      // 显示加载中提示
+      uni.showLoading({
+        title: "加载中",
+        mask: true,
+      });
+      let statusid = _.neq(0);
+      // 全部
+      let whereObj = {
+        status: statusid,
+        _openid: this.openid,
+      };
+      let whereObj1 = {
+        status: statusid,
+        seller: this.openid,
+      };
       try {
-        // 显示加载中提示
-        uni.showLoading({
-          title: "加载中",
-          mask: true,
-        });
+        // 我是买家
+        let list1 = await db.collection("order").where(whereObj).orderBy("creat", "desc").get();
 
-        /* // 并行获取所有列表数据
-        const [list, list1, list2, list3, list42] = await Promise.all([
-          this.getlist(true),
-          this.getlist1(true),
-          this.getlist2(2, true),
-          this.getlist3(2, true),
-          this.getlist42(true),
-        ]); */
-        // 并行获取所有列表数据
-        const [list, list1, list3, list42] = await Promise.all([this.getlist(true), this.getlist1(true), this.getlist3(2, true), this.getlist42(true)]);
-
-        // 输出各个列表数据
-        console.log("list :>> ", list);
-        console.log("list1 :>> ", list1);
-        // console.log("list2 :>> ", list2);
-        console.log("list3 :>> ", list3);
-        console.log("list42 :>> ", list42);
+        // 我是卖家
+        let list2 = await db.collection("order").where(whereObj1).orderBy("creat", "desc").get();
 
         // 合并并按创建时间排序所有列表数据
-        const allList = [...list, ...list1, ...list3, ...list42].sort((a, b) => b.creat - a.creat);
-
+        const allList = [...list1.data, ...list2.data].sort((a, b) => b.creat - a.creat);
         // 按状态筛选列表数据
         const list2Arr = allList.filter((item) => item.status === 2);
         const list1Arr = allList.filter((item) => item.status === 1);
         const OtherArr = allList.filter((item) => item.status !== 2 && item.status !== 1);
-
         // 合并按状态排序后的列表数据:交易中-待确认-其他
         const listAll = [...list2Arr, ...list1Arr, ...OtherArr];
-
         this.list = listAll;
-
-        console.log("listAll :>> ", listAll);
       } catch (error) {
-        // 处理异步操作中的错误
         console.error("在 getAllList 中发生错误: ", error);
+
+        uni.showToast({
+          title: "获取失败",
+          icon: "none",
+        });
       } finally {
         // 隐藏加载提示，确保无论异步操作成功或失败都执行
         uni.hideLoading();
@@ -635,6 +568,39 @@ export default {
         return [];
       }
     },
+    //获取列表（交易完成）
+    async getlist30(isAll = false) {
+      console.log("getlist30 :>> ");
+      let whereObj = isAll
+        ? {
+            status: 3,
+            seller: this.openid,
+          }
+        : {
+            status: 3,
+          };
+      let that = this;
+      try {
+        const re = await db.collection("order").where(whereObj).orderBy("creat", "desc").get();
+
+        uni.stopPullDownRefresh(); //暂停刷新动作
+        that.setData({
+          nomore: false,
+          page: 0,
+          // list: that.tabid == 0 ? that.list : re.data,
+        });
+
+        if (!isAll) {
+          uni.hideLoading();
+        }
+        return re.data;
+      } catch (error) {
+        console.log("error :>> ", error);
+        uni.hideLoading();
+
+        return [];
+      }
+    },
 
     // 给卖家发送订单状态变更通知
     async sendOrderChangeMsg(openid, data) {
@@ -795,12 +761,14 @@ export default {
     },
     //卖家确认订单(订单确认通知)
     confirmReserve(ord) {
+      // 直接跳转详情页面，并触发确认订单按钮事件
       console.log("ord :>> ", ord);
       let that = this;
       let detail = ord.currentTarget.dataset.ord;
-      this.isAgree = false;
+      uni.navigateTo({ url: "/pages/order/detail/detail?id=" + detail._id + "&flag=" + 1 });
+      // this.isAgree = false;
 
-      uni.showModal({
+      /* uni.showModal({
         title: "温馨提示",
         content: "您确认要同意该预定吗",
         showCancel: true,
@@ -842,7 +810,7 @@ export default {
               });
           }
         },
-      });
+      }); */
     },
     //卖家拒绝预定(订单确认通知)
     rejectReserve(ord) {
@@ -1021,6 +989,11 @@ export default {
                   });
                   // 4.判断在哪个tabid下的操作,执行对应的getlist
                   that.tabOperate();
+                  uni.showToast({
+                    title: "操作成功",
+                    icon: "success",
+                    mask: true,
+                  });
                 },
                 fail(e) {
                   uni.hideLoading();
@@ -1040,58 +1013,67 @@ export default {
       let detail = ord.currentTarget.dataset.ord;
       let isSend = ord.currentTarget.dataset.issend;
       console.log(ord, isSend);
-      uni.showModal({
-        title: "提示",
-        content: isSend ? "您确认已经发货了吗？" : "您确认已经收货了吗？",
-        showCancel: true,
-        success: ({ confirm, cancel }) => {
-          if (confirm) {
-            uni.showLoading({
-              title: "加载中",
-              mask: true,
-            });
-            //1. 修改卖家在售状态
-            db.collection("publish")
-              .doc(detail.sellid)
-              .update({
-                data: {
-                  status: 3,
-                },
-                success: function (res) {
-                  console.log("修改卖家在售状态成功", res);
-                },
+      if (isSend === false) {
+        uni.navigateTo({ url: "/pages/order/detail/detail?id=" + detail._id + "&flag=2" });
+      } else {
+        uni.showModal({
+          title: "提示",
+          content: isSend ? "您确认已经发货了吗？" : "您确认已经收货了吗？",
+          showCancel: true,
+          success: ({ confirm, cancel }) => {
+            if (confirm) {
+              uni.showLoading({
+                title: "加载中",
+                mask: true,
               });
-            //2. 修改订单状态
-            db.collection("order")
-              .doc(detail._id)
-              .update({
-                data: {
-                  status: 3,
-                },
-                success: function (res) {
-                  console.log("修改订单状态成功", res);
-                  //3. 给卖家发送订单状态变更通知
-                  that.sendOrderChangeMsg(isSend ? detail._openid : detail.seller, {
-                    orderId: detail._id,
-                    goodName: detail.bookinfo.title,
-                    status: "交易完成",
-                    time: util.formatTime(new Date()),
-                    note: (isSend ? "卖家已确认发货，" : "买家已确认收货，") + "交易完成。",
-                  });
-                  //4. 判断在哪个tabid下的操作,执行对应的getlist
-                  that.tabOperate();
-                },
-                fail(e) {
-                  uni.hideLoading();
-                  uni.showToast({
-                    title: "发生异常，请及时和管理人员联系处理",
-                    icon: "none",
-                  });
-                },
-              });
-          }
-        },
-      });
+              //1. 修改卖家在售状态
+              db.collection("publish")
+                .doc(detail.sellid)
+                .update({
+                  data: {
+                    status: 3,
+                  },
+                  success: function (res) {
+                    console.log("修改卖家在售状态成功", res);
+                  },
+                });
+              //2. 修改订单状态
+              db.collection("order")
+                .doc(detail._id)
+                .update({
+                  data: {
+                    status: 3,
+                  },
+                  success: function (res) {
+                    console.log("修改订单状态成功", res);
+                    //3. 给卖家发送订单状态变更通知
+                    that.sendOrderChangeMsg(isSend ? detail._openid : detail.seller, {
+                      orderId: detail._id,
+                      goodName: detail.bookinfo.title,
+                      status: "交易完成",
+                      time: util.formatTime(new Date()),
+                      note: (isSend ? "卖家已确认发货，" : "买家已确认收货，") + "交易完成。",
+                    });
+                    //4. 判断在哪个tabid下的操作,执行对应的getlist
+                    that.tabOperate();
+                    uni.showToast({
+                      title: "操作成功",
+                      icon: "success",
+                      mask: true,
+                    });
+                  },
+                  fail(e) {
+                    uni.hideLoading();
+                    uni.showToast({
+                      title: "发生异常，请及时和管理人员联系处理",
+                      icon: "none",
+                    });
+                  },
+                });
+            }
+          },
+        });
+      }
     },
     //删除订单
     deleteFun(ord) {
@@ -1109,6 +1091,11 @@ export default {
               .doc(detail._id)
               .remove({
                 success() {
+                  uni.showToast({
+                    title: "删除成功",
+                    icon: "success",
+                    mask: true,
+                  });
                   //4. 判断在哪个tabid下的操作,执行对应的getlist
                   that.tabOperate();
                 },
@@ -1118,85 +1105,14 @@ export default {
         },
       });
     },
-    //生成交易码
-    async createCode(id) {
-      let that = this;
 
-      // 判断该订单是否有交易码
-      await db
-        .collection("order")
-        .doc(id)
-        .get({
-          success: async function (res) {
-            console.log("获取订单成功", res);
-            console.log("res :>> ", res);
-            if (res.data.code) {
-              // 有交易码
-              that.code = res.data.code;
-            } else {
-              // 无交易码
-              let code = Math.floor(Math.random() * 1000000);
-              that.code = code;
-              db.collection("order")
-                .doc(id)
-                .update({
-                  data: {
-                    code: code,
-                  },
-                  success: function (res) {
-                    console.log("生成交易码成功", res);
-                    uni.hideLoading();
-                    /*  uni.showToast({
-                      title: "确认成功",
-                      icon: "success",
-                      mask: true,
-                      duration: 1500,
-                      success: function () {
-                        setTimeout(() => {
-                          uni.navigateTo({ url: "/pages/order/detail/detail?id=" + id });
-                        }, 1500);
-                      },
-                    }); */
-                  },
-                  fail(e) {
-                    uni.hideLoading();
-                    uni.showToast({
-                      title: "发生异常，请及时和管理人员联系处理",
-                      icon: "none",
-                    });
-                  },
-                });
-            }
-            that.itemid = id;
-            that.toggle("center");
-          },
-          fail: console.error,
-        });
-    },
     //跳转详情页
     godetail(e) {
       uni.navigateTo({
         url: "/pages/order/detail/detail?id=" + e.currentTarget.dataset.id,
       });
     },
-    goToOrderDetail(e) {
-      console.log("itemid :>> ", this.itemid);
-      // 点击确认订单的详情页tiaozhuan
-      if (!this.isAgree) {
-        uni.showModal({
-          title: "提示",
-          content: "请先阅读并勾选同意《湾大闲置品平台交易规则》",
-          showCancel: true,
-          success: ({ confirm, cancel }) => {},
-        });
-        return;
-      }
-      if (this.isAgree) {
-        uni.navigateTo({
-          url: "/pages/order/detail/detail?id=" + this.itemid,
-        });
-      }
-    },
+
     //余额计算
     up(num) {
       let that = this;
@@ -1252,27 +1168,82 @@ export default {
     //加载更多
     more() {
       let that = this;
+      let whereObj = null;
+      let whereObj1 = null;
       if (that.nomore || that.list.length < 20) {
         return false;
       }
       let page = that.page + 1;
-      let status = that.tabid;
-      if (status == 0) {
-        var statusid = _.neq(0); //除-2之外所有
+      let statusid = _.neq(0);
+
+      console.log("tabid :>> ", this.tabid);
+      console.log("activePage :>> ", this.activePage);
+
+      if (this.tabid === 0) {
+        // 全部
+        whereObj = {
+          status: statusid,
+          _openid: this.openid,
+        };
+        whereObj1 = {
+          status: statusid,
+          seller: this.openid,
+        };
+      } else if (this.tabid === 1 && this.activePage === 0) {
+        whereObj = {
+          status: 1,
+          seller: this.openid,
+        };
+        // 待确认&&确认预定订单
+      } else if (this.tabid === 2 && this.activePage === 0) {
+        whereObj = {
+          status: 2,
+          seller: _.neq(this.openid), // 卖家不是本人的
+          _openid: this.openid, // 买家是本人的
+        };
+        // 交易中-待收货
+      } else if (this.tabid === 2 && this.activePage === 1) {
+        whereObj = {
+          status: 2,
+          seller: this.openid, // 卖家是本人的
+        };
+        // 交易中-待发货
+      } else if (this.tabid === 4 && this.activePage === 1) {
+        whereObj = {
+          status: 42,
+          seller: this.openid, // 卖家是本人的
+        };
+        whereObj1 = {
+          status: 42,
+          _openid: this.openid,
+        };
+        // 已取消交易
+      } else if (this.tabid === 4 && this.activePage === 2) {
+        whereObj = {
+          status: 43,
+          seller: this.openid, // 卖家是本人的
+        };
+        // 已拒绝预定
       } else {
-        var statusid = parseInt(status); //小程序搜索必须对应格式
+        // 1.等待卖家确认
+        // 2.已取消预定
+        whereObj = {
+          status: parseInt(this.tabid),
+          _openid: this.openid,
+        };
       }
 
+      console.log("whereObj :>> ", whereObj);
+      console.log("whereObj1 :>> ", whereObj1);
+      // 我是买家
       db.collection("order")
-        .where({
-          status: statusid,
-          _openid: app.globalData.openid,
-        })
+        .where(whereObj)
         .orderBy("creat", "desc")
         .skip(page * 20)
         .limit(20)
         .get({
           success: function (res) {
+            console.log("res1 :>> ", res);
             if (res.data.length == 0) {
               that.setData({
                 nomore: true,
@@ -1296,6 +1267,40 @@ export default {
             });
           },
         });
+      // 我是卖家
+      if (whereObj1) {
+        db.collection("order")
+          .where(whereObj1)
+          .orderBy("creat", "desc")
+          .skip(page * 20)
+          .limit(20)
+          .get({
+            success: function (res) {
+              console.log("res2 :>> ", res);
+              if (res.data.length == 0) {
+                that.setData({
+                  nomore: true,
+                });
+                return false;
+              }
+              if (res.data.length < 20) {
+                that.setData({
+                  nomore: true,
+                });
+              }
+              that.setData({
+                page: page,
+                list: that.list.concat(res.data),
+              });
+            },
+            fail() {
+              uni.showToast({
+                title: "获取失败",
+                icon: "none",
+              });
+            },
+          });
+      }
     },
 
     //邮件提醒订单取消
@@ -1603,102 +1608,6 @@ export default {
   color: #666;
   font-size: 28rpx;
   text-indent: 40rpx;
-}
-
-/* 弹窗容器 */
-.popup-container {
-  margin: 20px;
-}
-
-/* 弹窗内容 */
-.popup-content {
-  overflow: hidden;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-/* 交易码样式 */
-.trade-code {
-  /* padding: 15px 0; */
-  text-align: center;
-}
-
-.trade-code-label {
-  padding: 30rpx 0;
-  color: #333;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 5rpx;
-  background-color: #f0f0f0;
-}
-
-.code-number {
-  margin-top: 20rpx;
-  color: #1890ff;
-  font-size: 50rpx;
-  font-weight: bold;
-}
-
-/* 提示信息样式 */
-.reminder {
-  padding: 30rpx;
-}
-
-.reminder-title {
-  margin-bottom: 8px;
-  color: #333;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.reminder-text {
-  color: #666;
-  font-size: 15px;
-  line-height: 1.5;
-}
-
-/* 注意事项样式 */
-.attention {
-  padding: 30rpx;
-}
-
-.attention-title {
-  margin-bottom: 8px;
-  color: #ff4d4f;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.attention-text {
-  color: #ff4d4f;
-  font-size: 15px;
-  line-height: 1.5;
-}
-
-/* 按钮样式 */
-.detail-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  color: #fff;
-  font-size: 16px;
-  text-align: center;
-  background-color: #1890ff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.detail-button:hover {
-  background-color: #40a9ff;
-}
-
-.checkbox-label {
-  padding: 0 30rpx;
-  color: #666;
-  font-size: 28rpx;
 }
 
 @import "@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin";

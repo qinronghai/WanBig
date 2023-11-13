@@ -625,7 +625,7 @@ export default {
         .get({
           async success(res) {
             console.log(res, "test");
-            //添加到数据库
+            //books集合中没有该书数据，添加到数据库
             if (res.data == "") {
               await that.addBooks(bn);
             } else {
@@ -656,6 +656,8 @@ export default {
 
         const bookInfo = res1.result.body && res1.result.body.BookInfoEntityList[0];
 
+        console.log("bookInfo :>> ", bookInfo);
+
         if (bookInfo && bookInfo.length !== 0) {
           const {
             AUTHOR_NAME: author,
@@ -685,9 +687,11 @@ export default {
           const res = await db.collection("books").add({
             data: formattedBookInfo,
           });
-
+          // 添加之后，重新获取数据库的树，因为要获取_id
+          const res2 = await db.collection("books").where({ isbn: isbn, author, price }).get();
+          console.log("res2 :>> ", res2);
           this.setData({
-            bookinfo: formattedBookInfo,
+            bookinfo: res2.data[0],
             show_a: false,
             show_b: true,
             show_c: false,
@@ -938,454 +942,453 @@ export default {
 </script>
 <style lang="scss" scoped>
 page {
-    height: 100vh;
-    background: #f6f7fa;
+  height: 100vh;
+  background: #f6f7fa;
 }
 
 .top_steps {
-    position: relative;
-    top: 0rpx;
-    left: 0rpx;
+  position: relative;
+  top: 0rpx;
+  left: 0rpx;
 
-/* z-index: 9; */
-    width: 100%;
+  /* z-index: 9; */
+  width: 100%;
 }
 
 .a_contain {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 20rpx 32rpx;
-    width: 100%;
-    background: #fff;
-    box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20rpx 32rpx;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
 }
 
 .a_inp {
-    display: flex;
-    overflow: hidden;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 76rpx;
-    border-radius: 38rpx;
-    background: #f8fafd;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 76rpx;
+  border-radius: 38rpx;
+  background: #f8fafd;
 }
 
 .a_scan {
-    padding-left: 30rpx;
-    width: 40rpx;
-    height: 38rpx;
+  padding-left: 30rpx;
+  width: 40rpx;
+  height: 38rpx;
 }
 
 .a_inp input {
-    width: 420rpx;
-    height: 100%;
-    color: #aaaaab;
-    letter-spacing: 2rpx;
-    font-size: 28rpx;
+  width: 420rpx;
+  height: 100%;
+  color: #aaaaab;
+  letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .a_pla {
-    color: #aaaaab;
-    font-size: 27rpx;
+  color: #aaaaab;
+  font-size: 27rpx;
 }
 
 .a_confirm {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 170rpx;
-    height: 100%;
-    border-radius: 36rpx;
-    background: #000;
-    color: #fff;
-    letter-spacing: 4rpx;
-    font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170rpx;
+  height: 100%;
+  border-radius: 36rpx;
+  background: #000;
+  color: #fff;
+  letter-spacing: 4rpx;
+  font-size: 28rpx;
 }
 
 .a_isbn {
-    margin-top: 40rpx;
-    width: 350rpx;
-    height: 350rpx;
+  margin-top: 40rpx;
+  width: 350rpx;
+  height: 350rpx;
 }
 
 .a_des {
-    margin-top: 30rpx;
-    width: 450rpx;
-    color: #aaaaab;
-    text-align: center;
-    letter-spacing: 3rpx;
-    font-size: 30rpx;
-    line-height: 50rpx;
+  margin-top: 30rpx;
+  width: 450rpx;
+  color: #aaaaab;
+  text-align: center;
+  letter-spacing: 3rpx;
+  font-size: 30rpx;
+  line-height: 50rpx;
 }
 
 .a_indication {
-    padding-top: 20rpx;
-    width: 80rpx;
-    height: 60rpx;
+  padding-top: 20rpx;
+  width: 80rpx;
+  height: 60rpx;
 }
 
 .a_sao {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    background-color: #f6f7fa;
-    /* padding-top: 30rpx; */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #f6f7fa;
+  /* padding-top: 30rpx; */
 }
 
 .a_sao button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 500rpx;
-    height: 80rpx;
-    border: none;
-    border-radius: 40rpx;
-    background: #ffc300;
-    color: #fff;
-    letter-spacing: 4rpx;
-    font-weight: 500;
-    font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 500rpx;
+  height: 80rpx;
+  border: none;
+  border-radius: 40rpx;
+  background: #ffc300;
+  color: #fff;
+  letter-spacing: 4rpx;
+  font-weight: 500;
+  font-size: 32rpx;
 }
 
 .a_sao button::after {
-    border: none;
+  border: none;
 }
 
 /*步骤二*/
 
 .b_contain {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 32rpx;
-    width: 100%;
-    background: #fff;
-    box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 32rpx;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
 }
 
 .b_left {
-    display: flex;
+  display: flex;
 }
 
 .b_top {
-    display: flex;
+  display: flex;
 }
 
 .b_poster {
-    display: flex;
-    justify-content: center;
-    width: 270rpx;
+  display: flex;
+  justify-content: center;
+  width: 270rpx;
 }
 
 .b_poster image {
-    width: 250rpx;
-    height: 250rpx;
+  width: 250rpx;
+  height: 250rpx;
 }
 
 .b_title {
-    width: 100%;
-    letter-spacing: 2rpx;
-    font-weight: 600;
-    font-size: 32rpx;
-    line-height: 50rpx;
+  width: 100%;
+  letter-spacing: 2rpx;
+  font-weight: 600;
+  font-size: 32rpx;
+  line-height: 50rpx;
 }
 
 .b_content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 410rpx;
-    height: 250rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 410rpx;
+  height: 250rpx;
 }
 
 .b_dcontain {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 4rpx;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 4rpx;
+  width: 100%;
 }
 
 .b_author {
-    color: #000;
-    letter-spacing: 2rpx;
-    font-size: 28rpx;
+  color: #000;
+  letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .b_price {
-    color: rgb(255, 0, 0);
-    white-space: nowrap;
-    letter-spacing: 2rpx;
-    font-size: 30rpx;
+  color: rgb(255, 0, 0);
+  white-space: nowrap;
+  letter-spacing: 2rpx;
+  font-size: 30rpx;
 }
 
 .b_des {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    color: #aaaaab;
-    text-overflow: ellipsis;
-    font-size: 26rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: #aaaaab;
+  text-overflow: ellipsis;
+  font-size: 26rpx;
 
-    -webkit-line-clamp: 4;
+  -webkit-line-clamp: 4;
 }
 
 /*步骤二输入内容*/
 
 .b_ccontain {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 15rpx 30rpx 30rpx 30rpx;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 15rpx 30rpx 30rpx 30rpx;
+  width: 100%;
 }
 
 .b_card {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 20rpx 30rpx 40rpx 30rpx;
-    width: 100%;
-    border-radius: 18rpx;
-    background: #fff;
-    box-shadow: 0 0 20rpx #ebebeb;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20rpx 30rpx 40rpx 30rpx;
+  width: 100%;
+  border-radius: 18rpx;
+  background: #fff;
+  box-shadow: 0 0 20rpx #ebebeb;
 }
 
 .b_border {
-    width: 100%;
-    height: 2rpx;
-    border-bottom: 1rpx solid #eee;
+  width: 100%;
+  height: 2rpx;
+  border-bottom: 1rpx solid #eee;
 }
 
 .b_ccontain .icon {
-    margin-right: 15px;
-    width: 24px;
-    height: 24px;
+  margin-right: 15px;
+  width: 24px;
+  height: 24px;
 }
 
 .b_bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100rpx;
 }
 
 .b_bar.price {
 }
 
 .b_bar .name {
-    font-size: 30rpx;
+  font-size: 30rpx;
 }
 
 .b_input {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .kind-group {
-    display: flex;
+  display: flex;
 }
 
 .b_radio {
-    display: flex;
-    align-items: center;
-    padding-left: 20rpx;
-    font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 20rpx;
+  font-size: 28rpx;
 }
 
 .b_radio radio {
-    transform: scale(.8);
+  transform: scale(0.8);
 }
 
 .b_name {
-    letter-spacing: 2rpx;
-    font-weight: 700;
-    font-size: 28rpx;
+  letter-spacing: 2rpx;
+  font-weight: 700;
+  font-size: 28rpx;
 }
 
 /* 价格的粗体显示 */
 /deep/ .uni-numbox__value {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .b_picker {
-    display: flex;
-    align-items: center;
-    color: #8c9aa8;
-    font-size: 28rpx;
-    line-height: 30rpx;
+  display: flex;
+  align-items: center;
+  color: #8c9aa8;
+  font-size: 28rpx;
+  line-height: 30rpx;
 }
 
 .right {
-    padding-left: 10rpx;
-    width: 26rpx;
-    height: 26rpx;
+  padding-left: 10rpx;
+  width: 26rpx;
+  height: 26rpx;
 }
 
 picker {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .b_notes {
-    display: flex;
-    box-sizing: border-box;
-    padding: 10rpx;
-    width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10rpx;
+  width: 100%;
 }
 
 .b_text {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 20rpx;
-    width: 100%;
-    height: 200rpx;
-    border-radius: 10rpx;
-    background: rgb(238, 238, 238);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 20rpx;
+  width: 100%;
+  height: 200rpx;
+  border-radius: 10rpx;
+  background: rgb(238, 238, 238);
 }
 
 .b_text textarea {
-    width: 100%;
-    height: 130rpx;
-    border-spacing: 2rpx;
-    color: #8c9aa8;
-    font-size: 28rpx;
+  width: 100%;
+  height: 130rpx;
+  border-spacing: 2rpx;
+  color: #8c9aa8;
+  font-size: 28rpx;
 }
 
 .b_less {
-    display: flex;
-    justify-content: flex-end;
-    color: #8c9aa8;
-    letter-spacing: 2rpx;
-    font-size: 28rpx;
+  display: flex;
+  justify-content: flex-end;
+  color: #8c9aa8;
+  letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .b_place {
-    display: flex;
-    box-sizing: border-box;
-    padding: 10rpx;
-    width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10rpx;
+  width: 100%;
 }
 
 .b_plecebox {
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 0 20rpx;
-    width: 100%;
-    height: 80rpx;
-    border-radius: 10rpx;
-    background: rgb(238, 238, 238);
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 20rpx;
+  width: 100%;
+  height: 80rpx;
+  border-radius: 10rpx;
+  background: rgb(238, 238, 238);
 }
 
 .b_plecebox input {
-    width: 100%;
-    color: #8c9aa8;
-    letter-spacing: 2rpx;
-    font-size: 28rpx;
+  width: 100%;
+  color: #8c9aa8;
+  letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .b_tips {
-    color: #8c9aa8;
-    font-size: 26rpx;
-    line-height: 45rpx;
+  color: #8c9aa8;
+  font-size: 26rpx;
+  line-height: 45rpx;
 }
 
 .b_tips text {
-    color: rgb(255, 0, 0);
-    font-size: 30rpx;
+  color: rgb(255, 0, 0);
+  font-size: 30rpx;
 }
 
 .b_nobi {
-    color: #8c9aa8;
-    font-size: 28rpx;
+  color: #8c9aa8;
+  font-size: 28rpx;
 }
 
 .b_publish {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30rpx;
-    width: 100%;
-    height: 80rpx;
-    border: none;
-    border-radius: 40rpx;
-    background: #fbbd08;
-    color: #fff;
-    letter-spacing: 4rpx;
-    font-weight: 500;
-    font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30rpx;
+  width: 100%;
+  height: 80rpx;
+  border: none;
+  border-radius: 40rpx;
+  background: #fbbd08;
+  color: #fff;
+  letter-spacing: 4rpx;
+  font-weight: 500;
+  font-size: 32rpx;
 }
 
 .c_contain {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    box-sizing: border-box;
-    width: 100%;
-    background: #fff;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  background: #fff;
 }
 
 .c_success {
-    margin-top: 130rpx;
-    width: 145rpx;
-    height: 184rpx;
+  margin-top: 130rpx;
+  width: 145rpx;
+  height: 184rpx;
 }
 
 .c_title {
-    margin-top: 30rpx;
-    font-weight: 600;
-    font-size: 40rpx;
+  margin-top: 30rpx;
+  font-weight: 600;
+  font-size: 40rpx;
 }
 
 .c_des {
-    margin-top: 30rpx;
-    color: #898989;
-    font-size: 28rpx;
-    line-height: 45rpx;
+  margin-top: 30rpx;
+  color: #898989;
+  font-size: 28rpx;
+  line-height: 45rpx;
 }
 
 .c_see {
-    margin-top: 40rpx;
-    color: #4f93ea;
-    letter-spacing: 3rpx;
-    font-size: 32rpx;
+  margin-top: 40rpx;
+  color: #4f93ea;
+  letter-spacing: 3rpx;
+  font-size: 32rpx;
 }
 
 .c_again {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 40rpx;
-    width: 500rpx;
-    height: 80rpx;
-    border-radius: 40rpx;
-    background: #fbbd08;
-    color: #fff;
-    letter-spacing: 4rpx;
-    font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40rpx;
+  width: 500rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: #fbbd08;
+  color: #fff;
+  letter-spacing: 4rpx;
+  font-size: 32rpx;
 }
 
 .center-wrap {
-    padding: $fb-box-padding;
+  padding: $fb-box-padding;
 
-    .goods-pictures {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 8px 0 5px 0;
-        padding: 8px 13px 0;
-        height: auto;
-        border-radius: $fb-box-radius;
-        background-color: #fff;
-    }
+  .goods-pictures {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0 5px 0;
+    padding: 8px 13px 0;
+    height: auto;
+    border-radius: $fb-box-radius;
+    background-color: #fff;
+  }
 }
-
 </style>
