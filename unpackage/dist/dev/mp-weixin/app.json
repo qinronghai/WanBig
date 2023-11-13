@@ -2,9 +2,7 @@
   "pages": [
     "pages/index-store/index-store",
     "pages/release/release",
-    "pages/my/my",
     "pages/my-copy/my",
-    "pages/project-info/project-info",
     "pages/goods-detail/goods-detail",
     "pages/search-res/search-res",
     "pages/auditor/auditor",
@@ -19,7 +17,9 @@
     "pages/chat-room/haoyoupage/haoyoupage",
     "pages/chat-list/chat-list",
     "pages/order/detail/detail",
-    "pages/order/list/list"
+    "pages/order/list/list",
+    "pages/sell/list/list",
+    "pages/sell/detail/detail"
   ],
   "subPackages": [],
   "window": {

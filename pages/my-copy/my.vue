@@ -3,8 +3,9 @@
     <!-- 背景图 -->
     <image
       class="img-bg"
-      src="../../static/my/bg-img.jpg"
-      mode="widthFix" />
+      src="../../static/my/my_commodity.svg"
+      mode="widthFix"
+      style="height: 310px" />
     <view class="top-card">
       <!-- 资料卡片 -->
       <uni-top-card ref="topCardRef"></uni-top-card>
@@ -77,9 +78,6 @@
 
 <script>
 import uniTopCard from "./components/uni-top-card.vue";
-// 我的商品的子组件
-import UniExhibitContactAuthor from "./components/uni-exhibit-contact-author.vue";
-import UniExhibitTip from "./components/uni-exhibit-tip.vue";
 
 import VanIcon from "../../wxcomponents/vant/icon";
 
@@ -90,8 +88,6 @@ export default {
   components: {
     VanIcon,
     uniTopCard,
-    UniExhibitContactAuthor,
-    UniExhibitTip,
   },
   data() {
     return {
@@ -569,7 +565,6 @@ export default {
     padding: 0 40rpx;
 
     // position: relative;
-    margin-top: 150px;
     background-color: #fff;
   }
 

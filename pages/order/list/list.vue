@@ -1170,6 +1170,7 @@ export default {
       let that = this;
       let whereObj = null;
       let whereObj1 = null;
+      //
       if (that.nomore || that.list.length < 20) {
         return false;
       }

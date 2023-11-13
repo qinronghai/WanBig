@@ -138,6 +138,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/sell/list/list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

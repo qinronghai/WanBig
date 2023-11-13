@@ -2,7 +2,6 @@ import uniAsync from "@/js_sdk/i-uni-async/uni-async.js";
 import checkRegisterStatus from "@/js_sdk/utils/check-register-status.js";
 import App from "./App";
 
-Vue.prototype.towxml = require("./static/towxml/index.js");
 // #ifndef VUE3
 import Vue from "vue";
 
@@ -31,7 +30,6 @@ app.$mount();
 // #endif
 // #ifdef VUE3
 import { createSSRApp } from "vue";
-import { curlywedge } from "./static/towxml/parse/parse2/entities/maps/entities";
 export function createApp() {
   const app = createSSRApp(App);
   return {

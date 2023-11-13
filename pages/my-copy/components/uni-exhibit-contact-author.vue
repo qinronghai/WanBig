@@ -1,18 +1,29 @@
 <template>
   <div class="wrap">
     <div class="contact-ways">
-      <div class="item" @click="popContactQQ">
-        <image src="../../../static/my/qq.svg" class="icon"></image>
+      <div
+        class="item"
+        @click="popContactQQ">
+        <image
+          src="../../../static/my/qq.svg"
+          class="icon"></image>
         <span class="txt">185043843</span>
       </div>
-      <div class="item" @click="popContactWX">
-        <image src="../../../static/my/wx.svg" class="icon"></image>
+      <div
+        class="item"
+        @click="popContactWX">
+        <image
+          src="../../../static/my/wx.svg"
+          class="icon"></image>
         <span class="txt">AHAI_1010</span>
       </div>
       <div class="click-button">--点击相应号码可复制--</div>
     </div>
     <div class="avatar">
-      <image class="img-avatar" src="../../../static/my/avatar.png" mode="" />
+      <image
+        class="img-avatar"
+        src="../../../static/my/avatar.png"
+        mode="" />
     </div>
   </div>
 </template>

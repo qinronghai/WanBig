@@ -583,7 +583,7 @@ export default {
       console.log("获取图片成功", this.fileList);
     },
 
-    confirm() {
+    async confirm() {
       let that = this;
       let isbn = that.isbn;
       if (!/978[0-9]{10}/.test(isbn)) {
@@ -593,7 +593,9 @@ export default {
         });
         return false;
       }
-      if (!uni.getStorageSync("isRegister") && !uni.getStorageSync("openid")) {
+      // 1. 验证用户是否注册
+      const isRegister = await this.$checkRegisterStatus();
+      if (!isRegister) {
         uni.showModal({
           title: "温馨提示",
           content: "该功能需要注册方可使用，是否马上去注册",

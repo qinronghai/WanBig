@@ -1,11 +1,7 @@
 <template>
   <div id="page">
     <!-- fake page -->
-    <div
-      v-if="showPage === 0"
-      class="fake">
-      <towxml :nodes="content" />
-    </div>
+
     <!-- 切换导航 -->
     <VanTabs
       :activePage="activePage"
@@ -257,8 +253,6 @@ const _ = db.command;
 const MessageSubscriber = require("../../js_sdk/utils/subscrib-news.js");
 const ImageUploader = require("../../js_sdk/utils/upload-image.js");
 
-import towxml from "../../static/towxml/towxml";
-
 export default {
   components: {
     UniGoodsDesc,
@@ -269,11 +263,9 @@ export default {
     VanTab,
     VanTabs,
     Toast,
-    towxml,
   },
   data() {
     return {
-      content: "", //towxml内容
       activePage: 1, // 切换发布
       navList: [
         {
@@ -373,33 +365,6 @@ export default {
     // 		this.showPage = 1;
     // 	}
     // })
-
-    let str = `# 项目介绍
-
-本项目的前身是《湾大杂货铺》(于2021年11月份开发完成上线)，上线之后经过小规模的校园推广，注册登录用户后台显示达2500人。由于初次开发，能力有限，代码有诸多的bug且本人时间精力有限，很大程度是我想重新重构这个项目，然后《湾大杂货铺》小程序停止了维护。
-
-后面我转入学习vue和uniapp，记不清具体什么时间点才重新重构《湾大杂货铺》了。好在最后也完成了。可是我又觉得是从一座代码屎山到另外一座代码屎山罢了。
-
-当初我的想法是，在原来《湾大杂货铺》的基础上，把书籍部分的逻辑抽离出来做一个二手书市场。后来也不清楚，为什么这部分没做。所以这一版的书籍部分还是混在一起的。
-
-
-## 2023-09-12
-### 重启项目
-
-
-## 2022-08-09
-### 主要功能
-
-主要功能在之前的基础上，添加了：
-
-1. 全新的设计及重构。
-2. 增加成功的通知。
-3. 增加算法机制。
-`;
-
-    this.content = this.towxml(str, "markdown", {
-      base: "../../static",
-    });
 
     // // 获取openid
     // let openid = uni.getStorageSync('openid');
