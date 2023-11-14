@@ -275,6 +275,10 @@ export default {
           });
 
           await Promise.all(promises);
+          if (friends.length === 0) {
+            uni.hideLoading();
+            return;
+          }
           // 将聊天列表按时间进行排序
           friends.sort((a, b) => b.time - a.time);
           this.friendList = friends;
