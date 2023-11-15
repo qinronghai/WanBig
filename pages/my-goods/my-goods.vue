@@ -477,6 +477,8 @@ export default {
       this.activePage = e.index;
       // 根据当前的选项条件请求数据
       this.getListByWhere();
+      // 配置右侧操作按钮
+      this.setOption(this.activeIndex2);
     },
     // 切换选中的菜单项（商品管理）
     changeActive(index) {
@@ -634,13 +636,13 @@ export default {
       if (e.content.text === "下架") {
         this.delete2(item);
       } else if (e.content.text === "删除") {
-        this.delete1(e.item);
+        this.delete2(item);
       } else if (e.content.text === "擦亮") {
-        this.renew(e.item);
+        this.renew(item);
       } else if (e.content.text === "更多操作") {
-        this.deal(e.item, this.noDeal);
+        this.moreOptions(item);
       } else if (e.content.text === "重新编辑") {
-        this.reEdit(e.item);
+        this.reEdit(item);
       }
     },
     // 处理删除按钮事件
@@ -666,6 +668,14 @@ export default {
             console.log("用户点击取消--取消下架该商品");
           }
         },
+      });
+    },
+    // 处理更多操作按钮事件
+    moreOptions(item) {
+      console.log("item :>> ", item);
+      // 去到该商品item的订单详情页
+      uni.navigateTo({
+        url: "/pages/order/detail/detail?id=" + item._id + "&from=my-goods",
       });
     },
     /*  // 处理成交按钮事件
@@ -774,8 +784,8 @@ export default {
 
 .navbar {
   display: flex;
-  align-items: center;
   justify-content: space-evenly;
+  align-items: center;
   background-color: #fff;
 }
 
@@ -841,8 +851,8 @@ export default {
   display: flex;
   width: 100%;
   height: 100px;
-  border-radius: 10px;
   background-color: #fff;
+  border-radius: 10px;
 
   // box-shadow: 1px 1.5px 5px 1px rgb(201, 199, 199);
 
@@ -865,12 +875,12 @@ export default {
       .desc {
         display: -webkit-box;
         overflow: hidden;
-        -webkit-box-orient: vertical;
         min-height: 33px;
-        text-overflow: ellipsis;
-        font-weight: 500;
         font-size: 13px;
+        font-weight: 500;
+        text-overflow: ellipsis;
 
+        -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
       }
 
@@ -890,69 +900,69 @@ export default {
         display: flex;
         align-items: center;
         height: 40rpx;
-        font-weight: bolder;
         font-size: 16.02rpx;
+        font-weight: bolder;
 
         .transport {
           display: flex;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          height: 30rpx;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          height: 30rpx;
-          border-radius: 5rpx;
           background-color: #4da4e2;
+          border-radius: 5rpx;
 
           .text-transport {
             margin: 10rpx;
           }
 
           .icon-transport {
-            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
+            margin-left: 10rpx;
           }
         }
 
         .address {
           display: flex;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          height: 30rpx;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          height: 30rpx;
-          border-radius: 5rpx;
           background-color: #ffc300;
+          border-radius: 5rpx;
 
           .text-address {
             margin: 10rpx;
           }
 
           .icon-address {
-            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
+            margin-left: 10rpx;
           }
         }
 
         .quality {
           display: flex;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          height: 30rpx;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          height: 30rpx;
-          border-radius: 5rpx;
           background-color: #ffc300;
+          border-radius: 5rpx;
 
           .text-quality {
             margin: 10rpx;
           }
 
           .icon-quality {
-            margin-left: 10rpx;
             width: 17.52rpx;
             height: 17.52rpx;
+            margin-left: 10rpx;
           }
         }
       }
@@ -967,8 +977,8 @@ export default {
         }
 
         .num {
-          text-align: center;
           font-size: 10px;
+          text-align: center;
         }
       }
     }
@@ -976,11 +986,11 @@ export default {
 
   .right {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     width: 25px;
-    border-radius: 0 10px 10px 0;
     background-color: #eee;
+    border-radius: 0 10px 10px 0;
   }
 }
 
