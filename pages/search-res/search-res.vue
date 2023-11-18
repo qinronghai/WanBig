@@ -1,67 +1,104 @@
 <template>
   <view class="container">
     <div class="search">
-      <van-search placeholder="请输入搜索关键词" :value="searchKey" show-action @search="onSearch" bind:cancel="onCancel" />
+      <van-search
+        placeholder="请输入搜索关键词"
+        :value="searchKey"
+        show-action
+        @search="onSearch"
+        bind:cancel="onCancel" />
     </div>
-    <block v-if="resArrTemp.length > 0">
+    <block>
       <div class="dropdown-menu">
-        <van-dropdown-menu :overlay="false" active-color="#ffc300">
-          <van-dropdown-item @change="changeCategory" :value="categoryDefault" :options="categoryOption" />
-          <van-dropdown-item @change="changeSort" :value="sortDefault" :options="sortOption" />
+        <van-dropdown-menu
+          :overlay="false"
+          active-color="#ffc300">
+          <van-dropdown-item
+            @change="changeCategory"
+            :value="categoryDefault"
+            :options="categoryOption" />
+          <van-dropdown-item
+            @change="changeSort"
+            :value="sortDefault"
+            :options="sortOption" />
         </van-dropdown-menu>
       </div>
-      <div v-for="(item, index) in resArr" :key="index" class="exhibit-goods" @click="toGoodDetailPage(item._id)">
+      <div
+        v-for="(item, index) in resArr"
+        :key="index"
+        class="exhibit-goods"
+        @click="toGoodDetailPage(item)">
         <div class="wrap">
           <div class="left">
-            <image class="img-good" :src="item.pics[0].url" mode="aspectFill" />
+            <image
+              class="img-good"
+              :src="item.key ? item.bookinfo.pic : item.pics[0].url"
+              mode="aspectFill" />
           </div>
           <div class="center">
             <div class="top">
               <div class="desc">
-                {{ item.title }}
+                {{ item.key ? item.bookinfo.title : item.title }}
               </div>
               <div class="price">{{ item.price }}</div>
             </div>
             <div class="bottom">
               <div class="label">
                 <div class="transport">
-                  <image class="icon-transport" src="../../static/label/transport.svg" mode="" />
-                  <span class="text-transport">{{ item.transport }}</span>
+                  <image
+                    class="icon-transport"
+                    src="../../static/label/transport.svg"
+                    mode="" />
+                  <span class="text-transport">{{ item.key ? (item.deliveryid == 0 ? "自提" : "配送") : item.delivery }}</span>
                 </div>
-                <div class="address">
-                  <image class="icon-address" src="../../static/label/address.svg" mode="" />
-                  <span class="text-address">{{ item.address }}</span>
+                <div
+                  v-if="item.delivery == '自提'"
+                  class="address">
+                  <image
+                    class="icon-address"
+                    src="../../static/label/address.svg"
+                    mode="" />
+                  <span class="text-address">{{ item.place }}</span>
                 </div>
                 <div class="quality">
-                  <image class="icon-quality" src="../../static/label/quality.svg" mode="" />
-                  <span class="text-quality">{{ item.quality }}</span>
+                  <image
+                    class="icon-quality"
+                    src="../../static/label/quality.svg"
+                    mode="" />
+                  <span class="text-quality">{{
+                    item.key
+                      ? item.conditionid == 0
+                        ? "全新"
+                        : item.conditionid == 1
+                        ? "几乎全新"
+                        : item.conditionid == 2
+                        ? "轻微痕迹"
+                        : "明显痕迹"
+                      : item.condition
+                  }}</span>
                 </div>
-              </div>
-              <div class="browse">
-                <div class="icon-eye">
-                  <van-icon name="eye-o" />
-                </div>
-                <span class="num">{{ item.views }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </block>
-    <block v-else>
-      <div class="no-find">
-        <image src="../../static/illustration/暂无搜索结果.svg" mode="scaleToFill" />
-        <div class="no-find-text">
-          暂无搜索结果~
+      <block v-if="resArr.length === 0">
+        <div class="no-find">
+          <image
+            src="../../static/illustration/暂无搜索结果.svg"
+            mode="scaleToFill" />
+          <div class="no-find-text">暂无搜索结果~</div>
         </div>
-      </div>
+      </block>
     </block>
-
   </view>
 </template>
 
 <script>
 import VanIcon from "../../wxcomponents/vant/icon/index";
+const db = wx.cloud.database();
+const _ = db.command;
+
 export default {
   components: { VanIcon },
   data() {
@@ -110,66 +147,229 @@ export default {
       ],
       categoryDefault: 0,
       sortDefault: 0,
-      searchKey: '',
-      goodsInfo: [],
+      searchKey: "",
+
       resArr: [],
-      resArrTemp: []
+      resArrTemp: [],
+
+      page: 0,
+      nomore: false,
     };
   },
   onLoad: function (option) {
-    console.log('搜索关键字' + option); //打印出上个页面传递的搜索关键字参数。
+    console.log("搜索关键字" + option); //打印出上个页面传递的搜索关键字参数。
     this.searchKey = option.searchKey;
-    // this.searchKey = '发';
 
-    let goodsInfo = uni.getStorageSync('goodsInfo');
-    console.log('goodsInfo->', goodsInfo);
-    this.goodsInfo = goodsInfo;
-
-    this.search(goodsInfo, this.searchKey);
-
+    this.search(option.searchKey);
+  },
+  // 监测页面到底
+  onReachBottom() {
+    console.log("到底了 :>> ");
+    this.more();
+  },
+  // 监听页面卸载
+  onUnload() {
+    this.resArr = [];
+    this.resArrTemp = [];
+    this.page = 0;
+    this.nomore = false;
   },
   methods: {
     onSearch(e) {
       this.searchKey = e.detail;
-      this.search(this.goodsInfo, this.searchKey);
+      this.search(e.detail);
     },
-    search(lists, key) {
-      let reg = new RegExp(key);
-      let resArr = [];
-      lists.filter(item => {
-        if (reg.test(item.title)) {
-          resArr.push(item);
+    // 构造匹配规则的正则表达式
+    createFuzzyRegex(query) {
+      // 将输入的查询字符串进行转义，防止其中包含正则表达式元字符
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      // 构建模糊查询的正则表达式
+      const fuzzyRegex = new RegExp(escapedQuery.split("").join(".*"));
+
+      return fuzzyRegex;
+    },
+    // 合并两个数组(交替进行)
+    mergeAlternately(arr1, arr2) {
+      let result = arr1.reduce((acc, val, i) => {
+        acc.push(val);
+        if (arr2[i] !== undefined) {
+          acc.push(arr2[i]);
         }
-      })
-      this.resArr = resArr;
-      // 备用数组
-      this.resArrTemp = resArr;
+        return acc;
+      }, []);
+
+      // 如果 arr2 的长度大于 arr1，将剩余的元素添加到结果中
+      if (arr2.length > arr1.length) {
+        result.push(...arr2.slice(arr1.length));
+      }
+
+      return result;
     },
-    toGoodDetailPage(goodId) {
-      uni.navigateTo({
-        url: '/pages/goods-detail/goods-detail?goodId=' + goodId,
+    // 模糊查询获取商品列表
+    async getlist(key) {
+      uni.showLoading({
+        title: "加载中",
+        mask: true,
       });
+
+      try {
+        // 使用模糊查询获取商品列表
+        const goodres = await db
+          .collection("goods")
+          .where({
+            title: this.createFuzzyRegex(key),
+          })
+          .limit(10)
+          .get();
+        // 图书列表
+        const bookres = await db
+          .collection("publish")
+          .where({
+            key: this.createFuzzyRegex(key),
+          })
+          .limit(10)
+          .get();
+        console.log("tets :>> ", "tets");
+        // 合并数组
+        const list = this.mergeAlternately(goodres.data, bookres.data);
+        console.log("list :>> ", list);
+
+        console.log("模糊查询获取商品成功 :>> ", goodres.data);
+        console.log("模糊查询获取书籍成功 :>> ", bookres.data);
+        uni.hideLoading();
+        return list;
+      } catch (error) {
+        console.log("模糊查询获取商品失败 :>> ", error);
+      } finally {
+        uni.hideLoading();
+      }
+    },
+    // 执行搜索
+    async search(key) {
+      // 对key进行判空
+      if (key == "") {
+        this.resArr = [];
+        this.resArrTemp = [];
+        uni.showToast({
+          title: "请输入搜索关键字",
+          icon: "none",
+          mask: true,
+        });
+        return;
+      }
+      // 搜索
+      this.resArr = await this.getlist(key);
+      // 重置页数和更多的状态
+      this.nomore = false;
+      this.page = 0;
+      // 备份数组
+      this.resArrTemp = this.resArr?.slice() || [];
+    },
+    // 加载更多
+    async more() {
+      uni.showLoading({
+        title: "加载中",
+        mask: true,
+      });
+
+      if (this.nomore || this.resArr.length < 10) {
+        // 没有更多
+        console.log("进来了 :>> ");
+        uni.hideLoading();
+        return;
+      }
+
+      const page = this.page + 1;
+      console.log("test :>> ");
+      try {
+        // 使用 Promise.all 并行获取商品和书籍
+        const [goodres, bookres] = await Promise.all([
+          db
+            .collection("goods")
+            .where({
+              title: this.createFuzzyRegex(this.searchKey),
+            })
+            .skip(page * 10)
+            .limit(10)
+            .get(),
+          db
+            .collection("publish")
+            .where({
+              key: this.createFuzzyRegex(this.searchKey),
+            })
+            .skip(page * 10)
+            .limit(10)
+            .get(),
+        ]);
+        console.log("goodres :>> ", goodres);
+        console.log("bookres :>> ", bookres);
+
+        if (goodres.data.length === 0 && bookres.data.length === 0) {
+          this.nomore = true;
+          uni.hideLoading();
+          return;
+        }
+        if (goodres.data.length < 10 || bookres.data.length < 10) {
+          this.nomore = true;
+        }
+
+        // 合并数组
+        const list = this.mergeAlternately(goodres.data, bookres.data);
+
+        // 拼接
+        this.resArr = this.resArr.concat(list);
+        // 备份数组
+        this.resArrTemp = this.resArr?.slice() || [];
+
+        uni.hideLoading();
+      } catch (error) {
+        uni.hideLoading();
+        uni.showToast({
+          title: "数据加载失败",
+          icon: "none",
+          mask: true,
+        });
+        console.error("加载更多失败", error);
+      }
+    },
+
+    toGoodDetailPage(item) {
+      // 判断是商品还是图书
+      if (item.key == undefined) {
+        // 商品
+        let goodId = item._id;
+        console.log("跳转 :>> ", item);
+        uni.navigateTo({
+          url: "/pages/good-detail/good-detail?goodId=" + goodId,
+        });
+      } else {
+        // 图书
+        let bookId = item._id;
+        console.log("跳转 :>> ", item);
+        uni.navigateTo({
+          url: "/pages/book-detail/book-detail?scene=" + bookId,
+        });
+      }
     },
     changeCategory(e) {
-      let index = e.detail;
-      let category = this.categoryOption[index].text;
+      const index = e.detail;
+      const category = this.categoryOption[index].text;
 
       // 每次切换分类都重置渲染数组为搜索后的数组
       this.resArr = this.resArrTemp;
 
-      if (category == "全部商品") {
-        this.resArr = this.resArrTemp;
-      } else {
-        let temp = [];
-        this.resArr.forEach(item => {
-          if (item.category == category) {
-            temp.push(item);
-          }
-        });
+      let temp = [];
+      if (category !== "全部商品") {
+        if (category === "书籍资料") {
+          temp = this.resArr.filter((item) => !!item.key);
+        } else {
+          temp = this.resArr.filter((item) => item.category === category);
+        }
         // 渲染数组
         this.resArr = temp;
       }
     },
+
     changeSort(e) {
       let index = e.detail;
       let sortValue = this.sortOption[index].text;
@@ -179,6 +379,7 @@ export default {
       } else if (sortValue === "价格由高到低") {
         this.resArr.sort(this.compareAsce("price"));
       } else {
+        console.log("ret :>> ");
         this.resArr = this.resArrTemp;
       }
       console.log(this.resArrTemp);
@@ -189,7 +390,7 @@ export default {
         var a = m[p];
         var b = n[p];
         return a - b;
-      }
+      };
     },
     // 降序比较函数
     compareAsce(p) {
@@ -197,16 +398,16 @@ export default {
         var a = m[p];
         var b = n[p];
         return b - a;
-      }
-    }
+      };
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
-  min-height: 100vh;
   padding: 0 15px;
+  min-height: 100vh;
   background-color: #f0f0f0;
 
   .search {
@@ -217,10 +418,7 @@ export default {
     margin: 20px 0 0;
   }
 
-
-
-
-   /deep/ .van-search {
+  /deep/ .van-search {
     padding: 0;
     background-color: #f0f0f0 !important;
   }
@@ -231,8 +429,8 @@ export default {
     .wrap {
       display: flex;
       height: 100px;
-      background-color: #fff;
       border-radius: 10px;
+      background-color: #fff;
 
       .left {
         padding: 10px;
@@ -245,8 +443,8 @@ export default {
       }
 
       .center {
-        width: 100%;
         padding-right: 10px;
+        width: 100%;
 
         .top {
           margin-top: 10px;
@@ -254,12 +452,12 @@ export default {
           .desc {
             display: -webkit-box;
             overflow: hidden;
-            min-height: 33px;
-            font-size: 13px;
-            font-weight: 500;
-            text-overflow: ellipsis;
-
             -webkit-box-orient: vertical;
+            min-height: 33px;
+            text-overflow: ellipsis;
+            font-weight: 500;
+            font-size: 13px;
+
             -webkit-line-clamp: 2;
           }
 
@@ -279,69 +477,69 @@ export default {
             display: flex;
             align-items: center;
             height: 40rpx;
-            font-size: 16.02rpx;
             font-weight: bolder;
+            font-size: 16.02rpx;
 
             .transport {
               display: flex;
-              justify-content: center;
               align-items: center;
-              height: 30rpx;
+              justify-content: center;
               margin-top: 4rpx;
               margin-right: 15rpx;
-              background-color: #4da4e2;
+              height: 30rpx;
               border-radius: 5rpx;
+              background-color: #4da4e2;
 
               .text-transport {
                 margin: 10rpx;
               }
 
               .icon-transport {
+                margin-left: 10rpx;
                 width: 19.28rpx;
                 height: 19.28rpx;
-                margin-left: 10rpx;
               }
             }
 
             .address {
               display: flex;
-              justify-content: center;
               align-items: center;
-              height: 30rpx;
+              justify-content: center;
               margin-top: 4rpx;
               margin-right: 15rpx;
-              background-color: #ffc300;
+              height: 30rpx;
               border-radius: 5rpx;
+              background-color: #ffc300;
 
               .text-address {
                 margin: 10rpx;
               }
 
               .icon-address {
+                margin-left: 10rpx;
                 width: 19.28rpx;
                 height: 19.28rpx;
-                margin-left: 10rpx;
               }
             }
 
             .quality {
               display: flex;
-              justify-content: center;
               align-items: center;
-              height: 30rpx;
+              justify-content: center;
               margin-top: 4rpx;
               margin-right: 15rpx;
-              background-color: #ffc300;
+              height: 30rpx;
               border-radius: 5rpx;
+              background-color: #ffc300;
 
               .text-quality {
                 margin: 10rpx;
               }
 
               .icon-quality {
+                margin-left: 10rpx;
                 width: 17.52rpx;
                 height: 17.52rpx;
-                margin-left: 10rpx;
               }
             }
           }
@@ -356,8 +554,8 @@ export default {
             }
 
             .num {
-              font-size: 10px;
               text-align: center;
+              font-size: 10px;
             }
           }
         }
@@ -367,8 +565,8 @@ export default {
         display: flex;
         align-items: center;
         width: 25px;
-        background-color: #292929;
         border-radius: 0 10px 10px 0;
+        background-color: #292929;
 
         .arrow_left {
           width: 26px;
@@ -380,9 +578,8 @@ export default {
 
   .no-find {
     display: flex;
-    flex-direction: column;
     align-items: center;
-
+    flex-direction: column;
 
     .no-find-text {
       font-style: italic;

@@ -145,6 +145,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/search-res/search-res",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

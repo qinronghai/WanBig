@@ -385,8 +385,8 @@ export default {
 .index-store-page {
   display: flex;
   flex-direction: column;
-  padding: 0 29.79rpx;
   min-height: 100vh;
+  padding: 0 29.79rpx;
   background-color: $global-bg-color;
 
   /deep/ .van-search {
@@ -402,8 +402,8 @@ export default {
     .swiper {
       overflow: hidden;
       height: 380.16rpx;
-      border-radius: 26.29rpx;
       background-color: rgb(204, 204, 204);
+      border-radius: 26.29rpx;
 
       .swiper-item {
         .image {
@@ -417,8 +417,9 @@ export default {
 
   .main {
     display: flex;
-    flex: 1;
     justify-content: space-between;
+    flex: 1;
+
     // 叉轴的起点对齐 align-items: flex-start;
     margin-top: 20rpx;
 
@@ -429,27 +430,28 @@ export default {
     }
 
     .column_item_0 {
+      width: 48%;
       margin: 0 0 15rpx 0;
       margin-bottom: 18rpx;
-      width: 48%;
       border-radius: 8.76rpx;
 
       .test-style {
         display: flex;
-        align-items: center;
         justify-content: center;
-        margin-bottom: 20rpx;
+        align-items: center;
         width: 100%;
         height: 120rpx;
-        border-radius: 17.52rpx;
-        background-color: #fff;
+        margin-bottom: 20rpx;
+
         // font-weight: bold;
         text-align: center;
+        background-color: #fff;
+        border-radius: 17.52rpx;
 
         .book-icon {
-          margin-right: 10rpx;
           width: 60rpx;
           height: 60rpx;
+          margin-right: 10rpx;
           border-radius: 10rpx;
         }
       }
@@ -466,31 +468,31 @@ export default {
 
         .column-bottom {
           box-sizing: border-box;
-          padding: 10.51rpx 15rpx;
           width: 100%;
           height: auto;
-          border-radius: 0 0 10rpx 10rpx;
+          padding: 10.51rpx 15rpx;
           background: #fff;
+          border-radius: 0 0 10rpx 10rpx;
 
           .bottom-text {
             overflow: hidden;
-            -webkit-box-orient: vertical;
-            padding-bottom: 5rpx;
             height: auto;
+            padding-bottom: 5rpx;
+            font-size: 24rpx;
+            font-weight: bold;
             text-overflow: ellipsis;
             white-space: nowrap; /* 添加这一行 */
-            font-weight: bold;
-            font-size: 24rpx;
 
+            -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
 
             .label {
-              margin-right: 10rpx;
               width: auto;
-              border-radius: 4rpx;
-              background-color: #0095ff;
-              font-weight: normal;
+              margin-right: 10rpx;
               font-size: 20rpx;
+              font-weight: normal;
+              background-color: #0095ff;
+              border-radius: 4rpx;
 
               .text {
                 padding: 4rpx 8rpx;
@@ -512,8 +514,8 @@ export default {
 
             .price {
               color: rgb(255, 0, 0);
-              font-weight: bold;
               font-size: 35rpx;
+              font-weight: bold;
 
               .symbol {
                 font-size: 22.52rpx;
@@ -525,22 +527,22 @@ export default {
             position: relative;
             display: flex;
             align-items: center;
-            margin-left: 20rpx;
             height: 40rpx;
-            font-weight: normal;
+            margin-left: 20rpx;
             font-size: 16.02rpx;
+            font-weight: normal;
 
             .quality {
               display: flex;
-              align-items: center;
               justify-content: center;
-              margin-top: 4rpx;
-              margin-right: 15rpx;
+              align-items: center;
               width: auto;
               height: 23rpx;
+              margin-top: 4rpx;
+              margin-right: 15rpx;
+              color: #ed555c;
               border: 2rpx solid rgb(255, 101, 101);
               border-radius: 5rpx;
-              color: #ed555c;
 
               .text-quality {
                 margin: 10rpx;
@@ -553,17 +555,17 @@ export default {
   }
 
   .column_item_1 {
+    width: 48%;
     margin: 0 0 15rpx 0;
     margin-bottom: 18rpx;
-    width: 48%;
     border-radius: 8.76rpx;
 
     .test-style {
-      margin-bottom: 10rpx;
       width: 100%;
       height: 150rpx;
-      border-radius: 17.52rpx;
+      margin-bottom: 10rpx;
       background-color: green;
+      border-radius: 17.52rpx;
     }
 
     .item {
@@ -578,31 +580,31 @@ export default {
 
       .column-bottom {
         box-sizing: border-box;
-        padding: 10.51rpx 15rpx;
         width: 100%;
         height: auto;
-        border-radius: 0 0 10rpx 10rpx;
+        padding: 10.51rpx 15rpx;
         background: #fff;
+        border-radius: 0 0 10rpx 10rpx;
 
         .bottom-text {
           display: -webkit-box;
           overflow: hidden;
-          -webkit-box-orient: vertical;
-          padding-bottom: 5rpx;
           height: auto;
-          text-overflow: ellipsis;
-          font-weight: bold;
+          padding-bottom: 5rpx;
           font-size: 24rpx;
+          font-weight: bold;
+          text-overflow: ellipsis;
 
+          -webkit-box-orient: vertical;
           -webkit-line-clamp: 2;
 
           .label {
-            margin-right: 10rpx;
             width: auto;
-            border-radius: 4rpx;
-            background-color: #0095ff;
-            font-weight: normal;
+            margin-right: 10rpx;
             font-size: 20rpx;
+            font-weight: normal;
+            background-color: #0095ff;
+            border-radius: 4rpx;
 
             .text {
               padding: 4rpx 8rpx;
@@ -624,8 +626,8 @@ export default {
 
           .price {
             color: rgb(255, 0, 0);
-            font-weight: bold;
             font-size: 35rpx;
+            font-weight: bold;
 
             .symbol {
               font-size: 22.52rpx;
@@ -637,22 +639,22 @@ export default {
           position: relative;
           display: flex;
           align-items: center;
-          margin-left: 20rpx;
           height: 40rpx;
-          font-weight: normal;
+          margin-left: 20rpx;
           font-size: 16.02rpx;
+          font-weight: normal;
 
           .quality {
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin-top: 4rpx;
-            margin-right: 15rpx;
+            align-items: center;
             width: auto;
             height: 23rpx;
+            margin-top: 4rpx;
+            margin-right: 15rpx;
+            color: #ed555c;
             border: 2rpx solid rgb(255, 101, 101);
             border-radius: 5rpx;
-            color: #ed555c;
 
             .text-quality {
               margin: 10rpx;
@@ -675,11 +677,11 @@ export default {
 
   .container {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 130.39rpx;
-    border-radius: 22.78rpx;
     background-color: rgb(255, 255, 255);
+    border-radius: 22.78rpx;
 
     .wrap {
       display: flex;
@@ -690,10 +692,10 @@ export default {
       .item {
         position: relative;
         display: flex;
-        align-items: center;
         flex-direction: column;
-        flex-grow: 1;
         justify-content: center;
+        align-items: center;
+        flex-grow: 1;
         width: 90rpx;
         height: 90rpx;
 
@@ -704,8 +706,8 @@ export default {
 
         .text {
           margin-top: 7rpx;
-          font-weight: bold;
           font-size: 20rpx;
+          font-weight: bold;
         }
 
         .active {
@@ -713,8 +715,8 @@ export default {
           bottom: -18rpx;
           width: 55rpx;
           height: 8rpx;
-          border-radius: 50rpx;
           background-color: #fc9b42;
+          border-radius: 50rpx;
         }
       }
 

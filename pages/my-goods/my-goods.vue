@@ -187,6 +187,11 @@
             :goodsInfo="list"
             :btnIndex="activeIndex"></uniSwiperOut> -->
         </view>
+        <button
+          hover-class="button-hover"
+          @click="more">
+          加载更多
+        </button>
       </VanTab>
     </VanTabs>
   </view>
@@ -339,9 +344,9 @@ export default {
         },
         {
           id: 6,
-          name: "被下架",
+          name: "已下架",
           whereObj: {
-            status: _.eq(42).and(_.eq(43)),
+            status: _.eq(42).or(_.eq(43)).or(_.eq(5)), // - 42：卖家取消的交易 - 43：卖家拒绝预定 - 5：超时下架
           },
         },
       ],
@@ -376,9 +381,9 @@ export default {
         },
         {
           id: 4,
-          name: "被下架",
+          name: "已下架",
           whereObj: {
-            status: _.eq(42).and(_.eq(43)),
+            status: _.eq(42).or(_.eq(43)).or(_.eq(5)),
           },
         },
       ],
@@ -534,6 +539,7 @@ export default {
           success: function (res) {
             console.log("res3333333 :>> ", res);
             uni.hideLoading();
+
             if (res.data.length == 0) {
               that.nomore = true;
               return;
@@ -630,6 +636,7 @@ export default {
         url: "/pages/goods-detail/goods-detail?goodId=" + goodId + "&flag=" + 1,
       });
     },
+    // 点击滑动操作按钮
     onClickSwipeItem(e, item) {
       console.log("e :>> ", e);
       console.log("item :>> ", item);
@@ -678,6 +685,52 @@ export default {
         url: "/pages/order/detail/detail?id=" + item._id + "&from=my-goods",
       });
     },
+    // 处理擦亮按钮事件
+    renew(item) {
+      let _this = this;
+
+      wx.showModal({
+        title: "提示",
+        content: "是否确定擦亮该商品？",
+        async success(res) {
+          if (res.confirm) {
+            console.log("用户点击确定--确定擦亮该商品");
+            uni.showLoading({
+              title: "正在擦亮",
+              mask: true,
+            });
+
+            // 更新数据库对应的记录
+            db.collection("publish")
+              .doc(item._id)
+              .update({
+                data: {
+                  creat: new Date().getTime(),
+                  dura: new Date().getTime() + 7 * (86400 * 1000), //每次擦亮管7天
+                  status: 0,
+                },
+                success() {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "成功擦亮",
+                  });
+                  _this.getListByWhere();
+                },
+                fail() {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "操作失败",
+                    icon: "none",
+                  });
+                },
+              });
+          } else if (res.cancel) {
+            console.log("用户点击取消--取消擦亮该商品");
+          }
+        },
+      });
+    },
+
     /*  // 处理成交按钮事件
     deal(item, noDeal) {
       let _this = this;
@@ -784,8 +837,8 @@ export default {
 
 .navbar {
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: space-evenly;
   background-color: #fff;
 }
 
@@ -851,8 +904,8 @@ export default {
   display: flex;
   width: 100%;
   height: 100px;
-  background-color: #fff;
   border-radius: 10px;
+  background-color: #fff;
 
   // box-shadow: 1px 1.5px 5px 1px rgb(201, 199, 199);
 
@@ -875,12 +928,12 @@ export default {
       .desc {
         display: -webkit-box;
         overflow: hidden;
-        min-height: 33px;
-        font-size: 13px;
-        font-weight: 500;
-        text-overflow: ellipsis;
-
         -webkit-box-orient: vertical;
+        min-height: 33px;
+        text-overflow: ellipsis;
+        font-weight: 500;
+        font-size: 13px;
+
         -webkit-line-clamp: 2;
       }
 
@@ -900,69 +953,69 @@ export default {
         display: flex;
         align-items: center;
         height: 40rpx;
-        font-size: 16.02rpx;
         font-weight: bolder;
+        font-size: 16.02rpx;
 
         .transport {
           display: flex;
-          justify-content: center;
           align-items: center;
-          height: 30rpx;
+          justify-content: center;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          background-color: #4da4e2;
+          height: 30rpx;
           border-radius: 5rpx;
+          background-color: #4da4e2;
 
           .text-transport {
             margin: 10rpx;
           }
 
           .icon-transport {
+            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
-            margin-left: 10rpx;
           }
         }
 
         .address {
           display: flex;
-          justify-content: center;
           align-items: center;
-          height: 30rpx;
+          justify-content: center;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          background-color: #ffc300;
+          height: 30rpx;
           border-radius: 5rpx;
+          background-color: #ffc300;
 
           .text-address {
             margin: 10rpx;
           }
 
           .icon-address {
+            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
-            margin-left: 10rpx;
           }
         }
 
         .quality {
           display: flex;
-          justify-content: center;
           align-items: center;
-          height: 30rpx;
+          justify-content: center;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          background-color: #ffc300;
+          height: 30rpx;
           border-radius: 5rpx;
+          background-color: #ffc300;
 
           .text-quality {
             margin: 10rpx;
           }
 
           .icon-quality {
+            margin-left: 10rpx;
             width: 17.52rpx;
             height: 17.52rpx;
-            margin-left: 10rpx;
           }
         }
       }
@@ -977,8 +1030,8 @@ export default {
         }
 
         .num {
-          font-size: 10px;
           text-align: center;
+          font-size: 10px;
         }
       }
     }
@@ -986,11 +1039,11 @@ export default {
 
   .right {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 25px;
-    background-color: #eee;
     border-radius: 0 10px 10px 0;
+    background-color: #eee;
   }
 }
 
