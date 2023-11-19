@@ -79,11 +79,12 @@
             </view>
           </view>
           <view class="centerui">
-            <image :src="item.bookinfo.pic"></image>
+            <image :src="item.bookinfo ? item.bookinfo.pic : item.goodinfo.pic"></image>
+
             <view class="content">
               <view class="book">
-                <view class="book_name text-cut">{{ item.bookinfo.title }}</view>
-                <view class="book_author text-cut">{{ item.bookinfo.author }}</view>
+                <view class="book_name text-cut">{{ item.bookinfo ? item.bookinfo.title : item.goodinfo.title }}</view>
+                <view class="book_author text-cut">{{ item.bookinfo ? item.bookinfo.author : item.goodinfo.category }}</view>
               </view>
               <view class="price">￥{{ item.price }}.00元</view>
             </view>
@@ -161,7 +162,6 @@
     </view>
 
     <block v-if="list.length > 10">
-      <!-- parse <template is="loadmore" :data="nomore"/> -->
       <block
         name="loadmore"
         v-if="false">
@@ -239,11 +239,7 @@ export default {
     };
   },
   onLoad() {
-    uni.showLoading({
-      title: "加载中",
-    });
     this.openid = uni.getStorageSync("openid");
-    // this.getAllList();
   },
   onShow() {
     this.tabOperate();
@@ -266,29 +262,21 @@ export default {
   methods: {
     //导航栏切换
     async changeTab(e) {
-      let that = this;
-
-      that.setData({
+      this.setData({
         tabid: e.currentTarget.dataset.id,
-      });
-      uni.showLoading({
-        title: "加载中",
-        mask: true,
       });
       this.tabOperate();
     },
     // 待确认子级导航栏切换
     onChangeVanTab(e) {
       this.activePage = e.index;
-      uni.showLoading({
-        title: "加载中",
-        mask: true,
-      });
-
       this.tabOperate();
     },
     //判断在哪个tabid下的操作,执行对应的getlist
     async tabOperate() {
+      uni.showLoading({
+        title: "加载中",
+      });
       console.log("tabid :>> ", this.tabid);
       console.log("activePage :>> ", this.activePage);
       // 全部
@@ -646,7 +634,7 @@ export default {
     },
 
     //取消订单(订单为待确认或者待收货时候，取消后卖家状态恢复)
-    cancel(ord) {
+    /* cancel(ord) {
       console.log("ord :>> ", ord);
       let that = this;
       let detail = ord.currentTarget.dataset.ord;
@@ -676,16 +664,14 @@ export default {
                       },
                       success: function (res) {
                         console.log("修改订单状态成功", res.data);
-                        // that.up(detail.price); //返回钱到余额
                         // 给卖家发送订单状态变更通知
                         that.sendOrderChangeMsg(detail.seller, {
                           orderId: detail._id,
-                          goodName: detail.bookinfo.title,
+                          goodName: collection==='publish' ? detail.bookinfo.title : detail.goodinfo.title,
                           status: "取消预定",
                           time: util.formatTime(new Date()),
                           note: "买家取消预定该商品",
                         });
-                        // that.canceltip(detail.seller, detail.bookinfo.title);
                         that.getlist();
                       },
                       fail(e) {
@@ -701,7 +687,7 @@ export default {
           }
         },
       });
-    },
+    }, */
     //买家取消预定(订单状态更新提醒通知)(待确认下-等待卖家确认部分，取消后卖家状态恢复)
     cancelReserve(ord) {
       console.log("ord :>> ", ord);
@@ -715,15 +701,17 @@ export default {
             uni.showLoading({
               title: "正在处理",
             });
+            const collection = detail.bookinfo ? "publish" : "goods";
+            console.log("collection :>> ", collection);
             // 修改卖家在售状态
-            db.collection("publish")
+            db.collection(collection)
               .doc(detail.sellid)
               .update({
                 data: {
                   status: 0,
                 },
                 success: function (res) {
-                  console.log("修改卖家在售状态成功", res.data);
+                  console.log("修改卖家在售状态成功", res);
                   // 修改订单状态
                   db.collection("order")
                     .doc(detail._id)
@@ -732,12 +720,12 @@ export default {
                         status: 4,
                       },
                       success: function (res) {
-                        console.log("修改订单状态成功", res.data);
+                        console.log("修改订单状态成功", res);
                         // that.up(detail.price); //返回钱到余额
                         // 给卖家发送订单状态变更通知
                         that.sendOrderChangeMsg(detail.seller, {
                           orderId: detail._id,
-                          goodName: detail.bookinfo.title,
+                          goodName: collection === "publish" ? detail.bookinfo.title : detail.goodinfo.title,
                           status: "取消预定",
                           time: util.formatTime(new Date()),
                           note: "买家取消预定该商品",
@@ -766,51 +754,6 @@ export default {
       let that = this;
       let detail = ord.currentTarget.dataset.ord;
       uni.navigateTo({ url: "/pages/order/detail/detail?id=" + detail._id + "&flag=" + 1 });
-      // this.isAgree = false;
-
-      /* uni.showModal({
-        title: "温馨提示",
-        content: "您确认要同意该预定吗",
-        showCancel: true,
-        success: ({ confirm, cancel }) => {
-          if (confirm) {
-            uni.showLoading({
-              title: "正在处理",
-              mask: true,
-            });
-            // 1.修改订单状态
-            db.collection("order")
-              .doc(detail._id)
-              .update({
-                data: {
-                  status: 2,
-                },
-                success: function (res) {
-                  console.log("修改订单状态成功", res);
-                  // 2.给买家发送订单确认通知
-                  that.sendOrderConfirmMsg(detail._openid, {
-                    orderId: detail._id,
-                    goodName: detail.bookinfo.title,
-                    time: util.formatTime(new Date()),
-                    content: "卖家同意了您的预定请求",
-                    note: "请尽快与卖家联系，确认交易事宜",
-                  });
-                  // 3.判断在哪个tabid下的操作,执行对应的getlist
-                  that.tabOperate();
-                  // 4.生成随机交易码
-                  that.createCode(detail._id);
-                },
-                fail(e) {
-                  uni.hideLoading();
-                  uni.showToast({
-                    title: "发生异常，请及时和管理人员联系处理",
-                    icon: "none",
-                  });
-                },
-              });
-          }
-        },
-      }); */
     },
     //卖家拒绝预定(订单确认通知)
     rejectReserve(ord) {
@@ -827,8 +770,10 @@ export default {
               title: "正在处理",
               mask: true,
             });
+            const collection = detail.bookinfo ? "publish" : "goods";
+            console.log("collection :>> ", collection);
             // 1.修改卖家在售状态
-            db.collection("publish")
+            db.collection(collection)
               .doc(detail.sellid)
               .update({
                 data: {
@@ -850,7 +795,7 @@ export default {
                   // 3.给买家发送订单确认通知
                   that.sendOrderConfirmMsg(detail._openid, {
                     orderId: detail._id,
-                    goodName: detail.bookinfo.title,
+                    goodName: collection === "publish" ? detail.bookinfo.title : detail.goodinfo.title,
                     time: util.formatTime(new Date()),
                     content: "卖家拒绝了您的预定请求",
                     note: "您可以再看看其他卖家的商品",
@@ -901,8 +846,10 @@ export default {
               title: "加载中",
               mask: true,
             });
+            const collection = detail.bookinfo ? "publish" : "goods";
+            console.log("collection :>> ", collection);
             // 1. 修改卖家在售状态
-            db.collection("publish")
+            db.collection(collection)
               .doc(detail.sellid)
               .update({
                 data: {
@@ -924,7 +871,7 @@ export default {
                   // 3. 给买家发送订单状态变更通知
                   that.sendOrderChangeMsg(detail._openid, {
                     orderId: detail._id,
-                    goodName: detail.bookinfo.title,
+                    goodName: collection === "publish" ? detail.bookinfo.title : detail.goodinfo.title,
                     status: "取消交易",
                     time: util.formatTime(new Date()),
                     note: "卖家取消交易，交易作废。",
@@ -959,8 +906,10 @@ export default {
               title: "加载中",
               mask: true,
             });
+            const collection = detail.bookinfo ? "publish" : "goods";
+            console.log("collection :>> ", collection);
             // 1.修改卖家在售状态
-            db.collection("publish")
+            db.collection(collection)
               .doc(detail.sellid)
               .update({
                 data: {
@@ -982,7 +931,7 @@ export default {
                   // 3.给卖家发送订单状态变更通知
                   that.sendOrderChangeMsg(detail.seller, {
                     orderId: detail._id,
-                    goodName: detail.bookinfo.title,
+                    goodName: collection === "publish" ? detail.bookinfo.title : detail.goodinfo.title,
                     status: "取消交易",
                     time: util.formatTime(new Date()),
                     note: "买家取消交易，商品将重新回归市场。",
@@ -1026,8 +975,10 @@ export default {
                 title: "加载中",
                 mask: true,
               });
+              const collection = detail.bookinfo ? "publish" : "goods";
+              console.log("collection :>> ", collection);
               //1. 修改卖家在售状态
-              db.collection("publish")
+              db.collection(collection)
                 .doc(detail.sellid)
                 .update({
                   data: {
@@ -1049,7 +1000,7 @@ export default {
                     //3. 给卖家发送订单状态变更通知
                     that.sendOrderChangeMsg(isSend ? detail._openid : detail.seller, {
                       orderId: detail._id,
-                      goodName: detail.bookinfo.title,
+                      goodName: collection === "publish" ? detail.bookinfo.title : detail.goodinfo.title,
                       status: "交易完成",
                       time: util.formatTime(new Date()),
                       note: (isSend ? "卖家已确认发货，" : "买家已确认收货，") + "交易完成。",
@@ -1365,16 +1316,16 @@ export default {
   display: flex;
   align-items: center;
   box-sizing: border-box;
+  margin-bottom: 15rpx;
   width: 100%;
   height: 90rpx;
-  margin-bottom: 15rpx;
   border-bottom: 1rpx solid #eee;
 }
 
 .tab_one {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: 25%;
   height: 100%;
@@ -1384,41 +1335,41 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
-  font-size: 30rpx;
   letter-spacing: 2rpx;
+  font-size: 30rpx;
 }
 
 .tab_on {
-  font-size: 32rpx;
-  font-weight: 600;
   border-bottom: 4rpx solid #fbbd08;
+  font-weight: 600;
+  font-size: 32rpx;
 }
 
 .contain {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx;
   padding-top: 10rpx;
+  width: 100%;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
-  padding: 15rpx 30rpx;
   margin-bottom: 30rpx;
+  padding: 15rpx 30rpx;
+  width: 100%;
   border-radius: 15rpx;
 }
 
 .top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
   padding-bottom: 20rpx;
+  width: 100%;
   border-bottom: 1rpx solid #eee;
 }
 
@@ -1428,15 +1379,15 @@ export default {
 
 .top1 {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
 }
 
 .date {
   color: #b2b2b2;
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .title {
@@ -1451,17 +1402,17 @@ export default {
 
 .title view {
   padding-left: 10rpx;
-  font-size: 28rpx;
   /* font-weight: 600; */
   letter-spacing: 3rpx;
+  font-size: 28rpx;
 }
 
 .del {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  height: 40rpx;
   padding: 0 10rpx;
+  height: 40rpx;
   border: 1rpx solid #c2c2c2;
   border-radius: 20rpx;
 }
@@ -1473,16 +1424,16 @@ export default {
 
 .del view {
   color: #c2c2c2;
-  font-size: 26rpx;
   letter-spacing: 3rpx;
+  font-size: 26rpx;
 }
 
 .centerui {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  width: 100%;
   padding: 20rpx 0;
+  width: 100%;
   border-bottom: 1rpx solid #eee;
 }
 
@@ -1496,9 +1447,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
+  padding: 0 20rpx;
   width: calc(100% - 150rpx);
   height: 150rpx;
-  padding: 0 20rpx;
 }
 
 .book {
@@ -1511,10 +1462,10 @@ export default {
   /* 2行文本溢出显示省略号 */
   display: -webkit-box;
   overflow: hidden;
-  font-size: 30rpx;
-  letter-spacing: 2rpx;
-
   -webkit-box-orient: vertical;
+  letter-spacing: 2rpx;
+  font-size: 30rpx;
+
   -webkit-line-clamp: 2;
 }
 
@@ -1522,10 +1473,10 @@ export default {
   overflow: hidden;
   padding-top: 10rpx;
   color: #c2c2c2;
-  font-size: 26rpx;
-  letter-spacing: 3rpx;
   text-overflow: ellipsis;
   white-space: nowrap;
+  letter-spacing: 3rpx;
+  font-size: 26rpx;
 }
 
 .price {
@@ -1538,59 +1489,59 @@ export default {
 .bottom {
   display: flex;
   justify-content: flex-end;
-  width: 100%;
   padding: 20rpx 0 0 0;
+  width: 100%;
 }
 
 .cancel {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  margin-left: 20rpx;
+  padding: 0 20rpx;
   width: 110rpx;
   height: 50rpx;
-  padding: 0 20rpx;
-  margin-left: 20rpx;
-  color: #333;
-  font-size: 26rpx;
   border: 1rpx solid #c2c2c2;
   border-radius: 30rpx;
+  color: #333;
+  font-size: 26rpx;
 }
 
 .confirm {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  margin-left: 20rpx;
+  padding: 0 20rpx;
   width: 110rpx;
   height: 50rpx;
-  padding: 0 20rpx;
-  margin-left: 20rpx;
-  color: #f60;
-  font-size: 26rpx;
   border: 1rpx solid #f60;
   border-radius: 30rpx;
+  color: #f60;
+  font-size: 26rpx;
 }
 
 .nocontent {
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   width: 100%;
   height: calc(100vh - 90rpx);
 }
 
 .nocontent image {
+  padding-left: 80rpx;
   width: 340rpx;
   height: 272rpx;
-  padding-left: 80rpx;
 }
 
 .blank_text {
   padding-top: 40rpx;
   color: #c6c6c8;
-  font-size: 32rpx;
   letter-spacing: 2rpx;
+  font-size: 32rpx;
 }
 
 .totop {
@@ -1607,8 +1558,8 @@ export default {
 .text-tip {
   padding-top: 15rpx;
   color: #666;
-  font-size: 28rpx;
   text-indent: 40rpx;
+  font-size: 28rpx;
 }
 
 @import "@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin";

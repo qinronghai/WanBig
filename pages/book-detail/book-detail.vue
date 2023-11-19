@@ -594,9 +594,7 @@ export default {
                   showCancel: true,
                   success: ({ confirm, cancel }) => {
                     if (confirm) {
-                      /* uni.redirectTo({
-                  url: "/pages/order/order",
-                }); */
+                      uni.redirectTo({ url: "/pages/order/detail/detail?id=" + orderId + "&from=good-detail" });
                       console.log("跳转去订单详情页 :>> ");
                     }
                   },
