@@ -1,9 +1,9 @@
 <template>
   <view style="height: 100%">
-    <image
+    <!-- <image
       v-if="!backgroundimage"
       class="bg"
-      src="/static/images/startBg.jpg"></image>
+      src="/static/images/startBg.jpg"></image> -->
     <image
       v-if="backgroundimage"
       class="bg"

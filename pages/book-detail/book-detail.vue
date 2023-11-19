@@ -190,11 +190,6 @@
         >
       </view>
     </view>
-    <!-- 悬浮客服功能 -->
-    <!-- <view class="contact_box" @tap="go" data-go="/pages/kefu/kefu" :animation="animationKefuData">
-			<image src="/static/images/ww.jpg"></image>
-			<view>反馈</view>
-		</view> -->
   </view>
 </template>
 <script module="morejs" lang="wxs" src="@/common.wxs"></script>
@@ -263,15 +258,17 @@ export default {
     };
   },
   async onLoad(e) {
+    // 1. 获取用户信息
     await this.getuserdetail();
+    // 2. 获取id
     this.id = e.scene;
+    // 3. 获取发布信息
     await this.getPublish(e.scene);
-    // this.getPublish('233d1379653a3867086063051093e440');
   },
   onShareAppMessage() {
     return {
       title: "这本《" + this.bookinfo.title + "》只要￥" + this.publishinfo.price + "元，快来看看吧",
-      path: "/pages/detail/detail?scene=" + this.publishinfo._id,
+      path: "/pages/book-detail/book-detail?scene=" + this.publishinfo._id,
     };
   },
   onReady() {
@@ -286,7 +283,7 @@ export default {
         current: urls[i],
       });
     },
-
+    // 切换发布信息和图书详情
     changeTitle(e) {
       let that = this;
       that.setData({
@@ -360,32 +357,23 @@ export default {
       uni.hideLoading();
     },
 
-    //回到首页
-    home() {
-      uni.switchTab({
-        url: "/pages/index/index",
-      });
-    },
     // 自我检测
     checkMySelf(title) {
-      const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
-      const sellerInfo = this.userinfo; // 卖家信息
+      const buyerOpenid = uni.getStorageSync("userInfo")._openid;
+      const sellerOpenid = this.userinfo._openid;
 
-      const buyerOpenid = buyerInfo._openid;
-      const sellerOpenid = sellerInfo._openid;
+      console.log("双方的openid :>> ", buyerOpenid, sellerOpenid);
 
-      console.log("buyandseller :>> ", buyerOpenid, sellerOpenid);
-      if (buyerOpenid === sellerOpenid) {
-        uni.showModal({
-          title: "温馨提示",
-          content: title,
-          showCancel: true,
-          success: ({ confirm, cancel }) => {},
-        });
-        return false;
-      }
-      return true;
+      return buyerOpenid !== sellerOpenid
+        ? true
+        : (uni.showModal({
+            title: "温馨提示",
+            content: title,
+            showCancel: true,
+          }),
+          false);
     },
+
     // 预定订阅
     async subscribNews() {
       const subscriber = new MessageSubscriber();
@@ -399,11 +387,9 @@ export default {
     },
     //购买检测
     async buy() {
-      let that = this;
       // 1. 注册检测
-      const isRegister = uni.getStorageSync("isRegister");
-      const userInfo = uni.getStorageSync("userInfo");
-      if (!isRegister && !userInfo) {
+      const isRegister = await this.$checkRegisterStatus();
+      if (!isRegister) {
         uni.showModal({
           title: "温馨提示",
           content: "该功能需要注册方可使用，是否马上去注册",
@@ -434,23 +420,23 @@ export default {
         //调用订阅消息
         console.log("用户点击确定");
         //调用订阅
-        await that.subscribNews();
+        await this.subscribNews();
       } else {
         console.log("用户点击取消");
         return;
       }
 
-      if (that.publishinfo.deliveryid == 1) {
-        if (that.place == "") {
+      if (this.publishinfo.deliveryid == 1) {
+        if (this.place == "") {
           uni.showToast({
             title: "请输入您的收货地址",
             icon: "none",
           });
           return false;
         }
-        that.getStatus();
+        this.getStatus();
       } else {
-        that.getStatus();
+        this.getStatus();
       }
     },
 
@@ -485,7 +471,7 @@ export default {
       that.setStatus();
     },
 
-    //实现小程序支付
+    /* //实现小程序支付
     pay(payData) {
       let that = this;
       //官方标准的支付方法
@@ -502,7 +488,7 @@ export default {
         },
       });
     },
-
+ */
     //修改卖家在售状态
     async setStatus() {
       let that = this;
@@ -529,28 +515,6 @@ export default {
             });
           },
         });
-
-      // 利用云开发接口，调用云函数发起订单
-      /*  uniCloud.callFunction({
-        name: "pay",
-        data: {
-          $url: "changeP",
-          //云函数路由参数
-          _id: that.publishinfo._id,
-          status: 1,
-        },
-        success: (res) => {
-          console.log("修改订单状态成功");
-          that.creatOrder();
-        },
-        fail(e) {
-          uni.hideLoading();
-          uni.showToast({
-            title: "发生异常，请及时和管理人员联系处理",
-            icon: "none",
-          });
-        },
-      }); */
     },
 
     //创建订单
@@ -560,13 +524,14 @@ export default {
         data: {
           creat: new Date().getTime(),
           status: 1,
-          /*  0在售；
-          1买家已预定，生成待确认订单，卖家未确认；
-          2卖家确认订单；
-          
-          3面交开始，（收货与发货）订单完成；
-          4取消交易，交易作废
-          5卖家拒绝预定； */
+          /*  - 0：在售
+              - 1：买家已预定，并生成待确认订单，卖家未确认订单
+              - 2：卖家确认订单，交易进行中
+              - 3：交易已成交
+              - 4：交易取消（4：买家取消的预定）
+                  - 42：卖家取消的交易
+                  - 43：卖家拒绝预定
+              - 5：超时下架 */
           price: that.publishinfo.price,
           //售价
           deliveryid: that.publishinfo.deliveryid,
@@ -608,12 +573,11 @@ export default {
               uni.showModal({
                 title: "成功提示",
                 content: "订单创建成功，等待卖家确认",
-                showCancel: true,
-                success: ({ confirm, cancel }) => {
+
+                success: ({ confirm }) => {
                   if (confirm) {
-                    /* uni.redirectTo({
-                  url: "/pages/order/order",
-                }); */
+                    uni.redirectTo({ url: "/pages/order/detail/detail?id=" + orderId + "&from=book-detail" });
+
                     console.log("跳转去订单详情页 :>> ");
                   }
                 },
@@ -827,61 +791,27 @@ export default {
       }
     },
 
-    //生成海报
+    // 生成海报的函数 creatPoster
     creatPoster() {
+      // 缓存 this 对象
       let that = this;
+
+      // 构建发布信息对象 pubInfo，用于生成海报
       let pubInfo = {
-        id: that.publishinfo._id,
-        name: that.publishinfo.bookinfo.title,
-        pic: that.publishinfo.bookinfo.pic.replace("http", "https"),
-        origin: that.publishinfo.bookinfo.price,
-        now: that.publishinfo.price,
+        id: that.publishinfo._id, // 商品ID
+        name: that.publishinfo.bookinfo.title, // 商品标题
+        pic: that.publishinfo.bookinfo.pic.replace("http", "https"), // 替换图片地址中的协议为https
+        origin: that.publishinfo.bookinfo.price, // 商品原始价格
+        now: that.publishinfo.price, // 商品当前价格
       };
+
+      // 输出发布信息到控制台
       console.log(pubInfo, "publish info");
+
+      // 跳转到生成海报的页面，并携带发布信息和来源信息
       uni.navigateTo({
         url: `/pages/poster/poster?info=${JSON.stringify(pubInfo)}&from=bookDetail`,
       });
-    },
-
-    //客服跳动动画
-    kefuani: function () {
-      let that = this;
-      let ii = 0;
-      let animationKefuData = uni.createAnimation({
-        duration: 1000,
-        timingFunction: "ease",
-      });
-      animationKefuData
-        .translateY(10)
-        .step({
-          duration: 800,
-        })
-        .translateY(0)
-        .step({
-          duration: 800,
-        });
-      that.setData({
-        animationKefuData: animationKefuData.export(),
-      });
-      setInterval(
-        function () {
-          animationKefuData
-            .translateY(20)
-            .step({
-              duration: 800,
-            })
-            .translateY(0)
-            .step({
-              duration: 800,
-            });
-          that.setData({
-            animationKefuData: animationKefuData.export(),
-          });
-          ++ii;
-          console.log(ii);
-        }.bind(that),
-        1800
-      );
     },
   },
 };
@@ -916,36 +846,36 @@ swiper {
 
 .title {
   padding-top: 60rpx;
-  font-size: 30rpx;
-  font-weight: 600;
   letter-spacing: 2rpx;
+  font-weight: 600;
+  font-size: 30rpx;
 }
 
 .author {
   padding-top: 30rpx;
   color: rgb(224, 138, 8);
-  font-size: 25rpx;
   letter-spacing: 2rpx;
+  font-size: 25rpx;
 }
 
 .price_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-top: 30rpx;
 }
 
 .now_price {
   color: #f30;
-  font-size: 34rpx;
   font-weight: 600;
+  font-size: 34rpx;
 }
 
 .pre_price {
   padding-left: 30rpx;
   color: rgb(172, 171, 171);
-  font-size: 25rpx;
   text-decoration: line-through;
+  font-size: 25rpx;
 }
 
 .blank {
@@ -958,26 +888,26 @@ swiper {
   display: flex;
   justify-content: space-around;
   box-sizing: border-box;
+  padding: 0 100rpx;
   width: 100%;
   height: 80rpx;
-  padding: 0 100rpx;
 }
 
 .c_title {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 140rpx;
   height: 100%;
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .title_on {
-  color: #000;
-  font-size: 32rpx;
-  font-weight: 600;
   border-bottom: 8rpx solid #fbbd08;
+  color: #000;
+  font-weight: 600;
+  font-size: 32rpx;
 }
 
 .publish_wrap {
@@ -986,13 +916,13 @@ swiper {
 
 .user_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
+  margin-top: 20rpx;
+  padding: 24rpx 24rpx;
   width: 100%;
   height: 148rpx;
-  padding: 24rpx 24rpx;
-  margin-top: 20rpx;
   /* background-color: #666; */
 }
 
@@ -1004,23 +934,23 @@ swiper {
 
 .des_box {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   align-items: flex-start;
 
   /* width: 450rpx;
    */
   flex: 1;
-  height: 100%;
+  flex-direction: column;
+  justify-content: space-around;
   margin-left: 40rpx;
+  height: 100%;
 
   /* padding: 10rpx 0; */
 }
 
 .user_name {
   margin-bottom: 15rpx;
-  font-size: 32rpx;
   letter-spacing: 2rpx;
+  font-size: 32rpx;
 }
 
 .local_box {
@@ -1042,14 +972,14 @@ swiper {
 .local_box view {
   padding-left: 5rpx;
   color: rgb(150, 150, 150);
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .sex {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100rpx;
   height: 100%;
 }
@@ -1063,46 +993,46 @@ swiper {
 .notes_box {
   display: flex;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .notes {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
   padding: 20rpx 20rpx 10rpx 20rpx;
-  color: #aaa;
-  background: rgb(238, 238, 238);
+  width: 100%;
   border-radius: 10rpx;
+  background: rgb(238, 238, 238);
+  color: #aaa;
 }
 
 .notes_text {
   padding-bottom: 10rpx;
+  letter-spacing: 2rpx;
   font-size: 28rpx;
   line-height: 45rpx;
-  letter-spacing: 2rpx;
 }
 
 .time_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .kind {
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .time {
   color: #8c9aa8;
-  font-size: 26rpx;
   letter-spacing: 2rpx;
+  font-size: 26rpx;
 }
 
 .address_box {
@@ -1111,17 +1041,17 @@ swiper {
   /* justify-content: space-between; */
   align-items: center;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .deliver_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .deliver_first {
@@ -1130,56 +1060,56 @@ swiper {
 }
 
 .deliver_title {
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .deliver_kind {
   padding: 4rpx 12rpx;
-  color: #fff;
-  font-size: 26rpx;
-  letter-spacing: 2rpx;
-  background-color: #256ff7;
   border-radius: 8rpx;
+  background-color: #256ff7;
+  color: #fff;
+  letter-spacing: 2rpx;
+  font-size: 26rpx;
 }
 
 .deliver_place {
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .palceInput_box {
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .palceInput_box input {
+  padding: 0 20rpx;
   width: 100%;
   height: 66rpx;
-  padding: 0 20rpx;
-  font-size: 26rpx;
-  letter-spacing: 2rpx;
   border: 1rpx solid #eee;
   border-radius: 10rpx;
+  letter-spacing: 2rpx;
+  font-size: 26rpx;
 }
 
 .detail_contain {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx;
+  width: 100%;
 }
 
 .detail_card {
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
   padding: 30rpx 0;
+  width: 100%;
 }
 
 .detail_border {
@@ -1188,17 +1118,17 @@ swiper {
 
 .detail_title {
   width: 20%;
+  letter-spacing: 2rpx;
   font-size: 28rpx;
   line-height: 45rpx;
-  letter-spacing: 2rpx;
 }
 
 .detail_content {
   width: 78%;
   color: #616161;
+  letter-spacing: 2rpx;
   font-size: 27rpx;
   line-height: 44rpx;
-  letter-spacing: 2rpx;
 }
 
 /*底部导航*/
@@ -1211,20 +1141,20 @@ swiper {
   display: flex;
   align-items: center;
   box-sizing: border-box;
+  padding: 10rpx;
   width: 100%;
   height: 96rpx;
-  padding: 10rpx;
-  background: #fff;
   border-top: 1rpx solid #ddd;
+  background: #fff;
   opacity: 1;
 }
 
 .t_card {
   position: relative;
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   width: 20%;
   height: 80rpx;
@@ -1237,14 +1167,14 @@ swiper {
 
 .t_card text {
   display: flex;
-  justify-content: center;
   align-items: flex-start;
+  justify-content: center;
+  padding-top: 4rpx;
   width: 100%;
   height: calc(100% - 50rpx);
-  padding-top: 4rpx;
-  font-size: 24rpx;
   text-align: center;
   white-space: nowrap;
+  font-size: 24rpx;
 }
 
 .t_button {
@@ -1259,8 +1189,8 @@ swiper {
 
 .buy_box {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: 40%;
   height: 100%;
@@ -1268,15 +1198,15 @@ swiper {
 
 .buy {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 90%;
   height: 70rpx;
-  color: #000;
-  font-size: 28rpx;
-  letter-spacing: 4rpx;
-  background: #fbbd08;
   border-radius: 35rpx;
+  background: #fbbd08;
+  color: #000;
+  letter-spacing: 4rpx;
+  font-size: 28rpx;
 }
 
 .contact_box {
@@ -1285,13 +1215,13 @@ swiper {
   bottom: 200rpx;
   z-index: 9;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 100rpx;
+  flex-direction: column;
   padding: 20rpx 0;
+  width: 100rpx;
+  border-radius: 50rpx 50rpx 20rpx 20rpx;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20rpx #f0f0f0 !important;
-  border-radius: 50rpx 50rpx 20rpx 20rpx;
 }
 
 .contact_box image {
@@ -1301,7 +1231,7 @@ swiper {
 
 .contact_box view {
   margin-top: 10rpx;
-  font-size: 26rpx;
   letter-spacing: 2rpx;
+  font-size: 26rpx;
 }
 </style>

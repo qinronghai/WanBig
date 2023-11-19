@@ -340,6 +340,7 @@ export default {
               audited: true, // 已经审核
               pass: pass, // 审核状态
               reason: reason, // 不通过原因
+              status: pass ? 0 : -1, // 可售状态
             },
           });
 
@@ -414,29 +415,32 @@ export default {
   z-index: 2;
   width: 100%;
 }
+
 .xxxbox {
   width: 100%;
   height: 90rpx;
 }
+
 scroll-view {
   height: calc(100vh - 130rpx - 90rpx);
 }
+
 .select-all {
   position: fixed;
   bottom: 0rpx;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 130rpx;
-  font-size: 30rpx;
-  background-color: #ffc300;
   border-radius: 20rpx;
+  background-color: #ffc300;
+  font-size: 30rpx;
 
   .left {
     padding-left: 5px;
-    font-size: 30rpx;
     font-weight: bold;
+    font-size: 30rpx;
   }
 
   .right {
@@ -444,9 +448,10 @@ scroll-view {
 
     button {
       width: auto;
+      border-radius: 50rpx;
       font-size: 30rpx;
       line-height: 70rpx;
-      border-radius: 50rpx;
+
       uni-icons {
         position: relative;
         right: 5rpx;
@@ -458,11 +463,11 @@ scroll-view {
 
 .wrap {
   display: flex;
-  height: 100px;
   margin: 0 5px 10px;
+  height: 100px;
+  border-radius: 10px;
   background-color: #fff;
   box-shadow: 1px 1.5px 5px 1px rgb(180, 179, 179);
-  border-radius: 10px;
 
   .left {
     display: flex;
@@ -485,12 +490,12 @@ scroll-view {
       .desc {
         display: -webkit-box;
         overflow: hidden;
-        min-height: 33px;
-        font-size: 13px;
-        font-weight: 500;
-        text-overflow: ellipsis;
-
         -webkit-box-orient: vertical;
+        min-height: 33px;
+        text-overflow: ellipsis;
+        font-weight: 500;
+        font-size: 13px;
+
         -webkit-line-clamp: 2;
       }
 
@@ -510,69 +515,69 @@ scroll-view {
         display: flex;
         align-items: center;
         height: 40rpx;
-        font-size: 16.02rpx;
         font-weight: bolder;
+        font-size: 16.02rpx;
 
         .transport {
           display: flex;
-          justify-content: center;
           align-items: center;
-          height: 30rpx;
+          justify-content: center;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          background-color: #4da4e2;
+          height: 30rpx;
           border-radius: 5rpx;
+          background-color: #4da4e2;
 
           .text-transport {
             margin: 10rpx;
           }
 
           .icon-transport {
+            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
-            margin-left: 10rpx;
           }
         }
 
         .address {
           display: flex;
-          justify-content: center;
           align-items: center;
-          height: 30rpx;
+          justify-content: center;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          background-color: #ffc300;
+          height: 30rpx;
           border-radius: 5rpx;
+          background-color: #ffc300;
 
           .text-address {
             margin: 10rpx;
           }
 
           .icon-address {
+            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
-            margin-left: 10rpx;
           }
         }
 
         .quality {
           display: flex;
-          justify-content: center;
           align-items: center;
-          height: 30rpx;
+          justify-content: center;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          background-color: #ffc300;
+          height: 30rpx;
           border-radius: 5rpx;
+          background-color: #ffc300;
 
           .text-quality {
             margin: 10rpx;
           }
 
           .icon-quality {
+            margin-left: 10rpx;
             width: 17.52rpx;
             height: 17.52rpx;
-            margin-left: 10rpx;
           }
         }
       }
@@ -587,8 +592,8 @@ scroll-view {
         }
 
         .num {
-          font-size: 10px;
           text-align: center;
+          font-size: 10px;
         }
       }
     }
@@ -596,11 +601,11 @@ scroll-view {
 
   .right {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 40px;
-    background-color: #eee;
     border-radius: 0 10px 10px 0;
+    background-color: #eee;
   }
 }
 </style>

@@ -13,6 +13,7 @@
 
 .van-card__header {
   display: flex;
+  min-width: 55vw;
 }
 
 .van-card__header--center {

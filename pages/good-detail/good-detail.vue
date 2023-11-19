@@ -46,16 +46,13 @@
     </view>
     <view class="blank"></view>
     <view class="center_contain">
-      <!-- <view @tap="changeTitle" :data-id="true" :class="'c_title ' + (first_title ? 'title_on' : '')">发布信息</view> -->
       <uni-section
         class="mb-10"
         title="发布信息"
         titleFontSize="32rpx"
         titleFontWeight="600"
         titleColor="#000"
-        type="line"></uni-section>
-
-      <!-- <view @tap="changeTitle" :data-id="false" :class="'c_title ' + (first_title ? '' : 'title_on')">图书详情</view> -->
+        type="line" />
     </view>
     <!-- 发布信息 -->
     <view v-if="first_title">
@@ -79,17 +76,17 @@
         </view>
       </view>
 
-      <view
-        class="address_box"
-        v-if="goodinfo.delivery === '自提'">
-        <view class="deliver_title">取货地点：</view>
-        <view class="deliver_place">{{ goodinfo.place }}</view>
-      </view>
       <view class="deliver_box">
         <view class="deliver_first">
           <view class="deliver_title">取货方式：</view>
           <view class="deliver_kind">{{ goodinfo.delivery }}</view>
         </view>
+      </view>
+      <view
+        class="address_box"
+        v-if="goodinfo.delivery === '自提'">
+        <view class="deliver_title">取货地点：</view>
+        <view class="deliver_place">{{ goodinfo.place }}</view>
       </view>
       <view
         class="palceInput_box"
@@ -135,15 +132,10 @@
         <view
           class="buy shadow"
           @tap="buy"
-          >{{ goodinfo.status == 0 ? "立即购买" : "刚刚被抢光了" }}</view
+          >{{ goodinfo.status == 0 ? "立即预定" : "刚刚被抢光了" }}</view
         >
       </view>
     </view>
-    <!-- 悬浮客服功能 -->
-    <!-- <view class="contact_box" @tap="go" data-go="/pages/kefu/kefu" :animation="animationKefuData">
-			<image src="/static/images/ww.jpg"></image>
-			<view>反馈</view>
-		</view> -->
   </view>
 </template>
 <script module="morejs" lang="wxs" src="@/common.wxs"></script>
@@ -153,15 +145,13 @@ const db = wx.cloud.database();
 const config = require("../../config.js");
 const MessageSubscriber = require("../../js_sdk/utils/subscrib-news.js");
 const _ = db.command;
+var util = require("../../util.js");
+import truncatedString from "../utils/truncatedString";
 export default {
   data() {
     return {
       first_title: true,
       place: "",
-
-      collegeName: {
-        name: "",
-      },
 
       goodinfo: {
         /* bookinfo: {
@@ -217,7 +207,7 @@ export default {
     await this.getuserdetail();
     this.id = e.goodId;
     this.getGood(e.goodId);
-    // await this.getGood("aeff410b653c815300c20ae111879771");
+    // await this.getGood("fd1ab1d565488ebe01dd73b23952845b");
   },
   onShareAppMessage() {
     return {
@@ -237,12 +227,6 @@ export default {
         current: urls[i],
       });
     },
-    changeTitle(e) {
-      let that = this;
-      that.setData({
-        first_title: e.currentTarget.dataset.id,
-      });
-    },
 
     //获取商品信息
     async getGood(goodId) {
@@ -253,12 +237,7 @@ export default {
         .get({
           success: function (res) {
             console.log("获取商品信息", res);
-            // res.data 为商品信息
-            // res.data
             that.setData({
-              // TODO 留意
-              /* collegeName: JSON.parse(config.data).college[parseInt(res.data.collegeid) +
-									1], */
               goodinfo: res.data,
             });
             that.getSeller(res.data._openid);
@@ -284,66 +263,98 @@ export default {
           },
         });
     },
+    // 自我检测
+    checkMySelf(title) {
+      const buyerOpenid = uni.getStorageSync("userInfo")._openid;
+      const sellerOpenid = this.userinfo._openid;
 
-    //获取书本信息
-    // getBook(e) {
-    // 	let that = this;
-    // 	db.collection('books')
-    // 		.doc(e)
-    // 		.get({
-    // 			success: function(res) {
-    // 				that.setData({
-    // 					bookinfo: res.data
-    // 				});
-    // 			}
-    // 		});
-    // },
+      console.log("双方的openid :>> ", buyerOpenid, sellerOpenid);
 
-    //回到首页
-    home() {
-      uni.switchTab({
-        url: "/pages/index/index",
-      });
+      return buyerOpenid !== sellerOpenid
+        ? true
+        : (uni.showModal({
+            title: "温馨提示",
+            content: title,
+            showCancel: true,
+          }),
+          false);
+    },
+    // 预定订阅
+    async subscribNews() {
+      const subscriber = new MessageSubscriber();
+      // 1. 订单确认通知
+
+      const id1 = "IdkZQ2uAdedZT-JpXURiGScv8hmBtKlH92eaCLz6zHs"; //订单确认通知-1.卖家确认预定订单，2.卖家拒绝预定订单
+      const id2 = "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234"; //未读消息通知
+      const id3 = "V76QqsleOiTKnU4pMfEtSWMC5c58WvQ2yANcEJJNe5c"; //订单状态变更通知 买家接受确认发货和取消交易的通知
+      const tmplIdsArray = [id1, id2, id3];
+      await subscriber.subscribeNews(tmplIdsArray);
+      console.log("object :>> ");
     },
 
     //购买检测
-    buy() {
-      let that = this;
-      if (!app.globalData.openid) {
+    async buy() {
+      // 1. 注册检测
+      const isRegister = await this.$checkRegisterStatus();
+      if (!isRegister) {
         uni.showModal({
           title: "温馨提示",
           content: "该功能需要注册方可使用，是否马上去注册",
           success(res) {
             if (res.confirm) {
               uni.navigateTo({
-                url: "/pages/login/login",
+                url: "/pages/register/register",
               });
             }
           },
         });
         return false;
       }
-      if (that.goodinfo.delivery == 1) {
-        if (that.place == "") {
+
+      // 2. 自我检测
+      if (!this.checkMySelf("不能预定自己的商品")) {
+        console.log("不能预定自己的商品");
+        return;
+      }
+      // 3. 弹窗确认并订阅确认订单通知
+      const dy = await this.$uniAsync.showModal({
+        title: "温馨提示",
+        content: "是否确认预定该商品",
+        showCancel: true,
+        confirmText: "确认",
+        cancelText: "取消",
+      });
+      if (dy.confirm) {
+        // 3.1 调用订阅消息
+        await this.subscribNews();
+      } else {
+        console.log("用户点击取消 :>> ");
+        return;
+      }
+      console.log("test :>> ");
+      if (this.goodinfo.delivery == "配送") {
+        if (this.place == "") {
           uni.showToast({
             title: "请输入您的收货地址",
             icon: "none",
           });
           return false;
         }
-        that.getStatus();
+        this.getStatus();
       }
-      that.getStatus();
+      this.getStatus();
     },
 
     //获取订单状态
     getStatus() {
+      console.log("getStatus :>> ");
       let that = this;
       let _id = that.goodinfo._id;
-      db.collection("publish")
+      db.collection("goods")
         .doc(_id)
         .get({
           success(e) {
+            console.log("获取订单状态 :>> ", e);
             if (e.data.status == 0) {
               that.paypost();
             } else {
@@ -352,6 +363,13 @@ export default {
                 icon: "none",
               });
             }
+          },
+          fail(error) {
+            console.log("error :>> ", error);
+            uni.showToast({
+              title: "发生异常，请及时和管理人员联系处理",
+              icon: "none",
+            });
           },
         });
     },
@@ -362,30 +380,11 @@ export default {
       uni.showLoading({
         title: "正在下单",
       });
-      // 利用云开发接口，调用云函数发起订单
-      uniCloud.callFunction({
-        name: "pay",
-        data: {
-          $url: "pay",
-          //云函数路由参数
-          goodId: that.goodinfo._id,
-        },
-        success: (res) => {
-          uni.hideLoading();
-          that.pay(res.result);
-        },
-        fail(e) {
-          console.log(e, "支付erro");
-          uni.hideLoading();
-          uni.showToast({
-            title: "支付失败，请及时反馈或稍后再试",
-            icon: "none",
-          });
-        },
-      });
+      // 修改卖家在售状态
+      that.setStatus();
     },
 
-    //实现小程序支付
+    /* //实现小程序支付
     pay(payData) {
       let that = this;
       //官方标准的支付方法
@@ -401,35 +400,33 @@ export default {
           that.setStatus();
         },
       });
-    },
+    }, */
 
     //修改卖家在售状态
-    setStatus() {
+    async setStatus() {
       let that = this;
       uni.showLoading({
         title: "正在处理",
       });
-      // 利用云开发接口，调用云函数发起订单
-      uniCloud.callFunction({
-        name: "pay",
-        data: {
-          $url: "changeP",
-          //云函数路由参数
-          _id: that.goodinfo._id,
-          status: 1,
-        },
-        success: (res) => {
-          console.log("修改订单状态成功");
-          that.creatOrder();
-        },
-        fail(e) {
-          uni.hideLoading();
-          uni.showToast({
-            title: "发生异常，请及时和管理人员联系处理",
-            icon: "none",
-          });
-        },
-      });
+      await db
+        .collection("publish")
+        .doc(that.goodinfo._id)
+        .update({
+          data: {
+            status: 1,
+          },
+          success: function (res) {
+            console.log("修改卖家在售状态成功");
+            that.creatOrder();
+          },
+          fail(e) {
+            uni.hideLoading();
+            uni.showToast({
+              title: "发生异常，请及时和管理人员联系处理",
+              icon: "none",
+            });
+          },
+        });
     },
 
     //创建订单
@@ -439,30 +436,90 @@ export default {
         data: {
           creat: new Date().getTime(),
           status: 1,
-          //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
+          /*  - 0：在售
+              - 1：买家已预定，并生成待确认订单，卖家未确认订单
+              - 2：卖家确认订单，交易进行中
+              - 3：交易已成交
+              - 4：交易取消（4：买家取消的预定）
+                  - 42：卖家取消的交易
+                  - 43：卖家拒绝预定
+              - 5：超时下架 */
           price: that.goodinfo.price,
           //售价
-          delivery: that.goodinfo.delivery,
+          deliveryid: that.goodinfo.delivery === "自提" ? 0 : 1,
           //0自1配
           ztplace: that.goodinfo.place,
           //自提时地址
           psplace: that.place,
           //配送时买家填的地址
-          bookinfo: {
-            _id: that.bookinfo._id,
-            author: that.bookinfo.author,
-            edition: that.bookinfo.edition,
-            pic: that.bookinfo.pic,
-            title: that.bookinfo.title,
+          goodinfo: {
+            _id: that.goodinfo._id,
+            category: that.goodinfo.category,
+            condition: that.goodinfo.condition,
+            pic: that.goodinfo.pics[0].url,
+            title: that.goodinfo.title,
           },
           seller: that.goodinfo._openid,
           sellid: that.goodinfo._id,
         },
-        success(e) {
-          that.history("购买书籍", that.goodinfo.price, 2, e._id);
+        async success(e) {
+          console.log("订单创建成功 :>> ", e);
+          const orderId = e._id;
+          const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
+          // 给卖家发送商品被预定的通知
+          await wx.cloud
+            .callFunction({
+              name: "sendNewOrder",
+              data: {
+                openid: that.userinfo._openid, // 卖家openid
+                orderId: orderId, // 订单号
+                goodInfo: truncatedString(that.goodinfo.title, 19), // 商品信息（标题）
+                place: that.place || "自提商品", // 取货地址
+                buyerInfo: buyerInfo.info.nickName, // 买家信息
+                time: util.formatTime(new Date()), // 下单时间
+              },
+            })
+            .then((res) => {
+              console.log("发送模板消息成功", res);
+              uni.hideLoading();
+              uni.showModal({
+                title: "成功提示",
+                content: "订单创建成功，等待卖家确认",
+
+                success: ({ confirm }) => {
+                  if (confirm) {
+                    uni.redirectTo({ url: "/pages/order/detail/detail?id=" + orderId + "&from=good-detail" });
+                    console.log("跳转去订单详情页 :>> ");
+                  }
+                },
+              });
+            })
+            .catch((err) => {
+              console.log("发送模板消息失败", err);
+              console.log("errCode :>> ", err.errCode);
+              if (err.errCode === -1) {
+                uni.hideLoading();
+                uni.showModal({
+                  title: "成功提示",
+                  content: "订单创建成功，等待卖家确认",
+                  showCancel: true,
+                  success: ({ confirm, cancel }) => {
+                    if (confirm) {
+                      /* uni.redirectTo({
+                  url: "/pages/order/order",
+                }); */
+                      console.log("跳转去订单详情页 :>> ");
+                    }
+                  },
+                });
+              }
+              uni.hideLoading();
+            });
         },
-        fail() {
+        fail(error) {
           uni.hideLoading();
+
+          console.log("订单创建失败 :>> ", error);
           uni.showToast({
             title: "发生异常，请及时和管理人员联系处理",
             icon: "none",
@@ -470,17 +527,7 @@ export default {
         },
       });
     },
-    // 订阅审核通知的消息
-    async subscribNews() {
-      const subscriber = new MessageSubscriber();
-      const tmplIdsArray = [
-        "W6CsnO_5tp5kxNFMjFsh9z7PwuXWe_OUyXHxsNQeTag",
-        "9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4",
-        "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234",
-      ];
 
-      await subscriber.subscribeNews(tmplIdsArray);
-    },
     //路由
     async go(e) {
       let that = this;
@@ -699,34 +746,43 @@ export default {
       }
     },
 
-    //生成海报
+    // 异步函数 creatPoster，用于创建海报
     async creatPoster() {
+      // 缓存 this 对象
       let that = this;
+
       try {
+        // 使用云函数获取临时文件下载地址
         const res = await wx.cloud.getTempFileURL({
           fileList: [that.goodinfo.pics[0].url],
         });
 
+        // 判断获取地址是否成功
         if (res.fileList && res.fileList.length > 0) {
+          // 获取临时文件下载地址
           const fileURL = res.fileList[0].tempFileURL;
           console.log("图片的下载地址：", fileURL);
 
+          // 构建发布信息对象
           let pubInfo = {
-            id: that.goodinfo._id,
-            name: that.goodinfo.title,
-            pic: fileURL,
-            origin: that.goodinfo.condition,
-            now: that.goodinfo.price,
+            id: that.goodinfo._id, // 商品ID
+            name: that.goodinfo.title, // 商品标题
+            pic: fileURL, // 商品图片下载地址
+            origin: that.goodinfo.condition, // 商品原始状态
+            now: that.goodinfo.price, // 商品当前价格
           };
 
+          // 跳转到生成海报的页面，并携带发布信息和来源信息
           uni.navigateTo({
             url: `/pages/poster/poster?info=${JSON.stringify(pubInfo)}&from=goodDetail`,
           });
         } else {
+          // 获取文件下载地址失败
           console.error("获取文件下载地址失败");
         }
       } catch (error) {
-        console.error("获取文件下载地址失败:", err);
+        // 异常处理，输出错误信息
+        console.error("获取文件下载地址失败:", error);
       }
     },
   },
@@ -759,36 +815,36 @@ swiper {
 .title {
   padding-top: 30rpx;
   padding-left: 8rpx;
-  font-size: 32rpx;
-  font-weight: 600;
   letter-spacing: 2rpx;
+  font-weight: 600;
+  font-size: 32rpx;
 }
 
 .author {
   padding-top: 30rpx;
   color: rgb(224, 138, 8);
-  font-size: 25rpx;
   letter-spacing: 2rpx;
+  font-size: 25rpx;
 }
 
 .price_tags_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-top: 30rpx;
 }
 
 .now_price {
   color: #f30;
-  font-size: 38rpx;
   font-weight: 600;
+  font-size: 38rpx;
 }
 
 .pre_price {
   padding-left: 30rpx;
   color: rgb(172, 171, 171);
-  font-size: 25rpx;
   text-decoration: line-through;
+  font-size: 25rpx;
 }
 
 .blank {
@@ -810,29 +866,29 @@ swiper {
 
 .c_title {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 140rpx;
   height: 100%;
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .title_on {
-  color: #000;
-  font-size: 32rpx;
-  font-weight: 600;
   border-bottom: 8rpx solid #fbbd08;
+  color: #000;
+  font-weight: 600;
+  font-size: 32rpx;
 }
 
 .user_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
+  padding: 24rpx 24rpx;
   width: 100%;
   height: 148rpx;
-  padding: 24rpx 24rpx;
   /* margin-top: 20rpx; */
   /* background-color: #666; */
 }
@@ -845,23 +901,23 @@ swiper {
 
 .des_box {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   align-items: flex-start;
 
   /* width: 450rpx;
    */
   flex: 1;
-  height: 100%;
+  flex-direction: column;
+  justify-content: space-around;
   margin-left: 40rpx;
+  height: 100%;
 
   /* padding: 10rpx 0; */
 }
 
 .user_name {
   margin-bottom: 15rpx;
-  font-size: 32rpx;
   letter-spacing: 2rpx;
+  font-size: 32rpx;
 }
 
 .local_box {
@@ -883,14 +939,14 @@ swiper {
 .local_box view {
   padding-left: 5rpx;
   color: rgb(150, 150, 150);
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .sex {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100rpx;
   height: 100%;
 }
@@ -904,46 +960,46 @@ swiper {
 .notes_box {
   display: flex;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .notes {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
   padding: 20rpx 20rpx 10rpx 20rpx;
-  color: #aaa;
-  background: rgb(238, 238, 238);
+  width: 100%;
   border-radius: 10rpx;
+  background: rgb(238, 238, 238);
+  color: #aaa;
 }
 
 .notes_text {
   padding-bottom: 10rpx;
+  letter-spacing: 2rpx;
   font-size: 28rpx;
   line-height: 45rpx;
-  letter-spacing: 2rpx;
 }
 
 .time_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
   padding: 10rpx 20rpx 0 8rpx;
+  width: 100%;
 }
 
 .kind {
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .time {
   color: #8c9aa8;
-  font-size: 24rpx;
   letter-spacing: 2rpx;
+  font-size: 24rpx;
 }
 
 .address_box {
@@ -952,17 +1008,17 @@ swiper {
   /* justify-content: space-between; */
   align-items: center;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .deliver_box {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .deliver_first {
@@ -971,56 +1027,56 @@ swiper {
 }
 
 .deliver_title {
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .deliver_kind {
   padding: 4rpx 12rpx;
-  color: #fff;
-  font-size: 26rpx;
-  letter-spacing: 2rpx;
-  background-color: #256ff7;
   border-radius: 8rpx;
+  background-color: #256ff7;
+  color: #fff;
+  letter-spacing: 2rpx;
+  font-size: 26rpx;
 }
 
 .deliver_place {
-  font-size: 28rpx;
   letter-spacing: 2rpx;
+  font-size: 28rpx;
 }
 
 .palceInput_box {
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx 24rpx 0 24rpx;
+  width: 100%;
 }
 
 .palceInput_box input {
+  padding: 0 20rpx;
   width: 100%;
   height: 66rpx;
-  padding: 0 20rpx;
-  font-size: 26rpx;
-  letter-spacing: 2rpx;
   border: 1rpx solid #eee;
   border-radius: 10rpx;
+  letter-spacing: 2rpx;
+  font-size: 26rpx;
 }
 
 .detail_contain {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
   padding: 24rpx;
+  width: 100%;
 }
 
 .detail_card {
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
   padding: 30rpx 0;
+  width: 100%;
 }
 
 .detail_border {
@@ -1029,17 +1085,17 @@ swiper {
 
 .detail_title {
   width: 20%;
+  letter-spacing: 2rpx;
   font-size: 28rpx;
   line-height: 45rpx;
-  letter-spacing: 2rpx;
 }
 
 .detail_content {
   width: 78%;
   color: #616161;
+  letter-spacing: 2rpx;
   font-size: 27rpx;
   line-height: 44rpx;
-  letter-spacing: 2rpx;
 }
 
 /*底部导航*/
@@ -1052,20 +1108,20 @@ swiper {
   display: flex;
   align-items: center;
   box-sizing: border-box;
+  padding: 10rpx;
   width: 100%;
   height: 96rpx;
-  padding: 10rpx;
-  background: #fff;
   border-top: 1rpx solid #ddd;
+  background: #fff;
   opacity: 1;
 }
 
 .t_card {
   position: relative;
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   width: 20%;
   height: 80rpx;
@@ -1078,14 +1134,14 @@ swiper {
 
 .t_card text {
   display: flex;
-  justify-content: center;
   align-items: flex-start;
+  justify-content: center;
+  padding-top: 4rpx;
   width: 100%;
   height: calc(100% - 50rpx);
-  padding-top: 4rpx;
-  font-size: 24rpx;
   text-align: center;
   white-space: nowrap;
+  font-size: 24rpx;
 }
 
 .t_button {
@@ -1100,8 +1156,8 @@ swiper {
 
 .buy_box {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: 40%;
   height: 100%;
@@ -1109,15 +1165,15 @@ swiper {
 
 .buy {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 90%;
   height: 70rpx;
-  color: #000;
-  font-size: 28rpx;
-  letter-spacing: 4rpx;
-  background: #fbbd08;
   border-radius: 35rpx;
+  background: #fbbd08;
+  color: #000;
+  letter-spacing: 4rpx;
+  font-size: 28rpx;
 }
 
 .contact_box {
@@ -1126,13 +1182,13 @@ swiper {
   bottom: 200rpx;
   z-index: 9;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 100rpx;
+  flex-direction: column;
   padding: 20rpx 0;
+  width: 100rpx;
+  border-radius: 50rpx 50rpx 20rpx 20rpx;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20rpx #f0f0f0 !important;
-  border-radius: 50rpx 50rpx 20rpx 20rpx;
 }
 
 .contact_box image {
@@ -1142,7 +1198,7 @@ swiper {
 
 .contact_box view {
   margin-top: 10rpx;
-  font-size: 26rpx;
   letter-spacing: 2rpx;
+  font-size: 26rpx;
 }
 </style>
