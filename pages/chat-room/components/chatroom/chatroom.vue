@@ -441,6 +441,9 @@ export default {
     // 处理实时消息快照
     async onRealtimeMessageSnapshot(snapshot) {
       console.warn(`收到消息`, snapshot);
+      this.$nextTick(() => {
+        this.scrollTop = this.scrollTop + 5;
+      });
       if (snapshot.type === "init") {
         this.setData({
           chats: [...this.chats, ...[...snapshot.docs].sort((x, y) => x.sendTimeTS - y.sendTimeTS)], //将新消息追加到聊天记录中，确保按照时间顺序
@@ -846,8 +849,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .good-card-wrap {
-  border-bottom: 1rpx solid #e9e9e9;
   background-color: #f7f8fa;
+  border-bottom: 1rpx solid #e9e9e9;
 
   view.good-card {
     display: flex;
@@ -865,9 +868,9 @@ export default {
 
     div.right {
       display: flex;
-      flex: 1;
       flex-direction: column;
       justify-content: space-between;
+      flex: 1;
 
       div.right-top {
         display: flex;
@@ -875,16 +878,16 @@ export default {
 
         div.title {
           overflow: hidden;
+          font-size: 28rpx;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-size: 28rpx;
         }
       }
 
       div.right-bottom {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
 
         div.price {
           color: #f30;
@@ -892,14 +895,14 @@ export default {
         }
 
         button {
-          margin: 0;
           width: auto;
           height: 52rpx;
-          border-radius: 50rpx;
-          background-color: orange;
+          margin: 0;
           color: #fff;
           font-size: 28rpx;
           line-height: 52rpx;
+          background-color: orange;
+          border-radius: 50rpx;
         }
       }
     }
@@ -924,11 +927,11 @@ export default {
 
 .chatroom .header {
   display: flex;
-  flex-basis: fit-content;
   flex-direction: row;
+  flex-basis: fit-content;
   padding: 20rpx 0 30rpx;
-  border-bottom: 1px solid #ddd;
   font-size: 30rpx;
+  border-bottom: 1px solid #ddd;
 }
 
 .chatroom .header .left {
@@ -965,17 +968,17 @@ export default {
 .body .message .avatar {
   position: relative;
   top: 5rpx;
-  margin: 15rpx;
   width: 80rpx;
   height: 80rpx;
+  margin: 15rpx;
   border-radius: 5rpx;
 }
 
 .body .message .main {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   flex: 1;
-  flex-direction: column;
 }
 
 .body .message.message__self .main {
@@ -989,12 +992,12 @@ export default {
 
 .body .message .text-content {
   display: inline-block;
-  margin: 2px 0 0 0;
   padding: 4px 10px;
+  margin: 2px 0 0 0;
+  font-size: 30rpx;
+  background-color: #fff;
   border: 1px solid transparent;
   border-radius: 3px;
-  background-color: #fff;
-  font-size: 30rpx;
 }
 
 .body .message.message__self .text-content {
@@ -1003,8 +1006,8 @@ export default {
 
 .body .message .text-wrapper {
   display: flex;
-  align-items: center;
   flex-direction: row;
+  align-items: center;
   max-width: 80%;
 }
 
@@ -1015,8 +1018,8 @@ export default {
 
 .body .message .image-wrapper {
   display: flex;
-  align-items: center;
   flex-direction: row;
+  align-items: center;
 }
 
 .body .message .image-content {
@@ -1041,36 +1044,36 @@ export default {
 
 .chatroom .footer {
   display: flex;
-  flex-basis: fit-content;
   flex-direction: row;
+  flex-basis: fit-content;
   padding: 20rpx 30rpx;
-  border-top: 1px solid #ddd;
-  background: #e9e9e9;
   font-size: 10rpx;
+  background: #e9e9e9;
+  border-top: 1px solid #ddd;
 }
 
 .chatroom .footer .message-sender {
   display: flex;
-  flex: 1;
   flex-direction: row;
+  flex: 1;
 }
 
 .message-sender .text-input {
   flex: 1;
-  margin: 0 5px 0 10px;
-  padding: 3px 6px;
   height: 60rpx;
+  padding: 3px 6px;
+  margin: 0 5px 0 10px;
+  font-size: 16px;
+  background: rgb(255, 255, 255);
   border: 1px solid transparent;
   border-radius: 10px;
-  background: rgb(255, 255, 255);
-  font-size: 16px;
 }
 
 .message-sender .btn-send-image {
   align-self: center;
-  margin-left: 10px;
   width: 30px;
   height: 30px;
+  margin-left: 10px;
 }
 
 button {
@@ -1079,9 +1082,9 @@ button {
 
 button.userinfo {
   padding: 0 100rpx;
+  color: aliceblue;
+  background: darkturquoise;
   border: 1px solid #ddd;
   border-radius: 20px;
-  background: darkturquoise;
-  color: aliceblue;
 }
 </style>
