@@ -281,6 +281,10 @@ export default {
         });
         return;
       }
+      uni.showLoading({
+        title: "正在处理",
+        mask: true,
+      });
       // 选择的索引
       const indexs = this.checkedArr.map((item) => parseInt(item, 10));
       // 选择的商品
@@ -314,18 +318,19 @@ export default {
         }
       }
 
-      // 操作反馈
-      uni.showToast({
-        title: `成功${selectedGoods.length - recodeFails.length},失败${recodeFails.length}`,
-        mask: true,
-      });
-
       // 清空勾选的索引数组和取消全选
       this.checkedArr = [];
       this.allChecked = false;
       // 显示剩余的数据和失败的数据
       this.goodsInfo = [...unselectedGoods, ...recodeFails];
       this.page = this.goodsInfo.length;
+
+      uni.hideLoading();
+      // 操作反馈
+      uni.showToast({
+        title: `成功${selectedGoods.length - recodeFails.length},失败${recodeFails.length}`,
+        mask: true,
+      });
     },
     // 更新审核状态
     async updateAudite(item, pass, reason = "") {
@@ -429,18 +434,18 @@ scroll-view {
   position: fixed;
   bottom: 0rpx;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 130rpx;
-  border-radius: 20rpx;
-  background-color: #ffc300;
   font-size: 30rpx;
+  background-color: #ffc300;
+  border-radius: 20rpx;
 
   .left {
     padding-left: 5px;
-    font-weight: bold;
     font-size: 30rpx;
+    font-weight: bold;
   }
 
   .right {
@@ -448,9 +453,9 @@ scroll-view {
 
     button {
       width: auto;
-      border-radius: 50rpx;
       font-size: 30rpx;
       line-height: 70rpx;
+      border-radius: 50rpx;
 
       uni-icons {
         position: relative;
@@ -463,11 +468,11 @@ scroll-view {
 
 .wrap {
   display: flex;
-  margin: 0 5px 10px;
   height: 100px;
-  border-radius: 10px;
+  margin: 0 5px 10px;
   background-color: #fff;
   box-shadow: 1px 1.5px 5px 1px rgb(180, 179, 179);
+  border-radius: 10px;
 
   .left {
     display: flex;
@@ -490,12 +495,12 @@ scroll-view {
       .desc {
         display: -webkit-box;
         overflow: hidden;
-        -webkit-box-orient: vertical;
         min-height: 33px;
-        text-overflow: ellipsis;
-        font-weight: 500;
         font-size: 13px;
+        font-weight: 500;
+        text-overflow: ellipsis;
 
+        -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
       }
 
@@ -515,69 +520,69 @@ scroll-view {
         display: flex;
         align-items: center;
         height: 40rpx;
-        font-weight: bolder;
         font-size: 16.02rpx;
+        font-weight: bolder;
 
         .transport {
           display: flex;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          height: 30rpx;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          height: 30rpx;
-          border-radius: 5rpx;
           background-color: #4da4e2;
+          border-radius: 5rpx;
 
           .text-transport {
             margin: 10rpx;
           }
 
           .icon-transport {
-            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
+            margin-left: 10rpx;
           }
         }
 
         .address {
           display: flex;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          height: 30rpx;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          height: 30rpx;
-          border-radius: 5rpx;
           background-color: #ffc300;
+          border-radius: 5rpx;
 
           .text-address {
             margin: 10rpx;
           }
 
           .icon-address {
-            margin-left: 10rpx;
             width: 19.28rpx;
             height: 19.28rpx;
+            margin-left: 10rpx;
           }
         }
 
         .quality {
           display: flex;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          height: 30rpx;
           margin-top: 4rpx;
           margin-right: 15rpx;
-          height: 30rpx;
-          border-radius: 5rpx;
           background-color: #ffc300;
+          border-radius: 5rpx;
 
           .text-quality {
             margin: 10rpx;
           }
 
           .icon-quality {
-            margin-left: 10rpx;
             width: 17.52rpx;
             height: 17.52rpx;
+            margin-left: 10rpx;
           }
         }
       }
@@ -592,8 +597,8 @@ scroll-view {
         }
 
         .num {
-          text-align: center;
           font-size: 10px;
+          text-align: center;
         }
       }
     }
@@ -601,11 +606,11 @@ scroll-view {
 
   .right {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     width: 40px;
-    border-radius: 0 10px 10px 0;
     background-color: #eee;
+    border-radius: 0 10px 10px 0;
   }
 }
 </style>
