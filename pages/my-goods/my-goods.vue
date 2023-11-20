@@ -420,8 +420,14 @@ export default {
 
     // 请求用户信息
     this.userInfo = uni.getStorageSync("userInfo");
+
+    // 根据当前的选项条件请求数据
+    this.getListByWhere();
+    // 配置右侧操作按钮
+    this.setOption(this.activeIndex);
     /*  // 获取我的商品信息
     await this.getMyGoods(this.openid);
+
 
     uni.$on("getMyGoods", async () => {
       await this.getMyGoods(this.openid);
@@ -474,6 +480,7 @@ export default {
       this.list = res.data;
       this.nomore = false;
       this.page = 0;
+      // 配置右侧操作按钮
       uni.hideLoading();
     },
     // 大类的点击切换的操作
