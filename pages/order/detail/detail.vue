@@ -646,6 +646,7 @@ export default {
           if (res.confirm) {
             uni.showLoading({
               title: "正在处理",
+              mark: true,
             });
             const collection = detail.bookinfo ? "publish" : "goods";
             console.log("collection :>> ", collection);
@@ -1015,6 +1016,7 @@ export default {
           if (res.confirm) {
             uni.showLoading({
               title: "正在处理",
+              mask: true,
             });
 
             let deleted = 99;

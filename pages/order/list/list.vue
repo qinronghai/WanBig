@@ -709,6 +709,7 @@ export default {
           if (res.confirm) {
             uni.showLoading({
               title: "正在处理",
+              mask: true,
             });
             const collection = detail.bookinfo ? "publish" : "goods";
             console.log("collection :>> ", collection);
@@ -1046,6 +1047,7 @@ export default {
           if (res.confirm) {
             uni.showLoading({
               title: "正在处理",
+              mask: true,
             });
             let deleted = 99;
             // 判断是买家还是卖家

@@ -407,6 +407,7 @@ export default {
       let that = this;
       uni.showLoading({
         title: "正在处理",
+        mask: true,
       });
       await db
         .collection("goods")
