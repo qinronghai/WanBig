@@ -572,7 +572,6 @@ export default {
         cancelText: "拒绝",
       });
       if (dy.confirm) {
-        console.log("000990");
         // 调用订阅消息
         await this.subscribNews();
       } else {

@@ -42,6 +42,7 @@
 <script>
 const db = wx.cloud.database();
 const _ = db.command;
+const MessageSubscriber = require("../../js_sdk/utils/subscrib-news.js");
 
 export default {
   data() {
@@ -75,7 +76,15 @@ export default {
     this.getFriendList();
   },
   methods: {
-    peoplepage(e, num) {
+    // 预定订阅
+    async subscribNews() {
+      const subscriber = new MessageSubscriber();
+      const id = "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234"; //未读消息通知
+      const tmplIdsArray = [id];
+
+      await subscriber.subscribeNews(tmplIdsArray);
+    },
+    async peoplepage(e, num) {
       console.log(e, num);
       // /* ---处理dataset begin--- */
       // this.setData(e)
@@ -90,6 +99,25 @@ export default {
       // 	}
       // });
       let that = this;
+      // 8. 订阅消息
+      const dy = await this.$uniAsync.showModal({
+        title: "温馨提示",
+        content: "是否订阅未读消息提醒",
+        showCancel: true,
+        confirmText: "同意",
+        cancelText: "拒绝",
+      });
+      if (dy.confirm) {
+        // 调用订阅消息
+        await this.subscribNews();
+      } else {
+        await this.$uniAsync.showModal({
+          title: "提示",
+          content: "您已拒绝订阅消息，将无法收到未读消息提醒",
+
+          success: ({ confirm }) => {},
+        });
+      }
 
       const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
       const sellerInfo = e.userInfo; // 卖家信息
