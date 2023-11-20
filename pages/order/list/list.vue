@@ -46,6 +46,7 @@
         v-for="(item, index) in list"
         :key="index">
         <view
+          v-if="!(item.deleted === 3 || (item._openid === openid && item.deleted === 1) || (item.seller === openid && item.deleted === 2))"
           class="card shadow"
           @tap="godetail"
           :data-id="item._id">
@@ -93,7 +94,7 @@
             <!-- 拒绝预定：卖家拒绝买家的预定请求 -->
             <view
               v-if="item.status == 1 && item.seller == openid"
-              class="cancel"
+              class="view"
               @tap.stop.prevent="rejectReserve"
               :data-ord="item"
               >拒绝预定</view
@@ -109,7 +110,7 @@
             <!-- 待确认-等待买家确认 -->
             <view
               v-if="item.status == 1 && item._openid == openid"
-              class="cancel"
+              class="view"
               @tap.stop.prevent="cancelReserve"
               :data-ord="item"
               >取消预定</view
@@ -118,7 +119,7 @@
             <block>
               <view
                 v-if="item.status == 2"
-                class="cancel"
+                class="view"
                 @tap.stop.prevent="cancelTransaction"
                 :data-ord="item"
                 >取消交易</view
@@ -143,11 +144,18 @@
             <!-- 完成交易和已取消 -->
             <view
               v-if="item.status == 3 || item.status == 4 || item.status == 42 || item.status == 43"
-              class="cancel"
+              class="view"
               @tap.stop.prevent="deleteFun"
               :data-ord="item"
               >删除订单</view
             >
+            <!-- <view
+              v-if="item.seller === openid && (item.status == 3 || item.status == 4 || item.status == 42 || item.status == 43)"
+              class="view"
+              @tap.stop.prevent="viewOrder"
+              :data-ord="item"
+              >查看订单</view
+            > -->
           </view>
         </view>
       </block>
@@ -317,6 +325,7 @@ export default {
       let statusid = _.neq(0);
       // 全部
       let whereObj = {
+        // 买家发起的订单，买家是本人，不显示status为6（买方删除）的订单
         status: statusid,
         _openid: this.openid,
       };
@@ -1038,7 +1047,45 @@ export default {
             uni.showLoading({
               title: "正在处理",
             });
+            let deleted = 99;
+            // 判断是买家还是卖家
+            if (detail._openid === that.openid) {
+              // 买家删除订单
+              deleted = 1;
+            }
+
+            if (detail.seller === that.openid) {
+              // 卖家删除订单
+              deleted = 2;
+            }
+            // 判断之前买家或者卖家是否已经删除过订单
+            if (detail.deleted === 1 || detail.deleted === 2) {
+              // 买家或者卖家已经删除过订单
+              deleted = 3;
+            }
+            /* 
+              delete: 0表示未删除，1表示买家删除，2表示卖家删除，3表示买家和卖家都删除，99表示异常
+            */
             db.collection("order")
+              .doc(detail._id)
+              .update({
+                data: {
+                  deleted: deleted,
+                },
+                success: function (res) {
+                  console.log("删除订单成功", res);
+                  //4. 判断在哪个tabid下的操作,执行对应的getlist
+                  that.tabOperate();
+                },
+                fail(e) {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "发生异常，请及时和管理人员联系处理",
+                    icon: "none",
+                  });
+                },
+              });
+            /* db.collection("order")
               .doc(detail._id)
               .remove({
                 success() {
@@ -1051,9 +1098,16 @@ export default {
                   that.tabOperate();
                 },
                 fail: console.error,
-              });
+              }); */
           }
         },
+      });
+    },
+    //查看订单
+    viewOrder(ord) {
+      let detail = ord.currentTarget.dataset.ord;
+      uni.navigateTo({
+        url: "/pages/order/detail/detail?id=" + detail._id,
       });
     },
 
@@ -1316,16 +1370,16 @@ export default {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  margin-bottom: 15rpx;
   width: 100%;
   height: 90rpx;
+  margin-bottom: 15rpx;
   border-bottom: 1rpx solid #eee;
 }
 
 .tab_one {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 25%;
   height: 100%;
@@ -1335,41 +1389,41 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
-  letter-spacing: 2rpx;
   font-size: 30rpx;
+  letter-spacing: 2rpx;
 }
 
 .tab_on {
-  border-bottom: 4rpx solid #fbbd08;
-  font-weight: 600;
   font-size: 32rpx;
+  font-weight: 600;
+  border-bottom: 4rpx solid #fbbd08;
 }
 
 .contain {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  width: 100%;
   padding: 24rpx;
   padding-top: 10rpx;
-  width: 100%;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  margin-bottom: 30rpx;
-  padding: 15rpx 30rpx;
   width: 100%;
+  padding: 15rpx 30rpx;
+  margin-bottom: 30rpx;
   border-radius: 15rpx;
 }
 
 .top {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding-bottom: 20rpx;
+  align-items: center;
   width: 100%;
+  padding-bottom: 20rpx;
   border-bottom: 1rpx solid #eee;
 }
 
@@ -1379,15 +1433,15 @@ export default {
 
 .top1 {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
 .date {
   color: #b2b2b2;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .title {
@@ -1402,17 +1456,17 @@ export default {
 
 .title view {
   padding-left: 10rpx;
+  font-size: 28rpx;
   /* font-weight: 600; */
   letter-spacing: 3rpx;
-  font-size: 28rpx;
 }
 
 .del {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  padding: 0 10rpx;
   height: 40rpx;
+  padding: 0 10rpx;
   border: 1rpx solid #c2c2c2;
   border-radius: 20rpx;
 }
@@ -1424,16 +1478,16 @@ export default {
 
 .del view {
   color: #c2c2c2;
-  letter-spacing: 3rpx;
   font-size: 26rpx;
+  letter-spacing: 3rpx;
 }
 
 .centerui {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  padding: 20rpx 0;
   width: 100%;
+  padding: 20rpx 0;
   border-bottom: 1rpx solid #eee;
 }
 
@@ -1447,9 +1501,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 0 20rpx;
   width: calc(100% - 150rpx);
   height: 150rpx;
+  padding: 0 20rpx;
 }
 
 .book {
@@ -1462,10 +1516,10 @@ export default {
   /* 2行文本溢出显示省略号 */
   display: -webkit-box;
   overflow: hidden;
-  -webkit-box-orient: vertical;
-  letter-spacing: 2rpx;
   font-size: 30rpx;
+  letter-spacing: 2rpx;
 
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
@@ -1473,10 +1527,10 @@ export default {
   overflow: hidden;
   padding-top: 10rpx;
   color: #c2c2c2;
+  font-size: 26rpx;
+  letter-spacing: 3rpx;
   text-overflow: ellipsis;
   white-space: nowrap;
-  letter-spacing: 3rpx;
-  font-size: 26rpx;
 }
 
 .price {
@@ -1489,59 +1543,72 @@ export default {
 .bottom {
   display: flex;
   justify-content: flex-end;
-  padding: 20rpx 0 0 0;
   width: 100%;
+  padding: 20rpx 0 0 0;
 }
 
 .cancel {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-left: 20rpx;
-  padding: 0 20rpx;
+  align-items: center;
   width: 110rpx;
   height: 50rpx;
-  border: 1rpx solid #c2c2c2;
+  padding: 0 20rpx;
+  margin-left: 20rpx;
+  color: #ed171f;
+  font-size: 26rpx;
+  border: 1rpx solid #f8adb0;
   border-radius: 30rpx;
+}
+.view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110rpx;
+  height: 50rpx;
+  padding: 0 20rpx;
+  margin-left: 20rpx;
   color: #333;
   font-size: 26rpx;
+  border: 1rpx solid #c2c2c2;
+  border-radius: 30rpx;
 }
 
 .confirm {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-left: 20rpx;
-  padding: 0 20rpx;
+  align-items: center;
   width: 110rpx;
   height: 50rpx;
-  border: 1rpx solid #f60;
-  border-radius: 30rpx;
+  padding: 0 20rpx;
+  margin-left: 20rpx;
   color: #f60;
   font-size: 26rpx;
+  border: 1rpx solid #f60;
+  border-radius: 30rpx;
 }
 
 .nocontent {
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 100%;
   height: calc(100vh - 90rpx);
 }
 
 .nocontent image {
-  padding-left: 80rpx;
   width: 340rpx;
   height: 272rpx;
+  padding-left: 80rpx;
 }
 
 .blank_text {
   padding-top: 40rpx;
   color: #c6c6c8;
-  letter-spacing: 2rpx;
   font-size: 32rpx;
+  letter-spacing: 2rpx;
 }
 
 .totop {
@@ -1558,8 +1625,8 @@ export default {
 .text-tip {
   padding-top: 15rpx;
   color: #666;
-  text-indent: 40rpx;
   font-size: 28rpx;
+  text-indent: 40rpx;
 }
 
 @import "@/../../../../../uni-app开发工具/HBuilderX.3.3.13.20220314/HBuilderX/bin";

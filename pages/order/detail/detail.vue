@@ -975,7 +975,7 @@ export default {
         },
       });
     },
-    //删除订单
+    /* //删除订单
     deleteFun() {
       let that = this;
       uni.showModal({
@@ -1003,7 +1003,7 @@ export default {
           }
         },
       });
-    },
+    }, */
     //删除订单
     deleteFun(ord) {
       let that = this;
@@ -1016,10 +1016,33 @@ export default {
             uni.showLoading({
               title: "正在处理",
             });
+
+            let deleted = 99;
+            // 判断是买家还是卖家
+            if (detail._openid === that.openid) {
+              // 买家删除订单
+              deleted = 1;
+            }
+
+            if (detail.seller === that.openid) {
+              // 卖家删除订单
+              deleted = 2;
+            }
+            // 判断之前买家或者卖家是否已经删除过订单
+            if (detail.deleted === 1 || detail.deleted === 2) {
+              // 买家或者卖家已经删除过订单
+              deleted = 3;
+            }
+            /*    
+              delete: 0表示未删除，1表示买家删除，2表示卖家删除，3表示买家和卖家都删除，99表示异常
+            */
             db.collection("order")
               .doc(detail._id)
-              .remove({
-                success() {
+              .update({
+                data: {
+                  deleted: deleted,
+                },
+                success: function (res) {
                   uni.showToast({
                     title: "删除成功",
                     icon: "success",
@@ -1031,7 +1054,13 @@ export default {
                     },
                   });
                 },
-                fail: console.error,
+                fail(e) {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: "发生异常，请及时和管理人员联系处理",
+                    icon: "none",
+                  });
+                },
               });
           }
         },
@@ -1148,8 +1177,8 @@ page {
 .contain {
   display: flex;
   box-sizing: border-box;
-  padding: 20rpx 28rpx;
   width: 100%;
+  padding: 20rpx 28rpx;
 }
 
 .card {
@@ -1157,8 +1186,8 @@ page {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 40rpx 25rpx;
   width: 100%;
+  padding: 40rpx 25rpx;
   background: #fff;
 }
 
@@ -1195,31 +1224,31 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-left: 20rpx;
   width: calc(100% - 240rpx);
   height: 90%;
+  padding-left: 20rpx;
 }
 
 .goods_title {
-  letter-spacing: 3rpx;
   font-size: 29rpx;
+  letter-spacing: 3rpx;
 }
 
 .goods_author {
   color: rgb(150, 150, 150);
-  letter-spacing: 2rpx;
   font-size: 26rpx;
+  letter-spacing: 2rpx;
 }
 
 .goods_price {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 150rpx;
   height: 100%;
   color: #f00;
-  white-space: nowrap;
   font-size: 32rpx;
+  white-space: nowrap;
 }
 
 .border {
@@ -1231,42 +1260,42 @@ page {
 .list {
   display: flex;
   flex-direction: column;
-  padding: 30rpx 0 10rpx 0;
   width: 100%;
+  padding: 30rpx 0 10rpx 0;
 }
 
 .list_1 {
   color: rgb(167, 167, 167);
-  letter-spacing: 2rpx;
   font-size: 26rpx;
+  letter-spacing: 2rpx;
 }
 
 .list_2 {
   padding-top: 10rpx;
-  letter-spacing: 3rpx;
   font-size: 32rpx;
+  letter-spacing: 3rpx;
 }
 
 .orderfare {
-  margin-top: 28rpx;
   padding-bottom: 20rpx;
+  margin-top: 28rpx;
   color: rgb(167, 167, 167);
-  letter-spacing: 2rpx;
-  font-weight: 600;
   font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
 }
 
 .fare_box {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 10rpx 0;
+  align-items: center;
   width: 100%;
+  padding: 10rpx 0;
 }
 
 .fare_title {
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .fare_des {
@@ -1276,51 +1305,51 @@ page {
 
 .bot_box {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
 .cancel {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 40rpx;
+  align-items: center;
   width: 620rpx;
   height: 80rpx;
-  border-radius: 20rpx;
-  background: #000;
+  margin-top: 40rpx;
   color: #fff;
-  letter-spacing: 4rpx;
   font-size: 30rpx;
+  letter-spacing: 4rpx;
+  background: #000;
+  border-radius: 20rpx;
 }
 
 .contact {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 20rpx;
+  align-items: center;
   width: 620rpx;
   height: 80rpx;
-  border-radius: 20rpx;
-  background: #fbbd08;
+  margin-top: 20rpx;
   color: #000;
-  letter-spacing: 4rpx;
   font-size: 30rpx;
+  letter-spacing: 4rpx;
+  background: #fbbd08;
+  border-radius: 20rpx;
 }
 
 .delete {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 20rpx;
+  align-items: center;
   width: 620rpx;
   height: 80rpx;
-  border-radius: 20rpx;
-  background: #adadad;
+  margin-top: 20rpx;
   color: #fff;
-  letter-spacing: 4rpx;
   font-size: 30rpx;
+  letter-spacing: 4rpx;
+  background: #adadad;
+  border-radius: 20rpx;
 }
 
 /* 交易码样式 */
@@ -1332,18 +1361,18 @@ page {
 
 .trade-code-label {
   padding: 30rpx 0;
-  background-color: #f0f0f0;
   color: #333;
-  letter-spacing: 5rpx;
-  font-weight: 600;
   font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 5rpx;
+  background-color: #f0f0f0;
 }
 
 .code-number {
   margin-top: 30rpx;
   color: #1890ff;
-  font-weight: bold;
   font-size: 50rpx;
+  font-weight: bold;
 }
 
 /* 交易码样式 */
@@ -1354,18 +1383,18 @@ page {
 
 .trade-code-label {
   padding: 30rpx 0;
-  background-color: #f0f0f0;
   color: #333;
-  letter-spacing: 5rpx;
-  font-weight: 600;
   font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 5rpx;
+  background-color: #f0f0f0;
 }
 
 .code-number {
   margin-top: 20rpx;
   color: #1890ff;
-  font-weight: bold;
   font-size: 50rpx;
+  font-weight: bold;
 }
 
 /* 弹窗容器 */
@@ -1376,9 +1405,9 @@ page {
 /* 弹窗内容 */
 .popup-content {
   overflow: hidden;
-  border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 /* 交易码样式 */
@@ -1389,18 +1418,18 @@ page {
 
 .trade-code-label {
   padding: 30rpx 0;
-  background-color: #f0f0f0;
   color: #333;
-  letter-spacing: 5rpx;
-  font-weight: 600;
   font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 5rpx;
+  background-color: #f0f0f0;
 }
 
 .code-number {
   padding-top: 20rpx;
   color: #1890ff;
-  font-weight: bold;
   font-size: 50rpx;
+  font-weight: bold;
 }
 
 /* 提示信息样式 */
@@ -1411,8 +1440,8 @@ page {
 .reminder-title {
   margin-bottom: 8px;
   color: #333;
-  font-weight: bold;
   font-size: 16px;
+  font-weight: bold;
 }
 
 .reminder-text {
@@ -1429,8 +1458,8 @@ page {
 .attention-title {
   margin-bottom: 8px;
   color: #ff4d4f;
-  font-weight: bold;
   font-size: 16px;
+  font-weight: bold;
 }
 
 .attention-text {
@@ -1442,15 +1471,15 @@ page {
 /* 按钮样式 */
 .detail-button {
   display: block;
-  margin: 40rpx 0;
-  padding: 10px;
   width: 100%;
+  padding: 10px;
+  margin: 40rpx 0;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  background-color: #1890ff;
   border: none;
   border-radius: 4px;
-  background-color: #1890ff;
-  color: #fff;
-  text-align: center;
-  font-size: 16px;
   cursor: pointer;
 }
 
