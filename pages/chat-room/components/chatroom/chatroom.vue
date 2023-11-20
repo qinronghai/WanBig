@@ -837,10 +837,25 @@ export default {
     this.$nextTick(() => this.ready());
   },
   created: function () {},
-  destroyed: function () {
+  destroyed: async function () {
     if (this.recordMsgCount > 0) {
-      // 发送订阅消息的提醒
-      this.send_tixing();
+      // recordMsgCount大于0，说明有发送消息，才发送订阅消息的提醒
+      // 但是要检查此聊天室的对方是否已经读过了，如果读过了，就不用发送提醒了
+      let unreadCount = await db
+        .collection("chatroom_example")
+        .where(
+          this.mergeCommonCriteria({
+            readed: 0,
+            _openid: uni.getStorageSync("openid"),
+          })
+        )
+        .count();
+
+      console.log("未读消息数量：", unreadCount.total);
+      if (unreadCount.total > 0) {
+        // 发送订阅消息的提醒
+        this.send_tixing();
+      }
     }
     console.warn("关闭监听", this.messageListener);
     this.messageListener.close();
