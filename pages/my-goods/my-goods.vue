@@ -54,7 +54,10 @@
                       <div class="desc">
                         {{ item.title }}
                       </div>
-                      <div class="price">{{ item.price }}</div>
+                      <div class="price">
+                        {{ item.price
+                        }}<text style="font-size: 28rpx; font-weight: normal; color: #01a3ff">{{ item.status == 1 ? "（待卖家确认）" : "" }}</text>
+                      </div>
                     </div>
                     <div class="bottom">
                       <div class="label">
@@ -325,7 +328,7 @@ export default {
           whereObj: {
             audited: true,
             pass: true,
-            status: 2,
+            status: _.eq(1).or(_.eq(2)),
           },
         },
         {
@@ -362,7 +365,7 @@ export default {
           id: 1,
           name: "交易中",
           whereObj: {
-            status: 2,
+            status: _.eq(1).or(_.eq(2)),
           },
         },
         {
