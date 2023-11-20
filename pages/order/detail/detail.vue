@@ -364,7 +364,7 @@ export default {
           .collection("order")
           .where({
             sellid: goodId,
-            status: 2,
+            status: _.eq(1).or(_.eq(2)),
           })
           .get();
         console.log("根据id获取订单详情 :>> ", res.data);

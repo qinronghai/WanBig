@@ -55,8 +55,7 @@
                         {{ item.title }}
                       </div>
                       <div class="price">
-                        {{ item.price
-                        }}<text style="font-size: 28rpx; font-weight: normal; color: #01a3ff">{{ item.status == 1 ? "（待卖家确认）" : "" }}</text>
+                        {{ item.price }}<text style="font-size: 28rpx; font-weight: normal; color: #01a3ff">{{ item.status == 1 ? "（待确认）" : "" }}</text>
                       </div>
                     </div>
                     <div class="bottom">
