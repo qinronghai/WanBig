@@ -69,6 +69,11 @@ export default {
   onShow() {
     this.getFriendList();
   },
+  // TODO 修改
+  onPullDownRefresh() {
+    console.log("监测到下拉 :>> ");
+    this.getFriendList();
+  },
   methods: {
     peoplepage(e, num) {
       console.log(e, num);
@@ -309,7 +314,8 @@ export default {
         .collection("chatroom_example")
         .where(
           this.mergeCommonCriteria({
-            _openid: uni.getStorageSync("openid"),
+            // _openid: uni.getStorageSync("openid"),
+            groupId: this.chatRoomGroupId,
           })
         )
         .orderBy("sendTimeTS", "desc") // 按时间戳字段降序排序
@@ -323,15 +329,19 @@ export default {
       console.log("我的消息列表 :>> ", readedList);
       // 1. 如果有未读消息
       if (unreadedList.length > 0) {
+        uni.stopPullDownRefresh();
+
         return {
-          note: unreadedList[unreadedList.length - 1].textContent,
+          note: unreadedList[unreadedList.length - 1].textContent === "发送了商品卡片" ? "商品卡片" : unreadedList[unreadedList.length - 1].textContent,
           time: unreadedList[unreadedList.length - 1].sendTime,
           badgeText: unreadedList.length,
         };
       } else {
+        uni.stopPullDownRefresh();
+
         // 2. 没有未读消息，显示我发送的最后一条消息并且不显示badgeText
         return {
-          note: readedList[readedList.length - 1].textContent,
+          note: readedList[readedList.length - 1].textContent === "发送了商品卡片" ? "商品卡片" : readedList[readedList.length - 1].textContent,
           time: readedList[readedList.length - 1].sendTime,
           badgeText: 0,
         };

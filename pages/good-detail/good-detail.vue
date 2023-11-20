@@ -572,15 +572,19 @@ export default {
         cancelText: "拒绝",
       });
       if (dy.confirm) {
+        console.log("000990");
         // 调用订阅消息
         await this.subscribNews();
       } else {
         uni.showModal({
           title: "提示",
           content: "您已拒绝订阅消息，将无法收到未读消息提醒",
-          showCancel: true,
-          success: ({ confirm, cancel }) => {},
+
+          success: ({ confirm }) => {
+            return;
+          },
         });
+        return;
       }
       // 检查买家的friends是否有卖家
       //先判断是否有该好友，本地判断
