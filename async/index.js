@@ -1,4 +1,4 @@
-export const request = (filePath, directory = "good-pictures/") => {
+export const request = async (filePath, directory = "good-pictures/") => {
   wx.showLoading({
     title: "加载中",
   });

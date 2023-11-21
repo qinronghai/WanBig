@@ -46,6 +46,15 @@
 				</view> -->
         <view class="contact">
           <input
+            type="number"
+            @input="phoneInput"
+            :value="phonenum"
+            maxlength="20"
+            placeholder-class="pache"
+            placeholder="输入您的手机号(必填)" />
+        </view>
+        <view class="contact">
+          <input
             @input="wxInput"
             :value="wxnum"
             maxlength="30"
@@ -100,6 +109,7 @@ export default {
     return {
       ids: -1,
       nickname: "",
+      phonenum: "",
       wxnum: "",
       qqnum: "",
       email: "",
@@ -116,14 +126,17 @@ export default {
       randomAvatarSrc: "", // 随机生成的头像 URL
       randomNickName: "", // 随机生成的昵称
       randomAvatarList: [
-        "https://z1.ax1x.com/2023/11/14/piJ05Ks.jpg",
-        "https://z1.ax1x.com/2023/11/14/piJ0hvj.jpg",
-        "https://z1.ax1x.com/2023/11/14/piJ0f2Q.jpg",
-        "https://z1.ax1x.com/2023/11/14/piJ0W8g.jpg",
-        "https://z1.ax1x.com/2023/11/14/piJ0RPS.jpg",
-        "https://z1.ax1x.com/2023/11/14/piJ0g58.jpg",
-        "https://z1.ax1x.com/2023/11/14/piJ0cUf.jpg",
-        "https://z1.ax1x.com/2023/11/14/piJ06VP.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/1020-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/989-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/586-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/558-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/546-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/500-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/419-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/411-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/252-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/173-46x46.jpg",
+        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/30-46x46.jpg",
       ],
     };
   },
@@ -159,26 +172,40 @@ export default {
     });
 
     this.randomNickName = getRandomNickname();
-    this.randomAvatar();
+    this.randomAvatarSrc = this.randomAvatar();
   },
 
   methods: {
+    // 生成随机头像和昵称的函数
     randomAvatarAndName(isName = true) {
+      // 生成一个介于1和400之间的随机整数，作为获取头像的参数
       let randomParam = Math.floor(Math.random() * 400) + 1;
+
       console.log("点击了随机", randomParam);
+
+      // 显示加载中的提示框，提示正在加载头像
       uni.showLoading({
         title: "加载头像中",
-        mask: true,
+        mask: true, // 使用蒙层，防止用户交互
       });
+
+      // 判断是否需要生成昵称
       if (isName) {
         console.log("isName", isName);
-        this.randomAvatarSrc = `https://picsum.photos/id/${randomParam}/46`;
+        // 使用生成的随机参数获取头像地址
+        // this.randomAvatarSrc = `https://picsum.photos/id/${randomParam}/46`;
+        this.randomAvatarSrc = this.randomAvatar();
+        // 调用自定义函数获取一个随机昵称
         this.randomNickName = getRandomNickname();
       } else {
-        randomParam = Math.floor(Math.random() * 400) + 1;
-        this.randomAvatarSrc = `https://picsum.photos/id/${randomParam}/46`;
+        // 如果不需要生成昵称，重新生成一个随机参数
+        // randomParam = Math.floor(Math.random() * 400) + 1;
+        // // 使用新生成的随机参数获取头像地址，并将其赋值给数据对象中的randomAvatarSrc
+        // this.randomAvatarSrc = `https://picsum.photos/id/${randomParam}/46`;
+        this.randomAvatarSrc = this.randomAvatar();
       }
     },
+
     //随机一个头像函数
     randomAvatar() {
       // 从数组中随机取出一个
@@ -190,20 +217,20 @@ export default {
       });
       // 从randomAvatarList数组中随机取出一个
       let url = this.randomAvatarList[Math.floor(Math.random() * this.randomAvatarList.length)];
-      this.randomAvatarSrc = url;
       console.log("url :>> ", url);
+      return url;
       // uni.hideLoading();
     },
 
     onImageLoad(e) {
       console.log("图片加载完成", e);
-      uni.getImageInfo({
+      /*  uni.getImageInfo({
         src: this.randomAvatarSrc,
         success: (res) => {
           this.randomAvatarSrc = res.path;
           console.log("加载完成的图片 URL:", this.randomAvatarSrc);
         },
-      });
+      }); */
       uni.hideLoading();
     },
     onImageError(e) {
@@ -266,6 +293,10 @@ export default {
     wxInput(e) {
       this.wxnum = e.detail.value;
     },
+    phoneInput(e) {
+      console.log("e :>> ", e);
+      this.phonenum = e.detail.value;
+    },
 
     qqInput(e) {
       this.qqnum = e.detail.value;
@@ -295,9 +326,19 @@ export default {
       }
     },
 
+    validatePhoneNumber(phoneNumber) {
+      // 移动号段：134, 135, 136, 137, 138, 139, 147, 150, 151, 152, 157, 158, 159, 165, 172, 178, 182, 183, 184, 187, 188, 195, 198
+      // 联通号段：130, 131, 132, 145, 155, 156, 166, 171, 175, 176, 185, 186
+      // 电信号段：133, 149, 153, 173, 177, 180, 181, 189, 199
+      const regExp = /^1[3456789]\d{9}$/;
+
+      return regExp.test(phoneNumber);
+    },
+
     //校检
     async check() {
       let that = this;
+
       // 校验用户昵称
       let nickname = that.nickname;
       console.log("校验昵称", nickname);
@@ -319,10 +360,34 @@ export default {
       if (multiIds.length === 0) {
         uni.showToast({
           title: "请先选择您的学院与专业",
-          icon: "none",
+          icon: "error",
           duration: 2000,
         });
+
         return false;
+      }
+
+      //必填手机号
+      if (that.phonenum === "") {
+        uni.showToast({
+          title: "手机号必填哦",
+          icon: "error",
+          duration: 2000,
+        });
+        return;
+      }
+
+      //校验手机号
+      if (that.validatePhoneNumber(that.phonenum)) {
+        console.log("手机号格式正确");
+      } else {
+        console.log("手机号格式不正确");
+        uni.showToast({
+          title: "手机号格式不正确",
+          icon: "error",
+          mask: true,
+        });
+        return;
       }
 
       // qq和微信号必填其一检查
@@ -339,6 +404,7 @@ export default {
       }
 
       if (qqnum !== "") {
+        // 校验QQ号
         if (!/^[1-9][0-9]{4,9}$/.test(qqnum)) {
           uni.showToast({
             title: "请输入正确QQ号",
@@ -364,65 +430,83 @@ export default {
         title: "正在提交",
       });
       // 上传头像到数据库
-      await request(this.randomAvatarSrc, "avatar/").then((result) => {
-        if (result.statusCode === 204) {
-          console.log("上传头像成功", result);
-          // 将头像的临时路径替换成服务器存储链接
-          that.userInfo.avatarUrl = result.fileID;
-          // 进行注册用户
-          db.collection("user").add({
-            data: {
-              qqnum: that.qqnum,
-              wxnum: that.wxnum,
-              stamp: new Date().getTime(),
-              info: that.userInfo,
-              useful: true,
-              parse: 0,
-              // 添加字段 学院与专业
-              college: {
-                id: that.multiIds[0].id,
-                name: that.multiIds[0].label,
-              },
-              profession: {
-                id: that.multiIds[1].id,
-                name: that.multiIds[1].label,
-              },
-              // 添加商品字段
-              dealNum: 0,
-              goodsNum: 0,
-              isAuditor: false,
-              vip: false,
+      // await request(this.randomAvatarSrc, "avatar/").then((result) => {
+      // console.log("result :>> ", result);
+      // if (result.statusCode === 204) {
+      // console.log("上传头像成功", result);
+      // 将头像的临时路径替换成服务器存储链接
+      that.userInfo.avatarUrl = this.randomAvatarSrc;
+      // 进行注册用户
+      db.collection("user").add({
+        data: {
+          phonenum: that.phonenum,
+          qqnum: that.qqnum,
+          wxnum: that.wxnum,
+          stamp: new Date().getTime(),
+          info: that.userInfo,
+          useful: true,
+          parse: 0,
+          // 添加字段 学院与专业
+          college: {
+            id: that.multiIds[0].id,
+            name: that.multiIds[0].label,
+          },
+          profession: {
+            id: that.multiIds[1].id,
+            name: that.multiIds[1].label,
+          },
+          // 添加商品字段
+          dealNum: 0,
+          goodsNum: 0,
+          isAuditor: false,
+          vip: false,
 
-              // 添加信誉积分字段
-              integral: 100,
-            },
-            success: function (res) {
-              console.log(res);
-              db.collection("user")
-                .doc(res._id)
-                .get({
-                  success: function (res) {
-                    uni.setStorageSync("userInfo", res.data);
-                    uni.setStorageSync("openid", res.data._openid);
-                    uni.setStorageSync("isRegister", true);
-                    console.log("注册成功");
-                    uni.navigateBack({
-                      delta: 1, // 返回的页面数，1表示返回上一个页面
-                    });
-                  },
+          // 添加信誉积分字段
+          integral: 100,
+          // 朋友列表
+          friends: [],
+        },
+        success: function (res) {
+          console.log(res);
+          db.collection("user")
+            .doc(res._id)
+            .get({
+              success: function (res) {
+                uni.setStorageSync("userInfo", res.data);
+                uni.setStorageSync("openid", res.data._openid);
+                uni.setStorageSync("isRegister", true);
+                console.log("注册成功");
+                uni.showToast({
+                  title: "注册成功",
+                  icon: "success",
+                  mask: true,
+                  duration: 1500,
                 });
-            },
+                setTimeout(() => {
+                  uni.navigateBack({
+                    delta: 1, // 返回的页面数，1表示返回上一个页面
+                  });
+                }, 1500);
+              },
+            });
+        },
 
-            fail() {
-              uni.hideLoading();
-              uni.showToast({
-                title: "注册失败，请重新提交",
-                icon: "none",
-              });
-            },
+        fail() {
+          uni.hideLoading();
+          uni.showToast({
+            title: "注册失败，请重新提交",
+            icon: "none",
           });
-        }
+        },
       });
+      // } else {
+      //   uni.showToast({
+      //     title: result.toString(),
+      //     icon: "error",
+      //     mask: true,
+      //   });
+      // }
+      // });
     },
   },
 };
