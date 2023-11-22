@@ -359,7 +359,8 @@ export default {
           this.mergeCommonCriteria({
             readed: 0,
             groupId: db.RegExp({
-              regexp: openid,
+              regexp: `(${uni.getStorageSync("openid")}${openid}|${openid}${uni.getStorageSync("openid")})`,
+
               options: "i",
             }),
             _openid: openid,
@@ -373,7 +374,7 @@ export default {
           this.mergeCommonCriteria({
             // _openid: uni.getStorageSync("openid"),
             groupId: db.RegExp({
-              regexp: openid,
+              regexp: `(${uni.getStorageSync("openid")}${openid}|${openid}${uni.getStorageSync("openid")})`,
               options: "i",
             }),
           })
