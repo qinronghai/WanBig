@@ -103,18 +103,7 @@ export default {
     },
     async peoplepage(e, num) {
       console.log(e, num);
-      // /* ---处理dataset begin--- */
-      // this.setData(e)
-      // /* ---处理dataset end--- */
 
-      // e = JSON.stringify(e);
-      // uni.navigateTo({
-      // 	url: '/pages/chat-room/haoyoupage/haoyoupage?haoyouinfo=' + e,
-      // 	fail: function (e) {
-      // 		console.log("跳转失败", e);
-
-      // 	}
-      // });
       let that = this;
       // 8. 订阅消息
       const dy = await this.$uniAsync.showModal({
@@ -135,20 +124,18 @@ export default {
           success: ({ confirm }) => {},
         });
       }
-
+      // 4. 获取买卖双方的信息
       const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
       const sellerInfo = e.userInfo; // 卖家信息
 
       const buyerOpenid = buyerInfo._openid;
       const sellerOpenid = sellerInfo._openid;
 
-      // 检查买家的friends是否有卖家
+      // 5. 检查买家的friends是否有卖家
       //先判断是否有该好友，本地判断
       // 1. 正反两个openid结合
       var chatid1 = sellerOpenid + buyerOpenid;
       var chatid2 = buyerOpenid + sellerOpenid;
-      console.log("chatid1 :>> ", chatid1);
-      console.log("chatid2 :>> ", chatid2);
 
       // 2. 遍历当前登录用户的好友列表
       for (let i = 0; i < buyerInfo.friends.length; i++) {
@@ -273,35 +260,7 @@ export default {
             uni.hideLoading();
             return;
           }
-          // 获取最新的好友信息
-          /* for (const item of friends) {
-            try {
-              // 获取最新的好友信息
-              const { data } = await db.collection("user").doc(item.userInfo._id).get();
-              console.log("获取最新的好友信息data :>> ", data);
 
-              const friendInfo = data;
-
-              // 比对头像和昵称是否有变化
-              if (friendInfo.info.avatarUrl !== item.userInfo.info.avatarUrl && friendInfo.info.nickName !== item.userInfo.info.nickName) {
-                console.log("头像或昵称有变化");
-              }
-              // 更新好友信息
-              item.userInfo = friendInfo;
-
-              console.log(friendInfo, "frinedInfo");
-              // 将头像云地址替换成本地临时地址，否则无法显示
-              const res = await uni.getImageInfo({ src: item.userInfo.info.avatarUrl });
-              item.userInfo.info.avatarUrl = res[1].path;
-              // 处理未读消息相关信息
-              const { note, time, badgeText } = await that.getUnreadedMsg(item.userInfo._openid);
-              item.note = note;
-              item.time = time;
-              item.badgeText = badgeText;
-            } catch (error) {
-              console.error("For Friends Error occurred:", error);
-            }
-          } */
           // TODO 优化
           const promises = friends.map(async (item, index) => {
             try {

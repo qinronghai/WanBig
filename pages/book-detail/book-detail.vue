@@ -629,67 +629,98 @@ export default {
     },
 
     //路由
-    go(e) {
+    async go(e) {
       let that = this;
+      // 1. 注册检测
+      const isRegister = this.$checkRegisterStatus();
+      if (!isRegister) {
+        uni.showModal({
+          title: "温馨提示",
+          content: "该功能需要注册方可使用，是否马上去注册",
+          success(res) {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: "/pages/register/register",
+              });
+            }
+          },
+        });
+        return false;
+      }
+      // 2. 自我检测
       if (!this.checkMySelf("不能和自己聊天")) {
         console.log("object :>> ");
         return;
       }
-
-      console.log("test :>> ");
+      // 3. 订阅未读消息通知
+      const dy = await this.$uniAsync.showModal({
+        title: "温馨提示",
+        content: "是否订阅未读消息提醒",
+        showCancel: true,
+        confirmText: "同意",
+        cancelText: "拒绝",
+      });
+      if (dy.confirm) {
+        // 调用订阅消息
+        await this.subscribNews();
+      } else {
+        await this.$uniAsync.showModal({
+          title: "提示",
+          content: "您已拒绝订阅消息，将无法收到未读消息提醒",
+        });
+        return;
+      }
+      // 4. 获取买卖双方的信息
       const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
       const sellerInfo = this.userinfo; // 卖家信息
 
-      const buyerOpenid = buyerInfo._openid;
-      const sellerOpenid = sellerInfo._openid;
+      const buyerOpenid = buyerInfo?._openid;
+      const sellerOpenid = sellerInfo?._openid;
 
-      // 检查买家的friends是否有卖家
+      // 5. 检查买家的friends是否有卖家
       //先判断是否有该好友，本地判断
-      // 1. 正反两个openid结合
+      //1.正反两个openid结合
       var chatid1 = sellerOpenid + buyerOpenid;
       var chatid2 = buyerOpenid + sellerOpenid;
 
-      // 判空的friends
-      if (buyerInfo.friends.length == 0) {
-        console.log("friends 为 0 :>> ", buyerInfo.friends);
-        this.chachong = 0;
-      }
-
-      // 2. 遍历当前登录用户的好友列表
-      for (let i = 0; i < buyerInfo.friends.length; i++) {
-        // 3. 获取好友列表中每一项的id房间号
-        let fid = buyerInfo.friends[i].id;
-        // 4. 判断如果与其中之一相等
-        if (fid === chatid1 || fid === chatid2) {
-          // 5. 代表着已经添加此好友
-          console.log("已经和该卖家聊过天");
-          that.setData({
-            chachong: 1,
-          });
-
-          uni.navigateTo({
-            url:
-              "/pages/chat-room/chat-room?id=" +
-              fid +
-              "&name=" +
-              buyerInfo.friends[i].userInfo.info.nickName +
-              "&backgroundimage=" +
-              that.backgroundimage +
-              "&haoyou_openid=" +
-              buyerInfo.friends[i]._openid +
-              "&sellerInfo=" +
-              JSON.stringify(sellerInfo) +
-              "&from=" +
-              "book-detail" +
-              "&goodId=" +
-              this.bookinfo._id,
-          });
-        } else {
-          console.log("没有和卖家聊天过 :>> ");
+      // 好友列表大于0，才遍历
+      if (buyerInfo.friends.length > 0) {
+        //2.遍历当前登录用户的好友列表
+        for (let i = 0; i < buyerInfo.friends.length; i++) {
+          //3.获取好友列表中每一项的id房间号
+          let fid = buyerInfo.friends[i].id;
+          //4.判断如果与其中之一相等(找到房间号)
+          if (fid === chatid1 || fid === chatid2) {
+            //5.代表着已经添加此好友
+            console.log("已经和该卖家聊过天");
+            that.setData({
+              chachong: 1,
+            });
+            //6.跳转
+            uni.navigateTo({
+              url:
+                "/pages/chat-room/chat-room?id=" +
+                fid +
+                "&name=" +
+                buyerInfo.friends[i].userInfo.info.nickName +
+                "&backgroundimage=" +
+                that.backgroundimage +
+                "&haoyou_openid=" +
+                buyerInfo.friends[i]._openid +
+                "&sellerInfo=" +
+                JSON.stringify(sellerInfo) +
+                "&from=" +
+                "book-detail" +
+                "&goodId=" +
+                this.bookinfo._id,
+            });
+          } else {
+            console.log("没有和卖家聊天过 :>> ");
+          }
         }
       }
 
-      //  之前没沟通过
+      //  之前没有聊天过
       if (that.chachong === 0) {
         uni.navigateTo({
           url:
