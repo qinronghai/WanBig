@@ -245,10 +245,14 @@ export default {
       this.isShowThisGood = false;
     },
     // 发送商品卡片
-    sendThisGood() {
+    async sendThisGood() {
       // 点击发送该商品
       // 从商品详情页面来的
       console.log("from :>> ", this.from);
+      if (this.groupId === "firstChat") {
+        this.addFriend();
+        uni.hideLoading();
+      }
       // 有可能是good或者book
       if (this.from !== "chat-list") {
         this.$nextTick(async () => {
@@ -565,6 +569,54 @@ export default {
         });
       }
     },
+    async addFriend() {
+      uni.showLoading({
+        title: "添加好友中",
+        mask: true,
+      });
+      this.groupId = this.haoyou_openid + this.userInfo._openid;
+      console.log("请注意第一次建立chatroom");
+      // 请求添加卖家为好友
+      await wx.cloud.callFunction({
+        name: "yunrouter",
+        data: {
+          $url: "addpeople", //云函数路由参数
+
+          addpeopleid: this.haoyou_openid, //应该应答请求的那个人
+          askpeopleid: this.userInfo._openid, //我自己，发出请求的人
+          peopleask: this.userInfo,
+          peopleadd: this.sellerInfo,
+          chatid: this.haoyou_openid + this.userInfo._openid,
+        },
+        success: async (res) => {
+          // 卖家获取买家的请求添加信息
+          const result = await db
+            .collection("addpeople")
+            .where({
+              addpeopleid: this.haoyou_openid, //应该接受好友请求的那个人的openid
+              askpeopleid: this.userInfo._openid,
+              status: 0,
+            })
+            .get();
+          console.log("卖家获取买家的请求添加信息", result);
+          // 为双方添加friend标致
+          wx.cloud.callFunction({
+            name: "yunrouter",
+            data: {
+              $url: "confirmpeopleadd",
+              //云函数路由参数
+              peopleconfim: result.data[0],
+            },
+            success: (res) => {
+              console.log("为双方添加friend标致", res);
+            },
+            fail() {},
+          });
+          console.log("请求成功");
+        },
+        fail() {},
+      });
+    },
 
     // 发送文字
     async onConfirmSendText(e) {
@@ -577,48 +629,8 @@ export default {
         const _ = db.command;
 
         if (this.groupId === "firstChat") {
-          this.groupId = this.haoyou_openid + this.userInfo._openid;
-          console.log("请注意第一次建立chatroom");
-          // 请求添加卖家为好友
-          await wx.cloud.callFunction({
-            name: "yunrouter",
-            data: {
-              $url: "addpeople", //云函数路由参数
-
-              addpeopleid: this.haoyou_openid, //应该应答请求的那个人
-              askpeopleid: this.userInfo._openid, //我自己，发出请求的人
-              peopleask: this.userInfo,
-              peopleadd: this.sellerInfo,
-              chatid: this.haoyou_openid + this.userInfo._openid,
-            },
-            success: async (res) => {
-              // 卖家获取买家的请求添加信息
-              const result = await db
-                .collection("addpeople")
-                .where({
-                  addpeopleid: this.haoyou_openid, //应该接受好友请求的那个人的openid
-                  askpeopleid: this.userInfo._openid,
-                  status: 0,
-                })
-                .get();
-              console.log("卖家获取买家的请求添加信息", result);
-              // 为双方添加friend标致
-              wx.cloud.callFunction({
-                name: "yunrouter",
-                data: {
-                  $url: "confirmpeopleadd",
-                  //云函数路由参数
-                  peopleconfim: result.data[0],
-                },
-                success: (res) => {
-                  console.log("为双方添加friend标致", res);
-                },
-                fail() {},
-              });
-              console.log("请求成功");
-            },
-            fail() {},
-          });
+          await this.addFriend();
+          uni.hideLoading();
         }
         const doc = {
           _id: `${Math.random()}_${Date.now()}`,
@@ -671,6 +683,10 @@ export default {
 
     // 发送图片
     async onChooseImage(e) {
+      if (this.groupId === "firstChat") {
+        await this.addFriend();
+        uni.hideLoading();
+      }
       uni.chooseImage({
         count: 1,
         sourceType: ["album", "camera"],

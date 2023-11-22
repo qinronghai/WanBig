@@ -63,10 +63,27 @@ export default {
           },
         },
       ],
+      chachong: 0,
     };
   },
 
   mounted() {},
+  async onLoad(options) {
+    // 1. 验证用户是否注册
+    const isRegister = await this.$checkRegisterStatus();
+    if (!isRegister) {
+      // 用户未注册，提醒去注册
+      const modalRes = await this.$uniAsync.showModal({
+        title: "提示",
+        content: "您还未注册，请先注册",
+      });
+      // 点击确定-去注册
+      if (modalRes.confirm) {
+        uni.navigateTo({ url: "/pages/register/register" });
+      }
+      return;
+    }
+  },
   onShow() {
     this.getFriendList();
   },
@@ -130,6 +147,8 @@ export default {
       // 1. 正反两个openid结合
       var chatid1 = sellerOpenid + buyerOpenid;
       var chatid2 = buyerOpenid + sellerOpenid;
+      console.log("chatid1 :>> ", chatid1);
+      console.log("chatid2 :>> ", chatid2);
 
       // 2. 遍历当前登录用户的好友列表
       for (let i = 0; i < buyerInfo.friends.length; i++) {
@@ -229,6 +248,8 @@ export default {
     },
     // 获取好友列表
     getFriendList: async function (options) {
+      // 判断用户是否注册
+
       uni.showLoading({
         title: "加载中",
         mask: true,
@@ -247,7 +268,11 @@ export default {
         success: async (res2) => {
           let that = this;
           // 获取好友列表
-          const friends = res2.result.data[0].friends;
+          const friends = res2.result.data[0]?.friends;
+          if (!friends) {
+            uni.hideLoading();
+            return;
+          }
           // 获取最新的好友信息
           /* for (const item of friends) {
             try {
@@ -297,7 +322,7 @@ export default {
               item.userInfo.info.avatarUrl = res[1].path;
               console.log("test2 :>> ");
               // 处理未读消息相关信息
-              const { note, time, badgeText } = await that.getUnreadedMsg(item.userInfo._openid);
+              const { note, time, badgeText } = await that.getUnreadedMsg(item.userInfo._openid, item.userInfo.info.nickName);
               console.log("note :>> ", note);
               item.note = note;
               item.time = time;
@@ -326,13 +351,17 @@ export default {
       });
     },
     // 获取未读信息
-    async getUnreadedMsg(openid) {
-      // 获取未读消息
+    async getUnreadedMsg(openid, name) {
+      // 获取我未读的消息(好友发的)
       let unreadres = await db
         .collection("chatroom_example")
         .where(
           this.mergeCommonCriteria({
             readed: 0,
+            groupId: db.RegExp({
+              regexp: openid,
+              options: "i",
+            }),
             _openid: openid,
           })
         )
@@ -343,7 +372,10 @@ export default {
         .where(
           this.mergeCommonCriteria({
             // _openid: uni.getStorageSync("openid"),
-            groupId: this.chatRoomGroupId,
+            groupId: db.RegExp({
+              regexp: openid,
+              options: "i",
+            }),
           })
         )
         .orderBy("sendTimeTS", "desc") // 按时间戳字段降序排序
@@ -353,20 +385,18 @@ export default {
       let unreadedList = unreadres.data;
       let readedList = mysendmsg.data;
 
-      console.log("未读消息列表 :>> ", unreadedList);
-      console.log("我的消息列表 :>> ", readedList);
+      console.log(`未读-${name}-的消息列表 :>> `, unreadedList);
+      console.log(`我和-${name}-的最后一条消息 :>> `, readedList);
+      uni.stopPullDownRefresh();
+
       // 1. 如果有未读消息
       if (unreadedList.length > 0) {
-        uni.stopPullDownRefresh();
-
         return {
           note: unreadedList[unreadedList.length - 1].textContent === "发送了商品卡片" ? "商品卡片" : unreadedList[unreadedList.length - 1].textContent,
           time: unreadedList[unreadedList.length - 1].sendTime,
           badgeText: unreadedList.length,
         };
       } else {
-        uni.stopPullDownRefresh();
-
         // 2. 没有未读消息，显示我发送的最后一条消息并且不显示badgeText
         return {
           note: readedList[readedList.length - 1].textContent === "发送了商品卡片" ? "商品卡片" : readedList[readedList.length - 1].textContent,

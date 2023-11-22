@@ -255,6 +255,7 @@ export default {
       },
 
       animationKefuData: "",
+      chachong: 0, // 记录是否聊天过
     };
   },
   async onLoad(e) {
@@ -362,16 +363,27 @@ export default {
       const buyerOpenid = uni.getStorageSync("userInfo")._openid;
       const sellerOpenid = this.userinfo._openid;
 
-      console.log("双方的openid :>> ", buyerOpenid, sellerOpenid);
+      console.log("双方的openid :>> ", buyerOpenid, sellerOpenid, title);
+      if (buyerOpenid !== sellerOpenid) {
+        return true;
+      } else {
+        uni.showModal({
+          title: "提示",
+          content: title,
+          showCancel: true,
+          success: ({ confirm, cancel }) => {},
+        });
+        return false;
+      }
 
-      return buyerOpenid !== sellerOpenid
+      /* return buyerOpenid !== sellerOpenid
         ? true
         : (uni.showModal({
             title: "温馨提示",
             content: title,
             showCancel: true,
           }),
-          false);
+          false); */
     },
 
     // 预定订阅
@@ -620,8 +632,11 @@ export default {
     go(e) {
       let that = this;
       if (!this.checkMySelf("不能和自己聊天")) {
+        console.log("object :>> ");
         return;
       }
+
+      console.log("test :>> ");
       const buyerInfo = uni.getStorageSync("userInfo"); // 买家信息
       const sellerInfo = this.userinfo; // 卖家信息
 
@@ -633,6 +648,12 @@ export default {
       // 1. 正反两个openid结合
       var chatid1 = sellerOpenid + buyerOpenid;
       var chatid2 = buyerOpenid + sellerOpenid;
+
+      // 判空的friends
+      if (buyerInfo.friends.length == 0) {
+        console.log("friends 为 0 :>> ", buyerInfo.friends);
+        this.chachong = 0;
+      }
 
       // 2. 遍历当前登录用户的好友列表
       for (let i = 0; i < buyerInfo.friends.length; i++) {
@@ -663,6 +684,8 @@ export default {
               "&goodId=" +
               this.bookinfo._id,
           });
+        } else {
+          console.log("没有和卖家聊天过 :>> ");
         }
       }
 
