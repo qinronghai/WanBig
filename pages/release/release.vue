@@ -493,7 +493,25 @@ export default {
       this.showGoodQuality = true;
     },
     handleCategoryPopup(id) {
+      商品发布点击书籍资料的提示跳转;
       let category = this.navList[id - 1].txt;
+      if (category === "书籍资料") {
+        uni.showModal({
+          title: "温馨提示",
+          content: "发布书籍，请点击右上角的图书发布",
+
+          success: ({ confirm, cancel }) => {
+            if (confirm) {
+              // 点击确认 则清空表单
+              // 清空表单
+              Object.assign(this.$data, this.$options.data());
+              // 清空子组件描述文本
+              this.$refs.descRef.title = "";
+            }
+          },
+        });
+        return;
+      }
       console.log("点击了商品分类--", this.navList[id - 1].txt);
       this.category = category;
       this.clickCateIndex = id;
