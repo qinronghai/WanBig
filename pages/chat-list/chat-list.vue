@@ -30,7 +30,11 @@
         </uni-swipe-action-item>
       </uni-swipe-action>
     </uni-list>
-
+    <view
+      v-if="getList === 0"
+      class="no-search-result">
+      暂无好友
+    </view>
     <view
       v-if="searchResults.length === 0 && isSearch"
       class="no-search-result"
