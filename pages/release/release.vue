@@ -376,11 +376,12 @@ export default {
     // 	this.userInfo = res.data[0];
     // 	uni.setStorageSync('userInfo', this.userInfo)
     // })
-  },
-  onShow() {
+
     console.log("发布页面显示");
     // 重新编辑需求
     this.loadReEditItem();
+  },
+  onShow() {
     // 载入
     // this.userInfo = uni.getStorageSync('userInfo');
   },
@@ -392,6 +393,7 @@ export default {
     loadReEditItem() {
       const reEditItem = uni.getStorageSync("reEditItem");
       if (!reEditItem) {
+        console.log("没有reEditItem");
         return;
       }
       console.log("reEditItem :>> ", reEditItem);
@@ -812,7 +814,7 @@ export default {
 $primary-radius: 20rpx;
 
 // 导航tabs
-/deep/ .van-ellipsis {
+ /deep/ .van-ellipsis {
   font-size: 30rpx;
   font-weight: 700;
 }
@@ -1114,10 +1116,10 @@ $primary-radius: 20rpx;
       .b_bar {
         display: flex;
 
-        // padding: 40rpx 30rpx;
+// padding: 40rpx 30rpx;
         justify-content: space-between;
 
-        // flex-direction: column;
+// flex-direction: column;
         box-sizing: border-box;
         width: 100%;
         background: #fff;
@@ -1141,7 +1143,7 @@ $primary-radius: 20rpx;
         box-sizing: border-box;
         width: 100%;
 
-        // padding: 10rpx;
+// padding: 10rpx;
         padding: 20rpx 0;
 
         .b_text {

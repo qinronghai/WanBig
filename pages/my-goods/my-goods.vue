@@ -449,6 +449,13 @@ export default {
   onShareAppMessage() {},
 
   methods: {
+    // 处理重新编辑按钮
+    reEdit(item) {
+      console.log("点击了重新编辑按钮111", item);
+      uni.setStorageSync("reEditItem", item);
+      uni.switchTab({ url: "/pages/release/release" });
+    },
+    // 去详情页
     toDetailPage(item, type) {
       // 在售状态下才可跳转详情页
       if (item.status !== 0) {
