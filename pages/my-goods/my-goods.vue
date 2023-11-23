@@ -42,7 +42,9 @@
                 :right-options="rightOptions"
                 data-item="item"
                 @click="onClickSwipeItem($event, item)">
-                <div class="wrap">
+                <div
+                  class="wrap"
+                  @click="toDetailPage(item, 'good')">
                   <div class="left">
                     <image
                       class="img-good"
@@ -133,7 +135,9 @@
                 :right-options="rightOptions"
                 data-item="item"
                 @click="onClickSwipeItem($event, item)">
-                <div class="wrap">
+                <div
+                  class="wrap"
+                  @click="toDetailPage(item, 'book')">
                   <div class="left">
                     <image
                       class="img-good"
@@ -445,6 +449,22 @@ export default {
   onShareAppMessage() {},
 
   methods: {
+    toDetailPage(item, type) {
+      // 在售状态下才可跳转详情页
+      if (item.status !== 0) {
+        console.log("不是在售状态 :>> ");
+        return;
+      }
+      // 判断是商品还是书籍，根据不同类型进行跳转
+      if (type === "good") {
+        uni.navigateTo({
+          url: "/pages/good-detail/good-detail?goodId=" + item._id,
+        });
+      }
+      if (type === "book") {
+        uni.navigateTo({ url: "/pages/book-detail/book-detail?scene=" + item._id });
+      }
+    },
     setOption(newVal) {
       console.log("newVal :>> ", newVal);
       let infos = this.activePage === 0 ? this.goodMenuItems : this.bookMenuItems;
