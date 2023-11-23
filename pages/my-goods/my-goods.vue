@@ -543,6 +543,10 @@ export default {
       this.userInfo = uni.getStorageSync("userInfo");
       // 获取我的商品信息
       // await this.getMyGoods(this.openid);
+      // 根据当前的选项条件请求数据
+      await this.getListByWhere();
+      // 配置右侧操作按钮
+      await this.setOption(this.activeIndex);
       uni.stopPullDownRefresh();
     },
     // 加载更多
