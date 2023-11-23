@@ -310,11 +310,15 @@ export default {
         },
         {
           id: 3,
-          title: "轻微痕迹",
+          title: "轻微磨损",
         },
         {
           id: 4,
-          title: "明显痕迹",
+          title: "中等磨损",
+        },
+        {
+          id: 5,
+          title: "严重磨损",
         },
       ],
 
