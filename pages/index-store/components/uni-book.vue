@@ -98,7 +98,7 @@
           </block>
         </view>
         <view
-          v-if="list.length == 0"
+          v-if="list.length === 0"
           class="nocontent">
           <image
             lazy-load

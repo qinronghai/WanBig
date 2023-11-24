@@ -341,8 +341,9 @@ export default {
           return false;
         }
         this.getStatus();
+      } else {
+        this.getStatus();
       }
-      this.getStatus();
     },
 
     //获取订单状态

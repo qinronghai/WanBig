@@ -129,7 +129,7 @@
     <!-- 无内容显示 -->
     <view
       class="nocontent"
-      v-if="goodsInfo.length == 0">
+      v-if="goodsInfo.length == 0 && categoryid !== 1">
       <image src="/static/images/blank.png"></image>
       <view class="blank_text">这里空空如也~</view>
     </view>

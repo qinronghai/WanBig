@@ -325,7 +325,7 @@ export default {
       let statusid = _.neq(0);
       // 全部
       let whereObj = {
-        // 买家发起的订单，买家是本人，不显示status为6（买方删除）的订单
+        // 买家发起的订单，买家是本人，不显示status为0的订单
         status: statusid,
         _openid: this.openid,
       };
@@ -568,14 +568,19 @@ export default {
     //获取列表（交易完成）
     async getlist30(isAll = false) {
       console.log("getlist30 :>> ");
-      let whereObj = isAll
-        ? {
-            status: 3,
-            seller: this.openid,
-          }
-        : {
-            status: 3,
-          };
+      // let whereObj = isAll
+      //   ? {
+      //       status: 3,
+      //       seller: this.openid,
+      //     }
+      //   : {
+      //       status: 3,
+      //     };
+      const $ = db.command.aggregate;
+      let whereObj = {
+        status: 3,
+        $or: [{ _openid: this.openid }, { seller: this.openid }],
+      };
       let that = this;
       try {
         const re = await db.collection("order").where(whereObj).orderBy("creat", "desc").get();
@@ -1065,7 +1070,7 @@ export default {
               // 买家或者卖家已经删除过订单
               deleted = 3;
             }
-            /* 
+            /*
               delete: 0表示未删除，1表示买家删除，2表示卖家删除，3表示买家和卖家都删除，99表示异常
             */
             db.collection("order")

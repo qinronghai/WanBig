@@ -459,7 +459,8 @@ export default {
               that.code = res.data.code;
             } else {
               // 无交易码
-              let code = Math.floor(Math.random() * 1000000);
+              let code = Math.floor(Math.random() * 900000) + 100000;
+
               that.code = code;
               db.collection("order")
                 .doc(id)
