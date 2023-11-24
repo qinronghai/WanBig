@@ -204,6 +204,7 @@ export default {
         // this.randomAvatarSrc = `https://picsum.photos/id/${randomParam}/46`;
         this.randomAvatarSrc = this.randomAvatar();
       }
+      uni.hideLoading();
     },
 
     //随机一个头像函数
@@ -212,7 +213,7 @@ export default {
       console.log("随机一个头像");
 
       uni.showLoading({
-        title: "加载头像中",
+        title: "加载头像中2",
         mask: true,
       });
       // 从randomAvatarList数组中随机取出一个

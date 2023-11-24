@@ -149,7 +149,7 @@
                       <div class="desc">
                         {{ item.bookinfo.title }}
                       </div>
-                      <div class="price">{{ item.bookinfo.price }}</div>
+                      <div class="price">{{ item.price }}</div>
                     </div>
                     <div class="bottom">
                       <div class="label">
@@ -193,11 +193,6 @@
             :goodsInfo="list"
             :btnIndex="activeIndex"></uniSwiperOut> -->
         </view>
-        <button
-          hover-class="button-hover"
-          @click="more">
-          加载更多
-        </button>
       </VanTab>
     </VanTabs>
   </view>
@@ -969,6 +964,7 @@ export default {
         display: -webkit-box;
         overflow: hidden;
         min-height: 33px;
+        margin-right: 20rpx;
         font-size: 13px;
         font-weight: 500;
         text-overflow: ellipsis;

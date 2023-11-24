@@ -86,7 +86,7 @@
               </view>
             </block>
           </block>
-          <block v-if="list.length > 20">
+          <block v-if="list.length > 20 || nomore">
             <block name="loadmore">
               <view class="loadmore">
                 <image

@@ -1,11 +1,11 @@
 <template>
   <view class="container">
     <!-- 背景图 -->
-    <image
-      class="img-bg"
+    <view class="img-bg"> </view>
+    <!-- class="img-bg"
       src="../../static/my/my_commodity.svg"
       mode="widthFix"
-      style="height: 310px" />
+      style="height: 310px" /> -->
     <view class="top-card">
       <!-- 资料卡片 -->
       <uni-top-card ref="topCardRef"></uni-top-card>
@@ -483,8 +483,10 @@ export default {
   background-color: $uni-bg-color-grey;
 
   .img-bg {
-    width: 100vw;
-    // border-radius: 10px;
+    width: 100%;
+    height: 610rpx; /* 为了演示，设置一个高度 */
+    background: rgb(34, 113, 195);
+    background: linear-gradient(0deg, rgba(34, 113, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
   }
 
   .top-card {

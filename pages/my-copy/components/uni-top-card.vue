@@ -11,7 +11,7 @@
           class="left-avatar"></image>
         <div class="left-name-id">
           <div class="name">{{ nickName }}</div>
-          <view class="login-tip">{{ !showAvatar ? "快速登录，体验所有功能" : "当前积分：" + integral }}</view>
+          <view class="login-tip">{{ !showAvatar ? "快速登录，体验所有功能" : "当前信誉分：" + integral }}</view>
         </div>
       </div>
 
@@ -115,21 +115,27 @@ export default {
     // this.loading = true;
     // 1. 获取全局openid
     let openid = uni.getStorageSync("openid");
-    // 判断用户是否注册过
-    if (uni.getStorageSync("isRegister")) {
+    // 2. 判断用户是否注册过
+    const isRegister = uni.getStorageSync("isRegister");
+    if (isRegister) {
       // 已注册
-
       this.userInfo = uni.getStorageSync("userInfo");
-
       this.renderPage(this.userInfo.info.nickName, this.userInfo.info.avatarUrl);
+      this.integral = this.userInfo.integral;
     } else {
-      console.log("数据库中--无该用户的信息");
-      // 弹窗“一键登录”，获取信息存入缓存中并渲染页面
-      this.login();
+      uni.showModal({
+        title: "温馨提示",
+        content: "该功能需要注册方可使用，是否马上去注册",
+        success(res) {
+          if (res.confirm) {
+            uni.navigateTo({
+              url: "/pages/register/register",
+            });
+          }
+        },
+      });
+      return false;
     }
-
-    //this.judgeUserInDatabase(openid);
-    console.log("登录启动");
   },
   methods: {
     toProjectPage() {

@@ -53,7 +53,9 @@
           ref="bookRef"
           :scrollValue="scrollValue"></uni-book>
       </view>
-      <div class="column_item_0">
+      <div
+        class="column_item_0"
+        v-if="showWelcome">
         <div
           class="test-style"
           @click="toBookMarket"
@@ -92,7 +94,9 @@
           </div>
         </view>
       </div>
-      <div class="column_item_1">
+      <div
+        class="column_item_1"
+        v-if="showWelcome">
         <view
           class="item"
           v-for="(item, index) in columnRight"
