@@ -535,6 +535,7 @@ export default {
           z-index: -1;
           width: 100%;
           height: inherit;
+          border-radius: 15px;
         }
       }
     }

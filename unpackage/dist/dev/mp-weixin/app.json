@@ -4,7 +4,6 @@
     "uni_modules/helang-waterfall/pages/waterfall/waterfall",
     "pages/release/release",
     "pages/my-copy/my",
-    "pages/goods-detail/goods-detail",
     "pages/search-res/search-res",
     "pages/auditor/auditor",
     "pages/test/test",
@@ -19,8 +18,9 @@
     "pages/chat-list/chat-list",
     "pages/order/detail/detail",
     "pages/order/list/list",
-    "pages/sell/list/list",
-    "pages/sell/detail/detail"
+    "pages/about/about",
+    "pages/use-know/use-know",
+    "pages/kefu/kefu"
   ],
   "subPackages": [],
   "window": {

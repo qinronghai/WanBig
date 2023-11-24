@@ -266,7 +266,7 @@
           class="c_success"
           src="/static/images/success.png"></image>
         <view class="c_title">恭喜您 发布成功</view>
-        <view class="c_des">订单的实时状态将通过短信和邮箱通知您</view>
+        <view class="c_des">订单的实时状态将通过微信的服务通知告知您</view>
         <view
           class="c_see"
           @tap="detail"
@@ -959,38 +959,38 @@ page {
 
 .a_contain {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   box-sizing: border-box;
-  padding: 20rpx 32rpx;
   width: 100%;
+  padding: 20rpx 32rpx;
   background: #fff;
   box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
 }
 
 .a_inp {
   display: flex;
-  overflow: hidden;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
   width: 100%;
   height: 76rpx;
-  border-radius: 38rpx;
   background: #f8fafd;
+  border-radius: 38rpx;
 }
 
 .a_scan {
-  padding-left: 30rpx;
   width: 40rpx;
   height: 38rpx;
+  padding-left: 30rpx;
 }
 
 .a_inp input {
   width: 420rpx;
   height: 100%;
   color: #aaaaab;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .a_pla {
@@ -1000,37 +1000,37 @@ page {
 
 .a_confirm {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 170rpx;
   height: 100%;
-  border-radius: 36rpx;
-  background: #000;
   color: #fff;
-  letter-spacing: 4rpx;
   font-size: 28rpx;
+  letter-spacing: 4rpx;
+  background: #000;
+  border-radius: 36rpx;
 }
 
 .a_isbn {
-  margin-top: 40rpx;
   width: 350rpx;
   height: 350rpx;
+  margin-top: 40rpx;
 }
 
 .a_des {
-  margin-top: 30rpx;
   width: 450rpx;
+  margin-top: 30rpx;
   color: #aaaaab;
-  text-align: center;
-  letter-spacing: 3rpx;
   font-size: 30rpx;
   line-height: 50rpx;
+  letter-spacing: 3rpx;
+  text-align: center;
 }
 
 .a_indication {
-  padding-top: 20rpx;
   width: 80rpx;
   height: 60rpx;
+  padding-top: 20rpx;
 }
 
 .a_sao {
@@ -1043,17 +1043,17 @@ page {
 
 .a_sao button {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 500rpx;
   height: 80rpx;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  letter-spacing: 4rpx;
+  background: #ffc300;
   border: none;
   border-radius: 40rpx;
-  background: #ffc300;
-  color: #fff;
-  letter-spacing: 4rpx;
-  font-weight: 500;
-  font-size: 32rpx;
 }
 
 .a_sao button::after {
@@ -1066,8 +1066,8 @@ page {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 32rpx;
   width: 100%;
+  padding: 32rpx;
   background: #fff;
   box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
 }
@@ -1093,10 +1093,10 @@ page {
 
 .b_title {
   width: 100%;
-  letter-spacing: 2rpx;
-  font-weight: 600;
   font-size: 32rpx;
+  font-weight: 600;
   line-height: 50rpx;
+  letter-spacing: 2rpx;
 }
 
 .b_content {
@@ -1109,33 +1109,33 @@ page {
 
 .b_dcontain {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding-bottom: 4rpx;
+  align-items: center;
   width: 100%;
+  padding-bottom: 4rpx;
 }
 
 .b_author {
   color: #000;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .b_price {
   color: rgb(255, 0, 0);
-  white-space: nowrap;
-  letter-spacing: 2rpx;
   font-size: 30rpx;
+  letter-spacing: 2rpx;
+  white-space: nowrap;
 }
 
 .b_des {
   display: -webkit-box;
   overflow: hidden;
-  -webkit-box-orient: vertical;
   color: #aaaaab;
-  text-overflow: ellipsis;
   font-size: 26rpx;
+  text-overflow: ellipsis;
 
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
 }
 
@@ -1145,19 +1145,19 @@ page {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 15rpx 30rpx 30rpx 30rpx;
   width: 100%;
+  padding: 15rpx 30rpx 30rpx 30rpx;
 }
 
 .b_card {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 20rpx 30rpx 40rpx 30rpx;
   width: 100%;
-  border-radius: 18rpx;
+  padding: 20rpx 30rpx 40rpx 30rpx;
   background: #fff;
   box-shadow: 0 0 20rpx #ebebeb;
+  border-radius: 18rpx;
 }
 
 .b_border {
@@ -1167,15 +1167,15 @@ page {
 }
 
 .b_ccontain .icon {
-  margin-right: 15px;
   width: 24px;
   height: 24px;
+  margin-right: 15px;
 }
 
 .b_bar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
   width: 100%;
   height: 100rpx;
@@ -1208,9 +1208,9 @@ page {
 }
 
 .b_name {
-  letter-spacing: 2rpx;
-  font-weight: 700;
   font-size: 28rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
 }
 
 /* 价格的粗体显示 */
@@ -1227,9 +1227,9 @@ page {
 }
 
 .right {
-  padding-left: 10rpx;
   width: 26rpx;
   height: 26rpx;
+  padding-left: 10rpx;
 }
 
 picker {
@@ -1240,8 +1240,8 @@ picker {
 .b_notes {
   display: flex;
   box-sizing: border-box;
-  padding: 10rpx;
   width: 100%;
+  padding: 10rpx;
 }
 
 .b_text {
@@ -1249,52 +1249,52 @@ picker {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 20rpx;
   width: 100%;
   height: 200rpx;
-  border-radius: 10rpx;
+  padding: 20rpx;
   background: rgb(238, 238, 238);
+  border-radius: 10rpx;
 }
 
 .b_text textarea {
   width: 100%;
   height: 130rpx;
-  border-spacing: 2rpx;
   color: #8c9aa8;
   font-size: 28rpx;
+  border-spacing: 2rpx;
 }
 
 .b_less {
   display: flex;
   justify-content: flex-end;
   color: #8c9aa8;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .b_place {
   display: flex;
   box-sizing: border-box;
-  padding: 10rpx;
   width: 100%;
+  padding: 10rpx;
 }
 
 .b_plecebox {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  padding: 0 20rpx;
   width: 100%;
   height: 80rpx;
-  border-radius: 10rpx;
+  padding: 0 20rpx;
   background: rgb(238, 238, 238);
+  border-radius: 10rpx;
 }
 
 .b_plecebox input {
   width: 100%;
   color: #8c9aa8;
-  letter-spacing: 2rpx;
   font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
 .b_tips {
@@ -1315,40 +1315,40 @@ picker {
 
 .b_publish {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 30rpx;
+  align-items: center;
   width: 100%;
   height: 80rpx;
+  margin-top: 30rpx;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  letter-spacing: 4rpx;
+  background: #fbbd08;
   border: none;
   border-radius: 40rpx;
-  background: #fbbd08;
-  color: #fff;
-  letter-spacing: 4rpx;
-  font-weight: 500;
-  font-size: 32rpx;
 }
 
 .c_contain {
   position: relative;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   box-sizing: border-box;
   width: 100%;
   background: #fff;
 }
 
 .c_success {
-  margin-top: 130rpx;
   width: 145rpx;
   height: 184rpx;
+  margin-top: 130rpx;
 }
 
 .c_title {
   margin-top: 30rpx;
-  font-weight: 600;
   font-size: 40rpx;
+  font-weight: 600;
 }
 
 .c_des {
@@ -1361,22 +1361,22 @@ picker {
 .c_see {
   margin-top: 40rpx;
   color: #4f93ea;
-  letter-spacing: 3rpx;
   font-size: 32rpx;
+  letter-spacing: 3rpx;
 }
 
 .c_again {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 40rpx;
+  align-items: center;
   width: 500rpx;
   height: 80rpx;
-  border-radius: 40rpx;
-  background: #fbbd08;
+  margin-top: 40rpx;
   color: #fff;
-  letter-spacing: 4rpx;
   font-size: 32rpx;
+  letter-spacing: 4rpx;
+  background: #fbbd08;
+  border-radius: 40rpx;
 }
 
 .center-wrap {
@@ -1384,13 +1384,13 @@ picker {
 
   .goods-pictures {
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin: 8px 0 5px 0;
-    padding: 8px 13px 0;
+    align-items: center;
     height: auto;
-    border-radius: $fb-box-radius;
+    padding: 8px 13px 0;
+    margin: 8px 0 5px 0;
     background-color: #fff;
+    border-radius: $fb-box-radius;
   }
 }
 </style>

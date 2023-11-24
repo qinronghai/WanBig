@@ -34,6 +34,16 @@
       <view
         class="bottom_card"
         @tap="go"
+        data-go="/pages/use-know/use-know">
+        <view class="bottom_1">
+          <image src="../../static/my/tabs/info.svg"></image>
+          <view>使用须知</view>
+        </view>
+        <image src="/static/images/go.png"></image>
+      </view>
+      <view
+        class="bottom_card"
+        @tap="go"
         data-go="/pages/auditor/auditor"
         data-status="1">
         <view class="bottom_1">
@@ -65,7 +75,8 @@
       <view
         class="bottom_card"
         @tap="go"
-        data-go="/pages/about/about">
+        data-go="/pages/about/about"
+        data-status="2">
         <view class="bottom_1">
           <image src="../../static/my/tabs/about.svg"></image>
           <view>关于程序</view>
@@ -108,7 +119,7 @@ export default {
       navIconList: [
         {
           url: "../../static/my/my_commodity.svg",
-          title: "我的商品",
+          title: "我的发布",
           active: false,
         },
         {
@@ -314,7 +325,10 @@ export default {
     // 判断当前用户是否是审核员
     async isAuditor() {
       try {
-        const userInfo = uni.getStorageSync("userInfo");
+        // 获取用户信息
+        const res = await db.collection("user").doc(this.userInfo._id).get();
+        const userInfo = res.data;
+        console.log("userInfo", userInfo);
         if (userInfo.isAuditor) {
           uni.navigateTo({
             url: "/pages/auditor/auditor",
@@ -355,6 +369,7 @@ export default {
           return false;
         }
       }
+      console.log("status", status);
 
       if (status == "1") {
         this.isAuditor();

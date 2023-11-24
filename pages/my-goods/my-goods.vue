@@ -492,7 +492,8 @@ export default {
       // 根据当前的选项条件请求数据
       let whereObj = infos[index].whereObj;
       // 添加openid
-      whereObj._openid = uni.getStorageSync("openid");
+      whereObj._openid = uni.getStorageSync("openid"); // 自己发布的商品
+      whereObj.dura = _.gt(new Date().getTime()); // 有效期内
       // 打印
       console.log("whereObj", whereObj);
       console.log("infos", infos);
@@ -663,14 +664,6 @@ export default {
       this.numberkey += 1;
     }, */
 
-    // 去商品详情页
-    toGoodDetailPage(goodId) {
-      let goodsInfo = this.goodsInfo;
-      uni.setStorageSync("goodsInfoFlag", goodsInfo);
-      uni.navigateTo({
-        url: "/pages/goods-detail/goods-detail?goodId=" + goodId + "&flag=" + 1,
-      });
-    },
     // 点击滑动操作按钮
     onClickSwipeItem(e, item) {
       console.log("e :>> ", e);

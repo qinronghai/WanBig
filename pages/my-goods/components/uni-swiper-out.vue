@@ -229,14 +229,6 @@ export default {
         },
       });
     },
-    // 去商品详情页
-    toGoodDetailPage(goodId) {
-      let goodsInfo = this.goodsInfo;
-      uni.setStorageSync("goodsInfoFlag", goodsInfo);
-      uni.navigateTo({
-        url: "/pages/goods-detail/goods-detail?goodId=" + goodId + "&flag=" + 1,
-      });
-    },
 
     // 删除改商品在存储中的照片
     async deleteGoodPicture(item) {

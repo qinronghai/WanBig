@@ -1,8 +1,8 @@
 var data = {
   //云开发环境id
-  env: "bbgu-cloud1-4g5b9j0m40b72a3d",
+  env: "qrh-database01-5gz9zkuedd28e7fc",
   //分享配置
-  share_title: "BBGU二手书",
+  share_title: "湾大闲置品小铺",
   share_img: "/static/images/poster.jpg",
   //可以是网络地址，本地文件路径要填绝对位置
   share_poster: "https://mmbiz.qpic.cn/mmbiz_jpg/nJPznPUZbhpA064Cl78xxvzBYTDa6O1Kl7RY1K6TerBaXcUf5AoN6x7s8q7xHgeu0Cl5qarPzE6ibbQZasWRErg/640",
@@ -11,9 +11,9 @@ var data = {
   kefu: {
     weixin: "AHAI_1010",
     qq: "185043843",
-    gzh: "https://mmbiz.qpic.cn/mmbiz_png/nJPznPUZbhpKCwnibUUqnt7BQXr3MbNsasCfsBd0ATY8udkWPUtWjBTtiaaib6rTREWHnPYNVRZYgAesG9yjYOG7Q/640",
+    gzh: "",
     //公众号二维码必须为网络地址
-    phone: "", //如果你不设置电话客服，就留空
+    phone: "19151477586", //如果你不设置电话客服，就留空
   },
 
   //默认启动页背景图，防止请求失败完全空白
