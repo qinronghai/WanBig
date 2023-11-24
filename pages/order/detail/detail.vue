@@ -99,18 +99,18 @@
       <view
         class="fare_box"
         @tap="phone"
-        :data-phone="userinfo.phone">
+        :data-phone="userinfo.phonenum">
         <view class="fare_title">电话</view>
-        <view class="fare_des">{{ userinfo.phone }}</view>
+        <view class="fare_des">{{ userinfo.phonenum }}</view>
       </view>
-      <view
+      <!-- <view
         class="fare_box"
         @tap="copy"
         :data-copy="userinfo.email"
         data-name="邮箱">
         <view class="fare_title">邮箱</view>
         <view class="fare_des">{{ userinfo.email }}</view>
-      </view>
+      </view> -->
       <view
         class="fare_box"
         v-if="userinfo.wxnum !== ''"
@@ -372,6 +372,7 @@ export default {
           creatTime: config.formTime(res.data[0].creat),
           detail: res.data[0],
         });
+
         that.getBuyer(res.data[0]._openid); // 获取买家的信息
       } catch (error) {
         uni.showToast({
@@ -407,7 +408,15 @@ export default {
           creatTime: config.formTime(res.data.creat),
           detail: res.data,
         });
-        that.getSeller(res.data.seller);
+        // 判断订单中的_openid是不是自己
+        if (res.data._openid === this.openid) {
+          // 是自己
+          that.getSeller(res.data.seller);
+        } else {
+          // 不是自己
+          that.getBuyer(res.data._openid);
+        }
+        // that.getSeller(res.data.seller);
       } catch (error) {
         console.log("error :>> ", error);
         uni.showToast({

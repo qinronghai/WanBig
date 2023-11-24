@@ -185,7 +185,7 @@ export default {
 
       // 显示加载中的提示框，提示正在加载头像
       uni.showLoading({
-        title: "加载头像中",
+        title: "加载中",
         mask: true, // 使用蒙层，防止用户交互
       });
 
@@ -213,7 +213,7 @@ export default {
       console.log("随机一个头像");
 
       uni.showLoading({
-        title: "加载头像中2",
+        title: "加载头像中",
         mask: true,
       });
       // 从randomAvatarList数组中随机取出一个
