@@ -98,7 +98,7 @@
           src="/static/images/right.png" />
       </view>
     </view>
-    <!-- 公众号 -->
+    <!-- 公众号  -->
     <!--   <view
       class="card"
       @tap="preview"
