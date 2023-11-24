@@ -153,6 +153,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "uni_modules/helang-waterfall/pages/waterfall/waterfall",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

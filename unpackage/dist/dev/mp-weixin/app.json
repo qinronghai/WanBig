@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index-store/index-store",
+    "uni_modules/helang-waterfall/pages/waterfall/waterfall",
     "pages/release/release",
     "pages/my-copy/my",
     "pages/goods-detail/goods-detail",

@@ -493,7 +493,6 @@ export default {
       this.showGoodQuality = true;
     },
     handleCategoryPopup(id) {
-      商品发布点击书籍资料的提示跳转;
       let category = this.navList[id - 1].txt;
       if (category === "书籍资料") {
         uni.showModal({

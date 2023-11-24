@@ -1,229 +1,240 @@
 {
-	"pages": [
-		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index-store/index-store",
-			"style": {
-				"navigationBarTitleText": "杂货铺首页",
-				"navigationBarBackgroundColor": "#f0f0f0",
-				"enablePullDownRefresh": true
-				// "backgroundColor": "#333"
-				// 页面局部 注册组件
-				/* "usingComponents": {
+  "pages": [
+    // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index-store/index-store",
+      "style": {
+        "navigationBarTitleText": "杂货铺首页",
+        "navigationBarBackgroundColor": "#f0f0f0",
+        "enablePullDownRefresh": true
+        // "backgroundColor": "#333"
+        // 页面局部 注册组件
+        /* "usingComponents": {
 				  "van-button": "/wxcomponents/vant/button/index"
 				} */
-			}
-		},
-		{
-			"path": "pages/release/release",
-			"style": {
-				"navigationBarTitleText": "发布页面",
-				"enablePullDownRefresh": true,
-				"navigationBarBackgroundColor": "#e9e9e9",
-				"usingComponents": {
-					"van-uploader": "/wxcomponents/vant/uploader/index",
-					"van-radio": "/wxcomponents/vant/radio/index",
-					"van-radio-group": "/wxcomponents/vant/radio-group/index",
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index"
-				}
-			}
-		},
+      }
+    },
+    {
+      "path": "uni_modules/helang-waterfall/pages/waterfall/waterfall",
+      "style": {
+        "navigationBarTitleText": "瀑布流",
+        "enablePullDownRefresh": true
+      }
+    },
 
-		{
-			"path": "pages/my-copy/my",
-			"style": {
-				"navigationBarTitleText": "我的-copy",
-				"enablePullDownRefresh": true,
-				"navigationBarBackgroundColor": "#e9e9e9",
-				"usingComponents": {
-					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
-					"w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
-				}
-			}
-		},
-		{
-			"path": "pages/goods-detail/goods-detail",
-			"style": {
-				"navigationBarTitleText": "商品详情页",
-				"enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#f0f0f0"
-			}
-		},
-		{
-			"path": "pages/search-res/search-res",
-			"style": {
-				"navigationBarTitleText": "搜索结果",
-				"enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#f0f0f0",
-				"usingComponents": {
-					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
-					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index"
-				}
-			}
-		},
-		{
-			"path": "pages/auditor/auditor",
-			"style": {
-				"navigationBarTitleText": "审核页面",
-				"enablePullDownRefresh": false,
-				"usingComponents": {
-					"van-radio": "/wxcomponents/vant/radio/index",
-					"van-icon": "/wxcomponents/vant/icon/index"
-				}
-			}
-		},
-		{
-			"path": "pages/test/test",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"usingComponents": {
-					"w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
-				}
-			}
-		},
-		{
-			"path": "pages/my-goods/my-goods",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": true,
-				"usingComponents": {
-					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
-					"w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
-				}
-			}
-		},
-		{
-			"path": "pages/book-detail/book-detail",
-			"style": {
-				"navigationBarTitleText": "图书详情",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/register/register",
-			"style": {
-				"navigationBarTitleText": "用户注册",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/my-edit/my-edit",
-			"style": {
-				"navigationBarTitleText": "编辑资料",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/good-detail/good-detail",
-			"style": {
-				"navigationBarTitleText": "商品详情",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/poster/poster",
-			"style": {
-				"navigationBarTitleText": "海报卡片",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/chat-room/chat-room",
-			"style": {
-				"navigationBarTitleText": "聊天室",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/chat-room/haoyoupage/haoyoupage",
-			"style": {}
-		},
-		{
-			"path": "pages/chat-list/chat-list",
-			"style": {
-				"navigationBarTitleText": "会话",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/order/detail/detail",
-			"style": {}
-		},
-		{
-			"path": "pages/order/list/list",
-			"style": {
-				"navigationBarTitleText": "我的购买",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/sell/list/list",
-			"style": {
-				"navigationBarTitleText": "我的发布",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/sell/detail/detail",
-			"style": {}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		// "navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#fff",
-		"backgroundColor": "#F8F8F8",
-		// 全局组成组件 -常用
-		"usingComponents": {
-			"van-button": "/wxcomponents/vant/button/index",
-			"van-search": "/wxcomponents/vant/search/index",
-			"van-popup": "/wxcomponents/vant/popup/index"
-		}
-	},
-	"tabBar": {
-		"color": "#333",
-		"selectedColor": "#e9b17a",
-		"backgroundColor": "#f6f6f6",
-		"position": "bottom",
-		"borderStyle": "white",
-		"list": [{
-				"pagePath": "pages/index-store/index-store",
-				"text": "市场",
-				"iconPath": "static/tarbar/首页.png",
-				"selectedIconPath": "static/tarbar/首页(1).png"
-			},
-			{
-				"pagePath": "pages/release/release",
-				"text": "上架",
-				"iconPath": "static/tarbar/加号.png",
-				"selectedIconPath": "static/tarbar/加号(1).png"
-			},
-			{
-				"pagePath": "pages/chat-list/chat-list",
-				"text": "会话",
-				"iconPath": "static/tarbar/未读消息(1).png",
-				"selectedIconPath": "static/tarbar/未读消息.png"
-			},
-			{
-				"pagePath": "pages/my-copy/my",
-				"text": "我的",
-				"iconPath": "static/tarbar/人员(1).png",
-				"selectedIconPath": "static/tarbar/人员.png"
-			}
-		]
-	},
-	"easycom": {
-		//  "uni-(.*)": "@/components/uni-$1.vue" // 匹配components目录内的vue文件
-	},
-	"condition": {
-		//模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [{
-			"name": "", //模式名称
-			"path": "", //启动页面，必选
-			"query": "" //启动参数，在页面的onLoad函数里面得到
-		}]
-	}
+    {
+      "path": "pages/release/release",
+      "style": {
+        "navigationBarTitleText": "发布页面",
+        "enablePullDownRefresh": true,
+        "navigationBarBackgroundColor": "#e9e9e9",
+        "usingComponents": {
+          "van-uploader": "/wxcomponents/vant/uploader/index",
+          "van-radio": "/wxcomponents/vant/radio/index",
+          "van-radio-group": "/wxcomponents/vant/radio-group/index",
+          "van-cell": "/wxcomponents/vant/cell/index",
+          "van-cell-group": "/wxcomponents/vant/cell-group/index"
+        }
+      }
+    },
+
+    {
+      "path": "pages/my-copy/my",
+      "style": {
+        "navigationBarTitleText": "我的-copy",
+        "enablePullDownRefresh": true,
+        "navigationBarBackgroundColor": "#e9e9e9",
+        "usingComponents": {
+          "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+          "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
+        }
+      }
+    },
+    {
+      "path": "pages/goods-detail/goods-detail",
+      "style": {
+        "navigationBarTitleText": "商品详情页",
+        "enablePullDownRefresh": false,
+        "navigationBarBackgroundColor": "#f0f0f0"
+      }
+    },
+    {
+      "path": "pages/search-res/search-res",
+      "style": {
+        "navigationBarTitleText": "搜索结果",
+        "enablePullDownRefresh": false,
+        "navigationBarBackgroundColor": "#f0f0f0",
+        "usingComponents": {
+          "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+          "van-dropdown-item": "/wxcomponents/vant/dropdown-item/index"
+        }
+      }
+    },
+    {
+      "path": "pages/auditor/auditor",
+      "style": {
+        "navigationBarTitleText": "审核页面",
+        "enablePullDownRefresh": false,
+        "usingComponents": {
+          "van-radio": "/wxcomponents/vant/radio/index",
+          "van-icon": "/wxcomponents/vant/icon/index"
+        }
+      }
+    },
+    {
+      "path": "pages/test/test",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false,
+        "usingComponents": {
+          "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
+        }
+      }
+    },
+    {
+      "path": "pages/my-goods/my-goods",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": true,
+        "usingComponents": {
+          "van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+          "w-swiper-out": "/wxcomponents/wuss-weapp/w-swiper-out/index"
+        }
+      }
+    },
+    {
+      "path": "pages/book-detail/book-detail",
+      "style": {
+        "navigationBarTitleText": "图书详情",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/register/register",
+      "style": {
+        "navigationBarTitleText": "用户注册",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/my-edit/my-edit",
+      "style": {
+        "navigationBarTitleText": "编辑资料",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/good-detail/good-detail",
+      "style": {
+        "navigationBarTitleText": "商品详情",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/poster/poster",
+      "style": {
+        "navigationBarTitleText": "海报卡片",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/chat-room/chat-room",
+      "style": {
+        "navigationBarTitleText": "聊天室",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/chat-room/haoyoupage/haoyoupage",
+      "style": {}
+    },
+    {
+      "path": "pages/chat-list/chat-list",
+      "style": {
+        "navigationBarTitleText": "会话",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/order/detail/detail",
+      "style": {}
+    },
+    {
+      "path": "pages/order/list/list",
+      "style": {
+        "navigationBarTitleText": "我的购买",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/sell/list/list",
+      "style": {
+        "navigationBarTitleText": "我的发布",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/sell/detail/detail",
+      "style": {}
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    // "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F8F8F8",
+    // 全局组成组件 -常用
+    "usingComponents": {
+      "van-button": "/wxcomponents/vant/button/index",
+      "van-search": "/wxcomponents/vant/search/index",
+      "van-popup": "/wxcomponents/vant/popup/index"
+    }
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#e9b17a",
+    "backgroundColor": "#f6f6f6",
+    "position": "bottom",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index-store/index-store",
+        "text": "市场",
+        "iconPath": "static/tarbar/首页.png",
+        "selectedIconPath": "static/tarbar/首页(1).png"
+      },
+      {
+        "pagePath": "pages/release/release",
+        "text": "上架",
+        "iconPath": "static/tarbar/加号.png",
+        "selectedIconPath": "static/tarbar/加号(1).png"
+      },
+      {
+        "pagePath": "pages/chat-list/chat-list",
+        "text": "会话",
+        "iconPath": "static/tarbar/未读消息(1).png",
+        "selectedIconPath": "static/tarbar/未读消息.png"
+      },
+      {
+        "pagePath": "pages/my-copy/my",
+        "text": "我的",
+        "iconPath": "static/tarbar/人员(1).png",
+        "selectedIconPath": "static/tarbar/人员.png"
+      }
+    ]
+  },
+  "easycom": {
+    //  "uni-(.*)": "@/components/uni-$1.vue" // 匹配components目录内的vue文件
+  },
+  "condition": {
+    //模式配置，仅开发期间生效
+    "current": 0, //当前激活的模式(list 的索引项)
+    "list": [
+      {
+        "name": "", //模式名称
+        "path": "", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      }
+    ]
+  }
 }

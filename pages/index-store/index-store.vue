@@ -70,7 +70,7 @@
           :key="index"
           @click="toGoodDetailPage(item._id)">
           <image
-            :src="item.pics"
+            :src="item.pics[0].url"
             class="column_pic"
             mode="aspectFill" />
           <div class="column-bottom">
@@ -99,7 +99,7 @@
           :key="index"
           @click="toGoodDetailPage(item._id)">
           <image
-            :src="item.pics"
+            :src="item.pics[0].url"
             class="column_pic"
             mode="aspectFill" />
           <div class="column-bottom">
@@ -122,11 +122,42 @@
         </view>
       </div>
     </view>
+    <!-- 无内容显示 -->
+    <view
+      class="nocontent"
+      v-if="goodsInfo.length == 0">
+      <image src="/static/images/blank.png"></image>
+      <view class="blank_text">这里空空如也~</view>
+    </view>
+    <!-- 没有更多提示 -->
+    <view
+      class="loadmore"
+      v-if="goodsInfo.length > 0">
+      <image
+        v-if="!nomore"
+        src="/static/images/more.gif"></image>
+      <view v-if="nomore">已加载到底</view>
+    </view>
+    <!-- totop -->
+    <van-transition
+      v-show="scrollValue > 500"
+      custom-class="block"
+      duration="600">
+      <view
+        class="totop"
+        @tap="gotop">
+        <image
+          lazy-load
+          src="/static/images/top.png"></image>
+      </view>
+    </van-transition>
   </view>
 </template>
 
 <script>
 const db = wx.cloud.database();
+const _ = db.command;
+
 import UniBook from "./components/uni-book.vue";
 
 export default {
@@ -140,7 +171,6 @@ export default {
       searchKey: "",
       // isShow: 'true',
       pics: [],
-      goodsInfo: [],
       jsData: {
         columnsHeight: [0, 0],
         isLoading: false,
@@ -200,6 +230,14 @@ export default {
       ],
       sum: 0,
       swiperList: [],
+
+      categoryid: 0,
+
+      // 加载数据相关
+      page: 0,
+      rows: 20,
+      nomore: false,
+      goodsInfo: [],
     };
   },
   onShow: async function () {
@@ -207,7 +245,7 @@ export default {
     // 清空搜索框文字
     this.searchKey = "";
     // 刷新页面，重新请求数据
-    // await this.getGoodsInfo();
+    // await this.getGoodsItinfo();
   },
   //监测屏幕滚动
   onPageScroll: function (e) {
@@ -215,8 +253,8 @@ export default {
     this.scrollValue = scrollTop;
   },
   onReachBottom() {
-    // this.more();
     console.log("到底了");
+    this.more();
   },
 
   onShareAppMessage() {},
@@ -250,6 +288,12 @@ export default {
         item.pics = item.pics[0].url;
       });
     },
+    gotop() {
+      this.scrollValue = 0;
+      uni.pageScrollTo({
+        scrollTop: 0,
+      });
+    },
     async sortData(goodsInfo) {
       // 拆分两为两列
       let columnLeft = goodsInfo.filter((item, index) => {
@@ -261,11 +305,15 @@ export default {
       // 当数组长度为单数时，造成右列空缺很高，需要补一个
       if (goodsInfo.length % 2 !== 0) {
         columnRight.push({
-          pics: "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/swiper-pictures/books-5937716_640.jpg",
-          transport: "不送",
+          pics: [
+            {
+              url: "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/swiper-pictures/books-5937716_640.jpg",
+            },
+          ],
+          delivery: "不送",
           title: "曾梦想仗剑走天涯，没想到码农过一生",
           price: 100,
-          quality: "底部彩蛋",
+          condition: "底部彩蛋",
         });
       }
       this.columnLeft = columnLeft;
@@ -273,31 +321,140 @@ export default {
 
       console.log("首页--调整数据--完毕", columnLeft, columnRight);
     },
-    async getGoodsInfo() {
-      let _this = this;
-      wx.showLoading({
-        title: "数据加载中",
-        mark: true,
-      });
-      await wx.cloud
-        .callFunction({
-          name: "getGoodsInfo",
-        })
-        .then((res) => {
-          console.log("首页-请求所有数据-成功");
-          this.goodsInfo = res.result.data;
-          wx.hideLoading({
-            success: (res) => {
-              uni.setStorageSync("goodsInfo", this.goodsInfo);
-              // 筛选第一张图片
-              this.filterPics();
-              // 整理数据 -- 全部商品
-              _this.sortData(this.goodsInfo);
-              wx.hideLoading();
-            },
+    /* 获取商品数据 */
+    async getGoodsInfo(id) {
+      try {
+        wx.showLoading({
+          title: "数据加载中",
+          mark: true,
+        });
+
+        const categoryMap = {
+          0: "全部",
+          1: "书籍资料",
+          2: "电子设备",
+          3: "健身器材",
+          4: "美妆日化",
+          5: "服装服饰",
+          6: "其他宝贝",
+        };
+
+        const category = categoryMap[id] || "全部";
+
+        const queryCondition = {
+          status: 0, // 在售
+          audited: true, // 已审核
+          pass: true, // 审核通过
+          dura: _.gt(new Date().getTime()), // 有效期内
+        };
+
+        if (category !== "全部") {
+          queryCondition.category = category;
+        }
+
+        const res = await db.collection("goods").where(queryCondition).orderBy("creat", "desc").limit(this.rows).get();
+        console.log("首次加载数据", res);
+
+        uni.hideLoading();
+
+        if (res.data.length === 0) {
+          this.setData({
+            nomore: true,
+            goodsInfo: [],
           });
-        })
-        .catch(console.error);
+        } else {
+          this.setData({
+            page: 0,
+            goodsInfo: res.data,
+            nomore: res.data.length < this.rows, // 小于this.rows，nomore：true，大于等于this.rows，nomore：false
+          });
+        }
+
+        uni.setStorageSync("goodsInfo", res.data);
+        this.goodsInfo = res.data;
+
+        // this.filterPics();
+        this.sortData(this.goodsInfo);
+      } catch (error) {
+        uni.hideLoading();
+        uni.showToast({
+          title: "获取数据异常，请联系管理员",
+          icon: "error",
+          mask: true,
+        });
+        console.error("获取商品数据失败", error);
+      }
+    },
+    /* 加载更多商品数据 */
+    async more() {
+      try {
+        if (this.nomore || this.goodsInfo.length < this.rows) {
+          return false;
+        }
+        uni.showLoading({
+          title: "数据加载中",
+          mark: true,
+        });
+        let page = this.page + 1;
+        const categoryMap = {
+          0: "全部",
+          1: "书籍资料",
+          2: "电子设备",
+          3: "健身器材",
+          4: "美妆日化",
+          5: "服装服饰",
+          6: "其他宝贝",
+        };
+
+        const category = categoryMap[this.categoryid] || "全部";
+
+        const queryCondition = {
+          status: 0, // 在售
+          audited: true, // 已审核
+          pass: true, // 审核通过
+          dura: _.gt(new Date().getTime()), // 有效期内
+        };
+
+        if (category !== "全部") {
+          queryCondition.category = category;
+        }
+        const res = await db
+          .collection("goods")
+          .where(queryCondition)
+          .orderBy("creat", "desc")
+          .skip(page * this.rows)
+          .limit(this.rows)
+          .get();
+
+        console.log("加载更多", res);
+        console.log("category", category);
+        console.log("queryCondition", queryCondition);
+
+        if (res.data.length === 0) {
+          this.setData({
+            nomore: true,
+          });
+          uni.hideLoading();
+          return false;
+        }
+        if (res.data.length < this.rows) {
+          this.setData({
+            nomore: true,
+          });
+        }
+        this.page = page;
+        this.goodsInfo = this.goodsInfo.concat(res.data);
+
+        uni.setStorageSync("goodsInfo", this.goodsInfo);
+
+        // this.filterPics();
+        this.sortData(this.goodsInfo);
+
+        uni.hideLoading();
+      } catch (error) {
+        uni.hideLoading();
+        console.error("加载更多商品数据失败", error);
+      }
     },
     async getswiperList() {
       await db
@@ -310,64 +467,28 @@ export default {
           this.swiperList = res.data.swiperList;
         });
     },
-    toggleCategory(id) {
+    async toggleCategory(id) {
       // 隐藏欢迎标语
-      if (id === 1) {
-        this.showWelcome = false;
-      } else {
-        this.showWelcome = true;
-      }
+      this.showWelcome = id !== 1; // 如果 id 不等于 1，则隐藏欢迎标语
 
-      console.log("切换到了--" + this.catgList[id].title + "--分类" + "--" + id);
+      // 打印切换信息
+      console.log(`切换到了--${this.catgList[id].title}--分类--${id}`);
+
+      // 存储当前分类id
+      this.categoryid = id;
+
+      // 将所有分类设为非活跃状态
       this.catgList.forEach((item) => {
         item.isActive = false;
       });
+
+      // 将当前分类设为活跃状态
       this.catgList[id].isActive = true;
 
-      let goodsInfo = this.goodsInfo;
-      switch (id) {
-        case 0:
-          this.sortData(goodsInfo);
-          break;
-        case 1:
-          let boos = goodsInfo.filter((item) => {
-            return item.category === "书籍资料";
-          });
-          this.sortData(boos);
-          break;
-        case 2:
-          let electronic = goodsInfo.filter((item) => {
-            return item.category === "电子设备";
-          });
-          this.sortData(electronic);
-          break;
-        case 3:
-          let fitness = goodsInfo.filter((item) => {
-            return item.category === "健身器材";
-          });
-          this.sortData(fitness);
-          break;
-        case 4:
-          let makeups = goodsInfo.filter((item) => {
-            return item.category === "美妆日化";
-          });
-          this.sortData(makeups);
-          break;
-        case 5:
-          let clothing = goodsInfo.filter((item) => {
-            return item.category === "服装服饰";
-          });
-          this.sortData(clothing);
-          break;
-        case 6:
-          let other = goodsInfo.filter((item) => {
-            return item.category === "其他宝贝";
-          });
-          this.sortData(other);
-          break;
-        default:
-      }
+      // 获取商品信息并等待完成
+      await this.getGoodsInfo(id);
     },
+
     toGoodDetailPage(goodId) {
       console.log(goodId);
       uni.navigateTo({
@@ -481,7 +602,9 @@ export default {
             font-size: 24rpx;
             font-weight: bold;
             text-overflow: ellipsis;
-            white-space: nowrap; /* 添加这一行 */
+            white-space: nowrap;
+
+            /* 添加这一行 */
 
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
@@ -725,5 +848,58 @@ export default {
       }
     }
   }
+}
+.nocontent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100% - 100rpx);
+}
+
+.nocontent image {
+  width: 340rpx;
+  height: 272rpx;
+  padding-left: 80rpx;
+}
+
+.blank_text {
+  padding-top: 40rpx;
+  color: #c6c6c8;
+  font-size: 32rpx;
+  letter-spacing: 2rpx;
+}
+
+.loadmore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: #999;
+  font-size: 14px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+}
+
+.loadmore image {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.loadmore .nomore {
+  color: #666;
+}
+.totop {
+  position: fixed;
+  right: 60rpx;
+  bottom: 100rpx;
+}
+
+.totop image {
+  width: 100rpx;
+  height: 100rpx;
 }
 </style>
