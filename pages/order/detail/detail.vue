@@ -92,7 +92,7 @@
       </view>
       <view class="fare_box">
         <view class="fare_title">支付金额</view>
-        <view class="fare_des">￥{{ detail.price }}.00元</view>
+        <view class="fare_des">￥{{ detail.price }}元</view>
       </view>
       <view class="border"></view>
       <view class="orderfare">CONTACT SELLER</view>

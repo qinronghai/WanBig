@@ -30,7 +30,7 @@
                 @click.stop="closeThisGood"></uni-icons>
             </div>
             <div class="right-bottom">
-              <div class="price">￥{{ goodInfo.show.price }}.00</div>
+              <div class="price">￥{{ goodInfo.show.price }}</div>
               <button
                 open-type=""
                 hover-class="button-hover"

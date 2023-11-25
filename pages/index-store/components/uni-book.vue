@@ -79,7 +79,7 @@
                     </view>
                   </view>
                   <view class="list_between">
-                    <view class="list_price">￥{{ item1.price }}.00</view>
+                    <view class="list_price">￥{{ item1.price }}</view>
                     <view class="list_time">{{ morejs.timelog(item1.creat) }}发布</view>
                   </view>
                 </view>

@@ -22,7 +22,7 @@
       <view class="title text-cut">{{ publishinfo.bookinfo.title }}</view>
       <view class="author text-cut">{{ publishinfo.bookinfo.author }}</view>
       <view class="price_box">
-        <view class="now_price">￥{{ publishinfo.price }}.00</view>
+        <view class="now_price">￥{{ publishinfo.price }}</view>
         <view class="pre_price">定价：￥{{ publishinfo.bookinfo.price }}元</view>
       </view>
     </view>

@@ -87,7 +87,7 @@
                 <view class="book_name text-cut">{{ item.bookinfo ? item.bookinfo.title : item.goodinfo.title }}</view>
                 <view class="book_author text-cut">{{ item.bookinfo ? item.bookinfo.author : item.goodinfo.category }}</view>
               </view>
-              <view class="price">￥{{ item.price }}.00元</view>
+              <view class="price">￥{{ item.price }}元</view>
             </view>
           </view>
           <view class="bottom">

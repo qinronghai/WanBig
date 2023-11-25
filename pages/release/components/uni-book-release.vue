@@ -96,9 +96,9 @@
             <view class="b_input">
               <uni-number-box
                 :value="price"
-                integer
                 @change="priceChange"
                 :min="1"
+                :step="0.5"
                 :max="100">
               </uni-number-box>
             </view>
@@ -612,7 +612,21 @@ export default {
       }
       that.get_book(isbn);
     },
+    // 价格小数化
+    formatPrice(input) {
+      // 将输入的数字转换为浮点数
+      const floatPrice = parseFloat(input);
 
+      // 如果转换失败，返回原始输入
+      if (isNaN(floatPrice)) {
+        return input;
+      }
+
+      // 格式化为两位小数
+      const formattedPrice = floatPrice.toFixed(2);
+
+      return formattedPrice;
+    },
     //查询书籍数据库详情
     get_book(bn) {
       let that = this;
@@ -893,7 +907,7 @@ export default {
           creat: new Date().getTime(),
           dura: new Date().getTime() + that.dura * (86400 * 1000),
           status: 0, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
-          price: that.price, //售价
+          price: this.formatPrice(that.price), //售价
           //分类
           kindid: that.kindid, //区别通用还是专业
           collegeid: that.cids, //学院id，-1表示通用类
@@ -936,7 +950,7 @@ export default {
     detail() {
       let that = this;
       uni.navigateTo({
-        url: "/pages/detail/detail?scene=" + that.detail_id,
+        url: "/pages/book-detail/book-detail?scene=" + that.detail_id,
       });
     },
   },

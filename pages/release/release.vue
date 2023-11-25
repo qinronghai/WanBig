@@ -45,9 +45,9 @@
               <div class="input">
                 <uni-number-box
                   :value="price"
-                  integer
                   @change="priceChange"
                   :min="1"
+                  :step="0.5"
                   :max="1000">
                 </uni-number-box>
               </div>
@@ -562,6 +562,22 @@ export default {
         console.error("删除数据库中的对应商品记录失败", error);
       }
     },
+    // 价格小数化
+    formatPrice(input) {
+      // 将输入的数字转换为浮点数
+      const floatPrice = parseFloat(input);
+
+      // 如果转换失败，返回原始输入
+      if (isNaN(floatPrice)) {
+        return input;
+      }
+
+      // 格式化为两位小数
+      const formattedPrice = floatPrice.toFixed(2);
+
+      return formattedPrice;
+    },
+
     /* 发布处理相关 */
     // 处理点击提交审核按钮事件
     async handleClickSubmit() {
@@ -722,7 +738,7 @@ export default {
           data: {
             title: this.title, // 商品描述
             pics: this.fileList, // 商品图片
-            price: this.price, // 价格
+            price: this.formatPrice(this.price), // 价格
             place: this.place, // 地址
             category: this.category, // 商品分类
             condition: this.condition, // 品质
@@ -835,7 +851,7 @@ export default {
 $primary-radius: 20rpx;
 
 // 导航tabs
- /deep/ .van-ellipsis {
+/deep/ .van-ellipsis {
   font-size: 30rpx;
   font-weight: 700;
 }
@@ -1137,10 +1153,10 @@ $primary-radius: 20rpx;
       .b_bar {
         display: flex;
 
-// padding: 40rpx 30rpx;
+        // padding: 40rpx 30rpx;
         justify-content: space-between;
 
-// flex-direction: column;
+        // flex-direction: column;
         box-sizing: border-box;
         width: 100%;
         background: #fff;
@@ -1164,7 +1180,7 @@ $primary-radius: 20rpx;
         box-sizing: border-box;
         width: 100%;
 
-// padding: 10rpx;
+        // padding: 10rpx;
         padding: 20rpx 0;
 
         .b_text {

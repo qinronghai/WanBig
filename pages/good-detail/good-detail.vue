@@ -26,7 +26,7 @@
       <view class="title text-cut">{{ goodinfo.title }}</view>
       <!-- <view class="author text-cut">{{ goodinfo.author }}</view> -->
       <view class="price_tags_box">
-        <view class="now_price">￥{{ goodinfo.price }}.00</view>
+        <view class="now_price">￥{{ goodinfo.price }}</view>
         <!-- 成色和品质标签 -->
         <view class="tags">
           <uni-tag
