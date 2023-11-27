@@ -126,17 +126,17 @@ export default {
       randomAvatarSrc: "", // 随机生成的头像 URL
       randomNickName: "", // 随机生成的昵称
       randomAvatarList: [
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/1020-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/989-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/586-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/558-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/546-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/500-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/419-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/411-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/252-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/173-46x46.jpg",
-        "cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/randomAvatar/30-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/1020-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/989-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/586-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/558-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/546-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/500-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/419-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/411-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/252-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/173-46x46.jpg",
+        "cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/randomAvatar/30-46x46.jpg",
       ],
     };
   },

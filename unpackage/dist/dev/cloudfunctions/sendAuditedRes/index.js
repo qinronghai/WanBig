@@ -29,7 +29,7 @@ exports.main = async (event, context) => {
           value: event.note
         }
       },
-      templateId: '9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4',
+      templateId: 'kTV3VpvkiO32iEk5v5tnAnWKLLkB_zHrL24W5-gNT_g',
       // miniprogramState: 'formal'
     })
     console.log(result)

@@ -1,6 +1,6 @@
 var data = {
   //云开发环境id
-  env: "qrh-database01-5gz9zkuedd28e7fc",
+  env: "bbgu-5g49akr90c7103bd",
   //分享配置
   share_title: "湾大闲置品小铺",
   share_img: "/static/images/poster.jpg",

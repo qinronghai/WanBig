@@ -383,7 +383,7 @@ export default {
     let curTime = new Date();
     await db
       .collection("swiper")
-      .doc("8de6ebcc65002a6f017fcdd65698e102")
+      .doc("8ea0703c656368ce001302b667d88d39")
       .get()
       .then((res) => {
         let allowTime = res.data.time;
@@ -811,9 +811,9 @@ export default {
     async subscribNews() {
       const subscriber = new MessageSubscriber();
       const tmplIdsArray = [
-        "Ilo99ZTw6DoohkCTaLRMhTegzom5-Wf3tLDdgxAHLv4", // 预定成功通知
-        "9Fs4ueUrKEpp1brJDggbOcQ-m3TAOLVEc6SwBxGY3l4", // 审核结果通知
-        "nYKQaIjCDZPc7MICBPsAU7SfsVhZZdRzJhGAn_x2234", // 未读消息通知
+        "QZT9orwXEHRlC1xAYJHH1aLFeKCPpgBWtMRFW1lxLVc", // 预定成功通知
+        "kTV3VpvkiO32iEk5v5tnAnWKLLkB_zHrL24W5-gNT_g", // 审核结果通知
+        "jTUi4Ny7eknULMMEKvEPOY_As3_NWBtjYp6_Dsxvx-A", // 未读消息通知
       ];
       await subscriber.subscribeNews(tmplIdsArray);
     },

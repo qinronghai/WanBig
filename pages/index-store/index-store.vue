@@ -171,7 +171,7 @@
                 <view class="attention-text">在遇到以下弹出的情况，务必全部允许，并勾选“总是保持以上选择”，然后点击允许。</view>
                 <img
                   class="tip-image"
-                  src="cloud://qrh-database01-5gz9zkuedd28e7fc.7172-qrh-database01-5gz9zkuedd28e7fc-1313188449/nodeteleimg/photo_2023-11-25_04-28-04.jpg"
+                  src="cloud://bbgu-5g49akr90c7103bd.6262-bbgu-5g49akr90c7103bd-1319336257/nodeteleimg/photo_2023-11-25_04-28-04.jpg"
                   alt="" />
                 <view>拒绝订阅将导致您无法及时获取这些重要信息，可能会对您的交易和用户体验产生严重影响。</view>
               </p>
@@ -299,14 +299,7 @@ export default {
     console.log("index Page Show");
     // 清空搜索框文字
     this.searchKey = "";
-    let res = await await db.collection("user").doc(uni.getStorageSync("userInfo")._id).get();
-    console.log("res", res);
-    if (res.data?.hasReaded) {
-      console.log("用户已阅读过");
-    } else {
-      console.log("用户未阅读过");
-      this.toggle("center");
-    }
+
     // 刷新页面，重新请求数据
     // await this.getGoodsItinfo();
   },
@@ -570,7 +563,7 @@ export default {
     async getswiperList() {
       await db
         .collection("swiper")
-        .doc("def1da45650023a10182606c71ecd04e")
+        .doc("b81d76606563689f001324e23756ac67")
         .get()
         .then((res) => {
           console.log("首页--请求轮播图数据--成功", res);
@@ -610,6 +603,15 @@ export default {
   async mounted() {
     await this.getGoodsInfo();
     await this.getswiperList();
+    // TODO 从数据库获取用户是否阅读过，要修改，这里是测试用的
+    /* let res = await await db.collection("user").doc(uni.getStorageSync("userInfo")._id).get();
+    console.log("res", res);
+    if (res.data?.hasReaded) {
+      console.log("用户已阅读过");
+    } else {
+      console.log("用户未阅读过");
+      this.toggle("center");
+    } */
   },
 };
 </script>

@@ -5,7 +5,7 @@ export default {
       console.error("请使用 2.2.3 或以上的基础库以使用云能力");
     } else {
       wx.cloud.init({
-        env: "qrh-database01-5gz9zkuedd28e7fc",
+        env: "bbgu-5g49akr90c7103bd",
         traceUser: true,
       });
     }
